@@ -33,7 +33,7 @@ async function buildTables() {
       );
 
       CREATE TABLE product(
-        product_id SERIAL PRIMARY KEY,
+        prod_id SERIAL PRIMARY KEY,
         dex_id INTEGER NOT NULL,
         name VARCHAR(255),
         description TEXT NOT NULL,
@@ -43,7 +43,7 @@ async function buildTables() {
       );
 
       CREATE TABLE product_type(
-        product_id INTEGER REFERENCES product(product_id),
+        prod_id INTEGER REFERENCES product(product_id),
         type_id INTEGER REFERENCES type(type_id)
       );
 
