@@ -37,14 +37,15 @@ async function buildTables() {
         dex_id INTEGER NOT NULL,
         name VARCHAR(255),
         description TEXT NOT NULL,
-        height INTEGER NOT NULL,
-        weight INTEGER NOT NULL,
-        price INTEGER NOT NULL
+        height SMALLINT NOT NULL,
+        weight SMALLINT NOT NULL,
+        price NUMERIC(5,2) NOT NULL
       );
 
       CREATE TABLE product_type(
-        prod_id INTEGER REFERENCES product(product_id),
-        type_id INTEGER REFERENCES type(type_id)
+        prod_id INTEGER REFERENCES product(prod_id),
+        type_id INTEGER REFERENCES type(type_id),
+        UNIQUE (prod_id, type_id)
       );
 
     `);
