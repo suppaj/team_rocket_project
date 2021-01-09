@@ -31,7 +31,7 @@ const App = () => {
     <div className="App">
       <h1>Hello, World!</h1>
       <h2>{message}</h2>
-      {/* <Products allProducts={allProducts} /> */}
+      <Products allProducts={allProducts} />
     </div>
   );
 };
