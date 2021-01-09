@@ -42,7 +42,6 @@ const App = () => {
       <div className="App">
         <h1>Hello, World!</h1>
         <h2>{message}</h2>
-        <Products allProducts={allProducts} />
       </div>
       <Container fluid>
         <Row
@@ -53,9 +52,16 @@ const App = () => {
         </Row>
         <Row
           className="bg-success"
-          style={{ minHeight: "80vh", width: "100vw" }}
+          style={{
+            minHeight: "80vh",
+            width: "100vw",
+            display: "flex",
+            flexFlow: "row wrap",
+            justifyContent: "space-evenly",
+            overflow: "auto",
+          }}
         >
-          MAIN BODY
+          <Products allProducts={allProducts} />
         </Row>
         <Row
           className="bg-secondary"
