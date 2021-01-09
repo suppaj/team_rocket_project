@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -31,15 +33,15 @@ const App = () => {
       <h1>Hello, World!</h1>
       <h2>{ message }</h2>
     </div>
-    <Container>
-      <Row>
-        {/* add Header Component */}
+    <Container fluid>
+      <Row className='bg-primary' style={{ minHeight : '10vh', width : '100vw' }}>
+        HEADER AREA
       </Row>
-      <Row>
-        {/* add Main area components */}
+      <Row className='bg-success' style={{ minHeight : '80vh', width : '100vw' }}> 
+        MAIN BODY
       </Row>
-      <Row>
-        {/* Footer area */}
+      <Row className='bg-secondary' style={{ minHeight : '10vh', width : '100vw' }}>
+        FOOTER AREA
       </Row>
     </Container>
     </>
