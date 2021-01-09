@@ -1,7 +1,10 @@
 // code to build and initialize DB goes here
+const { type, allPokes } = require("./db_data_pokemon");
 const {
   client,
   // other db methods
+  createAllTypeEntries,
+  createAllPokeEntries,
 } = require("./index");
 
 async function buildTables() {
@@ -9,7 +12,12 @@ async function buildTables() {
     client.connect();
 
     // drop tables in correct order
+    console.log("Starting to drop tables...");
+
     await client.query(`
+      DROP TABLE IF EXISTS product_type;
+      DROP TABLE IF EXISTS product;
+      DROP TABLE IF EXISTS type;
       DROP TABLE IF EXISTS product_reviews;
       DROP TABLE IF EXISTS cart_items;
       DROP TABLE IF EXISTS cart_cust_relate;
@@ -20,10 +28,36 @@ async function buildTables() {
       DROP TABLE IF EXISTS billing_add;
       DROP TABLE IF EXISTS shipping_add;
       DROP TABLE IF EXISTS customers;
-    `)
+    `);
+
+    console.log("Finished dropping tables!");
+    console.log("");
 
     // build tables in correct order
+    console.log("Starting to build tables!");
+
     await client.query(`
+      CREATE TABLE type(
+        type_id SERIAL PRIMARY KEY,
+        name VARCHAR(255)
+      );
+
+      CREATE TABLE product(
+        prod_id SERIAL PRIMARY KEY,
+        dex_id INTEGER NOT NULL,
+        name VARCHAR(255),
+        description TEXT NOT NULL,
+        height SMALLINT NOT NULL,
+        weight SMALLINT NOT NULL,
+        price NUMERIC(5,2) NOT NULL
+      );
+
+      CREATE TABLE product_type(
+        prod_id INTEGER REFERENCES product(prod_id),
+        type_id INTEGER REFERENCES type(type_id),
+        UNIQUE (prod_id, type_id)
+      );
+
       CREATE TABLE customers(
         cust_id SERIAL PRIMARY KEY,
         firt_name VARCHAR(25) NOT NULL,
@@ -32,6 +66,7 @@ async function buildTables() {
         cust_pwd VARCHAR(50),
         isAdmin BOOLEAN DEFAULT false
         );
+
       CREATE TABLE shipping_add(
         ship_add_id SERIAL PRIMARY KEY,
         cust_id INTEGER,
@@ -44,6 +79,7 @@ async function buildTables() {
           FOREIGN KEY(cust_id)
             REFERENCES customers(cust_id)
         );
+
       CREATE TABLE billing_add(
         bill_add_id SERIAL PRIMARY KEY,
         cust_id INTEGER,
@@ -56,9 +92,7 @@ async function buildTables() {
           FOREIGN KEY(cust_id)
             REFERENCES customers(cust_id)
         );
-      CREATE TABLE product(
-        prod_id SERIAL PRIMARY KEY
-        );
+
       CREATE TABLE order_cust_relate(
         order_id SERIAL PRIMARY KEY,
         cust_id INTEGER,
@@ -75,6 +109,7 @@ async function buildTables() {
           FOREIGN KEY(bill_add_id)
             REFERENCES billing_add(bill_add_id)
         );
+
        CREATE TABLE order_detail(
         order_id INTEGER,
         prod_id INTEGER,
@@ -87,6 +122,7 @@ async function buildTables() {
           FOREIGN KEY(prod_id)
             REFERENCES product(prod_id)
         );
+
       CREATE TABLE cart_cust_relate(
         cart_id SERIAL PRIMARY KEY,
         cust_id INTEGER,
@@ -95,6 +131,7 @@ async function buildTables() {
           FOREIGN KEY(cust_id)
             REFERENCES customers(cust_id)
         );
+
       CREATE TABLE cart_items(
         cart_id INTEGER,
         prod_id INTEGER,
@@ -107,6 +144,7 @@ async function buildTables() {
           FOREIGN KEY(prod_id)
             REFERENCES product(prod_id)
         );
+
       CREATE TABLE guest_order(
         order_id INTEGER,
         guest_first_name VARCHAR(25) NOT NULL,
@@ -116,6 +154,7 @@ async function buildTables() {
           FOREIGN KEY(order_id)
             REFERENCES order_cust_relate(order_id)
         );
+        
       CREATE TABLE product_reviews(
         review_id SERIAL PRIMARY KEY,
         prod_id INTEGER,
@@ -130,8 +169,10 @@ async function buildTables() {
           FOREIGN KEY(cust_id)
             REFERENCES customers(cust_id)
         );
-    `)
+    `);
 
+    console.log("Finished building tables!");
+    console.log("");
   } catch (error) {
     throw error;
   }
@@ -140,6 +181,18 @@ async function buildTables() {
 async function populateInitialData() {
   try {
     // create useful starting data
+    console.log("Populating initial data...");
+    console.log(" ");
+
+    console.log("Creating all type entries...");
+    const allTypes = await createAllTypeEntries(type);
+    console.log(" ");
+
+    console.log("Creating all product (pokemon) entries...");
+    const allProducts = await createAllPokeEntries(allPokes);
+    console.log(" ");
+
+    console.log("Finished populating database!");
   } catch (error) {
     throw error;
   }
