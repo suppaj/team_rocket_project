@@ -31,7 +31,7 @@ const allPokes = [
       "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
     height: 7,
     weight: 69,
-    price: 20,
+    price: 96.66,
   },
   {
     dex_id: 4,
@@ -41,7 +41,7 @@ const allPokes = [
       "Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
     height: 6,
     weight: 85,
-    price: 20,
+    price: 27.93,
   },
   {
     dex_id: 7,
@@ -51,7 +51,7 @@ const allPokes = [
       "Shoots water at prey while in the water. Withdraws into its shell when in danger.",
     height: 5,
     weight: 90,
-    price: 20,
+    price: 48.43,
   },
   {
     dex_id: 10,
@@ -61,7 +61,7 @@ const allPokes = [
       "It releases a stench from its red antenna to repel enemies. It grows by molting repeatedly.",
     height: 3,
     weight: 29,
-    price: 20,
+    price: 23.83,
   },
   {
     dex_id: 13,
@@ -71,7 +71,7 @@ const allPokes = [
       "Often found in forests, eating leaves. It has a sharp venomous stinger on its head.",
     height: 3,
     weight: 32,
-    price: 20,
+    price: 53.92,
   },
   {
     dex_id: 16,
@@ -81,7 +81,7 @@ const allPokes = [
       "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
     height: 3,
     weight: 18,
-    price: 20,
+    price: 12.82,
   },
   {
     dex_id: 19,
@@ -91,7 +91,7 @@ const allPokes = [
       "Bites anything when it attacks. Small and very quick, it is a common sight in many places.",
     height: 3,
     weight: 35,
-    price: 20,
+    price: 42.11,
   },
   {
     dex_id: 21,
@@ -101,7 +101,7 @@ const allPokes = [
       "Eats bugs in grassy areas. It has to flap its short wings at high speed to stay airborne.",
     height: 3,
     weight: 20,
-    price: 20,
+    price: 51.18,
   },
   {
     dex_id: 23,
@@ -111,7 +111,7 @@ const allPokes = [
       "Moves silently and stealthily. Eats the eggs of birds, such as PIDGEY and SPEAROW, whole.",
     height: 20,
     weight: 69,
-    price: 20,
+    price: 56.3,
   },
   {
     dex_id: 25,
@@ -121,7 +121,7 @@ const allPokes = [
       "When several of these POKéMON gather, their electricity could build and cause lightning storms.",
     height: 4,
     weight: 60,
-    price: 20,
+    price: 54.35,
   },
   {
     dex_id: 27,
@@ -131,7 +131,7 @@ const allPokes = [
       "Burrows deep underground in arid locations far from water. It only emerges to hunt for food.",
     height: 6,
     weight: 120,
-    price: 20,
+    price: 62.42,
   },
   {
     dex_id: 29,
@@ -141,7 +141,7 @@ const allPokes = [
       "Although small, its venomous barbs render this POKéMON dangerous. The female has smaller horns.",
     height: 4,
     weight: 70,
-    price: 20,
+    price: 81.66,
   },
   {
     dex_id: 32,
@@ -151,7 +151,7 @@ const allPokes = [
       "Stiffens its ears to sense danger. The larger its horns, the more powerful its secreted venom.",
     height: 5,
     weight: 90,
-    price: 20,
+    price: 49.17,
   },
   {
     dex_id: 35,
@@ -161,7 +161,7 @@ const allPokes = [
       "Its magical and cute appeal has many admirers. It is rare and found only in certain areas.",
     height: 6,
     weight: 75,
-    price: 20,
+    price: 14.54,
   },
   {
     dex_id: 37,
@@ -171,7 +171,7 @@ const allPokes = [
       "At the time of birth, it has just one tail. The tail splits from its tip as it grows older.",
     height: 6,
     weight: 99,
-    price: 20,
+    price: 72.09,
   },
   {
     dex_id: 39,
@@ -181,7 +181,7 @@ const allPokes = [
       "When its huge eyes light up, it sings a mysteriously soothing melody that lulls its enemies to sleep.",
     height: 5,
     weight: 55,
-    price: 20,
+    price: 16.29,
   },
   {
     dex_id: 41,
@@ -191,7 +191,7 @@ const allPokes = [
       "Forms colonies in perpetually dark places. Uses ultrasonic waves to identify and approach targets.",
     height: 8,
     weight: 75,
-    price: 20,
+    price: 47.06,
   },
   {
     dex_id: 43,
@@ -201,7 +201,7 @@ const allPokes = [
       "During the day, it keeps its face buried in the ground. At night, it wanders around sowing its seeds.",
     height: 5,
     weight: 54,
-    price: 20,
+    price: 85.9,
   },
   {
     dex_id: 46,
@@ -211,7 +211,7 @@ const allPokes = [
       "Burrows to suck tree roots. The mushrooms on its back grow by draw­ing nutrients from the bug host.",
     height: 3,
     weight: 54,
-    price: 20,
+    price: 63.95,
   },
   {
     dex_id: 48,
@@ -221,7 +221,7 @@ const allPokes = [
       "Lives in the shadows of tall trees where it eats insects. It is attracted by light at night.",
     height: 10,
     weight: 300,
-    price: 20,
+    price: 41.97,
   },
   {
     dex_id: 50,
@@ -231,7 +231,7 @@ const allPokes = [
       "Lives about one yard underground where it feeds on plant roots. It sometimes appears above ground.",
     height: 2,
     weight: 8,
-    price: 20,
+    price: 44.92,
   },
   {
     dex_id: 52,
@@ -241,7 +241,7 @@ const allPokes = [
       "Adores circular objects. Wanders the streets on a nightly basis to look for dropped loose change.",
     height: 4,
     weight: 42,
-    price: 20,
+    price: 81.66,
   },
   {
     dex_id: 54,
@@ -251,7 +251,7 @@ const allPokes = [
       "While lulling its enemies with its vacant look, this wily POKéMON will use psychokinetic powers.",
     height: 8,
     weight: 196,
-    price: 20,
+    price: 54.72,
   },
   {
     dex_id: 56,
@@ -261,7 +261,7 @@ const allPokes = [
       "Extremely quick to anger. It could be docile one moment then thrashing away the next instant.",
     height: 5,
     weight: 280,
-    price: 20,
+    price: 86.24,
   },
   {
     dex_id: 58,
@@ -271,7 +271,7 @@ const allPokes = [
       "Very protective of its territory. It will bark and bite to repel intruders from its space.",
     height: 7,
     weight: 190,
-    price: 20,
+    price: 91.39,
   },
   {
     dex_id: 60,
@@ -281,7 +281,7 @@ const allPokes = [
       "Its newly grown legs prevent it from running. It appears to prefer swimming than trying to stand.",
     height: 6,
     weight: 124,
-    price: 20,
+    price: 48.02,
   },
   {
     dex_id: 63,
@@ -291,7 +291,7 @@ const allPokes = [
       "Using its ability to read minds, it will identify impending danger and TELEPORT to safety.",
     height: 9,
     weight: 195,
-    price: 20,
+    price: 97.37,
   },
   {
     dex_id: 66,
@@ -301,7 +301,7 @@ const allPokes = [
       "Loves to build its muscles. It trains in all styles of martial arts to become even stronger.",
     height: 8,
     weight: 195,
-    price: 20,
+    price: 40.25,
   },
   {
     dex_id: 69,
@@ -311,7 +311,7 @@ const allPokes = [
       "Even though its body is extremely skinny, it is blindingly fast when catching its prey.",
     height: 7,
     weight: 40,
-    price: 20,
+    price: 86.6,
   },
   {
     dex_id: 72,
@@ -321,7 +321,7 @@ const allPokes = [
       "Drifts in shallow seas. Anglers who hook them by accident are often punished by its stinging acid.",
     height: 9,
     weight: 455,
-    price: 20,
+    price: 72.53,
   },
   {
     dex_id: 74,
@@ -331,7 +331,7 @@ const allPokes = [
       "Found in fields and mountains. Mistaking them for boulders, people often step or trip on them.",
     height: 4,
     weight: 200,
-    price: 20,
+    price: 43.7,
   },
   {
     dex_id: 77,
@@ -341,7 +341,7 @@ const allPokes = [
       "Its hooves are 10 times harder than diamonds. It can trample anything completely flat in little time.",
     height: 10,
     weight: 300,
-    price: 20,
+    price: 65.35,
   },
   {
     dex_id: 79,
@@ -351,7 +351,7 @@ const allPokes = [
       "ncredibly slow and dopey. It takes 5 seconds for it to feel pain when under attack.",
     height: 12,
     weight: 360,
-    price: 20,
+    price: 93.78,
   },
   {
     dex_id: 81,
@@ -361,7 +361,7 @@ const allPokes = [
       "Uses anti-gravity to stay suspended. Appears without warning and uses THUNDER WAVE and similar moves.",
     height: 3,
     weight: 60,
-    price: 20,
+    price: 13.96,
   },
   {
     dex_id: 83,
@@ -371,7 +371,7 @@ const allPokes = [
       "The sprig of green onions it holds is its weapon. It is used much like a metal sword.",
     height: 8,
     weight: 150,
-    price: 20,
+    price: 95.7,
   },
   {
     dex_id: 84,
@@ -381,7 +381,7 @@ const allPokes = [
       "A bird that makes up for its poor flying with its fast foot speed. Leaves giant footprints.",
     height: 14,
     weight: 392,
-    price: 20,
+    price: 40.25,
   },
   {
     dex_id: 86,
@@ -391,7 +391,7 @@ const allPokes = [
       "The protruding horn on its head is very hard. It is used for bashing through thick ice.",
     height: 11,
     weight: 900,
-    price: 20,
+    price: 86.6,
   },
   {
     dex_id: 88,
@@ -401,7 +401,7 @@ const allPokes = [
       "Appears in filthy areas. Thrives by sucking up polluted sludge that is pumped out of factories.",
     height: 9,
     weight: 300,
-    price: 20,
+    price: 53.76,
   },
   {
     dex_id: 90,
@@ -411,7 +411,7 @@ const allPokes = [
       "Its hard shell repels any kind of attack. It is vulnerable only when its shell is open.",
     height: 3,
     weight: 40,
-    price: 20,
+    price: 13.96,
   },
   {
     dex_id: 92,
@@ -421,7 +421,7 @@ const allPokes = [
       "Almost invisible, this gaseous POKéMON cloaks the target and puts it to sleep without notice.",
     height: 13,
     weight: 1,
-    price: 20,
+    price: 20.79,
   },
   {
     dex_id: 96,
@@ -431,7 +431,7 @@ const allPokes = [
       "Puts enemies to sleep then eats their dreams. Occasionally gets sick from eating bad dreams.",
     height: 10,
     weight: 324,
-    price: 20,
+    price: 83.53,
   },
   {
     dex_id: 98,
@@ -441,7 +441,7 @@ const allPokes = [
       "Its pincers are not only powerful weapons, they are used for balance when walking sideways.",
     height: 4,
     weight: 65,
-    price: 20,
+    price: 12.71,
   },
   {
     dex_id: 100,
@@ -451,7 +451,7 @@ const allPokes = [
       "Usually found in power plants. Easily mistaken for a POKé BALL, they have zapped many people.",
     height: 5,
     weight: 104,
-    price: 20,
+    price: 32.38,
   },
   {
     dex_id: 102,
@@ -461,7 +461,7 @@ const allPokes = [
       "Often mistaken for eggs. When disturbed, they quickly gather and attack in swarms.",
     height: 4,
     weight: 25,
-    price: 20,
+    price: 21.82,
   },
   {
     dex_id: 104,
@@ -471,7 +471,7 @@ const allPokes = [
       "Because it never removes its skull helmet, no one has ever seen this POKéMON's real face.",
     height: 4,
     weight: 65,
-    price: 20,
+    price: 98.85,
   },
   {
     dex_id: 109,
@@ -481,7 +481,7 @@ const allPokes = [
       "Because it stores several kinds of toxic gases in its body, it is prone to exploding without warning.",
     height: 6,
     weight: 10,
-    price: 20,
+    price: 48.6,
   },
   {
     dex_id: 111,
@@ -491,7 +491,7 @@ const allPokes = [
       "Its massive bones are 1000 times harder than human bones. It can easily knock a trailer flying.",
     height: 10,
     weight: 1150,
-    price: 20,
+    price: 44.22,
   },
   {
     dex_id: 114,
@@ -501,7 +501,7 @@ const allPokes = [
       "The whole body is swathed with wide vines that are similar to sea­weed. Its vines shake as it walks.",
     height: 10,
     weight: 350,
-    price: 20,
+    price: 23.87,
   },
   {
     dex_id: 116,
@@ -511,7 +511,7 @@ const allPokes = [
       "Known to shoot down flying bugs with precision blasts of ink from the surface of the water.",
     height: 4,
     weight: 80,
-    price: 20,
+    price: 42.88,
   },
   {
     dex_id: 118,
@@ -521,7 +521,7 @@ const allPokes = [
       "Its tail fin billows like an elegant ballroom dress, giving it the nickname of the Water Queen.",
     height: 6,
     weight: 150,
-    price: 20,
+    price: 7.02,
   },
   {
     dex_id: 129,
@@ -531,7 +531,7 @@ const allPokes = [
       "In the distant past, it was somewhat stronger than the horribly weak descendants that exist today.",
     height: 9,
     weight: 100,
-    price: 20,
+    price: 0.99,
   },
   {
     dex_id: 133,
@@ -541,7 +541,7 @@ const allPokes = [
       "Its genetic code is irregular. It may mutate if it is exposed to radiation from element STONEs.",
     height: 3,
     weight: 65,
-    price: 20,
+    price: 99.99,
   },
 ];
 
