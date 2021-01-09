@@ -65,6 +65,9 @@ async function createPokeEntry({
     `,
       [dex_id, name, description, height, weight, price]
     );
+
+    await createAllTypeRelations(type, entry.prod_id, name);
+
     console.log("Entry complete:", entry);
     console.log(" ");
     return entry;
@@ -72,12 +75,30 @@ async function createPokeEntry({
     throw error;
   }
 }
+async function createAllTypeRelations(type_collection, prod_id, prod_name) {
+  console.log(`Creating type relations for ${prod_name}`);
+  for (const type_id of type_collection) {
+    const entry = await createTypeRelation(type_id, prod_id);
+  }
+}
 
-// async function createAllTypeRelations(collection, name) {
-//   for (const item in collection) {
-//     const entry = await createTypeRelation(item, name);
-//   }
-// }
+async function createTypeRelation(type_id, prod_id) {
+  try {
+    const {
+      rows: [entry],
+    } = await client.query(
+      `
+      INSERT INTO product_type(prod_id, type_id)
+      VALUES ($1,$2)
+      RETURNING *
+    `,
+      [prod_id, type_id]
+    );
+    console.log("Type relationship entry complete:", entry);
+  } catch (error) {
+    throw error;
+  }
+}
 
 // export
 module.exports = {

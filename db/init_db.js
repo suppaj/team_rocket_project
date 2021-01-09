@@ -5,6 +5,7 @@ const {
   // other db methods
   createAllTypeEntries,
   createAllPokeEntries,
+  createTypeRelation,
 } = require("./index");
 
 async function buildTables() {
