@@ -135,7 +135,7 @@ const allPokes = [
   },
   {
     dex_id: 29,
-    name: "nidoran ♀",
+    name: "nidoran-f",
     type: [4],
     description:
       "Although small, its venomous barbs render this POKéMON dangerous. The female has smaller horns.",
@@ -145,7 +145,7 @@ const allPokes = [
   },
   {
     dex_id: 32,
-    name: "nidoran ♂",
+    name: "nidoran-m",
     type: [4],
     description:
       "Stiffens its ears to sense danger. The larger its horns, the more powerful its secreted venom.",
