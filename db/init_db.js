@@ -49,7 +49,8 @@ async function buildTables() {
         description TEXT NOT NULL,
         height SMALLINT NOT NULL,
         weight SMALLINT NOT NULL,
-        price NUMERIC(5,2) NOT NULL
+        price NUMERIC(5,2) NOT NULL,
+        quantity INTEGER NOT NULL
       );
 
       CREATE TABLE product_type(

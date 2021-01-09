@@ -59,11 +59,11 @@ async function createPokeEntry({
       rows: [entry],
     } = await client.query(
       `
-      INSERT INTO product(dex_id, name, description, height, weight, price)
-      VALUES ($1,$2,$3,$4,$5,$6)
+      INSERT INTO product(dex_id, name, description, height, weight, price,quantity)
+      VALUES ($1,$2,$3,$4,$5,$6,$7)
       RETURNING *
     `,
-      [dex_id, name, description, height, weight, price]
+      [dex_id, name, description, height, weight, price, 10]
     );
 
     await createAllTypeRelations(type, entry.prod_id, name);
