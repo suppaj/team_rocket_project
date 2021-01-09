@@ -1,17 +1,17 @@
 // code to build and initialize DB goes here
 const {
-  client
-  // other db methods 
-} = require('./index');
+  client,
+  // other db methods
+} = require("./index");
 
 async function buildTables() {
   try {
     client.connect();
 
     // drop tables in correct order
+    console.log("database connected!");
 
     // build tables in correct order
-
   } catch (error) {
     throw error;
   }
