@@ -1,15 +1,14 @@
-import { profileEnd } from 'console';
 import React, { useEffect, useState } from 'react';
 
 const AddToCart = ({product}) => {
 
     const handleClick = () => {
-        const currCart = localStorage.getItem('cart');
+        const currCart = JSON.parse(localStorage.getItem('cart')).cart;
         if (currCart) {
             currCart.push(product)
-            localStorage.setItem('cart', currCart)
+            localStorage.setItem('cart', JSON.stringify({cart : currCart}))
         } else {
-            localStorage.setItem('cart', [product])
+            localStorage.setItem('cart', JSON.stringify({cart :[product]}))
         }
 
         document.getElementById('add-cart-dialog').showModal();
@@ -17,14 +16,14 @@ const AddToCart = ({product}) => {
 
     return (
         <>
-        <button type='button' class='nes-btn' onClick={handleClick}>Add To Cart</button>
-        <dialog class='new-dialog' id='add-cart-dialog'>
+        <button type='button' className='nes-btn' onClick={handleClick}>Add To Cart</button>
+        <dialog className='new-dialog' id='add-cart-dialog'>
             <form method='dialog'>
-                <p class='title'>Added To Cart</p>
+                <p className='title'>Added To Cart</p>
                 <p>Your {product.name} has been added to your cart.</p>
-                <menu class="dialog-menu">
-                    <button class="nes-btn">Continue Shopping</button>
-                    <button class="nes-btn is-primary">Checkout</button>
+                <menu className="dialog-menu">
+                    <button className="nes-btn">Continue Shopping</button>
+                    <button className="nes-btn is-primary">Checkout</button>
                 </menu>
             </form>
         </dialog>

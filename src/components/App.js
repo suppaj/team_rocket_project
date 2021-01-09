@@ -1,32 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect } from "react";
+import { Container, Row } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
   Switch,
-  Link
-} from 'react-router-dom';
+  Link,
+} from "react-router-dom";
 
-import {
-  getSomething
-} from '../api';
 import { AddToCart } from './index';
+import { getSomething, getAllProducts } from "../api";
+import Products from "./Products";
 
 const App = () => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
+  const [allProducts, setAllProducts] = useState([]);
 
   useEffect(() => {
     getSomething()
-      .then(response => {
+      .then((response) => {
         setMessage(response.message);
       })
-      .catch(error => {
+      .catch((error) => {
         setMessage(error.message);
       });
-  });
+
+    getAllProducts()
+      .then((response) => {
+        setAllProducts(response);
+        console.log("response:", response);
+      })
+      .catch((error) => {
+        console.log("Error fetching products!");
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -56,6 +66,6 @@ const App = () => {
     </Container>
     </>
   );
-}
+};
 
 export default App;
