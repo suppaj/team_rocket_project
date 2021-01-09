@@ -13,6 +13,7 @@ import {
 import {
   getSomething
 } from '../api';
+import { AddToCart } from './index';
 
 const App = () => {
   const [message, setMessage] = useState('');
@@ -39,6 +40,15 @@ const App = () => {
       </Row>
       <Row className='bg-success' style={{ minHeight : '80vh', width : '100vw' }}> 
         MAIN BODY
+        <AddToCart product={{dex_id: 7,
+          name: "squirtle",
+          type: ["water"],
+          description:
+            "Shoots water at prey while in the water. Withdraws into its shell when in danger.",
+          height: 5,
+          weight: 90,
+          price: 20,
+        }}/>
       </Row>
       <Row className='bg-secondary' style={{ minHeight : '10vh', width : '100vw' }}>
         FOOTER AREA
