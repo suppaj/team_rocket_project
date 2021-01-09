@@ -367,7 +367,8 @@ const allPokes = [
     dex_id: 83,
     name: "farfetchd",
     type: ["normal", "flying"],
-    description: "",
+    description:
+      "The sprig of green onions it holds is its weapon. It is used much like a metal sword.",
     height: 8,
     weight: 150,
     price: 20,
@@ -377,7 +378,7 @@ const allPokes = [
     name: "doduo",
     type: ["normal", "flying"],
     description:
-      "The sprig of green onions it holds is its weapon. It is used much like a metal sword.",
+      "A bird that makes up for its poor flying with its fast foot speed. Leaves giant footprints.",
     height: 14,
     weight: 392,
     price: 20,
