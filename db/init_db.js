@@ -16,7 +16,6 @@ async function buildTables() {
 
     await client.query(`
       DROP TABLE IF EXISTS product_type;
-      DROP TABLE IF EXISTS product;
       DROP TABLE IF EXISTS type;
       DROP TABLE IF EXISTS product_reviews;
       DROP TABLE IF EXISTS cart_items;
