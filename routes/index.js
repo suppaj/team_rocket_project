@@ -17,4 +17,6 @@ apiRouter.get("/products", async (req, res, next) => {
   }
 });
 
+apiRouter.use("/customers", require("./customers"));
+
 module.exports = apiRouter;

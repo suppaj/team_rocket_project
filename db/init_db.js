@@ -6,6 +6,8 @@ const {
   createAllTypeEntries,
   createAllPokeEntries,
   createTypeRelation,
+  createCustomer,
+  getCustomerById,
 } = require("./index");
 
 async function buildTables() {
@@ -61,7 +63,7 @@ async function buildTables() {
 
       CREATE TABLE customers(
         cust_id SERIAL PRIMARY KEY,
-        firt_name VARCHAR(25) NOT NULL,
+        first_name VARCHAR(25) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
         cust_email VARCHAR(100) UNIQUE NOT NULL,
         cust_pwd VARCHAR(50),
@@ -193,6 +195,49 @@ async function populateInitialData() {
     const allProducts = await createAllPokeEntries(allPokes);
     console.log(" ");
 
+    console.log("Loading sample customers");
+    await createCustomer({
+      first_name: "Site",
+      last_name: "Admin",
+      cust_email: "admin@teamrocket.com",
+      cust_pwd: "1234",
+      isAdmin: true,
+    });
+
+    await createCustomer({
+      first_name: "Hercules",
+      last_name: "Asbury",
+      cust_email: "hasbury0@cisco.com",
+      cust_pwd: "IUhJp2i",
+      isAdmin: false,
+    });
+
+    await createCustomer({
+      first_name: "Frederico",
+      last_name: "Rossant",
+      cust_email: "frossant2@e-recht24.de",
+      cust_pwd: "V5sqK20ov9xN",
+      isAdmin: false,
+    });
+
+    await createCustomer({
+      first_name: "Biddy",
+      last_name: "Arstall",
+      cust_email: "barstall3@is.gd",
+      cust_pwd: "kNlH81WX8",
+      isAdmin: false,
+    });
+
+    await createCustomer({
+      first_name: "Elnar",
+      last_name: "MacVagh",
+      cust_email: "emacvagh4@accuweather.com",
+      cust_pwd: "PD3cW3ShhtT",
+      isAdmin: false,
+    });
+
+    console.log("Test of helper functions");
+    await getCustomerById(2);
     console.log("Finished populating database!");
   } catch (error) {
     throw error;
