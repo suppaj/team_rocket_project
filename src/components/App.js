@@ -10,7 +10,7 @@ import {
   Link,
 } from "react-router-dom";
 
-import { AddToCart } from './index';
+import { AddToCart, ShoppingCart } from './index';
 import { getSomething, getAllProducts } from "../api";
 import Products from "./Products";
 
@@ -58,7 +58,10 @@ const App = () => {
           height: 5,
           weight: 90,
           price: 20,
+          quantity: 15,
+          prod_id: 3
         }}/>
+        <ShoppingCart />
       </Row>
       <Row className='bg-secondary' style={{ minHeight : '10vh', width : '100vw' }}>
         FOOTER AREA

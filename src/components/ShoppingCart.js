@@ -1,12 +1,30 @@
-import React, { useEffect , useState } from 'react';
+import React, { useState } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import { CartItemCard } from './index';
 
 
 const ShoppingCart = (props) => {
 
-    return (
-        <>
+    const [ cart, setCart ] = useState( JSON.parse( localStorage.getItem('cart') ) || [] );
 
-        </>
+    return (
+        <Row>
+            <Col md={8} sm={12}>
+                <div className='nes-container with-title'>
+                    <p className='title'>TEAM ROCKET CART</p>
+                    <br/>
+                    {cart.map((order, index)=>{
+                        return <CartItemCard key={index} order={order}/>
+                    })}
+                </div>
+                <button type='button' className='nes-btn is-success'>Continue to Checkout</button>
+            </Col>
+            <Col md={4} sm={12}>
+            itemized info about account.. etc
+            </Col>
+        </Row>
+
+        
     )
 }
 
