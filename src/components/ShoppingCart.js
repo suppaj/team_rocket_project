@@ -5,7 +5,7 @@ import { CartItemCard } from './index';
 
 const ShoppingCart = (props) => {
 
-    const [ cart, setCart ] = useState( JSON.parse( localStorage.getItem('cart') ) || [] );
+    const [ cart, setCart ] = useState( JSON.parse(localStorage.getItem('cart') ) || [] );
 
     return (
         <Row>
@@ -13,9 +13,14 @@ const ShoppingCart = (props) => {
                 <div className='nes-container with-title'>
                     <p className='title'>TEAM ROCKET CART</p>
                     <br/>
-                    {cart.map((order, index)=>{
+                    {cart.length ? cart.map((order, index)=>{
                         return <CartItemCard key={index} order={order}/>
-                    })}
+                    }) : <div className='message-list -left'>
+                            <i className='nes-ash align-bottom'></i>
+                            <div className='nes-balloon from-left align-top'>
+                                <p>Your cart is empty. Gotta buy them all!</p>
+                            </div>
+                        </div> }
                 </div>
                 <button type='button' className='nes-btn is-success'>Continue to Checkout</button>
             </Col>

@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 const CartItemCard = ({ order }) => {
 
     const [ adjustOrder, setAdjustOrder ] = useState(false);
-    const [ orderAmount, setOrderAmount ] = useState(order.order_quantity)
+    const [ orderAmount, setOrderAmount ] = useState(order.cart_quantity)
 
 
     const handleRemoveItem = () => {
@@ -47,7 +47,7 @@ const CartItemCard = ({ order }) => {
                     <p>Type: {order.type.map((type, index) => {
                                 return (
                                 <span
-                                    className={`${type} typing nes-container is-rounded`}
+                                    className={`${type} nes-container is-rounded`}
                                     style={{
                                     marginRight: "10px",
                                     marginLeft: "10px",

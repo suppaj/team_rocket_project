@@ -1,6 +1,9 @@
 const apiRouter = require("express").Router();
 
-const { getAllProducts } = require("../db/index");
+const { getAllProducts,
+  db_addCartItem,
+  db_patchCartItem
+ } = require("../db/index");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({
@@ -16,5 +19,28 @@ apiRouter.get("/products", async (req, res, next) => {
     throw error;
   }
 });
+
+apiRouter.post(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
+  const { cart_id, prod_id } = req.params;
+  const { price, cart_quantity } = req.body;
+  try {
+    const cart = await db_addCartItem(cart_id, prod_id, cart_quantity, price);
+    res.send(cart);
+  } catch (error) {
+    next(error)
+  }
+})
+
+apiRouter.patch(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
+  const { cart_id, prod_id } = req.params;
+  const {cart_quantity} = req.body;
+  console.log(cart_quantity);
+  try {
+    const messageObj = await db_patchCartItem(cart_id, prod_id, cart_quantity);
+    res.send(messageObj);
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = apiRouter;
