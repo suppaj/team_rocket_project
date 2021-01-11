@@ -13,6 +13,7 @@ import {
 import { getSomething, getAllProducts } from "../api";
 import Products from "./Products";
 import ProductSorter from "./ProductSorter";
+import ProductSearch from "./ProductSearch";
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -59,8 +60,15 @@ const App = () => {
             width: "100vw",
           }}
         >
+          <ProductSearch
+            allProducts={allProducts}
+            currentProducts={currentProducts}
+            setCurrentProducts={setCurrentProducts}
+          />
           <ProductSorter
             allProducts={allProducts}
+            setAllProducts={setAllProducts}
+            currentProducts={currentProducts}
             setCurrentProducts={setCurrentProducts}
           />
           <Products currentProducts={currentProducts} />
