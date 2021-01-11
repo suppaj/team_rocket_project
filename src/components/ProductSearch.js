@@ -59,10 +59,12 @@ export default ProductSearch;
  *
  * replication:
  * search 'normal'
- * set sorter to price high to low
+ * set sorter to price: high to low
  * backspace in search bar until there is no text left
  *
  * implication:
  * emptying search bar doesn't 'reset' the entries and only displays the old search results
  *
+ * note:
+ * this will happen when searching anything or using any of the sorters
  */
