@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Product.css";
 
-const Products = ({ allProducts }) => {
+const Products = ({ currentProducts }) => {
   function renderAllCards(productArray) {
     return productArray.map((link) => {
       const newCard = renderCard(link);
@@ -9,20 +9,12 @@ const Products = ({ allProducts }) => {
     });
   }
 
-  function renderCard({
-    dex_id,
-    name,
-    type,
-    description,
-    height,
-    weight,
-    price,
-  }) {
+  function renderCard({ dex_id, name, type, price }) {
     function typeMapper(typeArray) {
       return typeArray.map((type, index) => {
         return (
           <span
-            className={`${type} typing nes-container is-rounded`}
+            className={`${type} nes-container is-rounded`}
             style={{
               marginRight: "10px",
               marginLeft: "10px",
@@ -67,7 +59,7 @@ const Products = ({ allProducts }) => {
     );
   }
 
-  return <>{renderAllCards(allProducts)}</>;
+  return <>{renderAllCards(currentProducts)}</>;
 };
 
 export default Products;

@@ -12,10 +12,12 @@ import {
 
 import { getSomething, getAllProducts } from "../api";
 import Products from "./Products";
+import ProductSorter from "./ProductSorter";
 
 const App = () => {
   const [message, setMessage] = useState("");
   const [allProducts, setAllProducts] = useState([]);
+  const [currentProducts, setCurrentProducts] = useState([]);
 
   useEffect(() => {
     getSomething()
@@ -29,7 +31,7 @@ const App = () => {
     getAllProducts()
       .then((response) => {
         setAllProducts(response);
-        console.log("response:", response);
+        setCurrentProducts(response);
       })
       .catch((error) => {
         console.log("Error fetching products!");
@@ -55,13 +57,13 @@ const App = () => {
           style={{
             minHeight: "80vh",
             width: "100vw",
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "space-evenly",
-            overflow: "auto",
           }}
         >
-          <Products allProducts={allProducts} />
+          <ProductSorter
+            allProducts={allProducts}
+            setCurrentProducts={setCurrentProducts}
+          />
+          <Products currentProducts={currentProducts} />
         </Row>
         <Row
           className="bg-secondary"
