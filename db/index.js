@@ -141,11 +141,101 @@ async function _getUserCart(cart_id) {
 }
 
 getAllProducts();
+
+// Customer Methods //
+
+async function createCustomer({
+  first_name,
+  last_name,
+  cust_email,
+  cust_pwd,
+  isAdmin,
+}) {
+  try {
+    const { rows } = await client.query(
+      `
+    
+    INSERT INTO customers(
+      first_name,
+      last_name,
+      cust_email,
+      cust_pwd,
+      isAdmin)
+      VALUES($1,$2,$3,$4,$5)
+      ON CONFLICT (cust_email) DO NOTHING
+      RETURNING *;
+    
+    `,
+      [first_name, last_name, cust_email, cust_pwd, isAdmin]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getAllCustomers() {
+  try {
+    const { rows } = await client.query(`
+      SELECT *
+      FROM customers;
+    `);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getCustomerById(customerID) {
+  try {
+    const {
+      rows: [customer],
+    } = await client.query(`
+      SELECT *
+      FROM customers
+      WHERE cust_id=${customerID};
+    `);
+
+    if (!customer) {
+      return null;
+    }
+
+    console.log("this is my customer", customer);
+    return customer;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getCustomerByEmail(cust_email) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT *
+      FROM customers
+      WHERE cust_email=$1;
+    `,
+      [cust_email]
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // export
+
 module.exports = {
   client,
   // db methods
   createAllTypeEntries,
   createAllPokeEntries,
   getAllProducts,
+  createCustomer,
+  getAllCustomers,
+  getCustomerById,
+  getCustomerByEmail,
 };

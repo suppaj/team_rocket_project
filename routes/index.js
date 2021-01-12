@@ -1,5 +1,5 @@
 const apiRouter = require("express").Router();
-
+const passport = require("passport");
 const { getAllProducts } = require("../db/index");
 
 apiRouter.get("/", (req, res, next) => {
@@ -16,5 +16,11 @@ apiRouter.get("/products", async (req, res, next) => {
     throw error;
   }
 });
+
+apiRouter.use("/customers", require("./customers"));
+apiRouter.use("/login", require("./customers"));
+apiRouter.use("/register", require("./customers"));
+apiRouter.use("/google", require("./passport"));
+apiRouter.use("/google/callback", require("./passport"));
 
 module.exports = apiRouter;
