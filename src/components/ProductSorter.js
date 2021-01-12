@@ -44,7 +44,7 @@ const ProductSorter = ({
             <Dropdown.Item
               onClick={() => {
                 setSortMessage("Sort pokemon...");
-                setCurrentProducts(allProducts);
+                setCurrentProducts(currentProducts);
               }}
             >
               Clear sort

@@ -305,7 +305,7 @@ module.exports = {
   getAllProducts,
   db_addCartItem,
   db_patchCartItem,
-  db_deleteCartItem
+  db_deleteCartItem,
   createCustomer,
   getAllCustomers,
   getCustomerById,
