@@ -103,27 +103,96 @@ async function createTypeRelation(type_id, prod_id) {
 async function getAllProducts() {
   try {
     const { rows: pokemon } = await client.query(`SELECT * FROM product`);
+
+    const products = await _buildTypes(pokemon)
+
+    return products;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _buildTypes(array) {
+  try {
+    
     const { rows: type_relations } = await client.query(`
       SELECT prod_id, name FROM product_type
       LEFT JOIN type on product_type.type_id = type.type_id
     `);
-    let products = [...pokemon];
+    let products = [...array];
 
-    function productTypeMapper(products, types) {
-      for (const product of products) {
+    for (let product of products) {
         product.type = [];
-        for (const type of types) {
+        for (let type of type_relations ) {
           if (type.prod_id === product.prod_id) {
             product.type.push(type.name);
           }
         }
       }
-    }
-
-    await productTypeMapper(products, type_relations);
-    return products;
+    
+    return products
   } catch (error) {
-    throw error;
+    throw (error) }
+}
+
+
+async function db_addCartItem(cart_id, prod_id, cart_quantity, price) {
+  try {
+    await client.query(`
+      INSERT INTO cart_items(cart_id, prod_id, cart_quantity, cart_price)
+      VALUES ($1, $2, $3, $4);
+    `, [cart_id, prod_id, cart_quantity, price])
+
+    const products = await _getUserCart(cart_id);
+    
+    const cart = await _buildTypes(products);
+
+    return cart
+
+  } catch (error) {
+    throw (error)
+  }
+}
+
+async function _getUserCart(cart_id) {
+  try {
+    const {rows : cart} = await client.query(`
+      SELECT * FROM product
+      NATURAL JOIN cart_items
+      WHERE cart_id=$1;
+    `,[cart_id]);
+
+    return cart
+
+  } catch (error) {
+    throw error
+  }
+}
+
+async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
+  try {
+    await client.query(`
+      UPDATE cart_items
+      SET cart_quantity=$1
+      WHERE cart_id=${cart_id} AND prod_id=${prod_id}
+    `,[cart_quantity])
+
+    return { message : 'Success, Cart updated'}
+
+  } catch (error) {
+    throw error
+  }
+}
+
+async function db_deleteCartItem(cart_id, prod_id) {
+  try {
+    await client.query(`
+      DELETE FROM cart_items
+      WHERE cart_id=${cart_id} AND prod_id=${prod_id}
+    `);
+    return { message : 'Success, item removed from your cart.'}
+  } catch (error) {
+    throw (error)
   }
 }
 
@@ -234,6 +303,9 @@ module.exports = {
   createAllTypeEntries,
   createAllPokeEntries,
   getAllProducts,
+  db_addCartItem,
+  db_patchCartItem,
+  db_deleteCartItem
   createCustomer,
   getAllCustomers,
   getCustomerById,

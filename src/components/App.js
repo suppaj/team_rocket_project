@@ -10,6 +10,7 @@ import {
   Link,
 } from "react-router-dom";
 
+import { AddToCart, ShoppingCart } from './index';
 import { getSomething, getAllProducts } from "../api";
 
 import { Products, ProductSearch, ProductSorter } from "./index";
