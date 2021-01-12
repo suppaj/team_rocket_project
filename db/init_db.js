@@ -61,7 +61,7 @@ async function buildTables() {
 
       CREATE TABLE customers(
         cust_id SERIAL PRIMARY KEY,
-        firt_name VARCHAR(25) NOT NULL,
+        first_name VARCHAR(25) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
         cust_email VARCHAR(100) UNIQUE NOT NULL,
         cust_pwd VARCHAR(50),
