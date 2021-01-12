@@ -11,9 +11,8 @@ import {
 } from "react-router-dom";
 
 import { getSomething, getAllProducts } from "../api";
-import Products from "./Products";
-import ProductSorter from "./ProductSorter";
-import ProductSearch from "./ProductSearch";
+
+import { Products, ProductSearch, ProductSorter } from "./index";
 
 const App = () => {
   const [message, setMessage] = useState("");
