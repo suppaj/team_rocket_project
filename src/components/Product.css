@@ -1,3 +1,18 @@
+/*#9dacc2*/
+
+.pokemon-card {
+  margin-bottom: "30px";
+  margin-left: "30px";
+  margin-right: "30px";
+  width: "310px";
+  height: "310px";
+  display: "inline-block";
+  text-align: "center";
+  background-color: "#abbbd1";
+}
+.pokemon-card:hover {
+  background-color: red;
+}
 /* Typing Background Colors*/
 .normal {
   background-color: #a8a77a;

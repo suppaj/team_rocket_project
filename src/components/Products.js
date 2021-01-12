@@ -23,7 +23,7 @@ const Products = ({ currentProducts }) => {
       return typeArray.map((type, index) => {
         return (
           <span
-            className={`${type} nes-container is-rounded`}
+            className={`${type} nes-container is-rounded nes-pointer`}
             style={{
               marginRight: "10px",
               marginLeft: "10px",
@@ -53,7 +53,7 @@ const Products = ({ currentProducts }) => {
           textAlign: "center",
           backgroundColor: "#abbbd1",
         }}
-        className={`nes-container with-title is-rounded is-centered`}
+        className={`pokemon-card nes-container with-title is-rounded is-centered`}
       >
         <p className="nes-container is-rounded title">
           #{dex_id} {name}
