@@ -127,6 +127,19 @@ async function getAllProducts() {
   }
 }
 
+async function _getUserCart(cart_id) {
+  try {
+    const {rows : cart} = await client.query(`
+      SELECT * FROM product
+      NATURAL JOIN cart_items
+      WHERE cart_id=$1;
+    `,[cart_id]);
+    return cart
+  } catch (error) {
+    throw error
+  }
+}
+
 getAllProducts();
 // export
 module.exports = {
