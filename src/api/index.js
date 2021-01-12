@@ -22,6 +22,11 @@ export async function addCartItem(cart_id, prod_id, cart_quantity, price, ) {
   try {
     const { data } = await axios.post(`/api/cart/${cart_id}/${prod_id}`, {cart_quantity, price})
     return data
+  } catch (error) {
+    throw error
+  }
+}
+
 
 export async function loginCustomer(cust_email, cust_pwd) {
   try {
