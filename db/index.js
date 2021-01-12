@@ -194,6 +194,25 @@ async function getCustomerById(customerID) {
   }
 }
 
+async function getCustomerByEmail(cust_email) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT *
+      FROM customers
+      WHERE cust_email=$1;
+    `,
+      [cust_email]
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // export
 
 module.exports = {
@@ -205,4 +224,5 @@ module.exports = {
   createCustomer,
   getAllCustomers,
   getCustomerById,
+  getCustomerByEmail,
 };

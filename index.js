@@ -2,9 +2,8 @@ require("dotenv").config();
 
 // This is the Web Server
 const express = require("express");
-const passport = require("passport");
 const server = express();
-
+const passport = require("passport");
 // create logs for everything
 const morgan = require("morgan");
 server.use(morgan("dev"));
@@ -19,6 +18,11 @@ server.use(express.static(path.join(__dirname, "build")));
 
 // here's our API
 server.use("/api", require("./routes"));
+
+server.use(passport.initialize());
+server.use(passport.session());
+
+require("./routes/passport");
 
 // by default serve up the react app if we don't recognize the route
 server.use((req, res, next) => {
