@@ -95,6 +95,7 @@ const App = () => {
           style={{ minHeight: "10vh", width: "100vw" }}
         >
           FOOTER AREA
+          <ShoppingCart />
         </Row>
       </Container>
     </>

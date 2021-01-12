@@ -18,11 +18,14 @@ server.use(express.static(path.join(__dirname, "build")));
 
 // here's our API
 server.use("/api", require("./routes"));
+server.use('/checkout', require('./routes/checkout'))
 
 server.use(passport.initialize());
 server.use(passport.session());
 
 require("./routes/passport");
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // by default serve up the react app if we don't recognize the route
 server.use((req, res, next) => {

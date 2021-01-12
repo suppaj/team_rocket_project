@@ -55,7 +55,8 @@ export async function deleteCartItem(cart_id, prod_id) {
   try {
     const { data } = await axios.delete(`/api/cart/${cart_id}/${prod_id}`)
     return data
-  } catch(error){throw error;}}
+  } catch(error){throw error;}
+}
     
 export async function registerCustomer(
   first_name,
@@ -76,5 +77,15 @@ export async function registerCustomer(
     return data;
   } catch (error) {
     throw error;
+  }
+}
+
+export async function getCheckoutSession(sessionArr) {
+  console.log('check',sessionArr);
+  try {
+    const { data } = await axios.post('/checkout/create-checkout-session', sessionArr);
+    return data
+  } catch (error) {
+    throw error
   }
 }

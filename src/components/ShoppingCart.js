@@ -2,10 +2,59 @@ import React, { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { CartItemCard } from './index';
 
+import { loadStripe } from '@stripe/stripe-js';
+import { getCheckoutSession } from '../api';
+
+const stripePromise = loadStripe("pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i");
 
 const ShoppingCart = ({ cart_id, cust_id }) => {
 
-    const [ cart, setCart ] = useState( JSON.parse(localStorage.getItem('cart') ) || [] );
+    const [ cart, setCart ] = useState( JSON.parse(localStorage.getItem('cart') ) || [{
+        dex_id: 7,
+        name: "squirtle",
+        type: ["water"],
+        description:
+          "Shoots water at prey while in the water. Withdraws into its shell when in danger.",
+        height: 5,
+        weight: 90,
+        price: 20.00,
+        cart_quantity: 3
+      }] );
+
+    const handleClick = async () => {
+        const stripe = await stripePromise;
+        console.log('stripe', stripe)
+
+        const ckOutArray = cart.map((item)=>{
+            return {
+                price_data: {
+                    currency: 'usd',
+                    product_data : {
+                        name: item.name,
+                        images: [`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.dex_id}.png`]
+                    },
+                    unit_amount: item.price*100,
+                },
+                quantity: item.cart_quantity
+            }
+        });
+
+        console.log(ckOutArray);
+
+        const session = await getCheckoutSession(ckOutArray);
+        console.log('session', session);
+
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id
+        });
+        console.log('results', result)
+        if (result.error) {
+            // If `redirectToCheckout` fails due to a browser or network
+            // error, display the localized error message to your customer
+            // using `result.error.message`.
+            console.log(result.error.message)
+        }      
+    }
 
     return (
         <Row>
@@ -22,7 +71,7 @@ const ShoppingCart = ({ cart_id, cust_id }) => {
                             </div>
                         </div> }
                 </div>
-                <button type='button' className='nes-btn is-success'>Continue to Checkout</button>
+                <button type='button' className='nes-btn is-success' onClick={handleClick} >Continue to Checkout</button>
             </Col>
             <Col md={4} sm={12}>
             itemized info about account.. etc
