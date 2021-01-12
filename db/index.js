@@ -184,6 +184,18 @@ async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
   }
 }
 
+async function db_deleteCartItem(cart_id, prod_id) {
+  try {
+    await client.query(`
+      DELETE FROM cart_items
+      WHERE cart_id=${cart_id} AND prod_id=${prod_id}
+    `);
+    return { message : 'Success, item removed from your cart.'}
+  } catch (error) {
+    throw (error)
+  }
+}
+
 async function _getUserCart(cart_id) {
   try {
     const {rows : cart} = await client.query(`
@@ -206,5 +218,6 @@ module.exports = {
   createAllPokeEntries,
   getAllProducts,
   db_addCartItem,
-  db_patchCartItem
+  db_patchCartItem,
+  db_deleteCartItem
 };

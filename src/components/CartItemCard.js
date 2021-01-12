@@ -1,23 +1,60 @@
 import React, { useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 
-const CartItemCard = ({ order }) => {
+import { deleteCartItem, patchCartItem } from '../api'
+
+const CartItemCard = ({ order : product, isLoggedIn = true , cart, setCart, cart_id = 1 }) => {
 
     const [ adjustOrder, setAdjustOrder ] = useState(false);
-    const [ orderAmount, setOrderAmount ] = useState(order.cart_quantity)
+    const [ orderAmount, setOrderAmount ] = useState(product.cart_quantity)
 
 
     const handleRemoveItem = () => {
-        console.log('I want to remove this item')
-        // remove item for guest, create route for user
+
+        const copyCart = [...cart]
+        if (isLoggedIn) {
+            cart.forEach(async (item, index)=>{
+                if (item.prod_id === product.prod_id) {
+                    copyCart.splice(index, 1)
+                    await deleteCartItem(cart_id, product.prod_id)
+                }
+            })
+            setCart(copyCart)
+            localStorage.setItem('cart', JSON.stringify(copyCart))
+        } else {
+            cart.forEach(async (item, index)=>{
+                if (item.prod_id === product.prod_id) {
+                    copyCart.splice(index, 1)
+                }
+            })
+            setCart(copyCart)
+            localStorage.setItem('cart', JSON.stringify(copyCart))
+        }
     }
 
     const handleChange = (e) => {
-        if (e.target.value > order.quantity) {
-            setOrderAmount(order.quantity)
+        if (e.target.value > product.quantity) {
+            setOrderAmount(product.quantity)
         } else if (e.target.value < 1) {
             setOrderAmount(1);
         } else { setOrderAmount(e.target.value)}
+    }
+
+    const handleLoseFocus = () => {
+        setAdjustOrder(false)
+        const copyCart = [...cart]
+            copyCart.map( async (item)=>{
+                if (item.prod_id === product.prod_id) {
+                    item.cart_quantity = orderAmount
+                    if (isLoggedIn) {
+                    await patchCartItem(cart_id, orderAmount, item.prod_id)
+                    
+                    }
+                    return item 
+                } else { return item } 
+            });
+            setCart(copyCart)
+            localStorage.setItem('cart', JSON.stringify(copyCart));            
     }
 
 
@@ -25,26 +62,26 @@ const CartItemCard = ({ order }) => {
         <div className='nes-container with-title'>
             <Row>
                 <Col>
-                    <img className='cart-order-image' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${order.dex_id}.png`} alt={order.name}/>
-                    <p>${order.price}</p>
+                    <img className='cart-order-image' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`} alt={product.name}/>
+                    <p>${product.price}</p>
                     {adjustOrder ?
                     <div className='nes-field'>
                         <label >Quantity:</label>
-                        <input className='nes-input' type='number' id='order_adjust' style={{width : '6rem'}} value={orderAmount} step={1} min={1} max={order.quantity} onChange={handleChange} autoFocus/>
+                        <input className='nes-input' type='number' id='order_adjust' style={{width : '6rem'}} value={orderAmount} step={1} min={1} max={product.quantity} onChange={handleChange} onBlur={handleLoseFocus} autoFocus/>
                         <Button variant='link' onClick={()=>setAdjustOrder(false)}>confirm change</Button>
                     </div>
                     :
                     <p>Quantity: {orderAmount}  <Button variant='link' onClick={() => setAdjustOrder(true)}>change</Button></p>}
-                    <p>Item Total: ${(orderAmount * order.price)}</p>
+                    <p>Item Total: ${(orderAmount * product.price)}</p>
                     <br/>
                     <button type='button' className='nes-btn is-error' onClick={handleRemoveItem}>Remove Item</button>
                 </Col>
                 <Col>
-                    <p>{order.name.toUpperCase()}</p>
-                    <p>Description:  {order.description}</p>
-                    <p>Height: {order.height}</p>
-                    <p>Weight: {order.weight}</p>
-                    <p>Type: {order.type.map((type, index) => {
+                    <p>{product.name.toUpperCase()}</p>
+                    <p>Description:  {product.description}</p>
+                    <p>Height: {product.height}</p>
+                    <p>Weight: {product.weight}</p>
+                    <p>Type: {product.type.map((type, index) => {
                                 return (
                                 <span
                                     className={`${type} nes-container is-rounded`}

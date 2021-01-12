@@ -36,3 +36,11 @@ export async function patchCartItem(cart_id, cart_quantity, prod_id) {
   }
 }
 
+export async function deleteCartItem(cart_id, prod_id) {
+  try {
+    const { data } = await axios.delete(`/api/cart/${cart_id}/${prod_id}`)
+    return data
+  } catch (error) {
+    throw error;
+  }
+}

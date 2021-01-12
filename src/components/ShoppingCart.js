@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { CartItemCard } from './index';
 
 
-const ShoppingCart = (props) => {
+const ShoppingCart = ({ cart_id, cust_id }) => {
 
     const [ cart, setCart ] = useState( JSON.parse(localStorage.getItem('cart') ) || [] );
 
@@ -14,7 +14,7 @@ const ShoppingCart = (props) => {
                     <p className='title'>TEAM ROCKET CART</p>
                     <br/>
                     {cart.length ? cart.map((order, index)=>{
-                        return <CartItemCard key={index} order={order}/>
+                        return <CartItemCard key={index} order={order} cart={cart} setCart={setCart} cart_id={cart_id}/>
                     }) : <div className='message-list -left'>
                             <i className='nes-ash align-bottom'></i>
                             <div className='nes-balloon from-left align-top'>

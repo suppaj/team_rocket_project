@@ -50,18 +50,6 @@ const App = () => {
       </Row>
       <Row className='bg-success' style={{ minHeight : '80vh', width : '100vw' }}> 
         MAIN BODY
-        <AddToCart product={{dex_id: 7,
-          name: "charmander",
-          type: ["fire"],
-          description:
-          "Shoots water at prey while in the water. Withdraws into its shell when in danger.",
-          height: 5,
-          weight: 90,
-          price: 20,
-          quantity: 15,
-          prod_id: 3
-        }} isLoggedIn={true} cart_id={1}/>
-        <ShoppingCart />
       </Row>
       <Row className='bg-secondary' style={{ minHeight : '10vh', width : '100vw' }}>
         FOOTER AREA

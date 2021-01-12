@@ -28,9 +28,9 @@ const AddToCart = ({ product, isLoggedIn, cart_id}) => {
             localStorage.setItem('cart', JSON.stringify(currCart));
 
             if (noDuplicate) {
-                console.log(noDuplicate)
+                
                 const results = await addCartItem(cart_id, prod_id, cart_quantity, price );
-                console.log('results', results)
+                
                 if (results) {
                     currCart.push(product)
                     localStorage.setItem('cart', JSON.stringify(currCart))
@@ -41,7 +41,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id}) => {
 
             currCart.map( async (item)=>{
                 if (item.prod_id === prod_id) {
-                    console.log('cartQ: ', item.cart_quantity, 'orderA: ',orderAmount)
+                    
                     item.cart_quantity += orderAmount
                     noDuplicate = false
                     return item 
@@ -59,8 +59,8 @@ const AddToCart = ({ product, isLoggedIn, cart_id}) => {
     }
 
     const handleGoToCheckout = () => {
-        console.log('I want to checkout now')
-        // process for guest?  process for user?
+        console.log('going to checkout');       
+        
     }
 
     return (
