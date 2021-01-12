@@ -12,7 +12,7 @@ const CartButton = ({ updateFlag = false }) => {
     },[updateFlag])
 
     const findCartCount = () => {
-        const cart = JSON.parse(localStorage.getItem('cart'));
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
         let count = 0;
         cart.map((item)=>{
             count += item.cart_quantity;
