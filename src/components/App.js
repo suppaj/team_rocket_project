@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { Container, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -46,57 +46,69 @@ const App = () => {
         <h1>Hello, World!</h1>
         <h2>{message}</h2>
       </div>
-      <Container fluid>
-        <Row
-          className="bg-primary"
-          style={{ minHeight: "10vh", width: "100vw" }}
-        >
-          HEADER AREA
-        </Row>
-        <Row
-          className="bg-success"
-          style={{
-            minHeight: "80vh",
-            width: "100vw",
-          }}
-        >
+      <Router>
+        <Container fluid>
           <Row
-            style={{
-              marginBottom: "20px",
-              marginTop: "20px",
-              width: "100vw",
-              display: "flex",
-              justifyContent: "center",
-            }}
+            className="bg-primary"
+            style={{ minHeight: "10vh", width: "100vw" }}
           >
-            <ProductSearch
-              allProducts={allProducts}
-              setCurrentProducts={setCurrentProducts}
-            />
-            <ProductSorter
-              allProducts={allProducts}
-              setAllProducts={setAllProducts}
-              currentProducts={currentProducts}
-              setCurrentProducts={setCurrentProducts}
-            />
+            HEADER AREA
           </Row>
           <Row
+            className="bg-success"
             style={{
+              minHeight: "80vh",
               width: "100vw",
-              display: "flex",
-              justifyContent: "space-evenly",
             }}
           >
-            <Products currentProducts={currentProducts} />
+          <Switch>
+            <Route exact path="/">
+              <Row
+                style={{
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <ProductSearch
+                  allProducts={allProducts}
+                  setCurrentProducts={setCurrentProducts}
+                />
+                <ProductSorter
+                  allProducts={allProducts}
+                  setAllProducts={setAllProducts}
+                  currentProducts={currentProducts}
+                  setCurrentProducts={setCurrentProducts}
+                />
+              </Row>
+              <Row
+                style={{
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <Products currentProducts={currentProducts} />
+              </Row>
+            </Route>
+            <Route path="/shoppingcart">
+                <ShoppingCart />
+            </Route>
+            <Route path="/admin">
+              {/* admin component */}
+            </Route>
+          </Switch>
           </Row>
-        </Row>
-        <Row
-          className="bg-secondary"
-          style={{ minHeight: "10vh", width: "100vw" }}
-        >
-          FOOTER AREA
-        </Row>
-      </Container>
+          <Row
+            className="bg-secondary"
+            style={{ minHeight: "10vh", width: "100vw" }}
+          >
+            FOOTER AREA
+          </Row>
+        </Container>
+      </Router>
     </>
   );
 };
