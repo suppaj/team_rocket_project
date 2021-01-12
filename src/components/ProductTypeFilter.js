@@ -3,25 +3,14 @@ import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
 const ProductTypeFilter = ({
-  allProducts,
   currentProducts,
   setCurrentProducts,
   allTypes,
+  typeFilter,
+  filterMessage,
+  setFilterMessage,
 }) => {
-  const [filterMessage, setFilterMessage] = useState("Filter pokemon...");
   const [defaultProducts, setDefaultProducts] = useState([]);
-
-  function searcher(val) {
-    let copy = [...allProducts];
-    let filtered = [];
-    copy.forEach((poke) => {
-      let pokeType = poke.type.toString();
-      if (pokeType.match(val)) {
-        filtered.push(poke);
-      }
-    });
-    setCurrentProducts(filtered);
-  }
 
   function dropdownMapper(collection, key) {
     return collection.map((item) => {
@@ -33,7 +22,7 @@ const ProductTypeFilter = ({
               setDefaultProducts(currentProducts);
             }
             setFilterMessage(`Type: ${item[key]}`);
-            searcher(item[key]);
+            typeFilter(item[key]);
           }}
         >
           {item[key]}

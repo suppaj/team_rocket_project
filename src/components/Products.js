@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Product.css";
 
-const Products = ({ currentProducts }) => {
+const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
   // randomizes the unknown image shown if there is nothing to display
   const unknownArray = "abcdefghijklmnopqrstuvwxyz".split("");
   unknownArray.push("exclamation");
@@ -30,6 +30,10 @@ const Products = ({ currentProducts }) => {
               padding: "2px",
             }}
             key={index}
+            onClick={() => {
+              setFilterMessage(`Type: ${type}`);
+              typeFilter(type);
+            }}
           >
             {type}
           </span>

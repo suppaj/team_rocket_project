@@ -24,6 +24,7 @@ const App = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
   const [allTypes, setAllTypes] = useState([]);
+  const [filterMessage, setFilterMessage] = useState("Filter pokemon...");
 
   useEffect(() => {
     getSomething()
@@ -58,6 +59,20 @@ const App = () => {
         console.log(error);
       });
   }, []);
+
+  // type filter function...can this live here??
+  // using it in Products.js and ProductTypeFilter.js
+  function typeFilter(val) {
+    let copy = [...allProducts];
+    let filtered = [];
+    copy.forEach((poke) => {
+      let pokeType = poke.type.toString();
+      if (pokeType.match(val)) {
+        filtered.push(poke);
+      }
+    });
+    setCurrentProducts(filtered);
+  }
 
   return (
     <>
@@ -98,6 +113,9 @@ const App = () => {
               currentProducts={currentProducts}
               setCurrentProducts={setCurrentProducts}
               allTypes={allTypes}
+              typeFilter={typeFilter}
+              filterMessage={filterMessage}
+              setFilterMessage={setFilterMessage}
             />
             <ProductSorter
               allProducts={allProducts}
@@ -113,7 +131,11 @@ const App = () => {
               justifyContent: "center",
             }}
           >
-            <Products currentProducts={currentProducts} />
+            <Products
+              currentProducts={currentProducts}
+              typeFilter={typeFilter}
+              setFilterMessage={setFilterMessage}
+            />
           </Row>
         </Row>
         <Row
