@@ -103,26 +103,9 @@ async function createTypeRelation(type_id, prod_id) {
 async function getAllProducts() {
   try {
     const { rows: pokemon } = await client.query(`SELECT * FROM product`);
-    // const { rows: type_relations } = await client.query(`
-    //   SELECT prod_id, name FROM product_type
-    //   LEFT JOIN type on product_type.type_id = type.type_id
-    // `);
-    // let products = [...pokemon];
 
     const products = await _buildTypes(pokemon)
 
-    // function productTypeMapper(products, types) {
-    //   for (const product of products) {
-    //     product.type = [];
-    //     for (const type of types) {
-    //       if (type.prod_id === product.prod_id) {
-    //         product.type.push(type.name);
-    //       }
-    //     }
-    //   }
-    // }
-
-    // await productTypeMapper(products, type_relations);
     return products;
   } catch (error) {
     throw error;
