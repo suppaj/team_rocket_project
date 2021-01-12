@@ -36,6 +36,11 @@ const App = () => {
 
     getAllProducts()
       .then((response) => {
+        response.sort((a, b) => {
+          a = a.dex_id;
+          b = b.dex_id;
+          return a - b;
+        });
         setAllProducts(response);
         setCurrentProducts(response);
       })

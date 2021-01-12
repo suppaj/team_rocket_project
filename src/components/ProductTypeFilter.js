@@ -9,6 +9,7 @@ const ProductTypeFilter = ({
   allTypes,
 }) => {
   const [filterMessage, setFilterMessage] = useState("Filter pokemon...");
+  const [defaultProducts, setDefaultProducts] = useState([]);
 
   function searcher(val) {
     let copy = [...allProducts];
@@ -28,6 +29,9 @@ const ProductTypeFilter = ({
         <Dropdown.Item
           key={item[key]}
           onClick={() => {
+            if (defaultProducts.length === 0) {
+              setDefaultProducts(currentProducts);
+            }
             setFilterMessage(`Type: ${item[key]}`);
             searcher(item[key]);
           }}
@@ -51,6 +55,7 @@ const ProductTypeFilter = ({
             <Dropdown.Item
               onClick={() => {
                 setFilterMessage("Filter pokemon...");
+                setCurrentProducts(defaultProducts);
               }}
             >
               Clear filter
