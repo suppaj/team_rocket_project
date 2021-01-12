@@ -1,10 +1,13 @@
 const apiRouter = require("express").Router();
 
+
 const { getAllProducts,
   db_addCartItem,
   db_patchCartItem,
   db_deleteCartItem
  } = require("../db/index");
+
+const passport = require("passport");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({
@@ -52,5 +55,11 @@ apiRouter.delete(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
     next(error)
   }
 })
+
+apiRouter.use("/customers", require("./customers"));
+apiRouter.use("/login", require("./customers"));
+apiRouter.use("/register", require("./customers"));
+apiRouter.use("/google", require("./passport"));
+apiRouter.use("/google/callback", require("./passport"));
 
 module.exports = apiRouter;
