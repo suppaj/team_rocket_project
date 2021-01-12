@@ -16,6 +16,19 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
     });
   }
 
+  const test = (
+    <dialog class="nes-dialog" id="dialog-default">
+      <form method="dialog">
+        <p class="title">Dialog</p>
+        <p>Alert: this is a dialog.</p>
+        <menu class="dialog-menu">
+          <button class="nes-btn">Cancel</button>
+          <button class="nes-btn is-primary">Confirm</button>
+        </menu>
+      </form>
+    </dialog>
+  );
+
   // individually renders a product card
   function renderCard({ dex_id, name, type, price }) {
     // maps the type badges for a given product
@@ -73,8 +86,10 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
   }
 
   if (currentProducts.length) {
+    // if there are products to display, render all of them
     return <>{renderAllCards(currentProducts)}</>;
   } else {
+    // if there are no propducts to display, shows a card with an apporpriate message
     return (
       <div
         style={{

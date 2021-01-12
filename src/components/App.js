@@ -106,6 +106,7 @@ const App = () => {
             <ProductSearch
               allProducts={allProducts}
               setCurrentProducts={setCurrentProducts}
+              currentProducts={currentProducts}
             />
             <ProductTypeFilter
               allProducts={allProducts}

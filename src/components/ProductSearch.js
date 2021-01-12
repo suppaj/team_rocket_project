@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Form } from "react-bootstrap";
 
-const ProductSearch = ({ allProducts, setCurrentProducts }) => {
+const ProductSearch = ({
+  allProducts,
+  setCurrentProducts,
+  currentProducts,
+}) => {
   const [searchVal, setSearchVal] = useState("");
+  const [defaultProducts, setDefaultProducts] = useState(allProducts);
+
+  useEffect(() => {
+    console.log("hello");
+    console.log("all", allProducts);
+    console.log("current", currentProducts);
+    console.log("default", defaultProducts);
+    if (searchVal.length === 0) {
+      setDefaultProducts(currentProducts);
+    }
+  }, [searchVal]);
 
   function searcher(val) {
-    let copy = [...allProducts];
+    let copy = [];
+    if (defaultProducts.length === 0) {
+      copy = [...allProducts];
+    } else {
+      copy = [...defaultProducts];
+    }
     let filtered = [];
     copy.forEach((poke) => {
       let pokeName = poke.name.toLowerCase();
