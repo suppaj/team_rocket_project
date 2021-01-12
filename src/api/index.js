@@ -17,3 +17,12 @@ export async function getAllProducts() {
     throw error;
   }
 }
+
+export async function getAllTypes() {
+  try {
+    const { data } = await axios.get("/api/products/types");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

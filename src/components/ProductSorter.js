@@ -32,7 +32,7 @@ const ProductSorter = ({
   }
 
   return (
-    <Dropdown>
+    <Dropdown style={{ marginRight: "10px" }}>
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
         {sortMessage}
       </Dropdown.Toggle>

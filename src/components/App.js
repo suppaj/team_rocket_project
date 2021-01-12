@@ -10,14 +10,20 @@ import {
   Link,
 } from "react-router-dom";
 
-import { getSomething, getAllProducts } from "../api";
+import { getSomething, getAllProducts, getAllTypes } from "../api";
 
-import { Products, ProductSearch, ProductSorter } from "./index";
+import {
+  Products,
+  ProductSearch,
+  ProductSorter,
+  ProductTypeFilter,
+} from "./index";
 
 const App = () => {
   const [message, setMessage] = useState("");
   const [allProducts, setAllProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
+  const [allTypes, setAllTypes] = useState([]);
 
   useEffect(() => {
     getSomething()
@@ -35,6 +41,15 @@ const App = () => {
       })
       .catch((error) => {
         console.log("Error fetching products!");
+        console.log(error);
+      });
+
+    getAllTypes()
+      .then((response) => {
+        setAllTypes(response);
+      })
+      .catch((error) => {
+        console.log("Error fetching types!");
         console.log(error);
       });
   }, []);
@@ -72,6 +87,13 @@ const App = () => {
               allProducts={allProducts}
               setCurrentProducts={setCurrentProducts}
             />
+            <ProductTypeFilter
+              allProducts={allProducts}
+              setAllProducts={setAllProducts}
+              currentProducts={currentProducts}
+              setCurrentProducts={setCurrentProducts}
+              allTypes={allTypes}
+            />
             <ProductSorter
               allProducts={allProducts}
               setAllProducts={setAllProducts}
@@ -83,7 +105,7 @@ const App = () => {
             style={{
               width: "100vw",
               display: "flex",
-              justifyContent: "space-evenly",
+              justifyContent: "center",
             }}
           >
             <Products currentProducts={currentProducts} />
