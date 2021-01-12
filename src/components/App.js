@@ -60,18 +60,35 @@ const App = () => {
             width: "100vw",
           }}
         >
-          <ProductSearch
-            allProducts={allProducts}
-            currentProducts={currentProducts}
-            setCurrentProducts={setCurrentProducts}
-          />
-          <ProductSorter
-            allProducts={allProducts}
-            setAllProducts={setAllProducts}
-            currentProducts={currentProducts}
-            setCurrentProducts={setCurrentProducts}
-          />
-          <Products currentProducts={currentProducts} />
+          <Row
+            style={{
+              marginBottom: "20px",
+              marginTop: "20px",
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <ProductSearch
+              allProducts={allProducts}
+              setCurrentProducts={setCurrentProducts}
+            />
+            <ProductSorter
+              allProducts={allProducts}
+              setAllProducts={setAllProducts}
+              currentProducts={currentProducts}
+              setCurrentProducts={setCurrentProducts}
+            />
+          </Row>
+          <Row
+            style={{
+              width: "100vw",
+              display: "flex",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <Products currentProducts={currentProducts} />
+          </Row>
         </Row>
         <Row
           className="bg-secondary"

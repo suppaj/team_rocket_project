@@ -2,11 +2,7 @@ import React, { useState } from "react";
 
 import { Form } from "react-bootstrap";
 
-const ProductSearch = ({
-  allProducts,
-  currentProducts,
-  setCurrentProducts,
-}) => {
+const ProductSearch = ({ allProducts, setCurrentProducts }) => {
   const [searchVal, setSearchVal] = useState("");
 
   function searcher(val) {
@@ -37,7 +33,7 @@ const ProductSearch = ({
   }
 
   return (
-    <Form>
+    <Form style={{ marginRight: "10px" }}>
       <Form.Control
         type="text"
         value={searchVal}
@@ -47,24 +43,12 @@ const ProductSearch = ({
           setSearchVal(event.target.value);
           searcher(event.target.value);
         }}
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
       />
     </Form>
   );
 };
 
 export default ProductSearch;
-
-/**
- * KNOWN BUG
- *
- * replication:
- * search 'normal'
- * set sorter to price: high to low
- * backspace in search bar until there is no text left
- *
- * implication:
- * emptying search bar doesn't 'reset' the entries and only displays the old search results
- *
- * note:
- * this will happen when searching anything or using any of the sorters
- */

@@ -4,15 +4,15 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 const ProductSorter = ({
   allProducts,
-  setAllProducts,
   currentProducts,
   setCurrentProducts,
 }) => {
   const [sortMessage, setSortMessage] = useState("Sort pokemon...");
 
+  // sorts the given array based on a given object key
   function sortProductsByKey(productArray, key, sortMethod) {
     let sorted = [...productArray];
-    // sorts keys high to low
+    // sorts keys high to low (sortMethod === 1)
     if (sortMethod === 1) {
       sorted.sort((a, b) => {
         a = parseInt(a[key]);
@@ -20,7 +20,7 @@ const ProductSorter = ({
         return b - a;
       });
 
-      //   sorts keys low to high
+      //   sorts keys low to high (sortMethod === 2)
     } else if (sortMethod === 2) {
       sorted.sort((a, b) => {
         a = parseInt(a[key]);
@@ -29,7 +29,6 @@ const ProductSorter = ({
       });
     }
     setCurrentProducts(sorted);
-    setAllProducts(sorted);
   }
 
   return (
