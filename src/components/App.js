@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from "react";
 import { Modal, Container, Row, Form, Button } from "react-bootstrap";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -10,6 +12,7 @@ import {
   Link,
 } from "react-router-dom";
 
+
 import {
   getSomething,
   getAllProducts,
@@ -17,6 +20,7 @@ import {
   registerCustomer,
 } from "../api";
 
+import { CartButton, ShoppingCart } from './index';
 import { Products, ProductSearch, ProductSorter } from "./index";
 
 const App = () => {
@@ -81,13 +85,17 @@ const App = () => {
         <h1>Hello, World!</h1>
         <h2>{message}</h2>
       </div>
-      <Container fluid>
+
+      <Router>
+        <Container fluid>
+    
         <Row
           className="bg-primary"
           id="header"
           style={{ minHeight: "10vh", width: "100vw" }}
         >
           HEADER AREA
+
           <button
             type="button"
             className="nes-btn is-normal"
@@ -102,44 +110,61 @@ const App = () => {
           >
             Register
           </button>
+    
         </Row>
         <Row
-          className="bg-success"
-          style={{
-            minHeight: "80vh",
-            width: "100vw",
-          }}
-        >
-          <Row
+            className="bg-success"
             style={{
-              marginBottom: "20px",
-              marginTop: "20px",
+              minHeight: "80vh",
               width: "100vw",
-              display: "flex",
-              justifyContent: "center",
             }}
           >
-            <ProductSearch
-              allProducts={allProducts}
-              setCurrentProducts={setCurrentProducts}
-            />
-            <ProductSorter
-              allProducts={allProducts}
-              setAllProducts={setAllProducts}
-              currentProducts={currentProducts}
-              setCurrentProducts={setCurrentProducts}
-            />
+          <Switch>
+            <Route exact path="/">
+              <Row
+                style={{
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <ProductSearch
+                  allProducts={allProducts}
+                  setCurrentProducts={setCurrentProducts}
+                />
+                <ProductSorter
+                  allProducts={allProducts}
+                  setAllProducts={setAllProducts}
+                  currentProducts={currentProducts}
+                  setCurrentProducts={setCurrentProducts}
+                />
+              </Row>
+              <Row
+                style={{
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <Products currentProducts={currentProducts} />
+              </Row>
+            </Route>
+            <Route path="/shoppingcart">
+                <ShoppingCart />
+            </Route>
+            <Route path="/admin">
+              {/* admin component */}
+            </Route>
+          </Switch>
           </Row>
           <Row
-            style={{
-              width: "100vw",
-              display: "flex",
-              justifyContent: "space-evenly",
-            }}
+            className="bg-secondary"
+            style={{ minHeight: "10vh", width: "100vw" }}
           >
-            <Products currentProducts={currentProducts} />
+            FOOTER AREA
           </Row>
-        </Row>
         <Row
           className="bg-secondary"
           style={{ minHeight: "10vh", width: "100vw" }}
@@ -292,6 +317,10 @@ const App = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+        </Container>
+      </Router>
+
     </>
   );
 };
