@@ -1,7 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const apiRouter = require("express").Router();
 
-const ROCKET_DOMAIN = 'http://localhost:3000/checkout';
+const ROCKET_DOMAIN = 'http://localhost:3000';
 
 
 apiRouter.post('/create-checkout-session', async (req, res, next) => {
