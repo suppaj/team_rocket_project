@@ -10,7 +10,7 @@ import {
   Link,
 } from "react-router-dom";
 
-import { CartButton } from './index';
+import { CartButton, ShoppingCart } from './index';
 import { getSomething, getAllProducts } from "../api";
 
 import { Products, ProductSearch, ProductSorter } from "./index";
@@ -58,15 +58,6 @@ const App = () => {
           
         </Row>
         <Row
-          className="bg-success"
-          style={{
-            minHeight: "80vh",
-            width: "100vw",
-          }}
-        >
-
-          </Row>
-          <Row
             className="bg-success"
             style={{
               minHeight: "80vh",
