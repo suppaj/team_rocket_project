@@ -34,7 +34,7 @@ export async function loginCustomer(cust_email, cust_pwd) {
       cust_email,
       cust_pwd,
     });
-    console.log("Visuals for login tests", data);
+
     return data;
 
   } catch (error) {
