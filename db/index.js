@@ -135,6 +135,19 @@ async function _buildTypes(array) {
   }
 }
 
+async function getAllTypes() {
+  try {
+    const { rows: types } = await client.query(`
+      SELECT *
+      FROM type
+    `);
+    console.log("types:", types);
+    return types;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function db_addCartItem(cart_id, prod_id, cart_quantity, price) {
   try {
     await client.query(
@@ -165,7 +178,6 @@ async function _getUserCart(cart_id) {
     `,
       [cart_id]
     );
-
     return cart;
   } catch (error) {
     throw error;
@@ -216,8 +228,6 @@ async function _getUserCart(cart_id) {
     throw error;
   }
 }
-
-getAllProducts();
 
 // Customer Methods //
 
@@ -332,6 +342,7 @@ module.exports = {
   createAllTypeEntries,
   createAllPokeEntries,
   getAllProducts,
+  getAllTypes,
   db_addCartItem,
   db_patchCartItem,
   db_deleteCartItem,

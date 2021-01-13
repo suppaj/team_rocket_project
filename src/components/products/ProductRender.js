@@ -1,7 +1,24 @@
-import React, { useEffect } from "react";
-import "./Product.css";
+import React, { useState } from "react";
 
-const Products = ({ currentProducts }) => {
+import "./Product.css";
+import ProductModal from "./ProductModal";
+
+const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
+  const [currentPoke, setCurrentPoke] = useState({
+    dex_id: 1,
+    name: "bulbasaur",
+    type: ["grass", "poison"],
+    description:
+      "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
+    height: 7,
+    weight: 69,
+    price: 96.66,
+  });
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   // randomizes the unknown image shown if there is nothing to display
   const unknownArray = "abcdefghijklmnopqrstuvwxyz".split("");
   unknownArray.push("exclamation");
@@ -17,27 +34,29 @@ const Products = ({ currentProducts }) => {
   }
 
   // individually renders a product card
-  function renderCard({ dex_id, name, type, price }) {
+  function renderCard(poke) {
+    const { dex_id, name, type, price } = poke;
     // maps the type badges for a given product
     function typeMapper(typeArray) {
       return typeArray.map((type, index) => {
         return (
           <span
-            className={`${type} nes-container is-rounded`}
+            className={`${type} nes-container is-rounded nes-pointer`}
             style={{
               marginRight: "10px",
               marginLeft: "10px",
               padding: "2px",
             }}
             key={index}
+            onClick={() => {
+              setFilterMessage(`Type: ${type}`);
+              typeFilter(type);
+            }}
           >
             {type}
           </span>
         );
       });
-    }
-
-    {
     }
 
     return (
@@ -53,15 +72,24 @@ const Products = ({ currentProducts }) => {
           textAlign: "center",
           backgroundColor: "#abbbd1",
         }}
-        className={`nes-container with-title is-rounded is-centered`}
+        className={`pokemon-card nes-container with-title is-rounded is-centered`}
       >
         <p className="nes-container is-rounded title">
           #{dex_id} {name}
         </p>
         <p>${price}</p>
         <img
-          style={{ height: "200px", marginTop: "-25px" }}
+          style={{
+            height: "200px",
+            marginTop: "-25px",
+          }}
+          className="nes-pointer"
+          onClick={() => {
+            setCurrentPoke(poke);
+            handleShow();
+          }}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
+          alt={`a very happy ${name}`}
         />
         <div>{typeMapper(type)}</div>
       </div>
@@ -69,8 +97,19 @@ const Products = ({ currentProducts }) => {
   }
 
   if (currentProducts.length) {
-    return <>{renderAllCards(currentProducts)}</>;
+    // if there are products to display, render all of them
+    return (
+      <>
+        {renderAllCards(currentProducts)}
+        <ProductModal
+          currentPoke={currentPoke}
+          handleClose={handleClose}
+          show={show}
+        />
+      </>
+    );
   } else {
+    // if there are no propducts to display, shows a card with an apporpriate message
     return (
       <div
         style={{
@@ -90,6 +129,7 @@ const Products = ({ currentProducts }) => {
         <img
           style={{ height: "200px", marginTop: "-25px" }}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-${unknownId}.png`}
+          alt={`an unknown-${unknownId} appears...`}
         />
         <p>We're sorry, but there are no POKéMON to display</p>
       </div>
