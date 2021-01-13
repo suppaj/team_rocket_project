@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
+
 import "./Product.css";
+
+import ProducModal from "./ProductModal";
 
 const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
   // randomizes the unknown image shown if there is nothing to display
@@ -15,19 +18,6 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
       return newCard;
     });
   }
-
-  const test = (
-    <dialog class="nes-dialog" id="dialog-default">
-      <form method="dialog">
-        <p class="title">Dialog</p>
-        <p>Alert: this is a dialog.</p>
-        <menu class="dialog-menu">
-          <button class="nes-btn">Cancel</button>
-          <button class="nes-btn is-primary">Confirm</button>
-        </menu>
-      </form>
-    </dialog>
-  );
 
   // individually renders a product card
   function renderCard({ dex_id, name, type, price }) {
@@ -77,7 +67,11 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
         </p>
         <p>${price}</p>
         <img
-          style={{ height: "200px", marginTop: "-25px" }}
+          style={{
+            height: "200px",
+            marginTop: "-25px",
+          }}
+          className="nes-pointer"
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
         />
         <div>{typeMapper(type)}</div>
@@ -87,7 +81,8 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
 
   if (currentProducts.length) {
     // if there are products to display, render all of them
-    return <>{renderAllCards(currentProducts)}</>;
+    // return <>{renderAllCards(currentProducts)}</>;
+    return <ProducModal />;
   } else {
     // if there are no propducts to display, shows a card with an apporpriate message
     return (
