@@ -10,7 +10,7 @@ import {
   Link,
 } from "react-router-dom";
 
-import { AddToCart, ShoppingCart } from './index';
+import { CartButton } from './index';
 import { getSomething, getAllProducts } from "../api";
 
 import { Products, ProductSearch, ProductSorter } from "./index";
@@ -46,13 +46,25 @@ const App = () => {
         <h1>Hello, World!</h1>
         <h2>{message}</h2>
       </div>
+
       <Router>
         <Container fluid>
-          <Row
-            className="bg-primary"
-            style={{ minHeight: "10vh", width: "100vw" }}
-          >
-            HEADER AREA
+    
+        <Row
+          className="bg-primary"
+          style={{ minHeight: "10vh", width: "100vw" }}
+        >
+          HEADER AREA
+          
+        </Row>
+        <Row
+          className="bg-success"
+          style={{
+            minHeight: "80vh",
+            width: "100vw",
+          }}
+        >
+
           </Row>
           <Row
             className="bg-success"
