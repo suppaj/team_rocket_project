@@ -171,7 +171,6 @@ const App = () => {
         >
           FOOTER AREA
         </Row>
-      </Container>
 
       {/* LOGIN Form */}
       <Modal show={loginShow} onHide={handleCloseLogin} centered>
