@@ -5,3 +5,7 @@ export { default as AddToCart } from "./AddToCart";
 export { default as CartItemCard } from "./CartItemCard";
 export { default as CartButton } from "./CartButton";
 export { default as CartOverlay } from "./CartOverlay";
+export { default as CheckoutPage } from "./checkout/CheckoutPage";
+export { default as CheckOutCard } from "./checkout/CheckOutCard";
+export { default as UserCheckOutForm } from "./checkout/UserCheckOutForm";
+export { default as GuestCheckOutForm } from "./checkout/GuestCheckOutForm";
