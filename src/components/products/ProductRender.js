@@ -1,10 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./Product.css";
+import ProductModal from "./ProductModal";
 
 import ProducModal from "./ProductModal";
 
 const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
+  const [currentPoke, setCurrentPoke] = useState({
+    dex_id: 1,
+    name: "bulbasaur",
+    type: ["grass", "poison"],
+    description:
+      "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
+    height: 7,
+    weight: 69,
+    price: 96.66,
+  });
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   // randomizes the unknown image shown if there is nothing to display
   const unknownArray = "abcdefghijklmnopqrstuvwxyz".split("");
   unknownArray.push("exclamation");
@@ -20,7 +36,8 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
   }
 
   // individually renders a product card
-  function renderCard({ dex_id, name, type, price }) {
+  function renderCard(poke) {
+    const { dex_id, name, type, price } = poke;
     // maps the type badges for a given product
     function typeMapper(typeArray) {
       return typeArray.map((type, index) => {
@@ -72,6 +89,10 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
             marginTop: "-25px",
           }}
           className="nes-pointer"
+          onClick={() => {
+            setCurrentPoke(poke);
+            handleShow();
+          }}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
         />
         <div>{typeMapper(type)}</div>
@@ -81,8 +102,17 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
 
   if (currentProducts.length) {
     // if there are products to display, render all of them
-    // return <>{renderAllCards(currentProducts)}</>;
-    return <ProducModal />;
+    return (
+      <>
+        {renderAllCards(currentProducts)}
+        <ProductModal
+          currentPoke={currentPoke}
+          handleClose={handleClose}
+          show={show}
+        />
+      </>
+    );
+    // return <ProducModal />;
   } else {
     // if there are no propducts to display, shows a card with an apporpriate message
     return (

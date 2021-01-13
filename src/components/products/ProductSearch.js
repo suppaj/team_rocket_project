@@ -18,23 +18,26 @@ const ProductSearch = ({
     let copy = [...allProducts];
     let filtered = [];
     copy.forEach((poke) => {
+      let pokeDex = poke.dex_id.toString();
       let pokeName = poke.name.toLowerCase();
       let pokeType = poke.type.toString();
       let pokeDesc = poke.description.toLowerCase();
       let pokeHeight = poke.height.toString();
       let pokeWeight = poke.weight.toString();
       let pokePrice = poke.price.toString();
-      if (pokeName.includes(val)) {
+      if (pokeDex.includes(val)) {
         filtered.push(poke);
-      } else if (pokeType.match(val)) {
+      } else if (pokeName.includes(val)) {
         filtered.push(poke);
-      } else if (pokeDesc.match(val)) {
+      } else if (pokeType.includes(val)) {
         filtered.push(poke);
-      } else if (pokeHeight.match(val)) {
+      } else if (pokeDesc.includes(val)) {
         filtered.push(poke);
-      } else if (pokeWeight.match(val)) {
+      } else if (pokeHeight.includes(val)) {
         filtered.push(poke);
-      } else if (pokePrice.match(val)) {
+      } else if (pokeWeight.includes(val)) {
+        filtered.push(poke);
+      } else if (pokePrice.includes(val)) {
         filtered.push(poke);
       }
     });

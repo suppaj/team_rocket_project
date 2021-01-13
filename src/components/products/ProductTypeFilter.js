@@ -10,8 +10,6 @@ const ProductTypeFilter = ({
   filterMessage,
   setFilterMessage,
 }) => {
-  const [defaultProducts, setDefaultProducts] = useState([]);
-
   function dropdownMapper(collection, key) {
     return collection.map((item) => {
       return (
