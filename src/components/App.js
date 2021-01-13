@@ -78,14 +78,12 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <Router>
       <div className="App">
         <h1>Hello, World!</h1>
         <h2>{message}</h2>
       </div>
-
-      <Router>
-        <Container fluid>
+      <Container fluid>
           <Row
             className="bg-primary"
             id="header"
@@ -158,34 +156,6 @@ const App = () => {
           >
             FOOTER AREA
           </Row>
-<<<<<<< HEAD
-        <Row
-          className="bg-secondary"
-          style={{ minHeight: "10vh", width: "100vw" }}
-        >
-          FOOTER AREA
-        </Row>
-
-      {/* LOGIN Form */}
-      <Modal show={loginShow} onHide={handleCloseLogin} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formBasicUsername">
-              <div className="nes-field">
-                <Form.Label>Email</Form.Label>
-=======
-          <Row
-            className="bg-secondary"
-            style={{ minHeight: "10vh", width: "100vw" }}
-          >
-            FOOTER AREA
-          </Row>
-        </Container>
->>>>>>> 2947b7bdfcf42f901688fa6695f2951a886623f5
-
         {/* LOGIN Form */}
         <Modal show={loginShow} onHide={handleCloseLogin} centered>
           <Modal.Header closeButton>
@@ -330,8 +300,9 @@ const App = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+        </Container>
       </Router>
-    </>
+    
   );
 };
 
