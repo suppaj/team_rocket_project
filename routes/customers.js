@@ -4,14 +4,17 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
 const {
-  createCustomer,
-  getCustomerById,
-  getAllCustomers,
-  getCustomerByEmail,
+  db_createCustomer,
+  db_getCustomerById,
+  db_getAllCustomers,
+  db_getCustomerByEmail,
+  _getUserCart,
+  db_getCustomerCart,
 } = require("../db/index");
 
 apiRouter.post("/login", async (req, res, next) => {
   const { cust_email, cust_pwd } = req.body;
+  const cartArray = [];
 
   if (!cust_email || !cust_pwd) {
     next({
@@ -21,13 +24,20 @@ apiRouter.post("/login", async (req, res, next) => {
   }
 
   try {
-    const user = await getCustomerByEmail(cust_email);
+    const user = await db_getCustomerByEmail(cust_email);
+    let cart = await db_getCustomerCart(cust_email);
+
+    if (!cart) {
+      cart = "A user cart has not been created!";
+    }
 
     if (user && user.cust_pwd == cust_pwd) {
       const token = jwt.sign(
         {
           siteAdmin: user.isadmin,
           cust_email,
+          customerCartID: cart.cart_id,
+          cartArr: cartArray,
         },
         process.env.JWT_SECRET,
         {
@@ -39,6 +49,8 @@ apiRouter.post("/login", async (req, res, next) => {
         message: `Thank you for logging in ${cust_email}!`,
         siteAdmin: user.isadmin,
         token,
+        customerCartID: cart.cart_id,
+        cartArr: cartArray,
       });
     } else {
       next({
@@ -54,7 +66,7 @@ apiRouter.post("/login", async (req, res, next) => {
 
 apiRouter.get("/", async (req, res) => {
   try {
-    const customers = await getAllCustomers();
+    const customers = await db_getAllCustomers();
     res.send({ customers });
   } catch (error) {
     throw error;
@@ -65,7 +77,7 @@ apiRouter.post("/register", async (req, res, next) => {
   const { first_name, last_name, cust_email, cust_pwd, isAdmin } = req.body;
 
   try {
-    const _user = await getCustomerByEmail(cust_email);
+    const _user = await db_getCustomerByEmail(cust_email);
 
     if (_user) {
       next({
@@ -74,7 +86,7 @@ apiRouter.post("/register", async (req, res, next) => {
       });
     }
 
-    const user = await createCustomer({
+    const user = await db_createCustomer({
       first_name,
       last_name,
       cust_email,
@@ -107,7 +119,7 @@ apiRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const customer = await getCustomerById(id);
+    const customer = await db_getCustomerById(id);
     res.send({ message: "This is your user", customer });
   } catch (error) {
     throw error;
