@@ -78,14 +78,12 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <Router>
       <div className="App">
         <h1>Hello, World!</h1>
         <h2>{message}</h2>
       </div>
-
-      <Router>
-        <Container fluid>
+      <Container fluid>
           <Row
             className="bg-primary"
             id="header"
@@ -158,14 +156,6 @@ const App = () => {
           >
             FOOTER AREA
           </Row>
-          <Row
-            className="bg-secondary"
-            style={{ minHeight: "10vh", width: "100vw" }}
-          >
-            FOOTER AREA
-          </Row>
-        </Container>
-
         {/* LOGIN Form */}
         <Modal show={loginShow} onHide={handleCloseLogin} centered>
           <Modal.Header closeButton>
@@ -310,8 +300,9 @@ const App = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+        </Container>
       </Router>
-    </>
+    
   );
 };
 
