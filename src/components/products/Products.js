@@ -40,10 +40,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         setAllTypes(response);
       })
       .catch((error) => {
-        console.log("Error fetching types!");
         console.log(error);
       });
-  }, []);
+  }, [getAllTypes, getAllProducts]);
 
   // function used to alphabetize the types object array, based on the key 'name'
   // sourced: https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
@@ -62,7 +61,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
 
   // function to filter product by types, passed into both ProductRender & ProductTypeFilter
   function typeFilter(val) {
-    if (searchVal != "") {
+    if (searchVal !== "") {
       console.log("its happening!");
       setSearchVal("");
     }

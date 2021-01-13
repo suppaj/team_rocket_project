@@ -103,24 +103,32 @@ async function createTypeRelation(type_id, prod_id) {
 async function getAllProducts() {
   try {
     const { rows: pokemon } = await client.query(`SELECT * FROM product`);
+
+    const products = await _buildTypes(pokemon);
+
+    return products;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _buildTypes(array) {
+  try {
     const { rows: type_relations } = await client.query(`
       SELECT prod_id, name FROM product_type
       LEFT JOIN type on product_type.type_id = type.type_id
     `);
-    let products = [...pokemon];
+    let products = [...array];
 
-    function productTypeMapper(products, types) {
-      for (const product of products) {
-        product.type = [];
-        for (const type of types) {
-          if (type.prod_id === product.prod_id) {
-            product.type.push(type.name);
-          }
+    for (let product of products) {
+      product.type = [];
+      for (let type of type_relations) {
+        if (type.prod_id === product.prod_id) {
+          product.type.push(type.name);
         }
       }
     }
 
-    await productTypeMapper(products, type_relations);
     return products;
   } catch (error) {
     throw error;
@@ -133,7 +141,28 @@ async function getAllTypes() {
       SELECT *
       FROM type
     `);
+    console.log("types:", types);
     return types;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_addCartItem(cart_id, prod_id, cart_quantity, price) {
+  try {
+    await client.query(
+      `
+      INSERT INTO cart_items(cart_id, prod_id, cart_quantity, cart_price)
+      VALUES ($1, $2, $3, $4);
+    `,
+      [cart_id, prod_id, cart_quantity, price]
+    );
+
+    const products = await _getUserCart(cart_id);
+
+    const cart = await _buildTypes(products);
+
+    return cart;
   } catch (error) {
     throw error;
   }
@@ -155,8 +184,158 @@ async function _getUserCart(cart_id) {
   }
 }
 
-getAllProducts();
+async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
+  try {
+    await client.query(
+      `
+      UPDATE cart_items
+      SET cart_quantity=$1
+      WHERE cart_id=${cart_id} AND prod_id=${prod_id}
+    `,
+      [cart_quantity]
+    );
+
+    return { message: "Success, Cart updated" };
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_deleteCartItem(cart_id, prod_id) {
+  try {
+    await client.query(`
+      DELETE FROM cart_items
+      WHERE cart_id=${cart_id} AND prod_id=${prod_id}
+    `);
+    return { message: "Success, item removed from your cart." };
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _getUserCart(cart_id) {
+  try {
+    const { rows: cart } = await client.query(
+      `
+      SELECT * FROM product
+      NATURAL JOIN cart_items
+      WHERE cart_id=$1;
+    `,
+      [cart_id]
+    );
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Customer Methods //
+
+async function db_createCustomer({
+  first_name,
+  last_name,
+  cust_email,
+  cust_pwd,
+  isAdmin,
+}) {
+  try {
+    const { rows } = await client.query(
+      `
+    
+    INSERT INTO customers(
+      first_name,
+      last_name,
+      cust_email,
+      cust_pwd,
+      isAdmin)
+      VALUES($1,$2,$3,$4,$5)
+      ON CONFLICT (cust_email) DO NOTHING
+      RETURNING *;
+    
+    `,
+      [first_name, last_name, cust_email, cust_pwd, isAdmin]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getAllCustomers() {
+  try {
+    const { rows } = await client.query(`
+      SELECT *
+      FROM customers;
+    `);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getCustomerById(customerID) {
+  try {
+    const {
+      rows: [customer],
+    } = await client.query(`
+      SELECT *
+      FROM customers
+      WHERE cust_id=${customerID};
+    `);
+
+    if (!customer) {
+      return null;
+    }
+
+    console.log("this is my customer", customer);
+    return customer;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getCustomerByEmail(cust_email) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT *
+      FROM customers
+      WHERE cust_email=$1;
+    `,
+      [cust_email]
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getCustomerCart(cust_email) {
+  try {
+    const customer = await db_getCustomerByEmail(cust_email);
+
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
+      SELECT *
+      FROM cart_cust_relate
+      WHERE cust_id=$1;
+    `,
+      [`${customer.cust_id}`]
+    );
+
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // export
+
 module.exports = {
   client,
   // db methods
@@ -164,4 +343,12 @@ module.exports = {
   createAllPokeEntries,
   getAllProducts,
   getAllTypes,
+  db_addCartItem,
+  db_patchCartItem,
+  db_deleteCartItem,
+  db_createCustomer,
+  db_getAllCustomers,
+  db_getCustomerById,
+  db_getCustomerByEmail,
+  db_getCustomerCart,
 };

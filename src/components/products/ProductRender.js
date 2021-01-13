@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import "./Product.css";
 import ProductModal from "./ProductModal";
-
-import ProducModal from "./ProductModal";
 
 const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
   const [currentPoke, setCurrentPoke] = useState({
@@ -61,9 +59,6 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
       });
     }
 
-    {
-    }
-
     return (
       <div
         key={dex_id}
@@ -94,6 +89,7 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
             handleShow();
           }}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
+          alt={`a very happy ${name}`}
         />
         <div>{typeMapper(type)}</div>
       </div>
@@ -112,7 +108,6 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
         />
       </>
     );
-    // return <ProducModal />;
   } else {
     // if there are no propducts to display, shows a card with an apporpriate message
     return (
@@ -134,6 +129,7 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
         <img
           style={{ height: "200px", marginTop: "-25px" }}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-${unknownId}.png`}
+          alt={`an unknown-${unknownId} appears...`}
         />
         <p>We're sorry, but there are no POKéMON to display</p>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Form } from "react-bootstrap";
 
@@ -12,7 +12,7 @@ const ProductSearch = ({
 }) => {
   // search function built to comb the product object for string matches in any of the given fields
   function searcher(val) {
-    if (filterMessage != "Filter pokemon...") {
+    if (filterMessage !== "Filter pokemon...") {
       setFilterMessage("Filter pokemon...");
     }
     let copy = [...allProducts];

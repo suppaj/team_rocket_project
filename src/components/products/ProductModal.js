@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Button, ButtonGroup, Dropdown, Modal } from "react-bootstrap";
 
@@ -78,6 +78,7 @@ const ProductModal = ({ currentPoke, handleClose, show }) => {
             }}
             className="nes-pointer"
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
+            alt={`a very happy ${name}`}
           />
           {typeMapper(type)}
           <Modal.Body>

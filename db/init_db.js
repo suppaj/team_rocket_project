@@ -6,6 +6,8 @@ const {
   createAllTypeEntries,
   createAllPokeEntries,
   createTypeRelation,
+  db_createCustomer,
+  db_getCustomerById,
 } = require("./index");
 
 async function buildTables() {
@@ -193,6 +195,49 @@ async function populateInitialData() {
     const allProducts = await createAllPokeEntries(allPokes);
     console.log(" ");
 
+    console.log("Loading sample customers");
+    await db_createCustomer({
+      first_name: "Site",
+      last_name: "Admin",
+      cust_email: "admin@teamrocket.com",
+      cust_pwd: "1234",
+      isAdmin: true,
+    });
+
+    await db_createCustomer({
+      first_name: "Hercules",
+      last_name: "Asbury",
+      cust_email: "hasbury0@cisco.com",
+      cust_pwd: "IUhJp2i",
+      isAdmin: false,
+    });
+
+    await db_createCustomer({
+      first_name: "Frederico",
+      last_name: "Rossant",
+      cust_email: "frossant2@e-recht24.de",
+      cust_pwd: "V5sqK20ov9xN",
+      isAdmin: false,
+    });
+
+    await db_createCustomer({
+      first_name: "Biddy",
+      last_name: "Arstall",
+      cust_email: "barstall3@is.gd",
+      cust_pwd: "kNlH81WX8",
+      isAdmin: false,
+    });
+
+    await db_createCustomer({
+      first_name: "Elnar",
+      last_name: "MacVagh",
+      cust_email: "emacvagh4@accuweather.com",
+      cust_pwd: "PD3cW3ShhtT",
+      isAdmin: false,
+    });
+
+    console.log("Test of helper functions");
+    await db_getCustomerById(2);
     console.log("Finished populating database!");
   } catch (error) {
     throw error;
