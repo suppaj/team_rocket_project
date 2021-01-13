@@ -1,0 +1,35 @@
+#header {
+  border: solid red;
+  padding: 10px;
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.login-container {
+  /* background-color: darkgreen; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 360px;
+  padding: 0px;
+}
+
+#guest-icon,
+#google-icon {
+  margin-bottom: 10px;
+  /* height: 1.5rem !important;
+  width: auto; */
+  /* border: solid; */
+}
+
+.nes-bcrikko {
+  height: 15px !important;
+}
+.login-auth-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
