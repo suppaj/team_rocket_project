@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 
 const ProductTypeFilter = ({
-  currentProducts,
+  allProducts,
   setCurrentProducts,
   allTypes,
   typeFilter,
@@ -18,9 +18,6 @@ const ProductTypeFilter = ({
         <Dropdown.Item
           key={item[key]}
           onClick={() => {
-            if (defaultProducts.length === 0) {
-              setDefaultProducts(currentProducts);
-            }
             setFilterMessage(`Type: ${item[key]}`);
             typeFilter(item[key]);
           }}
@@ -44,7 +41,7 @@ const ProductTypeFilter = ({
             <Dropdown.Item
               onClick={() => {
                 setFilterMessage("Filter pokemon...");
-                setCurrentProducts(defaultProducts);
+                setCurrentProducts(allProducts);
               }}
             >
               Clear filter
