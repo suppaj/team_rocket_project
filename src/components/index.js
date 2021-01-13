@@ -1,9 +1,7 @@
-export { default as App } from './App';
-export { default as ShoppingCart } from './ShoppingCart';
-export { default as AddToCart } from './AddToCart';
-export { default as CartItemCard } from './CartItemCard';
-export { default as Products } from "./Products";
-export { default as ProductSorter } from "./ProductSorter";
-export { default as ProductSearch } from "./ProductSearch";
-export { default as CartButton } from './CartButton';
-export { default as CartOverlay } from './CartOverlay';
+export { default as App } from "./App";
+export { default as Products } from "./products/Products.js";
+export { default as ShoppingCart } from "./ShoppingCart";
+export { default as AddToCart } from "./AddToCart";
+export { default as CartItemCard } from "./CartItemCard";
+export { default as CartButton } from "./CartButton";
+export { default as CartOverlay } from "./CartOverlay";

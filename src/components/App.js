@@ -14,19 +14,17 @@ import {
 import {
   getSomething,
   getAllProducts,
+  getAllTypes,
   loginCustomer,
   registerCustomer,
 } from "../api";
 
-import { CartButton, ShoppingCart } from "./index";
-import { Products, ProductSearch, ProductSorter } from "./index";
+import { CartButton, Products, ShoppingCart } from "./index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [allProducts, setAllProducts] = useState([]);
-  const [currentProducts, setCurrentProducts] = useState([]);
   const [loginShow, setLoginShow] = useState(false);
-  const [registerShow, setRegisterShow] = useState(true);
+  const [registerShow, setRegisterShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -65,16 +63,6 @@ const App = () => {
       .catch((error) => {
         setMessage(error.message);
       });
-
-    getAllProducts()
-      .then((response) => {
-        setAllProducts(response);
-        setCurrentProducts(response);
-      })
-      .catch((error) => {
-        console.log("Error fetching products!");
-        console.log(error);
-      });
   }, []);
 
   return (
@@ -84,78 +72,63 @@ const App = () => {
         <h2>{message}</h2>
       </div>
       <Container fluid>
-          <Row
-            className="bg-primary"
-            id="header"
-            style={{ minHeight: "10vh", width: "100vw" }}
+        <Row
+          className="bg-primary"
+          id="header"
+          style={{ minHeight: "10vh", width: "100vw" }}
+        >
+          HEADER AREA
+          <button
+            type="button"
+            className="nes-btn is-normal"
+            onClick={handleShowLogin}
           >
-            HEADER AREA
-            <button
-              type="button"
-              className="nes-btn is-normal"
-              onClick={handleShowLogin}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              className="nes-btn is-normal"
-              onClick={handleShowRegister}
-            >
-              Register
-            </button>
-          </Row>
-          <Row
-            className="bg-success"
-            style={{
-              minHeight: "80vh",
-              width: "100vw",
-            }}
+            Login
+          </button>
+          <button
+            type="button"
+            className="nes-btn is-normal"
+            onClick={handleShowRegister}
           >
-            <Switch>
-              <Route exact path="/">
-                <Row
-                  style={{
-                    marginBottom: "20px",
-                    marginTop: "20px",
-                    width: "100vw",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <ProductSearch
-                    allProducts={allProducts}
-                    setCurrentProducts={setCurrentProducts}
-                  />
-                  <ProductSorter
-                    allProducts={allProducts}
-                    setAllProducts={setAllProducts}
-                    currentProducts={currentProducts}
-                    setCurrentProducts={setCurrentProducts}
-                  />
-                </Row>
-                <Row
-                  style={{
-                    width: "100vw",
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                  }}
-                >
-                  <Products currentProducts={currentProducts} />
-                </Row>
-              </Route>
-              <Route path="/shoppingcart">
-                <ShoppingCart />
-              </Route>
-              <Route path="/admin">{/* admin component */}</Route>
-            </Switch>
-          </Row>
-          <Row
-            className="bg-secondary"
-            style={{ minHeight: "10vh", width: "100vw" }}
-          >
-            FOOTER AREA
-          </Row>
+            Register
+          </button>
+        </Row>
+        <Row
+          className="bg-success"
+          style={{
+            minHeight: "80vh",
+            width: "100vw",
+          }}
+        >
+          <Switch>
+            <Route exact path="/">
+              <Row
+                style={{
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Products
+                  getAllProducts={getAllProducts}
+                  getAllTypes={getAllTypes}
+                />
+              </Row>
+            </Route>
+            <Route path="/shoppingcart">
+              <ShoppingCart />
+            </Route>
+            <Route path="/admin">{/* admin component */}</Route>
+          </Switch>
+        </Row>
+        <Row
+          className="bg-secondary"
+          style={{ minHeight: "10vh", width: "100vw" }}
+        >
+          FOOTER AREA
+        </Row>
         {/* LOGIN Form */}
         <Modal show={loginShow} onHide={handleCloseLogin} centered>
           <Modal.Header closeButton>
@@ -300,9 +273,8 @@ const App = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-        </Container>
-      </Router>
-    
+      </Container>
+    </Router>
   );
 };
 
