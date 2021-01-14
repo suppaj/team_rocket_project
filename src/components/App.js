@@ -19,11 +19,17 @@ import {
   registerCustomer,
 } from "../api";
 
-import { CartButton, Products, ShoppingCart, Login, Register } from "./index";
+import {
+  CartButton,
+  Products,
+  ProductPage,
+  ShoppingCart,
+  Login,
+  Register,
+} from "./index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -38,24 +44,42 @@ const App = () => {
 
   return (
     <Router>
-      <div className="App">
+      {/* <div className="App">
         <h1>Hello, World!</h1>
         <h2>{message}</h2>
-      </div>
+      </div> */}
       <Container fluid>
         <Row
           className="bg-primary"
           id="header"
-          style={{ minHeight: "10vh", width: "100vw" }}
+          style={{
+            minHeight: "12vh",
+            width: "100vw",
+          }}
         >
-          HEADER AREA
+          <div
+            className="nes-container is-rounded"
+            style={{
+              backgroundColor: "#E7E7E7",
+              padding: "5px 5px 5px 5px",
+              position: "absolute",
+              left: "5px",
+              top: "5px",
+            }}
+          >
+            <img
+              style={{ alignSelf: "left", height: "70px", width: "70px" }}
+              src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
+            />
+          </div>
           <Login setIsLoggedIn={setIsLoggedIn} />
           <Register />
+          <CartButton />
         </Row>
         <Row
           className="bg-success"
           style={{
-            minHeight: "80vh",
+            minHeight: "78vh",
             width: "100vw",
           }}
         >
@@ -74,6 +98,19 @@ const App = () => {
                   getAllProducts={getAllProducts}
                   getAllTypes={getAllTypes}
                 />
+              </Row>
+            </Route>
+            <Route path="/products/:product_id">
+              <Row
+                style={{
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <ProductPage />
               </Row>
             </Route>
             <Route path="/shoppingcart">

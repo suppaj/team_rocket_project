@@ -2,6 +2,7 @@ const apiRouter = require("express").Router();
 
 const {
   getAllProducts,
+  getProductById,
   getAllTypes,
   db_addCartItem,
   db_patchCartItem,
@@ -18,6 +19,17 @@ apiRouter.get("/products", async (req, res, next) => {
   try {
     const products = await getAllProducts();
     res.send(products);
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/products/:product_id", async (req, res, next) => {
+  console.log;
+  try {
+    const { product_id } = req.params;
+    const product = await getProductById(product_id);
+    res.send(product);
   } catch (error) {
     throw error;
   }

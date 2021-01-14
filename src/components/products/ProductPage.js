@@ -1,22 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+  Link,
+  useParams,
+} from "react-router-dom";
 
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 
 import { AddToCart } from "../index";
+import { getProductById } from "../../api";
 
-const ProductPage = (props) => {
+const ProductPage = ({ allProducts }) => {
   const [orderAmount, setOrderAmount] = useState(1);
-  const [currentPoke, setCurrentPoke] = useState({
-    dex_id: 133,
-    name: "eevee",
-    type: ["normal"],
-    description:
-      "Its genetic code is irregular. It may mutate if it is exposed to radiation from element STONEs.",
-    height: 3,
-    weight: 65,
-    price: 99.99,
-    quantity: 10,
-  });
+  const [currentPoke, setCurrentPoke] = useState({});
+
+  // {
+  //   dex_id: 1,
+  //   name: "bulbasaur",
+  //   type: [12, 4],
+  //   description:
+  //     "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
+  //   height: 7,
+  //   weight: 69,
+  //   price: 96.66,
+  // }
+
+  let { product_id } = useParams();
+  console.log("im from the page iteself", product_id);
+
+  useEffect(() => {
+    console.log("useffect flag", product_id);
+    getProductById(product_id).then((response) => {
+      console.log("my response", response);
+      setCurrentPoke(response);
+    });
+  }, []);
+
+  // return <p>Hello World {product_id}</p>;
 
   const {
     dex_id,
@@ -69,7 +93,7 @@ const ProductPage = (props) => {
       );
     });
   }
-  if (currentPoke) {
+  if (currentPoke.name) {
     return (
       <div
         className="product-page nes-container "
@@ -82,7 +106,7 @@ const ProductPage = (props) => {
         }}
       >
         <section
-          class="pokedex-entry"
+          className="pokedex-entry"
           style={{
             gridColumn: "1/3",
             gridRow: "1/3",
@@ -135,7 +159,7 @@ const ProductPage = (props) => {
             >
               {name}
             </h4>
-            {typeMapper(type)}
+            {type ? typeMapper(type) : ""}
             <p style={{ marginTop: "20px" }}>Height: {height / 10}m</p>
             <p>Weight: {weight / 10}kg</p>
             <p style={{ fontSize: "2rem" }}>${price}</p>
@@ -146,8 +170,8 @@ const ProductPage = (props) => {
               gridColumn: "1/3",
             }}
           >
-            <div class="nes-container with-title is-dark">
-              <p class="title">Description</p>
+            <div className="nes-container with-title is-dark">
+              <p className="title">Description</p>
               <p>{description}</p>
             </div>
             <ButtonGroup>
@@ -178,6 +202,8 @@ const ProductPage = (props) => {
         ></section>
       </div>
     );
+  } else {
+    return <p>Loading...</p>;
   }
 };
 
@@ -193,7 +219,7 @@ export default ProductPage;
             }}
           >
             <section className="message -left">
-              <i class="nes-ash"></i>
+              <i className="nes-ash"></i>
               <div className="nes-balloon from-left">
                 <p>Hello Team Rocket!</p>
               </div>
@@ -203,7 +229,7 @@ export default ProductPage;
               <div className="nes-balloon from-right">
                 <p>Wow I love this pokemon!</p>
               </div>
-              <i class="nes-bulbasaur"></i>
+              <i className="nes-bulbasaur"></i>
             </section>
           </section>
  */

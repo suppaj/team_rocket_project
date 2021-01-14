@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 
 import "./Product.css";
 
@@ -19,7 +20,7 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
 
   // individually renders a product card
   function renderCard(poke) {
-    const { dex_id, name, type, price } = poke;
+    const { prod_id, dex_id, name, type, price } = poke;
     // maps the type badges for a given product
     function typeMapper(typeArray) {
       return typeArray.map((type, index) => {
@@ -62,18 +63,17 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
           #{dex_id} {name}
         </p>
         <p>${price}</p>
-        <img
-          style={{
-            height: "200px",
-            marginTop: "-25px",
-          }}
-          className="nes-pointer"
-          onClick={() => {
-            console.log(`./pokemon/${dex_id}`);
-          }}
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
-          alt={`a very happy ${name}`}
-        />
+        <Button variant="link" href={`/products/${prod_id}`}>
+          <img
+            style={{
+              height: "200px",
+              marginTop: "-25px",
+            }}
+            className="nes-pointer"
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
+            alt={`a very happy ${name}`}
+          />
+        </Button>
         <div>{typeMapper(type)}</div>
       </div>
     );

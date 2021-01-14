@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import { Row } from "react-bootstrap";
 
-import ProductPage from "./ProductPage";
 import ProductRender from "./ProductRender";
 import ProductSearch from "./ProductSearch";
 import ProductSorter from "./ProductSorter";
@@ -77,54 +76,53 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   }
 
   return (
-    <ProductPage />
-    // <>
-    //   <Row
-    //     style={{
-    //       marginBottom: "20px",
-    //       marginTop: "20px",
-    //       width: "100vw",
-    //       display: "flex",
-    //       justifyContent: "center",
-    //     }}
-    //   >
-    //     <ProductSearch
-    //       allProducts={allProducts}
-    //       setCurrentProducts={setCurrentProducts}
-    //       filterMessage={filterMessage}
-    //       setFilterMessage={setFilterMessage}
-    //       searchVal={searchVal}
-    //       setSearchVal={setSearchVal}
-    //     />
-    //     <ProductTypeFilter
-    //       allProducts={allProducts}
-    //       setCurrentProducts={setCurrentProducts}
-    //       allTypes={allTypes}
-    //       typeFilter={typeFilter}
-    //       filterMessage={filterMessage}
-    //       setFilterMessage={setFilterMessage}
-    //     />
-    //     <ProductSorter
-    //       allProducts={allProducts}
-    //       setAllProducts={setAllProducts}
-    //       currentProducts={currentProducts}
-    //       setCurrentProducts={setCurrentProducts}
-    //     />
-    //   </Row>
-    //   <Row
-    //     style={{
-    //       width: "100vw",
-    //       display: "flex",
-    //       justifyContent: "center",
-    //     }}
-    //   >
-    //     <ProductRender
-    //       currentProducts={currentProducts}
-    //       typeFilter={typeFilter}
-    //       setFilterMessage={setFilterMessage}
-    //     />
-    //   </Row>
-    // </>
+    <>
+      <Row
+        style={{
+          marginBottom: "20px",
+          marginTop: "20px",
+          width: "100vw",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <ProductSearch
+          allProducts={allProducts}
+          setCurrentProducts={setCurrentProducts}
+          filterMessage={filterMessage}
+          setFilterMessage={setFilterMessage}
+          searchVal={searchVal}
+          setSearchVal={setSearchVal}
+        />
+        <ProductTypeFilter
+          allProducts={allProducts}
+          setCurrentProducts={setCurrentProducts}
+          allTypes={allTypes}
+          typeFilter={typeFilter}
+          filterMessage={filterMessage}
+          setFilterMessage={setFilterMessage}
+        />
+        <ProductSorter
+          allProducts={allProducts}
+          setAllProducts={setAllProducts}
+          currentProducts={currentProducts}
+          setCurrentProducts={setCurrentProducts}
+        />
+      </Row>
+      <Row
+        style={{
+          width: "100vw",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <ProductRender
+          currentProducts={currentProducts}
+          typeFilter={typeFilter}
+          setFilterMessage={setFilterMessage}
+        />
+      </Row>
+    </>
   );
 };
 
