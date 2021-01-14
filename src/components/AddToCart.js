@@ -54,6 +54,11 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
 
       localStorage.setItem("cart", JSON.stringify(currCart));
     }
+    document.getElementById("add-cart-dialog").showModal();
+  };
+
+  const handleGoToCheckout = () => {
+    console.log("going to checkout");
   };
 
   return (
@@ -79,10 +84,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
           <menu className="dialog-menu">
             <button className="nes-btn is-success">Continue Shopping</button>
             {"  "}
-            <button
-              className="nes-btn is-primary"
-              // onClick={handleGoToCheckout}
-            >
+            <button className="nes-btn is-primary" onClick={handleGoToCheckout}>
               Checkout
             </button>
           </menu>
