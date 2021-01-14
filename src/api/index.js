@@ -102,3 +102,13 @@ export async function registerCustomer(
     throw error;
   }
 }
+
+export async function getCheckoutSession(sessionArr) {
+  console.log('check',sessionArr);
+  try {
+    const { data } = await axios.post('/checkout/create-checkout-session', sessionArr);
+    return data
+  } catch (error) {
+    throw error
+  }
+}

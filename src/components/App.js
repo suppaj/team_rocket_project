@@ -26,6 +26,7 @@ import {
   ShoppingCart,
   Login,
   Register,
+  CheckoutPage
 } from "./index";
 
 const App = () => {
@@ -116,6 +117,9 @@ const App = () => {
             <Route path="/shoppingcart">
               <ShoppingCart />
             </Route>
+            <Route path="/checkout">
+              <CheckoutPage />
+            </Route>
             <Route path="/admin">{/* admin component */}</Route>
           </Switch>
         </Row>
@@ -123,7 +127,7 @@ const App = () => {
           className="bg-secondary"
           style={{ minHeight: "10vh", width: "100vw" }}
         >
-          FOOTER AREA
+          FOOTER AREA (TEST)
         </Row>
       </Container>
     </Router>
