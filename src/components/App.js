@@ -26,7 +26,7 @@ import {
   ShoppingCart,
   Login,
   Register,
-  CheckoutPage
+  CheckoutPage,
 } from "./index";
 
 const App = () => {
@@ -127,7 +127,7 @@ const App = () => {
           className="bg-secondary"
           style={{ minHeight: "10vh", width: "100vw" }}
         >
-          FOOTER AREA (TEST)
+          FOOTER AREA
         </Row>
       </Container>
     </Router>
