@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 
 import { addCartItem, patchCartItem } from '../api';
 
@@ -22,7 +22,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
         }
       });
 
-      localStorage.setItem('cart', JSON.stringify(currCart));
+      localStorage.setItem('cart', JSON.stringify(currCart));  
 
       if (noDuplicate) {
         const results = await addCartItem(
@@ -34,7 +34,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
 
         if (results) {
           currCart.push(product);
-          localStorage.setItem('cart', JSON.stringify(currCart));
+          localStorage.setItem("cart", JSON.stringify(currCart));
         }
       }
     } else {
@@ -52,9 +52,8 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
         currCart.push(product);
       }
 
-      localStorage.setItem('cart', JSON.stringify(currCart));
+      localStorage.setItem("cart", JSON.stringify(currCart));
     }
-
     document.getElementById('add-cart-dialog').showModal();
   };
 
