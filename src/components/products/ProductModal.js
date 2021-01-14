@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { Button, ButtonGroup, Dropdown, Modal } from "react-bootstrap";
 
+import { AddToCart } from "../index";
+
 const ProductModal = ({ currentPoke, handleClose, show }) => {
   const [quantity, setQuantity] = useState(1);
 
@@ -101,9 +103,12 @@ const ProductModal = ({ currentPoke, handleClose, show }) => {
                 </Dropdown.Toggle>
                 <Dropdown.Menu> {quantityMapper(10)}</Dropdown.Menu>
               </Dropdown>
-              <Button variant="primary" onClick={handleClose}>
-                Add to Cart
-              </Button>
+              <AddToCart
+                handleClose={handleClose}
+                product={currentPoke}
+                isLoggedIn={false}
+                cart_id={1}
+              />
             </ButtonGroup>
           </Modal.Footer>
         </Modal>

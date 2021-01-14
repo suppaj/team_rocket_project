@@ -25,6 +25,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           return a - b;
         });
         setAllProducts(response);
+        console.log(response);
         setCurrentProducts(response);
       })
       .catch((error) => {

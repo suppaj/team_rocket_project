@@ -92,6 +92,7 @@ const App = () => {
           >
             Register
           </button>
+          <CartButton />
         </Row>
         <Row
           className="bg-success"
