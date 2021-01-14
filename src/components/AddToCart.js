@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 
 import { addCartItem, patchCartItem } from "../api";
 
-const AddToCart = ({ product, isLoggedIn, cart_id, handleClose }) => {
+const AddToCart = ({ product, isLoggedIn, cart_id }) => {
   const [orderAmount, setOrderAmount] = useState(1);
 
   const handleAddToCart = async () => {
@@ -67,18 +67,18 @@ const AddToCart = ({ product, isLoggedIn, cart_id, handleClose }) => {
   return (
     <>
       <Button
-        variant="link"
+        variant="dark"
         onClick={() => {
           document.getElementById("order-amount-dialog").showModal();
         }}
       >
-        +
         <img
-          style={{ width: "60px" }}
+          style={{ width: "60px", margin: "-10px -10px -10px -10px " }}
           src={
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
           }
-        />
+        />{" "}
+        Add to Cart
       </Button>
 
       <dialog className="new-dialog" id="order-amount-dialog">
