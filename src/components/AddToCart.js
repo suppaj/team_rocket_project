@@ -54,42 +54,42 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
 
       localStorage.setItem("cart", JSON.stringify(currCart));
     }
-
-    return (
-      <>
-        <Button variant="link" onClick={handleAddToCart}>
-          <img
-            src={
-              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
-            }
-          />
-        </Button>
-
-        <dialog className="new-dialog" id="add-cart-dialog">
-          <form method="dialog">
-            <p className="title">Added To Cart</p>
-            <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
-            />
-            <p>
-              {orderAmount} {product.name.toUpperCase()}(s) has been added to
-              your cart.
-            </p>
-            <menu className="dialog-menu">
-              <button className="nes-btn is-success">Continue Shopping</button>
-              {"  "}
-              <button
-                className="nes-btn is-primary"
-                // onClick={handleGoToCheckout}
-              >
-                Checkout
-              </button>
-            </menu>
-          </form>
-        </dialog>
-      </>
-    );
   };
+
+  return (
+    <>
+      <Button variant="link" onClick={handleAddToCart}>
+        <img
+          src={
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
+          }
+        />
+      </Button>
+
+      <dialog className="new-dialog" id="add-cart-dialog">
+        <form method="dialog">
+          <p className="title">Added To Cart</p>
+          <img
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
+          />
+          <p>
+            {orderAmount} {product.name.toUpperCase()}(s) has been added to your
+            cart.
+          </p>
+          <menu className="dialog-menu">
+            <button className="nes-btn is-success">Continue Shopping</button>
+            {"  "}
+            <button
+              className="nes-btn is-primary"
+              // onClick={handleGoToCheckout}
+            >
+              Checkout
+            </button>
+          </menu>
+        </form>
+      </dialog>
+    </>
+  );
 };
 
 export default AddToCart;
