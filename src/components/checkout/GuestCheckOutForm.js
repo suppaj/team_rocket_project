@@ -14,7 +14,7 @@ const GuestCheckOutForm = (props) => {
 
     useEffect(()=>{
         
-        setFormStatus({...formStatus, contact : true})
+        setFormStatus({...formStatus, contact : false})
         Object.values(contactInfo).map((value)=>{
             console.log('map method running')
             if (!value) {
@@ -22,6 +22,7 @@ const GuestCheckOutForm = (props) => {
             } else { console.log('empty value')
                 setFormStatus({...formStatus, contact : true}) }
         })
+        
     }, [contactInfo]);
 
     const CARD_OPTIONS = {
