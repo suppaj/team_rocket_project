@@ -33,3 +33,29 @@
   align-items: center;
   justify-content: space-between;
 }
+
+/* stuff added by kyle */
+#ckout-tabs-tab-contact, #ckout-tabs-tab-shipping, #ckout-tabs-tab-billing, #ckout-tabs-tab-CC {
+  font-size: .75rem;
+}
+
+#ckout-form-info {
+  font-size: .7rem;
+}
+
+#same-shipping-text {
+  font-size: .7rem
+}
+
+#checkout-form-guest {
+  font-size: .8rem;
+}
+
+.StripeElement {
+  width: 100%;
+  height: 75px;
+}
+
+iframe {
+  height : 30px !important
+}

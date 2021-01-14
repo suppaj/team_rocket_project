@@ -12,7 +12,7 @@ const CheckoutPage = ({ isLoggedIn }) => {
 
     return (
         <>
-        <div className='nes-container with-title is-rounded'>
+        <div className='nes-container with-title is-rounded w-100'>
             <p className='title'>TEAM ROCKET CHECKOUT w/ STRIPE</p>
             <Row>
                 <Col>
@@ -21,7 +21,10 @@ const CheckoutPage = ({ isLoggedIn }) => {
                 <Col>
                     <Elements stripe={stripePromise}>
                         {isLoggedIn ? <UserCheckOutForm /> : <GuestCheckOutForm />}
-                </Elements>
+                    </Elements>
+                </Col>
+                <Col>
+                ORDER ITEMIZED DETAILS
                 </Col>
             </Row>
         </div>
