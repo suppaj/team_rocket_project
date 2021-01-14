@@ -19,7 +19,7 @@ import {
   registerCustomer,
 } from "../api";
 
-import { CartButton, Products, ShoppingCart } from "./index";
+import { CartButton, Products, ShoppingCart, CheckoutPage } from "./index";
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -119,6 +119,9 @@ const App = () => {
             </Route>
             <Route path="/shoppingcart">
               <ShoppingCart />
+            </Route>
+            <Route path="/checkout">
+              <CheckoutPage />
             </Route>
             <Route path="/admin">{/* admin component */}</Route>
           </Switch>
