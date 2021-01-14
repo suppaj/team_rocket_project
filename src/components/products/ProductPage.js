@@ -164,7 +164,7 @@ const ProductPage = (props) => {
               <AddToCart
                 product={currentPoke}
                 isLoggedIn={false}
-                orderAmount={orderAmount}
+                orderAmount={1}
               />
             </ButtonGroup>
           </div>

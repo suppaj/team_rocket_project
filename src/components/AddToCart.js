@@ -3,9 +3,7 @@ import { Button } from "react-bootstrap";
 
 import { addCartItem, patchCartItem } from "../api";
 
-const AddToCart = ({ product, isLoggedIn, cart_id }) => {
-  const [orderAmount, setOrderAmount] = useState(1);
-
+const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
   const handleAddToCart = async () => {
     product.cart_quantity = orderAmount;
     const { cart_quantity, price, prod_id } = product;
@@ -56,56 +54,17 @@ const AddToCart = ({ product, isLoggedIn, cart_id }) => {
 
       localStorage.setItem("cart", JSON.stringify(currCart));
     }
-
-    document.getElementById("add-cart-dialog").showModal();
-  };
-
-  const handleGoToCheckout = () => {
-    console.log("going to checkout");
   };
 
   return (
     <>
-      <Button
-        variant="dark"
-        onClick={() => {
-          document.getElementById("order-amount-dialog").showModal();
-        }}
-      >
+      <Button variant="link" onClick={handleAddToCart}>
         <img
-          style={{ width: "60px", margin: "-10px -10px -10px -10px " }}
           src={
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
           }
-        />{" "}
-        Add to Cart
+        />
       </Button>
-
-      <dialog className="new-dialog" id="order-amount-dialog">
-        <form method="dialog">
-          <p>How many {product.name.toUpperCase()}(s) would you like?</p>
-          <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
-          />
-          <input
-            className="nes-input"
-            type="number"
-            value={orderAmount}
-            step={1}
-            min={1}
-            max={product.quantity}
-            onChange={(e) => setOrderAmount(parseInt(e.target.value))}
-          />
-          <br />
-          <br />
-          <menu className="dialog-menu">
-            <button className="nes-btn is-error">Cancel</button>{" "}
-            <button className="nes-btn is-success" onClick={handleAddToCart}>
-              Add To Cart
-            </button>
-          </menu>
-        </form>
-      </dialog>
 
       <dialog className="new-dialog" id="add-cart-dialog">
         <form method="dialog">
@@ -120,7 +79,10 @@ const AddToCart = ({ product, isLoggedIn, cart_id }) => {
           <menu className="dialog-menu">
             <button className="nes-btn is-success">Continue Shopping</button>
             {"  "}
-            <button className="nes-btn is-primary" onClick={handleGoToCheckout}>
+            <button
+              className="nes-btn is-primary"
+              // onClick={handleGoToCheckout}
+            >
               Checkout
             </button>
           </menu>
