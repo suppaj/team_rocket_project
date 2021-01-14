@@ -45,7 +45,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   }, [getAllTypes, getAllProducts]);
 
   // function used to alphabetize the types object array, based on the key 'name'
-  // sourced: https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
   function alphabetize(a, b) {
     a = a.name.toLowerCase();
     b = b.name.toLowerCase();

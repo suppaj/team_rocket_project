@@ -112,6 +112,20 @@ async function getAllProducts() {
   }
 }
 
+async function getProductById(id) {
+  try {
+    const { rows: pokemon } = await client.query(
+      `SELECT * FROM product WHERE prod_id = ${id}`
+    );
+    const [product] = await _buildTypes(pokemon);
+
+    console.log(product);
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function _buildTypes(array) {
   try {
     const { rows: type_relations } = await client.query(`
@@ -342,6 +356,7 @@ module.exports = {
   createAllTypeEntries,
   createAllPokeEntries,
   getAllProducts,
+  getProductById,
   getAllTypes,
   db_addCartItem,
   db_patchCartItem,

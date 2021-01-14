@@ -2,13 +2,12 @@ const apiRouter = require("express").Router();
 
 const {
   getAllProducts,
+  getProductById,
   getAllTypes,
   db_addCartItem,
   db_patchCartItem,
   db_deleteCartItem,
 } = require("../db/index");
-
-const passport = require("passport");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({
@@ -20,6 +19,17 @@ apiRouter.get("/products", async (req, res, next) => {
   try {
     const products = await getAllProducts();
     res.send(products);
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/products/:product_id", async (req, res, next) => {
+  console.log;
+  try {
+    const { product_id } = req.params;
+    const product = await getProductById(product_id);
+    res.send(product);
   } catch (error) {
     throw error;
   }
@@ -69,7 +79,5 @@ apiRouter.delete(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
 apiRouter.use("/customers", require("./customers"));
 apiRouter.use("/login", require("./customers"));
 apiRouter.use("/register", require("./customers"));
-apiRouter.use("/google", require("./passport"));
-apiRouter.use("/google/callback", require("./passport"));
 
 module.exports = apiRouter;

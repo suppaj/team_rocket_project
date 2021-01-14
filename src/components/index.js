@@ -1,5 +1,6 @@
 export { default as App } from "./App";
 export { default as Products } from "./products/Products.js";
+export { default as ProductPage } from "./products/ProductPage";
 export { default as ShoppingCart } from "./ShoppingCart";
 export { default as AddToCart } from "./AddToCart";
 export { default as CartItemCard } from "./CartItemCard";
@@ -9,3 +10,5 @@ export { default as CheckoutPage } from "./checkout/CheckoutPage";
 export { default as CheckOutCard } from "./checkout/CheckOutCard";
 export { default as UserCheckOutForm } from "./checkout/UserCheckOutForm";
 export { default as GuestCheckOutForm } from "./checkout/GuestCheckOutForm";
+export { default as Register } from "./Register";
+export { default as Login } from "./Login";
