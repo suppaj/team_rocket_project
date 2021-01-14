@@ -1,6 +1,8 @@
 const express = require("express");
 const apiRouter = express.Router();
 const jwt = require("jsonwebtoken");
+
+
 const { JWT_SECRET } = process.env;
 
 const {
@@ -36,8 +38,8 @@ apiRouter.post("/login", async (req, res, next) => {
         {
           siteAdmin: user.isadmin,
           cust_email,
-          customerCartID: cart.cart_id,
-          cartArr: cartArray,
+          cartID: cart.cart_id,
+          cart: cartArray,
         },
         process.env.JWT_SECRET,
         {
@@ -49,8 +51,8 @@ apiRouter.post("/login", async (req, res, next) => {
         message: `Thank you for logging in ${cust_email}!`,
         siteAdmin: user.isadmin,
         token,
-        customerCartID: cart.cart_id,
-        cartArr: cartArray,
+        cartID: cart.cart_id,
+        cart: cartArray,
       });
     } else {
       next({

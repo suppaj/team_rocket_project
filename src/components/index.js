@@ -5,3 +5,5 @@ export { default as AddToCart } from "./AddToCart";
 export { default as CartItemCard } from "./CartItemCard";
 export { default as CartButton } from "./CartButton";
 export { default as CartOverlay } from "./CartOverlay";
+export { default as Register } from "./Register";
+export { default as Login } from "./Login";
