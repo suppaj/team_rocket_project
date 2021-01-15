@@ -10,7 +10,6 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { postPaymentIntent } from '../../api';
 
 const GuestCheckOutForm = ({ cart }) => {
-
   const stripe = useStripe();
   const elements = useElements();
 
@@ -39,11 +38,6 @@ const GuestCheckOutForm = ({ cart }) => {
     contact: true,
     shipping: true,
     billing: true,
-  });
-  const [cardComplete, setCardComplete] = useState({
-    number: false,
-    expir: false,
-    cvc: false,
   });
   const [message, setMessage] = useState('');
 
@@ -424,9 +418,6 @@ const GuestCheckOutForm = ({ cart }) => {
             className='nes-btn is-primary'
             style={{ fontSize: '1.5rem', width: '100%' }}
             onClick={handlePayment}
-            disabled={
-              !cardComplete.number && !cardComplete.expir && !cardComplete.cvc
-            }
           >
             PAY ${getSubTotal().toFixed(2)}
           </button>
