@@ -1,5 +1,5 @@
 import React, { useState, useEffect }from 'react';
-import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
+import { CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 import { Tabs, Tab } from 'react-bootstrap';
 
 
@@ -13,16 +13,45 @@ const GuestCheckOutForm = (props) => {
     const [ formStatus , setFormStatus] = useState({contact : true , shipping: true, billing : true});
 
     useEffect(()=>{
-        
-        setFormStatus({...formStatus, contact : true})
+        setFormStatus({...formStatus, contact : false});
         Object.values(contactInfo).map((value)=>{
-            console.log('map method running')
-            if (!value) {
-                return
-            } else { console.log('empty value')
-                setFormStatus({...formStatus, contact : true}) }
+            if (value) {
+                return value
+            } else { 
+                setFormStatus({...formStatus, contact : true});
+                return value
+            }
         })
     }, [contactInfo]);
+
+    useEffect(()=>{
+        setFormStatus({...formStatus, shipping : false});
+        let copyShip = {...shipInfo};
+        delete copyShip.add2
+        Object.values(copyShip).map((value)=>{
+            if (value) {
+                return value
+            } else { 
+                setFormStatus({...formStatus, shipping : true}) 
+                return value
+            }
+        })
+        
+    },[shipInfo])
+
+    useEffect(()=>{
+        setFormStatus({...formStatus, billing : false});
+        let copyBill = {...billInfo};
+        delete copyBill.add2
+        Object.values(copyBill).map((value)=>{
+            if (value) {
+                return value
+            } else { 
+                setFormStatus({...formStatus, billing : true}) 
+                return value
+            }
+        })
+    },[billInfo])
 
     const CARD_OPTIONS = {
         style : {
@@ -68,6 +97,8 @@ const GuestCheckOutForm = (props) => {
                         <input type='email' id='ckout-email' className='nes-input' placeholder='Enter email' value={contactInfo.email} required onChange={(e)=>setContactInfo({...contactInfo, email : e.target.value})}/>
                         <small className='form-text'>Order confiramtion and shipping updates will be sent to this email</small>
                     </div>
+                    <br/>
+                    <button type='button' className={formStatus.contact ? 'nes-btn is-disabled': 'nes-btn is-success'} onClick={()=>setKey('shipping')}>Next</button>
                 </Tab>
                 <Tab eventKey='shipping' title='Shipping' disabled={formStatus.contact}>
                     <p>Shipping Address</p>
@@ -86,7 +117,8 @@ const GuestCheckOutForm = (props) => {
                     <div className='nes-field'>
                         <label htmlFor='ckout-ship-state'>State</label>
                         <div className='nes-select' >
-                            <select required id='ckout-ship-state' defaultValue='FL' onChange={(e)=>setShipInfo({...shipInfo, state : e.target.value})}>
+                            <select required id='ckout-ship-state' onChange={(e)=>setShipInfo({...shipInfo, state : e.target.value})}>
+                                <option value='' disabled selected hidden>State...</option>
                                 <option value='FL' >FL</option>
                             </select>  
                         </div>
@@ -95,6 +127,9 @@ const GuestCheckOutForm = (props) => {
                         <label htmlFor='ckout-ship-zip'>Zip</label>
                         <input type='text' id='ckout-ship-zip' className='nes-input' value={shipInfo.zipcode} required onChange={(e)=>setShipInfo({...shipInfo, zipcode : e.target.value})} placeholder='12345 or 12345-0000'/>
                     </div>
+                    <br/>
+                        <button type='button' className='nes-btn is-primary' onClick={()=>setKey('contact')}>Back</button>{' '}
+                        <button type='button' className={formStatus.shipping ? 'nes-btn is-disabled': 'nes-btn is-success'} onClick={()=>setKey('billing')}>Next</button>
                 </Tab>
                 <Tab eventKey='billing' title='Billing' disabled={formStatus.shipping}>
                         <p>Billing Address</p>
@@ -119,6 +154,7 @@ const GuestCheckOutForm = (props) => {
                         <label htmlFor='ckout-bill-state'>State</label>
                         <div className='nes-select' >
                             <select required id='ckout-bill-state' disabled={isChecked} value={isChecked ? shipInfo.state :billInfo.state} onChange={(e)=>setBillInfo({...billInfo, state : e.target.value})} >
+                                <option value='' disabled selected hidden>State...</option>
                                 <option value='FL' >FL</option>
                             </select>  
                         </div>
@@ -127,8 +163,11 @@ const GuestCheckOutForm = (props) => {
                         <label htmlFor='ckout-bill-zip'>Zip</label>
                         <input type='text' id='ckout-bill-zip' className='nes-input' disabled={isChecked} value={isChecked ? shipInfo.zipcode :billInfo.zipcode} required onChange={(e)=>setBillInfo({...billInfo, zipcode : e.target.value})} placeholder='12345 or 12345-0000'/>
                     </div>
+                    <br/>
+                        <button type='button' className='nes-btn is-primary' onClick={()=>setKey('shipping')}>Back</button>{' '}
+                        <button type='button' className={formStatus.billing ? 'nes-btn is-disabled': 'nes-btn is-success'} onClick={()=>setKey('CC')}>Next</button>
                 </Tab>
-                <Tab eventKey='CC' title='Credit Card' disabled={formStatus.billing && formStatus.contact && formStatus.shipping}>
+                <Tab eventKey='CC' title='Credit Card' disabled={(formStatus.billing || formStatus.contact || formStatus.shipping)}>
                     <p>Payment Information</p>
                     <div id='cc-info-box'>
                         <CardNumberElement options={CARD_OPTIONS} />
