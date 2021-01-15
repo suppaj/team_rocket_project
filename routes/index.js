@@ -80,4 +80,7 @@ apiRouter.use("/customers", require("./customers"));
 apiRouter.use("/login", require("./customers"));
 apiRouter.use("/register", require("./customers"));
 
+const usersRouter = require('./checkout');
+apiRouter.use('/checkout', usersRouter);
+
 module.exports = apiRouter;

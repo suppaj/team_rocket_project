@@ -106,9 +106,17 @@ export async function registerCustomer(
 export async function getCheckoutSession(sessionArr) {
   console.log('check',sessionArr);
   try {
-    const { data } = await axios.post('/checkout/create-checkout-session', sessionArr);
+    const { data } = await axios.post('/api/checkout/create-checkout-session', sessionArr);
     return data
   } catch (error) {
     throw error
   }
 }
+
+export async function postPaymentIntent(cart) {
+  try {
+    const { data } = await axios.post('/api/checkout/create-payment-intent', cart)
+    return data
+  } catch (error) 
+  { throw error }
+};

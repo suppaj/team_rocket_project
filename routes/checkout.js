@@ -1,10 +1,11 @@
+require("dotenv").config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const apiRouter = require("express").Router();
+const ckoutRouter = require("express").Router();
 
-const ROCKET_DOMAIN = 'http://localhost:3000';
+const ROCKET_DOMAIN = process.env.ROCKET_DOMAIN || 'http://localhost:3000';
 
 
-apiRouter.post('/create-checkout-session', async (req, res, next) => {
+ckoutRouter.post('/create-checkout-session', async (req, res, next) => {
     console.log(process.env.STRIPE_SECRET_KEY);
     const checkOutObjArray = req.body;
     try {
@@ -22,4 +23,25 @@ apiRouter.post('/create-checkout-session', async (req, res, next) => {
     }
 });
 
-module.exports = apiRouter;
+const calculateOrderAmount = (cart) => {
+    return 4000
+}
+
+ckoutRouter.post(`/create-payment-intent`, async (req, res, next) =>{
+    const { cart } = req.body;
+    try {
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: calculateOrderAmount(cart),
+        currency: 'usd'
+    });
+
+    res.send({
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+        clientSecret: paymentIntent.client_secret
+     });
+    } catch (error) {
+        next(error)
+    }
+})
+
+module.exports = ckoutRouter;

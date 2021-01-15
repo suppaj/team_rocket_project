@@ -1,9 +1,10 @@
 import React, { useState, useEffect }from 'react';
-import { CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
+import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Tabs, Tab } from 'react-bootstrap';
+import { postPaymentIntent } from '../../api';
 
 
-const GuestCheckOutForm = (props) => {
+const GuestCheckOutForm = ({cart}) => {
 
     const [ key, setKey ] = useState('contact')
     const [ isChecked, setisChecked ] = useState(false)
@@ -11,6 +12,7 @@ const GuestCheckOutForm = (props) => {
     const [ shipInfo, setShipInfo ] = useState({ add1 : '' , add2 : '', city : '', state: '', zipcode: '' });
     const [ billInfo, setBillInfo ] = useState({ add1 : '' , add2 : '', city : '', state: '', zipcode: '' });
     const [ formStatus , setFormStatus] = useState({contact : true , shipping: true, billing : true});
+    const [ message , setMessage ] = useState('');
 
     useEffect(()=>{
         setFormStatus({...formStatus, contact : false});
@@ -76,10 +78,33 @@ const GuestCheckOutForm = (props) => {
         }
     }
 
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const handlePayment = async (e) => {
+        console.log('payment clicked');
+        e.preventDefault();
+        const { clientSecret } = await postPaymentIntent(cart);
+        const result = await stripe.confirmCardPayment(clientSecret , {
+            payment_method: {
+                card: elements.getElement(CardNumberElement),
+                billing_details: {
+                    name : `${contactInfo.firstName} ${contactInfo.lastName}`
+                }
+            }
+        });
+
+        if (result.error) {
+            setMessage(result.error.message);
+        } else {
+            setMessage(`Payment ${result.paymentIntent.status}`)
+        }
+    }
+
     return (
         
         <div className='nes-container' id='checkout-form-guest'>
-            <p id='ckout-form-info'>Fill out contact, shipping,billing, and CC information to complete your purchase.</p>
+            <p id='ckout-form-info'>Fill out contact, shipping, billing, and CC information to complete your purchase.</p>
             <Tabs 
             id='ckout-tabs'
             activeKey={key}
@@ -175,7 +200,9 @@ const GuestCheckOutForm = (props) => {
                         <CardExpiryElement options={CARD_OPTIONS} />
                         <CardCvcElement options={CARD_OPTIONS} />
                     </div>
-                    <button className='nes-button' style={{ fontSize: '1.5rem', width : '100%'}} onClick={()=>console.log('payment clicked')}>PAY</button>
+                    <button className='nes-button' style={{ fontSize: '1.5rem', width : '100%'}} onClick={handlePayment}>PAY</button>
+                    <p>{message}</p>
+                    <p>test CC card#: 4242 4242 4242 4242</p>
                 </Tab>
             </Tabs>  
         </div>
