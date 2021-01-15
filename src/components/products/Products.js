@@ -42,7 +42,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [getAllTypes, getAllProducts]);
+  }, []);
 
   // function used to alphabetize the types object array, based on the key 'name'
   function alphabetize(a, b) {

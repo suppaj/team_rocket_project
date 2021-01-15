@@ -63,7 +63,7 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
           #{dex_id} {name}
         </p>
         <p>${price}</p>
-        <Button variant="link" href={`/products/${prod_id}`}>
+        <Button variant="link" href={`/products/${prod_id}/${name}`}>
           <img
             style={{
               height: "200px",

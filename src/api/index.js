@@ -29,7 +29,7 @@ export async function getProductById(product_id) {
 
 export async function getAllTypes() {
   try {
-    const { data } = await axios.get("/api/products/types");
+    const { data } = await axios.get("/api/types");
     return data;
   } catch (error) {
     throw error;
@@ -104,11 +104,14 @@ export async function registerCustomer(
 }
 
 export async function getCheckoutSession(sessionArr) {
-  console.log('check',sessionArr);
+  console.log("check", sessionArr);
   try {
-    const { data } = await axios.post('/checkout/create-checkout-session', sessionArr);
-    return data
+    const { data } = await axios.post(
+      "/checkout/create-checkout-session",
+      sessionArr
+    );
+    return data;
   } catch (error) {
-    throw error
+    throw error;
   }
 }

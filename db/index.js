@@ -149,13 +149,12 @@ async function _buildTypes(array) {
   }
 }
 
-async function getAllTypes() {
+async function db_getAllTypes() {
   try {
     const { rows: types } = await client.query(`
       SELECT *
       FROM type
     `);
-    console.log("types:", types);
     return types;
   } catch (error) {
     throw error;
@@ -357,7 +356,7 @@ module.exports = {
   createAllPokeEntries,
   getAllProducts,
   getProductById,
-  getAllTypes,
+  db_getAllTypes,
   db_addCartItem,
   db_patchCartItem,
   db_deleteCartItem,

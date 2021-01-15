@@ -18,29 +18,13 @@ const ProductPage = ({ allProducts }) => {
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
 
-  // {
-  //   dex_id: 1,
-  //   name: "bulbasaur",
-  //   type: [12, 4],
-  //   description:
-  //     "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
-  //   height: 7,
-  //   weight: 69,
-  //   price: 96.66,
-  // }
-
   let { product_id } = useParams();
-  console.log("im from the page iteself", product_id);
 
   useEffect(() => {
-    console.log("useffect flag", product_id);
     getProductById(product_id).then((response) => {
-      console.log("my response", response);
       setCurrentPoke(response);
     });
   }, []);
-
-  // return <p>Hello World {product_id}</p>;
 
   const {
     dex_id,
@@ -174,13 +158,9 @@ const ProductPage = ({ allProducts }) => {
               <p className="title">Description</p>
               <p>{description}</p>
             </div>
-            <ButtonGroup>
-              <Dropdown drop="up">
-                <Dropdown.Toggle
-                  variant="dark"
-                  id="quantity-dropdown"
-                  size="sm"
-                >
+            <ButtonGroup style={{ textAlign: "center" }}>
+              <Dropdown drop="up" style={{ marginRight: "10px" }}>
+                <Dropdown.Toggle variant="dark" id="quantity-dropdown">
                   Qty: {orderAmount}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>{quantityMapper(quantity)}</Dropdown.Menu>
@@ -188,7 +168,7 @@ const ProductPage = ({ allProducts }) => {
               <AddToCart
                 product={currentPoke}
                 isLoggedIn={false}
-                orderAmount={1}
+                orderAmount={orderAmount}
               />
             </ButtonGroup>
           </div>
@@ -199,7 +179,16 @@ const ProductPage = ({ allProducts }) => {
             gridColumn: "3/5",
             gridRow: "1/3",
           }}
-        ></section>
+        >
+          <section
+            className="message-list"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              backgroundColor: "green",
+            }}
+          ></section>
+        </section>
       </div>
     );
   } else {
@@ -210,26 +199,5 @@ const ProductPage = ({ allProducts }) => {
 export default ProductPage;
 
 /*
-<section
-            className="message-list"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              backgroundColor: "green",
-            }}
-          >
-            <section className="message -left">
-              <i className="nes-ash"></i>
-              <div className="nes-balloon from-left">
-                <p>Hello Team Rocket!</p>
-              </div>
-            </section>
 
-            <section className="message -right">
-              <div className="nes-balloon from-right">
-                <p>Wow I love this pokemon!</p>
-              </div>
-              <i className="nes-bulbasaur"></i>
-            </section>
-          </section>
  */

@@ -63,12 +63,19 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
 
   return (
     <>
-      <Button variant="link" onClick={handleAddToCart}>
+      <Button variant="dark" onClick={handleAddToCart}>
         <img
+          style={{
+            height: "40px",
+            marginLeft: "-10px",
+            marginTop: "-12px",
+            marginBottom: "-8px",
+          }}
           src={
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
           }
         />
+        <span>Add to Cart</span>
       </Button>
 
       <dialog className="new-dialog" id="add-cart-dialog">
