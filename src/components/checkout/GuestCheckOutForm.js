@@ -22,6 +22,7 @@ const GuestCheckOutForm = (props) => {
                 return value
             }
         })
+        
     }, [contactInfo]);
 
     useEffect(()=>{

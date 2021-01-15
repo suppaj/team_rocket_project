@@ -127,7 +127,7 @@ const App = () => {
           className="bg-secondary"
           style={{ minHeight: "10vh", width: "100vw" }}
         >
-          FOOTER AREA
+          FOOTER AREA (TEST)
         </Row>
       </Container>
     </Router>
