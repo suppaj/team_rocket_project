@@ -6,7 +6,7 @@ const CartOverlay =(props) => {
 
     return (
         <>
-        { cart.length ? cart.map((item)=> <p>{item.name} ({item.cart_quantity})</p>)
+        { cart.length ? cart.map((item)=> <p key={item.name}>{item.name} ({item.cart_quantity})</p>)
          :
         <p>No items in cart</p>
         }

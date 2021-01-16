@@ -11,8 +11,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   const [allProducts, setAllProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
   const [allTypes, setAllTypes] = useState([]);
-  const [filterMessage, setFilterMessage] = useState("Filter pokemon...");
+  const [filterMessage, setFilterMessage] = useState("");
   const [searchVal, setSearchVal] = useState("");
+  const [sortMethod, setSortMethod] = useState("");
 
   useEffect(() => {
     // grabs all pokemon entries from the database
@@ -42,10 +43,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [getAllTypes, getAllProducts]);
+  }, []);
 
   // function used to alphabetize the types object array, based on the key 'name'
-  // sourced: https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
   function alphabetize(a, b) {
     a = a.name.toLowerCase();
     b = b.name.toLowerCase();
@@ -62,7 +62,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   // function to filter product by types, passed into both ProductRender & ProductTypeFilter
   function typeFilter(val) {
     if (searchVal !== "") {
-      console.log("its happening!");
       setSearchVal("");
     }
     let copy = [...allProducts];
@@ -108,6 +107,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setAllProducts={setAllProducts}
           currentProducts={currentProducts}
           setCurrentProducts={setCurrentProducts}
+          sortMethod={sortMethod}
+          setSortMethod={setSortMethod}
+          alphabetize={alphabetize}
         />
       </Row>
       <Row
@@ -121,6 +123,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           currentProducts={currentProducts}
           typeFilter={typeFilter}
           setFilterMessage={setFilterMessage}
+          sortMethod={sortMethod}
         />
       </Row>
     </>

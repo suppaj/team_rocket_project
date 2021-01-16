@@ -112,6 +112,20 @@ async function getAllProducts() {
   }
 }
 
+async function getProductById(id) {
+  try {
+    const { rows: pokemon } = await client.query(
+      `SELECT * FROM product WHERE prod_id = ${id}`
+    );
+    const [product] = await _buildTypes(pokemon);
+
+    console.log(product);
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function _buildTypes(array) {
   try {
     const { rows: type_relations } = await client.query(`
@@ -135,13 +149,12 @@ async function _buildTypes(array) {
   }
 }
 
-async function getAllTypes() {
+async function db_getAllTypes() {
   try {
     const { rows: types } = await client.query(`
       SELECT *
       FROM type
     `);
-    console.log("types:", types);
     return types;
   } catch (error) {
     throw error;
@@ -437,7 +450,8 @@ module.exports = {
   createAllTypeEntries,
   createAllPokeEntries,
   getAllProducts,
-  getAllTypes,
+  getProductById,
+  db_getAllTypes,
   db_addCartItem,
   db_patchCartItem,
   db_deleteCartItem,

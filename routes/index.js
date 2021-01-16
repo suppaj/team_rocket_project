@@ -1,8 +1,6 @@
 const apiRouter = require("express").Router();
 
 const {
-  getAllProducts,
-  getAllTypes,
   db_addCartItem,
   db_patchCartItem,
   db_deleteCartItem,
@@ -12,24 +10,6 @@ apiRouter.get("/", (req, res, next) => {
   res.send({
     message: "API is under construction!",
   });
-});
-
-apiRouter.get("/products", async (req, res, next) => {
-  try {
-    const products = await getAllProducts();
-    res.send(products);
-  } catch (error) {
-    throw error;
-  }
-});
-
-apiRouter.get("/products/types", async (req, res, next) => {
-  try {
-    const types = await getAllTypes();
-    res.send(types);
-  } catch (error) {
-    throw error;
-  }
 });
 
 apiRouter.post(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
@@ -68,5 +48,9 @@ apiRouter.use("/customers", require("./customers"));
 apiRouter.use("/login", require("./customers"));
 apiRouter.use("/register", require("./customers"));
 apiRouter.use("/admin", require("./admin"));
+apiRouter.use("/products", require("./products"));
+const usersRouter = require('./checkout');
+apiRouter.use('/checkout', usersRouter);
+
 
 module.exports = apiRouter;

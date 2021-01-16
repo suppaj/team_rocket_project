@@ -12,8 +12,8 @@ const ProductSearch = ({
 }) => {
   // search function built to comb the product object for string matches in any of the given fields
   function searcher(val) {
-    if (filterMessage !== "Filter pokemon...") {
-      setFilterMessage("Filter pokemon...");
+    if (filterMessage !== "") {
+      setFilterMessage("");
     }
     let copy = [...allProducts];
     let filtered = [];
