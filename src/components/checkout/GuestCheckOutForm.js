@@ -8,6 +8,9 @@ import {
 } from '@stripe/react-stripe-js';
 import { Tabs, Tab } from 'react-bootstrap';
 import { postPaymentIntent } from '../../api';
+import ContactForm from './ContactForm';
+import ShipForm from './ShipForm';
+import BillForm from './BillForm';
 
 const GuestCheckOutForm = ({ cart }) => {
   const stripe = useStripe();
@@ -59,7 +62,6 @@ const GuestCheckOutForm = ({ cart }) => {
         return value;
       }
     });
-    console.log('contact info', contactInfo);
   }, [contactInfo]);
 
   useEffect(() => {
@@ -74,7 +76,6 @@ const GuestCheckOutForm = ({ cart }) => {
         return value;
       }
     });
-    console.log('shipping info', shipInfo);
   }, [shipInfo]);
 
   useEffect(() => {
@@ -89,7 +90,6 @@ const GuestCheckOutForm = ({ cart }) => {
         return value;
       }
     });
-    console.log('billing info', billInfo);
   }, [billInfo]);
 
   const CARD_OPTIONS = {
@@ -116,8 +116,8 @@ const GuestCheckOutForm = ({ cart }) => {
   };
 
   const handlePayment = async (e) => {
-    console.log('payment clicked');
     e.preventDefault();
+    document.getElementById('process-dialog').showModal();
     const { clientSecret } = await postPaymentIntent(cart);
     const result = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
@@ -127,7 +127,7 @@ const GuestCheckOutForm = ({ cart }) => {
         },
       },
     });
-
+    document.getElementById('process-dialog').style.display='none';
     if (result.error) {
       setMessage(result.error.message);
     } else {
@@ -136,6 +136,7 @@ const GuestCheckOutForm = ({ cart }) => {
   };
 
   return (
+    <>
     <div className='nes-container' id='checkout-form-guest'>
       <p id='ckout-form-info'>
         Fill out contact, shipping, billing, and CC information to complete your
@@ -143,263 +144,13 @@ const GuestCheckOutForm = ({ cart }) => {
       </p>
       <Tabs id='ckout-tabs' activeKey={key} onSelect={(k) => setKey(k)}>
         <Tab eventKey='contact' title='Contact'>
-          <div className='nes-field'>
-            <label htmlFor='ckout-first-name'>First Name</label>
-            <input
-              type='text'
-              id='ckout-first-name'
-              className='nes-input'
-              placeholder='Giovanni'
-              value={contactInfo.firstName}
-              required
-              onChange={(e) =>
-                setContactInfo({ ...contactInfo, firstName: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-last-name'>Last Name</label>
-            <input
-              type='text'
-              id='ckout-last-name'
-              className='nes-input'
-              placeholder='Unknown'
-              value={contactInfo.lastName}
-              required
-              onChange={(e) =>
-                setContactInfo({ ...contactInfo, lastName: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-email'>Email address</label>
-            <input
-              type='email'
-              id='ckout-email'
-              className='nes-input'
-              placeholder='Enter email'
-              value={contactInfo.email}
-              required
-              onChange={(e) =>
-                setContactInfo({ ...contactInfo, email: e.target.value })
-              }
-            />
-            <small className='form-text'>
-              Order confiramtion and shipping updates will be sent to this email
-            </small>
-          </div>
-          <br />
-          <button
-            type='button'
-            className={
-              formStatus.contact ? 'nes-btn is-disabled' : 'nes-btn is-success'
-            }
-            disabled={formStatus.contact}
-            onClick={() => setKey('shipping')}
-          >
-            Next
-          </button>
+          <ContactForm contactInfo={contactInfo} setContactInfo={setContactInfo} formStatus={formStatus} setKey={setKey} />
         </Tab>
         <Tab eventKey='shipping' title='Shipping' disabled={formStatus.contact}>
-          <p>Shipping Address</p>
-          <div className='nes-field'>
-            <label htmlFor='ckout-ship-add1'>Address 1</label>
-            <input
-              type='text'
-              id='ckout-ship-add1'
-              className='nes-input'
-              placeholder='123 Main St'
-              value={shipInfo.add1}
-              required
-              onChange={(e) =>
-                setShipInfo({ ...shipInfo, add1: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-ship-add2'>Address 2</label>
-            <input
-              type='text'
-              id='ckout-ship-add2'
-              className='nes-input'
-              placeholder='Unit A, Apt 23, etc...'
-              value={shipInfo.add2}
-              onChange={(e) =>
-                setShipInfo({ ...shipInfo, add2: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-ship-city'>City</label>
-            <input
-              type='text'
-              id='ckout-ship-city'
-              className='nes-input'
-              required
-              placeholder='Kanto Region'
-              value={shipInfo.city}
-              onChange={(e) =>
-                setShipInfo({ ...shipInfo, city: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-ship-state'>State</label>
-            <div className='nes-select'>
-              <select
-                id='ckout-ship-state'
-                value={shipInfo.state}
-                onChange={(e) =>
-                  setShipInfo({ ...shipInfo, state: e.target.value })
-                }
-              >
-                <option value='' disabled hidden>
-                  State...
-                </option>
-                <option value='FL'>FL</option>
-              </select>
-            </div>
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-ship-zip'>Zip</label>
-            <input
-              type='text'
-              id='ckout-ship-zip'
-              className='nes-input'
-              value={shipInfo.zipcode}
-              required
-              onChange={(e) =>
-                setShipInfo({ ...shipInfo, zipcode: e.target.value })
-              }
-              placeholder='12345 or 12345-0000'
-            />
-          </div>
-          <br />
-          <button
-            type='button'
-            className='nes-btn is-primary'
-            onClick={() => setKey('contact')}
-          >
-            Back
-          </button>{' '}
-          <button
-            type='button'
-            className={
-              formStatus.shipping ? 'nes-btn is-disabled' : 'nes-btn is-success'
-            }
-            disabled={formStatus.shipping}
-            onClick={() => setKey('billing')}
-          >
-            Next
-          </button>
+          <ShipForm shipInfo={shipInfo} setShipInfo={setShipInfo} formStatus={formStatus} setKey={setKey}/>
         </Tab>
         <Tab eventKey='billing' title='Billing' disabled={formStatus.shipping}>
-          <p>Billing Address</p>
-          <label>
-            <input
-              type='checkbox'
-              id='same-as-shipping'
-              className='nes-checkbox is-small'
-              onChange={handleCheckbox}
-            />
-            <span id='same-shipping-text'>Same as shipping</span>
-          </label>
-          <div className='nes-field'>
-            <label htmlFor='ckout-bill-add1'>Address 1</label>
-            <input
-              type='text'
-              id='ckout-bill-add1'
-              className='nes-input'
-              placeholder='123 Edgeof'
-              disabled={isChecked}
-              value={isChecked ? shipInfo.add1 : billInfo.add1}
-              required
-              onChange={(e) =>
-                setBillInfo({ ...billInfo, add1: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-bill-add2'>Address 2</label>
-            <input
-              type='text'
-              id='ckout-bill-add2'
-              className='nes-input'
-              placeholder='Unit A, Apt 23, etc...'
-              disabled={isChecked}
-              value={isChecked ? shipInfo.add2 : billInfo.add2}
-              onChange={(e) =>
-                setBillInfo({ ...billInfo, add2: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-bill-city'>City</label>
-            <input
-              type='text'
-              id='ckout-bill-city'
-              className='nes-input'
-              disabled={isChecked}
-              value={isChecked ? shipInfo.city : billInfo.city}
-              required
-              placeholder='Pallet Town'
-              onChange={(e) =>
-                setBillInfo({ ...billInfo, city: e.target.value })
-              }
-            />
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-bill-state'>State</label>
-            <div className='nes-select'>
-              <select
-                required
-                id='ckout-bill-state'
-                disabled={isChecked}
-                value={isChecked ? shipInfo.state : billInfo.state}
-                onChange={(e) =>
-                  setBillInfo({ ...billInfo, state: e.target.value })
-                }
-              >
-                <option value='' disabled hidden>
-                  State...
-                </option>
-                <option value='FL'>FL</option>
-              </select>
-            </div>
-          </div>
-          <div className='nes-field'>
-            <label htmlFor='ckout-bill-zip'>Zip</label>
-            <input
-              type='text'
-              id='ckout-bill-zip'
-              className='nes-input'
-              disabled={isChecked}
-              value={isChecked ? shipInfo.zipcode : billInfo.zipcode}
-              required
-              onChange={(e) =>
-                setBillInfo({ ...billInfo, zipcode: e.target.value })
-              }
-              placeholder='12345 or 12345-0000'
-            />
-          </div>
-          <br />
-          <button
-            type='button'
-            className='nes-btn is-primary'
-            onClick={() => setKey('shipping')}
-          >
-            Back
-          </button>{' '}
-          <button
-            type='button'
-            className={
-              formStatus.billing ? 'nes-btn is-disabled' : 'nes-btn is-success'
-            }
-            disabled={formStatus.billing}
-            onClick={() => setKey('CC')}
-          >
-            Next
-          </button>
+          <BillForm billInfo={billInfo} setBillInfo={setBillInfo} formStatus={formStatus} setKey={setKey} handleCheckbox={handleCheckbox} isChecked={isChecked} shipInfo={shipInfo}/>
         </Tab>
         <Tab
           eventKey='CC'
@@ -426,6 +177,15 @@ const GuestCheckOutForm = ({ cart }) => {
         </Tab>
       </Tabs>
     </div>
+
+    <dialog class='nes-dialog' id='process-dialog'>
+          <p>PROCESSING PAYMENT</p>
+          <img id='masterball-roll' src={
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png" 
+          }
+          alt='masterball animation payment processing' width='75' height='75'/>      
+    </dialog>
+    </> 
   );
 };
 
