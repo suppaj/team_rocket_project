@@ -92,7 +92,7 @@ const ProductPage = ({ allProducts }) => {
         <section
           className="pokedex-entry"
           style={{
-            gridColumn: "1/3",
+            gridColumn: "2/4",
             gridRow: "1/3",
             display: "grid",
             gridTemplateRows: "1fr 1fr",
@@ -102,7 +102,7 @@ const ProductPage = ({ allProducts }) => {
           <div
             style={{
               gridRow: "1/2",
-              gridColumn: "1/2",
+              gridColumn: "2/3",
               display: "flex",
               flexWrap: "wrap",
               alignContent: "center",
@@ -130,15 +130,16 @@ const ProductPage = ({ allProducts }) => {
           <div
             style={{
               gridRow: "1/2",
-              gridColumn: "2/3",
+              gridColumn: "3/4",
               textAlign: "center",
             }}
           >
             <h4
               style={{
                 textTransform: "capitalize",
-                fontSize: "2rem",
+                fontSize: "1.8rem",
                 marginTop: "30px",
+                overflow: "auto",
               }}
             >
               {name}
@@ -146,12 +147,12 @@ const ProductPage = ({ allProducts }) => {
             {type ? typeMapper(type) : ""}
             <p style={{ marginTop: "20px" }}>Height: {height / 10}m</p>
             <p>Weight: {weight / 10}kg</p>
-            <p style={{ fontSize: "2rem" }}>${price}</p>
+            <p style={{ fontSize: "1.8rem" }}>${price}</p>
           </div>
           <div
             style={{
               gridRow: "2/3",
-              gridColumn: "1/3",
+              gridColumn: "2/4",
             }}
           >
             <div className="nes-container with-title is-dark">
@@ -164,7 +165,7 @@ const ProductPage = ({ allProducts }) => {
                   Qty: {orderAmount}
                 </Dropdown.Toggle>
                 <Dropdown.Menu
-                  style={{ maxHeight: "20vh", overflow: "scroll" }}
+                  style={{ maxHeight: "40vh", overflow: "scroll" }}
                 >
                   {quantityMapper(quantity)}
                 </Dropdown.Menu>
@@ -176,22 +177,6 @@ const ProductPage = ({ allProducts }) => {
               />
             </ButtonGroup>
           </div>
-        </section>
-        <section
-          className="review-section"
-          style={{
-            gridColumn: "3/5",
-            gridRow: "1/3",
-          }}
-        >
-          <section
-            className="message-list"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              backgroundColor: "green",
-            }}
-          ></section>
         </section>
       </div>
     );
