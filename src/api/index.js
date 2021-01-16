@@ -45,7 +45,7 @@ export async function loginCustomer(cust_email, cust_pwd) {
       cust_email,
       cust_pwd,
     });
-
+    console.log("login response", data);
     return data;
   } catch (error) {
     throw error;
@@ -88,6 +88,7 @@ export async function registerCustomer(
       isAdmin,
     });
 
+    console.log("register response", data);
     return data;
   } catch (error) {
     throw error;

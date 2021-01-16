@@ -67,5 +67,6 @@ apiRouter.delete(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
 apiRouter.use("/customers", require("./customers"));
 apiRouter.use("/login", require("./customers"));
 apiRouter.use("/register", require("./customers"));
+apiRouter.use("/admin", require("./admin"));
 
 module.exports = apiRouter;

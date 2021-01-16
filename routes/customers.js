@@ -2,13 +2,10 @@ const express = require("express");
 const apiRouter = express.Router();
 const jwt = require("jsonwebtoken");
 
-
 const { JWT_SECRET } = process.env;
 
 const {
   db_createCustomer,
-  db_getCustomerById,
-  db_getAllCustomers,
   db_getCustomerByEmail,
   _getUserCart,
   db_getCustomerCart,
@@ -66,15 +63,6 @@ apiRouter.post("/login", async (req, res, next) => {
   }
 });
 
-apiRouter.get("/", async (req, res) => {
-  try {
-    const customers = await db_getAllCustomers();
-    res.send({ customers });
-  } catch (error) {
-    throw error;
-  }
-});
-
 apiRouter.post("/register", async (req, res, next) => {
   const { first_name, last_name, cust_email, cust_pwd, isAdmin } = req.body;
 
@@ -114,17 +102,6 @@ apiRouter.post("/register", async (req, res, next) => {
     });
   } catch ({ name, message }) {
     next({ name, message });
-  }
-});
-
-apiRouter.get("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const customer = await db_getCustomerById(id);
-    res.send({ message: "This is your user", customer });
-  } catch (error) {
-    throw error;
   }
 });
 
