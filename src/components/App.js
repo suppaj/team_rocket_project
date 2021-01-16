@@ -45,10 +45,6 @@ const App = () => {
 
   return (
     <Router>
-      {/* <div className="App">
-        <h1>Hello, World!</h1>
-        <h2>{message}</h2>
-      </div> */}
       <Container fluid>
         <Row
           className="bg-primary"

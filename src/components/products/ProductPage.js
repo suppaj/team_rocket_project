@@ -89,95 +89,82 @@ const ProductPage = ({ allProducts }) => {
           backgroundColor: "#abbbd1",
         }}
       >
-        <section
-          className="pokedex-entry"
+        <div
           style={{
-            gridColumn: "2/4",
-            gridRow: "1/3",
-            display: "grid",
-            gridTemplateRows: "1fr 1fr",
-            gridTemplateColumns: "1fr 1fr",
+            gridRow: "1/2",
+            gridColumn: "2/3",
+            display: "flex",
+            flexWrap: "wrap",
+            alignContent: "center",
+            justifyContent: "center",
           }}
         >
-          <div
+          <img
             style={{
-              gridRow: "1/2",
-              gridColumn: "2/3",
-              display: "flex",
-              flexWrap: "wrap",
-              alignContent: "center",
-              justifyContent: "center",
+              height: "300px",
+              width: "300px",
+              marginTop: "-80px",
+            }}
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
+            alt={`a very happy ${name}`}
+          />
+          <p
+            style={{
+              marginTop: "-50px",
+              fontSize: "1.5rem",
             }}
           >
-            <img
-              style={{
-                height: "300px",
-                width: "300px",
-                marginTop: "-80px",
-              }}
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
-              alt={`a very happy ${name}`}
+            No.{dex_id}
+          </p>
+        </div>
+        <div
+          style={{
+            gridRow: "1/2",
+            gridColumn: "3/4",
+            textAlign: "center",
+          }}
+        >
+          <h4
+            style={{
+              textTransform: "capitalize",
+              fontSize: "1.8rem",
+              marginTop: "30px",
+              overflow: "auto",
+            }}
+          >
+            {name}
+          </h4>
+          {type ? typeMapper(type) : ""}
+          <p style={{ marginTop: "20px" }}>Height: {height / 10}m</p>
+          <p>Weight: {weight / 10}kg</p>
+          <p style={{ fontSize: "1.8rem" }}>${price}</p>
+        </div>
+        <div
+          style={{
+            gridRow: "2/3",
+            gridColumn: "2/4",
+          }}
+        >
+          <div className="nes-container with-title is-dark">
+            <p className="title">Description</p>
+            <p>{description}</p>
+          </div>
+          <ButtonGroup style={{ textAlign: "center" }}>
+            <Dropdown drop="up" style={{ marginRight: "10px" }}>
+              <Dropdown.Toggle variant="dark" id="quantity-dropdown">
+                Qty: {orderAmount}
+              </Dropdown.Toggle>
+              <Dropdown.Menu style={{ maxHeight: "40vh", overflow: "scroll" }}>
+                {quantityMapper(quantity)}
+              </Dropdown.Menu>
+            </Dropdown>
+            <AddToCart
+              product={currentPoke}
+              isLoggedIn={false}
+              orderAmount={orderAmount}
             />
-            <p
-              style={{
-                marginTop: "-50px",
-                fontSize: "1.5rem",
-              }}
-            >
-              No.{dex_id}
-            </p>
-          </div>
-          <div
-            style={{
-              gridRow: "1/2",
-              gridColumn: "3/4",
-              textAlign: "center",
-            }}
-          >
-            <h4
-              style={{
-                textTransform: "capitalize",
-                fontSize: "1.8rem",
-                marginTop: "30px",
-                overflow: "auto",
-              }}
-            >
-              {name}
-            </h4>
-            {type ? typeMapper(type) : ""}
-            <p style={{ marginTop: "20px" }}>Height: {height / 10}m</p>
-            <p>Weight: {weight / 10}kg</p>
-            <p style={{ fontSize: "1.8rem" }}>${price}</p>
-          </div>
-          <div
-            style={{
-              gridRow: "2/3",
-              gridColumn: "2/4",
-            }}
-          >
-            <div className="nes-container with-title is-dark">
-              <p className="title">Description</p>
-              <p>{description}</p>
-            </div>
-            <ButtonGroup style={{ textAlign: "center" }}>
-              <Dropdown drop="up" style={{ marginRight: "10px" }}>
-                <Dropdown.Toggle variant="dark" id="quantity-dropdown">
-                  Qty: {orderAmount}
-                </Dropdown.Toggle>
-                <Dropdown.Menu
-                  style={{ maxHeight: "40vh", overflow: "scroll" }}
-                >
-                  {quantityMapper(quantity)}
-                </Dropdown.Menu>
-              </Dropdown>
-              <AddToCart
-                product={currentPoke}
-                isLoggedIn={false}
-                orderAmount={orderAmount}
-              />
-            </ButtonGroup>
-          </div>
-        </section>
+          </ButtonGroup>
+        </div>
       </div>
     );
   } else {
