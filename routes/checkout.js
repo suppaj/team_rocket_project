@@ -16,7 +16,7 @@ ckoutRouter.post('/create-checkout-session', async (req, res, next) => {
         success_url: `${ROCKET_DOMAIN}/shoppingcart/success`,
         cancel_url: `${ROCKET_DOMAIN}/shoppingcart`,
     });
-    console.log(session);
+    console.log('session', session);
     res.send({ id: session.id});
     } catch (error) {
         next(error)
