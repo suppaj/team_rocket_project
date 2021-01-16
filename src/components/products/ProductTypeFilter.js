@@ -16,8 +16,11 @@ const ProductTypeFilter = ({
         <Dropdown.Item
           key={item[key]}
           onClick={() => {
-            setFilterMessage(`Type: ${item[key]}`);
+            setFilterMessage(`${item[key]}`);
             typeFilter(item[key]);
+          }}
+          style={{
+            textTransform: "capitalize",
           }}
         >
           {item[key]}
@@ -29,16 +32,19 @@ const ProductTypeFilter = ({
   return (
     <Dropdown style={{ marginRight: "10px" }}>
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-        {filterMessage}
+        <span>{filterMessage ? "Type: " : "Filter pokemon..."}</span>
+        <span style={{ textTransform: "capitalize" }}>
+          {filterMessage ? `${filterMessage}` : ""}
+        </span>
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        {filterMessage === "Filter pokemon..." ? (
+        {filterMessage === "" ? (
           ""
         ) : (
           <>
             <Dropdown.Item
               onClick={() => {
-                setFilterMessage("Filter pokemon...");
+                setFilterMessage("");
                 setCurrentProducts(allProducts);
               }}
             >

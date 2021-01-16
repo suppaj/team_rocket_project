@@ -18,18 +18,18 @@ export async function getAllProducts() {
   }
 }
 
-export async function getProductById(product_id) {
+export async function getAllTypes() {
   try {
-    const { data } = await axios.get(`/api/products/${product_id}`);
+    const { data } = await axios.get("/api/products/types");
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function getAllTypes() {
+export async function getProductById(product_id) {
   try {
-    const { data } = await axios.get("/api/products/types");
+    const { data } = await axios.get(`/api/products/${product_id}`);
     return data;
   } catch (error) {
     throw error;
@@ -104,19 +104,26 @@ export async function registerCustomer(
 }
 
 export async function getCheckoutSession(sessionArr) {
-  console.log('check',sessionArr);
+  console.log("check", sessionArr);
   try {
-    const { data } = await axios.post('/api/checkout/create-checkout-session', sessionArr);
-    return data
+    const { data } = await axios.post(
+      "/checkout/create-checkout-session",
+      sessionArr
+    );
+    return data;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 export async function postPaymentIntent(cart) {
   try {
-    const { data } = await axios.post('/api/checkout/create-payment-intent', cart)
-    return data
-  } catch (error) 
-  { throw error }
-};
+    const { data } = await axios.post(
+      "/api/checkout/create-payment-intent",
+      cart
+    );
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

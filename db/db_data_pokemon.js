@@ -348,7 +348,7 @@ const allPokes = [
     name: "slowpoke",
     type: [11, 14],
     description:
-      "ncredibly slow and dopey. It takes 5 seconds for it to feel pain when under attack.",
+      "Incredibly slow and dopey. It takes 5 seconds for it to feel pain when under attack.",
     height: 12,
     weight: 360,
     price: 93.78,

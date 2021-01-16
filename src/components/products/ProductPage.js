@@ -9,7 +9,7 @@ import {
   useParams,
 } from "react-router-dom";
 
-import { ButtonGroup, Dropdown } from "react-bootstrap";
+import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 
 import { AddToCart } from "../index";
 import { getProductById } from "../../api";
@@ -18,29 +18,13 @@ const ProductPage = ({ allProducts }) => {
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
 
-  // {
-  //   dex_id: 1,
-  //   name: "bulbasaur",
-  //   type: [12, 4],
-  //   description:
-  //     "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
-  //   height: 7,
-  //   weight: 69,
-  //   price: 96.66,
-  // }
-
   let { product_id } = useParams();
-  console.log("im from the page iteself", product_id);
 
   useEffect(() => {
-    console.log("useffect flag", product_id);
     getProductById(product_id).then((response) => {
-      console.log("my response", response);
       setCurrentPoke(response);
     });
   }, []);
-
-  // return <p>Hello World {product_id}</p>;
 
   const {
     dex_id,
@@ -108,7 +92,7 @@ const ProductPage = ({ allProducts }) => {
         <section
           className="pokedex-entry"
           style={{
-            gridColumn: "1/3",
+            gridColumn: "2/4",
             gridRow: "1/3",
             display: "grid",
             gridTemplateRows: "1fr 1fr",
@@ -118,7 +102,7 @@ const ProductPage = ({ allProducts }) => {
           <div
             style={{
               gridRow: "1/2",
-              gridColumn: "1/2",
+              gridColumn: "2/3",
               display: "flex",
               flexWrap: "wrap",
               alignContent: "center",
@@ -146,15 +130,16 @@ const ProductPage = ({ allProducts }) => {
           <div
             style={{
               gridRow: "1/2",
-              gridColumn: "2/3",
+              gridColumn: "3/4",
               textAlign: "center",
             }}
           >
             <h4
               style={{
                 textTransform: "capitalize",
-                fontSize: "2rem",
+                fontSize: "1.8rem",
                 marginTop: "30px",
+                overflow: "auto",
               }}
             >
               {name}
@@ -162,44 +147,37 @@ const ProductPage = ({ allProducts }) => {
             {type ? typeMapper(type) : ""}
             <p style={{ marginTop: "20px" }}>Height: {height / 10}m</p>
             <p>Weight: {weight / 10}kg</p>
-            <p style={{ fontSize: "2rem" }}>${price}</p>
+            <p style={{ fontSize: "1.8rem" }}>${price}</p>
           </div>
           <div
             style={{
               gridRow: "2/3",
-              gridColumn: "1/3",
+              gridColumn: "2/4",
             }}
           >
             <div className="nes-container with-title is-dark">
               <p className="title">Description</p>
               <p>{description}</p>
             </div>
-            <ButtonGroup>
-              <Dropdown drop="up">
-                <Dropdown.Toggle
-                  variant="dark"
-                  id="quantity-dropdown"
-                  size="sm"
-                >
+            <ButtonGroup style={{ textAlign: "center" }}>
+              <Dropdown drop="up" style={{ marginRight: "10px" }}>
+                <Dropdown.Toggle variant="dark" id="quantity-dropdown">
                   Qty: {orderAmount}
                 </Dropdown.Toggle>
-                <Dropdown.Menu>{quantityMapper(quantity)}</Dropdown.Menu>
+                <Dropdown.Menu
+                  style={{ maxHeight: "40vh", overflow: "scroll" }}
+                >
+                  {quantityMapper(quantity)}
+                </Dropdown.Menu>
               </Dropdown>
               <AddToCart
                 product={currentPoke}
                 isLoggedIn={false}
-                orderAmount={1}
+                orderAmount={orderAmount}
               />
             </ButtonGroup>
           </div>
         </section>
-        <section
-          className="review-section"
-          style={{
-            gridColumn: "3/5",
-            gridRow: "1/3",
-          }}
-        ></section>
       </div>
     );
   } else {
@@ -210,26 +188,5 @@ const ProductPage = ({ allProducts }) => {
 export default ProductPage;
 
 /*
-<section
-            className="message-list"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              backgroundColor: "green",
-            }}
-          >
-            <section className="message -left">
-              <i className="nes-ash"></i>
-              <div className="nes-balloon from-left">
-                <p>Hello Team Rocket!</p>
-              </div>
-            </section>
-
-            <section className="message -right">
-              <div className="nes-balloon from-right">
-                <p>Wow I love this pokemon!</p>
-              </div>
-              <i className="nes-bulbasaur"></i>
-            </section>
-          </section>
+todo add scroll bar to the dropdown menu for quantity
  */
