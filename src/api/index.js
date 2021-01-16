@@ -115,3 +115,15 @@ export async function getCheckoutSession(sessionArr) {
     throw error;
   }
 }
+
+export async function postPaymentIntent(cart) {
+  try {
+    const { data } = await axios.post(
+      "/api/checkout/create-payment-intent",
+      cart
+    );
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

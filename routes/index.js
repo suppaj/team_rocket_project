@@ -49,4 +49,7 @@ apiRouter.use("/login", require("./customers"));
 apiRouter.use("/register", require("./customers"));
 apiRouter.use("/products", require("./products"));
 
+const usersRouter = require('./checkout');
+apiRouter.use('/checkout', usersRouter);
+
 module.exports = apiRouter;

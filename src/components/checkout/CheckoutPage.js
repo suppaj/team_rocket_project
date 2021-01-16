@@ -15,15 +15,15 @@ const CheckoutPage = ({ isLoggedIn }) => {
         <div className='nes-container with-title is-rounded w-100'>
             <p className='title'>TEAM ROCKET CHECKOUT w/ STRIPE</p>
             <Row>
-                <Col>
+                <Col md={3}>
                     {cart.map((item)=> <CheckOutCard key={item.dex_id} item={item}/>)}
                 </Col>
-                <Col>
+                <Col md={5}>
                     <Elements stripe={stripePromise}>
-                        {isLoggedIn ? <UserCheckOutForm /> : <GuestCheckOutForm />}
+                        {isLoggedIn ? <UserCheckOutForm cart={cart}/> : <GuestCheckOutForm cart={cart}/>}
                     </Elements>
                 </Col>
-                <Col>
+                <Col md={4}>
                 ORDER ITEMIZED DETAILS
                 </Col>
             </Row>
