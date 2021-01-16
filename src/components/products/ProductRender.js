@@ -3,7 +3,12 @@ import { Button } from "react-bootstrap";
 
 import "./Product.css";
 
-const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
+const Products = ({
+  currentProducts,
+  typeFilter,
+  setFilterMessage,
+  sortMethod,
+}) => {
   // randomizes the unknown image shown if there is nothing to display
   const unknownArray = "abcdefghijklmnopqrstuvwxyz".split("");
   unknownArray.push("exclamation");
@@ -20,7 +25,7 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
 
   // individually renders a product card
   function renderCard(poke) {
-    const { prod_id, dex_id, name, type, price } = poke;
+    const { prod_id, dex_id, name, type, price, height, weight } = poke;
     // maps the type badges for a given product
     function typeMapper(typeArray) {
       return typeArray.map((type, index) => {
@@ -62,7 +67,10 @@ const Products = ({ currentProducts, typeFilter, setFilterMessage }) => {
         <p className="nes-container is-rounded title">
           #{dex_id} {name}
         </p>
-        <p>${price}</p>
+        <p>
+          {sortMethod === "height" ? `${height / 10}m | ` : ""}
+          {sortMethod === "weight" ? `${weight / 10}kg | ` : ""}${price}
+        </p>
         <Button variant="link" href={`/products/${prod_id}/${name}`}>
           <img
             style={{

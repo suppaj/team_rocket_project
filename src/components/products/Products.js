@@ -13,6 +13,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   const [allTypes, setAllTypes] = useState([]);
   const [filterMessage, setFilterMessage] = useState("Filter pokemon...");
   const [searchVal, setSearchVal] = useState("");
+  const [sortMethod, setSortMethod] = useState("");
 
   useEffect(() => {
     // grabs all pokemon entries from the database
@@ -107,6 +108,8 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setAllProducts={setAllProducts}
           currentProducts={currentProducts}
           setCurrentProducts={setCurrentProducts}
+          sortMethod={sortMethod}
+          setSortMethod={setSortMethod}
         />
       </Row>
       <Row
@@ -120,6 +123,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           currentProducts={currentProducts}
           typeFilter={typeFilter}
           setFilterMessage={setFilterMessage}
+          sortMethod={sortMethod}
         />
       </Row>
     </>

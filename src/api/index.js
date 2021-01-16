@@ -18,18 +18,18 @@ export async function getAllProducts() {
   }
 }
 
-export async function getProductById(product_id) {
+export async function getAllTypes() {
   try {
-    const { data } = await axios.get(`/api/products/${product_id}`);
+    const { data } = await axios.get("/api/products/types");
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function getAllTypes() {
+export async function getProductById(product_id) {
   try {
-    const { data } = await axios.get("/api/types");
+    const { data } = await axios.get(`/api/products/${product_id}`);
     return data;
   } catch (error) {
     throw error;

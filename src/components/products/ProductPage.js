@@ -163,7 +163,11 @@ const ProductPage = ({ allProducts }) => {
                 <Dropdown.Toggle variant="dark" id="quantity-dropdown">
                   Qty: {orderAmount}
                 </Dropdown.Toggle>
-                <Dropdown.Menu>{quantityMapper(quantity)}</Dropdown.Menu>
+                <Dropdown.Menu
+                  style={{ maxHeight: "20vh", overflow: "scroll" }}
+                >
+                  {quantityMapper(quantity)}
+                </Dropdown.Menu>
               </Dropdown>
               <AddToCart
                 product={currentPoke}
@@ -199,5 +203,5 @@ const ProductPage = ({ allProducts }) => {
 export default ProductPage;
 
 /*
-
+todo add scroll bar to the dropdown menu for quantity
  */

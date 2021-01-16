@@ -7,6 +7,8 @@ const ProductSorter = ({
   setAllProducts,
   currentProducts,
   setCurrentProducts,
+  sortMethod,
+  setSortMethod,
 }) => {
   const [sortMessage, setSortMessage] = useState("Sort pokemon...");
 
@@ -46,6 +48,7 @@ const ProductSorter = ({
             <Dropdown.Item
               onClick={() => {
                 setSortMessage("Sort pokemon...");
+                setSortMethod("");
               }}
             >
               Clear sort
@@ -57,6 +60,7 @@ const ProductSorter = ({
         <Dropdown.Item
           onClick={() => {
             setSortMessage("Price: High to Low");
+            setSortMethod("price");
             sortProductsByKey(currentProducts, "price", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "price", 1, setAllProducts);
           }}
@@ -66,6 +70,7 @@ const ProductSorter = ({
         <Dropdown.Item
           onClick={() => {
             setSortMessage("Price: Low to High");
+            setSortMethod("price");
             sortProductsByKey(currentProducts, "price", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "price", 2, setAllProducts);
           }}
@@ -77,6 +82,7 @@ const ProductSorter = ({
         <Dropdown.Item
           onClick={() => {
             setSortMessage("Height: High to Low");
+            setSortMethod("height");
             sortProductsByKey(currentProducts, "height", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "height", 1, setAllProducts);
           }}
@@ -86,6 +92,7 @@ const ProductSorter = ({
         <Dropdown.Item
           onClick={() => {
             setSortMessage("Height: Low to High");
+            setSortMethod("height");
             sortProductsByKey(currentProducts, "height", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "height", 2, setAllProducts);
           }}
@@ -97,6 +104,7 @@ const ProductSorter = ({
         <Dropdown.Item
           onClick={() => {
             setSortMessage("Weight: High to Low");
+            setSortMethod("weight");
             sortProductsByKey(currentProducts, "weight", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "weight", 1, setAllProducts);
           }}
@@ -106,6 +114,7 @@ const ProductSorter = ({
         <Dropdown.Item
           onClick={() => {
             setSortMessage("Weight: Low to High");
+            setSortMethod("weight");
             sortProductsByKey(currentProducts, "weight", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "weight", 2, setAllProducts);
           }}
