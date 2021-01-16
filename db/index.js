@@ -249,7 +249,7 @@ async function db_createCustomer({
   last_name,
   cust_email,
   cust_pwd,
-  isAdmin,
+  is_admin,
 }) {
   try {
     const { rows } = await client.query(
@@ -260,13 +260,13 @@ async function db_createCustomer({
       last_name,
       cust_email,
       cust_pwd,
-      isAdmin)
+      is_admin)
       VALUES($1,$2,$3,$4,$5)
       ON CONFLICT (cust_email) DO NOTHING
       RETURNING *;
     
     `,
-      [first_name, last_name, cust_email, cust_pwd, isAdmin]
+      [first_name, last_name, cust_email, cust_pwd, is_admin]
     );
     return rows;
   } catch (error) {

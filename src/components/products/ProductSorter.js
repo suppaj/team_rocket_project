@@ -54,6 +54,13 @@ const ProductSorter = ({
               onClick={() => {
                 setSortMessage("Sort pokemon...");
                 setSortMethod("");
+                sortProductsByKey(
+                  currentProducts,
+                  "dex_id",
+                  2,
+                  setCurrentProducts
+                );
+                sortProductsByKey(allProducts, "dex_id", 2, setAllProducts);
               }}
             >
               Clear sort

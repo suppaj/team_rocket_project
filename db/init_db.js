@@ -5,7 +5,6 @@ const {
   // other db methods
   createAllTypeEntries,
   createAllPokeEntries,
-  createTypeRelation,
   db_createCustomer,
   db_getCustomerById,
 } = require("./index");
@@ -52,7 +51,8 @@ async function buildTables() {
         height SMALLINT NOT NULL,
         weight SMALLINT NOT NULL,
         price NUMERIC(5,2) NOT NULL,
-        quantity INTEGER NOT NULL
+        quantity INTEGER NOT NULL,
+        is_active BOOLEAN DEFAULT true
       );
 
       CREATE TABLE product_type(
@@ -67,7 +67,7 @@ async function buildTables() {
         last_name VARCHAR(50) NOT NULL,
         cust_email VARCHAR(100) UNIQUE NOT NULL,
         cust_pwd VARCHAR(50),
-        isAdmin BOOLEAN DEFAULT false
+        is_admin BOOLEAN DEFAULT false
         );
 
       CREATE TABLE shipping_add(
@@ -201,7 +201,7 @@ async function populateInitialData() {
       last_name: "Admin",
       cust_email: "admin@teamrocket.com",
       cust_pwd: "1234",
-      isAdmin: true,
+      is_admin: true,
     });
 
     await db_createCustomer({
@@ -209,7 +209,7 @@ async function populateInitialData() {
       last_name: "Asbury",
       cust_email: "hasbury0@cisco.com",
       cust_pwd: "IUhJp2i",
-      isAdmin: false,
+      is_admin: false,
     });
 
     await db_createCustomer({
@@ -217,7 +217,7 @@ async function populateInitialData() {
       last_name: "Rossant",
       cust_email: "frossant2@e-recht24.de",
       cust_pwd: "V5sqK20ov9xN",
-      isAdmin: false,
+      is_admin: false,
     });
 
     await db_createCustomer({
@@ -225,7 +225,7 @@ async function populateInitialData() {
       last_name: "Arstall",
       cust_email: "barstall3@is.gd",
       cust_pwd: "kNlH81WX8",
-      isAdmin: false,
+      is_admin: false,
     });
 
     await db_createCustomer({
@@ -233,7 +233,7 @@ async function populateInitialData() {
       last_name: "MacVagh",
       cust_email: "emacvagh4@accuweather.com",
       cust_pwd: "PD3cW3ShhtT",
-      isAdmin: false,
+      is_admin: false,
     });
 
     console.log("Test of helper functions");

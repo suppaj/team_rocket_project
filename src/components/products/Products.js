@@ -1,3 +1,4 @@
+import { Button } from "bootstrap";
 import React, { useState, useEffect } from "react";
 
 import { Row } from "react-bootstrap";
@@ -14,6 +15,21 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   const [filterMessage, setFilterMessage] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [sortMethod, setSortMethod] = useState("");
+
+  // // front-end pagination state
+  // const [indexStart, setIndexStart] = useState(0);
+  // const [indexEnd, setIndexEnd] = useState(12);
+
+  // // front-end pagination next page
+  // function renderNextPage() {
+  //   setIndexStart(indexStart + 13);
+  //   setIndexEnd(indexEnd + 13);
+  // }
+  // // front-end pagination previous page
+  // function renderPrevPage() {
+  //   setIndexStart(indexStart - 13);
+  //   setIndexEnd(indexEnd - 13);
+  // }
 
   useEffect(() => {
     // grabs all pokemon entries from the database
@@ -111,6 +127,8 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setSortMethod={setSortMethod}
           alphabetize={alphabetize}
         />
+        <Button onCLick={renderPrevPage}>Previous Page</Button>
+        <Button onClick={renderNextPage}>Next Page</Button>
       </Row>
       <Row
         style={{
@@ -124,6 +142,8 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           typeFilter={typeFilter}
           setFilterMessage={setFilterMessage}
           sortMethod={sortMethod}
+          // indexStart={indexStart}
+          // indexEnd={indexEnd}
         />
       </Row>
     </>
