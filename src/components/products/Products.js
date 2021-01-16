@@ -127,8 +127,8 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setSortMethod={setSortMethod}
           alphabetize={alphabetize}
         />
-        <Button onCLick={renderPrevPage}>Previous Page</Button>
-        <Button onClick={renderNextPage}>Next Page</Button>
+        {/* <Button onCLick={renderPrevPage}>Previous Page</Button>
+        <Button onClick={renderNextPage}>Next Page</Button> */}
       </Row>
       <Row
         style={{
