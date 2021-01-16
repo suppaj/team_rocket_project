@@ -347,6 +347,101 @@ async function db_getCustomerCart(cust_email) {
   }
 }
 
+// admin methods
+
+async function db_deleteRelationProductById(prod_id, type_id) {
+  try {
+    await client.query(`
+      DELETE
+      FROM cart_items
+      WHERE prod_id=${prod_id}
+      RETURNING *;
+    `);
+
+    await client.query(`
+      DELETE
+      FROM order_detail
+      WHERE prod_id=${prod_id}
+      RETURNING *;
+    `);
+
+    await client.query(`
+      DELETE
+      FROM product_reviews
+      WHERE prod_id=${prod_id}
+      RETURNING *;
+    `);
+
+    await client.query(`
+      DELETE
+      FROM product_type
+      WHERE prod_id=${prod_id} AND  type_id=${type_id}
+      RETURNING *;
+    `);
+
+    await client.query(`
+      DELETE
+      FROM product
+      WHERE prod_id=${prod_id}
+      RETURNING *;
+
+    `);
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_deleteProductById(prod_id) {
+  try {
+    await client.query(`
+      DELETE
+      FROM product
+      WHERE prod_id=${prod_id}
+      RETURNING *;
+    `);
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_updateProduct(prod_id, fields = {}) {
+  const setString = Object.keys(fields)
+    .map((key, index) => `"${key}"=$${index + 1}`)
+    .join(", ");
+
+  if (setString.length === 0) {
+    return;
+  }
+  try {
+    const {
+      rows: [product],
+    } = await client.query(
+      `
+      UPDATE product
+      SET ${setString}
+      WHERE prod_id=${prod_id}
+      RETURNING *;
+    `,
+      Object.values(fields)
+    );
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getAllUsers() {
+  try {
+    const { rows } = await client.query(`
+      SELECT *
+      FROM customers;
+    `);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // export
 
 module.exports = {
@@ -365,4 +460,7 @@ module.exports = {
   db_getCustomerById,
   db_getCustomerByEmail,
   db_getCustomerCart,
+  db_deleteProductById,
+  db_updateProduct,
+  db_deleteRelationProductById,
 };
