@@ -11,7 +11,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   const [allProducts, setAllProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
   const [allTypes, setAllTypes] = useState([]);
-  const [filterMessage, setFilterMessage] = useState("Filter pokemon...");
+  const [filterMessage, setFilterMessage] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [sortMethod, setSortMethod] = useState("");
 
@@ -62,7 +62,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   // function to filter product by types, passed into both ProductRender & ProductTypeFilter
   function typeFilter(val) {
     if (searchVal !== "") {
-      console.log("its happening!");
       setSearchVal("");
     }
     let copy = [...allProducts];

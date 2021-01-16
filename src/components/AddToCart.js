@@ -63,7 +63,11 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
 
   return (
     <>
-      <Button variant="dark" onClick={handleAddToCart}>
+      <Button
+        variant="dark"
+        style={{ borderRadius: "5px" }}
+        onClick={handleAddToCart}
+      >
         <img
           style={{
             height: "40px",

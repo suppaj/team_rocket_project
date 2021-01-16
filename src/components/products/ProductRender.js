@@ -64,9 +64,16 @@ const Products = ({
         }}
         className={`pokemon-card nes-container with-title is-rounded is-centered`}
       >
-        <p className="nes-container is-rounded title">
-          #{dex_id} {name}
-        </p>
+        <div className="nes-container is-rounded title">
+          <span>#{dex_id} </span>
+          <span
+            style={{
+              textTransform: "capitalize",
+            }}
+          >
+            {name}
+          </span>
+        </div>
         <p>
           ${price}
           {sortMethod === "height" ? ` | ${height / 10}m` : ""}

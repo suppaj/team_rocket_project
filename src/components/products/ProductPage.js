@@ -9,7 +9,7 @@ import {
   useParams,
 } from "react-router-dom";
 
-import { ButtonGroup, Dropdown } from "react-bootstrap";
+import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 
 import { AddToCart } from "../index";
 import { getProductById } from "../../api";
