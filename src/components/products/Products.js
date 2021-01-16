@@ -110,6 +110,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setCurrentProducts={setCurrentProducts}
           sortMethod={sortMethod}
           setSortMethod={setSortMethod}
+          alphabetize={alphabetize}
         />
       </Row>
       <Row

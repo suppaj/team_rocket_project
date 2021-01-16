@@ -68,8 +68,9 @@ const Products = ({
           #{dex_id} {name}
         </p>
         <p>
-          {sortMethod === "height" ? `${height / 10}m | ` : ""}
-          {sortMethod === "weight" ? `${weight / 10}kg | ` : ""}${price}
+          ${price}
+          {sortMethod === "height" ? ` | ${height / 10}m` : ""}
+          {sortMethod === "weight" ? ` | ${weight / 10}kg` : ""}
         </p>
         <Button variant="link" href={`/products/${prod_id}/${name}`}>
           <img

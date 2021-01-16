@@ -7,8 +7,8 @@ const ProductSorter = ({
   setAllProducts,
   currentProducts,
   setCurrentProducts,
-  sortMethod,
   setSortMethod,
+  alphabetize,
 }) => {
   const [sortMessage, setSortMessage] = useState("Sort pokemon...");
 
@@ -31,6 +31,11 @@ const ProductSorter = ({
         b = parseInt(b[key]);
         return a - b;
       });
+    } else if (sortMethod === 3) {
+      sorted.sort(alphabetize);
+    } else if (sortMethod === 4) {
+      sorted.sort(alphabetize);
+      sorted.reverse();
     }
     setMethod(sorted);
   }
@@ -76,6 +81,28 @@ const ProductSorter = ({
           }}
         >
           Low to High
+        </Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Header>Sort by name...</Dropdown.Header>
+        <Dropdown.Item
+          onClick={() => {
+            setSortMessage("Name: A to Z");
+            setSortMethod("name");
+            sortProductsByKey(currentProducts, "name", 3, setCurrentProducts);
+            sortProductsByKey(allProducts, "name", 3, setAllProducts);
+          }}
+        >
+          A to Z
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            setSortMessage("Name: Z to A");
+            setSortMethod("price");
+            sortProductsByKey(currentProducts, "name", 4, setCurrentProducts);
+            sortProductsByKey(allProducts, "name", 4, setAllProducts);
+          }}
+        >
+          Z to A
         </Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Header>Sort by height...</Dropdown.Header>
