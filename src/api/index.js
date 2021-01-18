@@ -128,3 +128,23 @@ export async function postPaymentIntent(cart) {
     throw error;
   }
 }
+
+export async function getAllCustomers() {
+  try {
+    const { data } = await axios.get(`/api/admin/view_customers`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getCustomerByEmail(cust_email) {
+  try {
+    const { data } = await axios.get(`api/admin/customers_email`, {
+      cust_email,
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -3,14 +3,30 @@ require("dotenv").config();
 // This is the Web Server
 const express = require("express");
 const server = express();
-
+const cors = require("cors");
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+require("./passport");
 // create logs for everything
 const morgan = require("morgan");
+
+server.use(cors());
 server.use(morgan("dev"));
 
 // handle application/json requests
 const bodyParser = require("body-parser");
 server.use(bodyParser.json());
+
+// ADDITION OF COOKIE SESSION
+server.use(
+  cookieSession({
+    name: "customer-session",
+    keys: ["key1", "key2"],
+  })
+);
+
+server.use(passport.initialize());
+server.use(passport.session());
 
 // here's our static files
 const path = require("path");
@@ -26,6 +42,20 @@ server.use((req, res, next) => {
 
 // bring in the DB connection
 const { client } = require("./db");
+
+server.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+server.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/failed" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect("/good");
+  }
+);
 
 // connect to the server
 const PORT = process.env.PORT || 5000;
