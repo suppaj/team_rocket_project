@@ -8,8 +8,8 @@ const Products = ({
   typeFilter,
   setFilterMessage,
   sortMethod,
-  // indexStart,
-  // indexEnd,
+  indexStart,
+  indexEnd,
 }) => {
   // randomizes the unknown image shown if there is nothing to display
   const unknownArray = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -118,7 +118,7 @@ const Products = ({
 
   if (currentProducts.length) {
     // if there are products to display, render all of them
-    return <>{renderAllCards(currentProducts, 0, 12)}</>;
+    return <>{renderAllCards(currentProducts, indexStart, indexEnd)}</>;
   } else {
     // if there are no propducts to display, shows a card with an apporpriate message
     return (

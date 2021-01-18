@@ -1,7 +1,6 @@
-import { Button } from "bootstrap";
 import React, { useState, useEffect } from "react";
 
-import { Row } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 
 import ProductRender from "./ProductRender";
 import ProductSearch from "./ProductSearch";
@@ -16,20 +15,27 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   const [searchVal, setSearchVal] = useState("");
   const [sortMethod, setSortMethod] = useState("");
 
-  // // front-end pagination state
-  // const [indexStart, setIndexStart] = useState(0);
-  // const [indexEnd, setIndexEnd] = useState(12);
+  // front-end pagination state, incrementing by 12
+  const [indexStart, setIndexStart] = useState(0);
+  const [indexEnd, setIndexEnd] = useState(12);
 
-  // // front-end pagination next page
-  // function renderNextPage() {
-  //   setIndexStart(indexStart + 13);
-  //   setIndexEnd(indexEnd + 13);
-  // }
-  // // front-end pagination previous page
-  // function renderPrevPage() {
-  //   setIndexStart(indexStart - 13);
-  //   setIndexEnd(indexEnd - 13);
-  // }
+  // front-end pagination next page
+  function renderNextPage() {
+    setIndexStart(indexStart + 12);
+    setIndexEnd(indexEnd + 12);
+  }
+  // front-end pagination previous page
+  function renderPrevPage() {
+    setIndexStart(indexStart - 12);
+    setIndexEnd(indexEnd - 12);
+  }
+  // scrolls to top of page when next/prev buttons are clicked
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
 
   useEffect(() => {
     // grabs all pokemon entries from the database
@@ -127,8 +133,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setSortMethod={setSortMethod}
           alphabetize={alphabetize}
         />
-        {/* <Button onCLick={renderPrevPage}>Previous Page</Button>
-        <Button onClick={renderNextPage}>Next Page</Button> */}
       </Row>
       <Row
         style={{
@@ -142,9 +146,47 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           typeFilter={typeFilter}
           setFilterMessage={setFilterMessage}
           sortMethod={sortMethod}
-          // indexStart={indexStart}
-          // indexEnd={indexEnd}
+          indexStart={indexStart}
+          indexEnd={indexEnd}
         />
+      </Row>
+      <Row
+        style={{
+          width: "100vw",
+          maxHeight: "38px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {indexStart === 0 ? (
+          ""
+        ) : (
+          <Button
+            style={{ marginRight: "10px" }}
+            variant="secondary"
+            onClick={() => {
+              scrollToTop();
+              renderPrevPage();
+              console.log("prev page");
+            }}
+          >
+            Previous Page
+          </Button>
+        )}
+        {indexEnd >= currentProducts.length ? (
+          ""
+        ) : (
+          <Button
+            variant="secondary"
+            onClick={() => {
+              scrollToTop();
+              renderNextPage();
+              console.log("next page");
+            }}
+          >
+            Next Page
+          </Button>
+        )}
       </Row>
     </>
   );

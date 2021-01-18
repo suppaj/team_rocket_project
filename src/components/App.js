@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 
+import "./style.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
