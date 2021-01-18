@@ -29,6 +29,11 @@ const Products = ({ getAllProducts, getAllTypes }) => {
     setIndexStart(indexStart - 12);
     setIndexEnd(indexEnd - 12);
   }
+  // resets pagination for search/sort/filters
+  function resetPagination() {
+    setIndexStart(0);
+    setIndexEnd(12);
+  }
   // scrolls to top of page when next/prev buttons are clicked
   function scrollToTop() {
     window.scrollTo({
@@ -115,6 +120,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setFilterMessage={setFilterMessage}
           searchVal={searchVal}
           setSearchVal={setSearchVal}
+          resetPagination={resetPagination}
         />
         <ProductTypeFilter
           allProducts={allProducts}
@@ -123,6 +129,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           typeFilter={typeFilter}
           filterMessage={filterMessage}
           setFilterMessage={setFilterMessage}
+          resetPagination={resetPagination}
         />
         <ProductSorter
           allProducts={allProducts}
@@ -132,6 +139,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           sortMethod={sortMethod}
           setSortMethod={setSortMethod}
           alphabetize={alphabetize}
+          resetPagination={resetPagination}
         />
       </Row>
       <Row
