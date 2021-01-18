@@ -130,8 +130,16 @@ export async function postPaymentIntent(cart) {
 
 export async function recordGuestOrder( cart , formInfo) {
   try {
-    const { data } = await axios.post('/api/checkout/guestorder', {cart, formInfo});
+    await axios.post('/api/checkout/guestorder', {cart, formInfo});
+  } catch (error) {
+    throw error
+  }
+}
 
+export async function getUserShipInfo(cust_id) {
+  try {
+    const { data } = await axios.get(`/api/users/:${cust_id}/ship`);
+    return data;
   } catch (error) {
     throw error
   }

@@ -105,4 +105,14 @@ apiRouter.post("/register", async (req, res, next) => {
   }
 });
 
+apiRouter.get(`/users/:cust_id/ship`, async (req, res, next)=>{
+  const { cust_id } = req.params;
+  try {
+    const results = await db_getUserShipInfo(cust_id);
+    return results;
+  } catch (error) { 
+    next(error)
+  }
+})
+
 module.exports = apiRouter;

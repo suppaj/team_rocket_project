@@ -8,7 +8,7 @@ const stripePromise = loadStripe(
   'pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i'
 );
 
-const CheckoutPage = ({ isLoggedIn }) => {
+const CheckoutPage = ({ isLoggedIn = true }) => {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
   return (

@@ -78,7 +78,7 @@ const BillForm = ( { billInfo, setBillInfo, formStatus, setKey, isChecked, shipI
             </div>
           </div>
           <div className='nes-field'>
-            <label htmlFor='ckout-bill-zip'>Zip</label>
+            <label htmlFor='ckout-bill-zip'>Zipcode</label>
             <input
               type='text'
               id='ckout-bill-zip'

@@ -549,6 +549,18 @@ async function _createGuest_Order(orderId, formInfo) {
     throw error;
   }
 }
+
+async function db_getUserShipInfo(cust_id) {
+  try {
+    const { rows : [ shipInfo ] } = await client.query(`
+      SELECT * FROM shipping_add
+        WHERE cust_id = $1;
+    `,[ cust_id ]);
+    return shipInfo
+  } catch (error) {
+    throw error
+  }
+}
 // export
 
 module.exports = {
@@ -572,4 +584,5 @@ module.exports = {
   db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
+  db_getUserShipInfo,
 };

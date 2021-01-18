@@ -116,7 +116,7 @@ const GuestCheckOutForm = ({ cart }) => {
     }
   };
 
-  const handlePayment = async (e) => {
+  const handlePayment = async (e, formInfo) => {
     e.preventDefault();
     console.log('cart', cart);
     document.getElementById('process-dialog').showModal();
@@ -135,11 +135,11 @@ const GuestCheckOutForm = ({ cart }) => {
         setMessage(result.error.message);
       } else {
         setMessage(`Payment ${result.paymentIntent.status}`); //not really needed anymore
-        recordGuestOrder(cart, { contactInfo, shipInfo, billInfo })
+        recordGuestOrder(cart, formInfo)
         localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',
-          state: { formInfo: { contactInfo, shipInfo, billInfo } },
+          state: { formInfo },
         });
       }
     } catch (error) {
@@ -201,8 +201,11 @@ const GuestCheckOutForm = ({ cart }) => {
           >
             <p>Payment Information</p>
             <div id='cc-info-box'>
+              Card Number
               <CardNumberElement options={CARD_OPTIONS} />
+              Expiration Date
               <CardExpiryElement options={CARD_OPTIONS} />
+              Security Code
               <CardCvcElement options={CARD_OPTIONS} />
             </div>
             <button
