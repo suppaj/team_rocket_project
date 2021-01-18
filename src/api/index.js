@@ -127,3 +127,12 @@ export async function postPaymentIntent(cart) {
     throw error;
   }
 }
+
+export async function recordGuestOrder( cart , formInfo) {
+  try {
+    const { data } = await axios.post('/api/checkout/guestorder', {cart, formInfo});
+
+  } catch (error) {
+    throw error
+  }
+}

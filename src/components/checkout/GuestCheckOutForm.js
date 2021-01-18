@@ -8,7 +8,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { Tabs, Tab } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import { postPaymentIntent } from '../../api';
+import { postPaymentIntent, recordGuestOrder } from '../../api';
 import ContactForm from './ContactForm';
 import ShipForm from './ShipForm';
 import BillForm from './BillForm';
@@ -134,8 +134,8 @@ const GuestCheckOutForm = ({ cart }) => {
       if (result.error) {
         setMessage(result.error.message);
       } else {
-        setMessage(`Payment ${result.paymentIntent.status}`);
-
+        setMessage(`Payment ${result.paymentIntent.status}`); //not really needed anymore
+        await recordGuestOrder(cart, { contactInfo, shipInfo, billInfo })
         history.push({
           pathname: '/checkout/success',
           state: { formInfo: { contactInfo, shipInfo, billInfo } },

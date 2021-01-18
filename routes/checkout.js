@@ -4,7 +4,13 @@ const ckoutRouter = require('express').Router();
 
 const ROCKET_DOMAIN = process.env.ROCKET_DOMAIN || 'http://localhost:3000';
 
-const { calculateOrderAmount } = require('./utilities');
+const { 
+    calculateOrderAmount,
+ } = require('./utilities');
+
+ const {
+     db_recordGuestOrder
+ } = require('../db');
 
 ckoutRouter.post('/create-checkout-session', async (req, res, next) => {
   console.log(process.env.STRIPE_SECRET_KEY);
@@ -40,5 +46,14 @@ ckoutRouter.post(`/create-payment-intent`, async (req, res, next) => {
     next(error);
   }
 });
+
+ckoutRouter.post('/guestorder', async (req, res, next) => {
+    const { cart , formInfo } = req.body
+    try {
+        await db_recordGuestOrder(cart, formInfo)
+    } catch (error) {
+        next(error);
+    }
+})
 
 module.exports = ckoutRouter;
