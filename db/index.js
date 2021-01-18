@@ -504,8 +504,6 @@ async function _addOrderItems(cart, order_id) {
           price
       );
     };
-    console.log(valueString);
-    console.log(valueArray);
     await client.query(
       `
       INSERT INTO order_detail(order_id, prod_id, order_quantity, order_price)

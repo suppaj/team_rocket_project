@@ -135,7 +135,8 @@ const GuestCheckOutForm = ({ cart }) => {
         setMessage(result.error.message);
       } else {
         setMessage(`Payment ${result.paymentIntent.status}`); //not really needed anymore
-        await recordGuestOrder(cart, { contactInfo, shipInfo, billInfo })
+        recordGuestOrder(cart, { contactInfo, shipInfo, billInfo })
+        localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',
           state: { formInfo: { contactInfo, shipInfo, billInfo } },
