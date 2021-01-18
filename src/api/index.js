@@ -105,7 +105,6 @@ export async function registerCustomer(
 }
 
 export async function getCheckoutSession(sessionArr) {
-  console.log("check", sessionArr);
   try {
     const { data } = await axios.post(
       "/api/checkout/create-checkout-session",

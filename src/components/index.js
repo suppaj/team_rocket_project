@@ -12,3 +12,4 @@ export { default as UserCheckOutForm } from "./checkout/UserCheckOutForm";
 export { default as GuestCheckOutForm } from "./checkout/GuestCheckOutForm";
 export { default as Register } from "./Register";
 export { default as Login } from "./Login";
+export { default as SuccessPage } from './checkout/SuccessPage';

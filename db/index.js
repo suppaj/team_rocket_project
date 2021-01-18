@@ -442,6 +442,21 @@ async function db_getAllUsers() {
   }
 }
 
+// checkout methods
+
+async function db_getItemPrice(prod_id) {
+  console.log('product id', prod_id)
+  try {
+    const { rows : [ price ] } = await client.query(`
+      SELECT price FROM product
+      WHERE prod_id = $1;
+    `, [prod_id])
+    console.log(price)
+    return price.price
+  } catch (error) {
+    throw error
+  }
+}
 // export
 
 module.exports = {
@@ -463,4 +478,5 @@ module.exports = {
   db_deleteProductById,
   db_updateProduct,
   db_deleteRelationProductById,
+  db_getItemPrice
 };
