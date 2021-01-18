@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-    CardNumberElement,
-    CardExpiryElement,
-    CardCvcElement,
-  } from '@stripe/react-stripe-js';
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from '@stripe/react-stripe-js';
 import { Tabs, Tab } from 'react-bootstrap';
 import ContactForm from './ContactForm';
 import ShipForm from './ShipForm';
 import BillForm from './BillForm';
 
-const CheckOutForm = ({
-  handlePayment,
-  cart,
-  firstOrder,
-  user
-}) => {
+const CheckOutForm = ({ handlePayment, cart, firstOrder, user }) => {
   const [key, setKey] = useState('contact');
   const [isChecked, setisChecked] = useState(false);
   const [contactInfo, setContactInfo] = useState({
@@ -50,14 +45,18 @@ const CheckOutForm = ({
     }
     return subTotal;
   };
-  
-  useEffect(()=>{
-      if (firstOrder) {
-          setContactInfo({firstName : user.first_name, lastName : user.last_name, email: user.cust_email});
-          setFormStatus({...formStatus, contact : false});
-          setKey('shipping');
-      }
-  },[])
+
+  useEffect(() => {
+    if (firstOrder) {
+      setContactInfo({
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.cust_email,
+      });
+      setFormStatus({ ...formStatus, contact: false });
+      setKey('shipping');
+    }
+  }, []);
 
   useEffect(() => {
     setFormStatus({ ...formStatus, contact: false });
@@ -84,8 +83,6 @@ const CheckOutForm = ({
       }
     });
   }, [shipInfo]);
-  
-  
 
   useEffect(() => {
     setFormStatus({ ...formStatus, billing: false });
@@ -178,7 +175,9 @@ const CheckOutForm = ({
           <button
             className='nes-btn is-primary'
             style={{ fontSize: '1.5rem', width: '100%' }}
-            onClick={(e)=>handlePayment(e, {contactInfo, shipInfo, billInfo})}
+            onClick={(e) =>
+              handlePayment(e, { contactInfo, shipInfo, billInfo })
+            }
           >
             PAY ${getSubTotal().toFixed(2)}
           </button>
