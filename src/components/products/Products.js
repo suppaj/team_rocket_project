@@ -1,15 +1,21 @@
+// react imports
 import React, { useState, useEffect } from "react";
 
+// react bootstrap imports
 import { Button, Row } from "react-bootstrap";
 
+// component imports
 import ProductRender from "./ProductRender";
 import ProductSearch from "./ProductSearch";
 import ProductSorter from "./ProductSorter";
 import ProductTypeFilter from "./ProductTypeFilter";
 
 const Products = ({ getAllProducts, getAllTypes }) => {
+  // product states
   const [allProducts, setAllProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
+
+  // search/sort/filter states
   const [allTypes, setAllTypes] = useState([]);
   const [filterMessage, setFilterMessage] = useState("");
   const [searchVal, setSearchVal] = useState("");
@@ -113,6 +119,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           justifyContent: "center",
         }}
       >
+        {/** product search component*/}
         <ProductSearch
           allProducts={allProducts}
           setCurrentProducts={setCurrentProducts}
@@ -122,6 +129,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setSearchVal={setSearchVal}
           resetPagination={resetPagination}
         />
+        {/** product filter component*/}
         <ProductTypeFilter
           allProducts={allProducts}
           setCurrentProducts={setCurrentProducts}
@@ -131,6 +139,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setFilterMessage={setFilterMessage}
           resetPagination={resetPagination}
         />
+        {/** product sort component */}
         <ProductSorter
           allProducts={allProducts}
           setAllProducts={setAllProducts}
@@ -149,6 +158,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           justifyContent: "center",
         }}
       >
+        {/** render products component */}
         <ProductRender
           currentProducts={currentProducts}
           typeFilter={typeFilter}
@@ -166,6 +176,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           justifyContent: "center",
         }}
       >
+        {/** previous page pagination component, conditionally rendered */}
         {indexStart === 0 ? (
           ""
         ) : (
@@ -175,12 +186,12 @@ const Products = ({ getAllProducts, getAllTypes }) => {
             onClick={() => {
               scrollToTop();
               renderPrevPage();
-              console.log("prev page");
             }}
           >
             Previous Page
           </Button>
         )}
+        {/** next page pagination component, conditionally rendered */}
         {indexEnd >= currentProducts.length ? (
           ""
         ) : (
@@ -189,7 +200,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
             onClick={() => {
               scrollToTop();
               renderNextPage();
-              console.log("next page");
             }}
           >
             Next Page

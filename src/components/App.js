@@ -11,6 +11,7 @@ import {
   Redirect,
   Switch,
   Link,
+  useLocation,
 } from "react-router-dom";
 
 import {
@@ -25,6 +26,7 @@ import {
   CartButton,
   Products,
   ProductPage,
+  ProductsReturn,
   ShoppingCart,
   Login,
   Register,
@@ -75,6 +77,7 @@ const App = () => {
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
             />
           </div>
+          <ProductsReturn />
           <Login setIsLoggedIn={setIsLoggedIn} />
           <Register />
           <CartButton />
