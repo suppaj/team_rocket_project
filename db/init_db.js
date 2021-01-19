@@ -100,17 +100,9 @@ async function buildTables() {
         order_id SERIAL PRIMARY KEY,
         cust_id INTEGER,
         order_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-        ship_add_id INTEGER,
-        bill_add_id INTEGER,
         CONSTRAINT fk_cust_id
           FOREIGN KEY(cust_id)
-            REFERENCES customers(cust_id),
-        CONSTRAINT fk_ship_add_id
-          FOREIGN KEY(ship_add_id)
-            REFERENCES shipping_add(ship_add_id),
-        CONSTRAINT fk_bill_add_id
-          FOREIGN KEY(bill_add_id)
-            REFERENCES billing_add(bill_add_id)
+            REFERENCES customers(cust_id)
         );
 
        CREATE TABLE order_detail(
@@ -153,6 +145,16 @@ async function buildTables() {
         guest_first_name VARCHAR(25) NOT NULL,
         guest_last_name VARCHAR(50) NOT NULL,
         guest_email VARCHAR(100) NOT NULL,
+        ship_add1 VARCHAR(100) NOT NULL,
+        ship_add2 VARCHAR(100),
+        ship_city VARCHAR(100) NOT NULL,
+        ship_state VARCHAR(20) NOT NULL,
+        ship_zipcode VARCHAR(10) NOT NULL,
+        bill_add1 VARCHAR(100) NOT NULL,
+        bill_add2 VARCHAR(100),
+        bill_city VARCHAR(100) NOT NULL,
+        bill_state VARCHAR(20) NOT NULL,
+        bill_zipcode VARCHAR(10) NOT NULL,
         CONSTRAINT fk_order_id
           FOREIGN KEY(order_id)
             REFERENCES order_cust_relate(order_id)
@@ -196,6 +198,24 @@ async function populateInitialData() {
     console.log(" ");
 
     console.log("Loading sample customers");
+    // guest account
+    await db_createCustomer({
+      first_name: "GUEST",
+      last_name: "GUEST",
+      cust_email: "GUEST@teamrocket.com",
+      cust_pwd: '1qaz2wsx!QAZ@WSX',
+      isAdmin: false
+    });
+    //guest shipping and billing
+    // await client.query(`
+    //   INSERT INTO
+    //     shipping_add(cust_id, ship_add1, ship_city, ship_state, ship_zipcode)
+    //     VALUES (1,'GUEST ACCOUNT', 'GUEST ACCOUNT', 'GUEST ACCOUNT', '00000-0000');
+    //   INSERT INTO
+    //     billing_add(cust_id, bill_add1, bill_city, bill_state, bill_zipcode)
+    //     VALUES (1,'GUEST ACCOUNT', 'GUEST ACCOUNT', 'GUEST ACCOUNT', '00000-0000');
+    // `)
+
     await db_createCustomer({
       first_name: "Site",
       last_name: "Admin",

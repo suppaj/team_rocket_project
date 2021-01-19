@@ -1,16 +1,16 @@
 // Connect to DB
-require("dotenv").config();
-const { Client } = require("pg");
+require('dotenv').config();
+const { Client } = require('pg');
 const DB_URL = process.env.DATABASE_URL;
 const client = new Client(DB_URL);
 
 // import data from db_data_pokemon
-const { type, allPokes } = require("./db_data_pokemon.js");
+const { type, allPokes } = require('./db_data_pokemon.js');
 
 // database methods
 
 async function createAllTypeEntries(collection) {
-  console.log("Type collection:", collection);
+  console.log('Type collection:', collection);
   for (const index in collection) {
     const entry = await createTypeEntry(collection[index]);
   }
@@ -29,8 +29,8 @@ async function createTypeEntry({ name }) {
     `,
       [name]
     );
-    console.log("Entry complete:", entry);
-    console.log(" ");
+    console.log('Entry complete:', entry);
+    console.log(' ');
     return entry;
   } catch (error) {
     throw error;
@@ -38,7 +38,7 @@ async function createTypeEntry({ name }) {
 }
 
 async function createAllPokeEntries(collection) {
-  console.log("Pokemon collection:", collection);
+  console.log('Pokemon collection:', collection);
   for (const index in collection) {
     const entry = await createPokeEntry(collection[index]);
   }
@@ -68,8 +68,8 @@ async function createPokeEntry({
 
     await createAllTypeRelations(type, entry.prod_id, name);
 
-    console.log("Entry complete:", entry);
-    console.log(" ");
+    console.log('Entry complete:', entry);
+    console.log(' ');
     return entry;
   } catch (error) {
     throw error;
@@ -94,7 +94,7 @@ async function createTypeRelation(type_id, prod_id) {
     `,
       [prod_id, type_id]
     );
-    console.log("Type relationship entry complete:", entry);
+    console.log('Type relationship entry complete:', entry);
   } catch (error) {
     throw error;
   }
@@ -208,7 +208,7 @@ async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
       [cart_quantity]
     );
 
-    return { message: "Success, Cart updated" };
+    return { message: 'Success, Cart updated' };
   } catch (error) {
     throw error;
   }
@@ -220,7 +220,7 @@ async function db_deleteCartItem(cart_id, prod_id) {
       DELETE FROM cart_items
       WHERE cart_id=${cart_id} AND prod_id=${prod_id}
     `);
-    return { message: "Success, item removed from your cart." };
+    return { message: 'Success, item removed from your cart.' };
   } catch (error) {
     throw error;
   }
@@ -406,7 +406,7 @@ async function db_deleteProductById(prod_id) {
 async function db_updateProduct(prod_id, fields = {}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
-    .join(", ");
+    .join(', ');
 
   if (setString.length === 0) {
     return;
@@ -441,6 +441,113 @@ async function db_getAllUsers() {
   }
 }
 
+// checkout methods
+
+async function db_getItemPrice(prod_id) {
+  
+  try {
+    const {
+      rows: [price],
+    } = await client.query(
+      `
+      SELECT price FROM product
+      WHERE prod_id = $1;
+    `,
+      [prod_id]
+    );
+    return price.price;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_recordGuestOrder(cart, formInfo) {
+  try {
+    const orderId = await _createOrder(1);
+    await _addOrderItems(cart, orderId);
+    await _createGuest_Order(orderId, formInfo);
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _createOrder(cust_id) {
+  try {
+    const {
+      rows: [orderId],
+    } = await client.query(`
+      INSERT INTO order_cust_relate(cust_id)
+        VALUES (${cust_id})
+        RETURNING order_id;
+    `);
+    return orderId.order_id;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _addOrderItems(cart, order_id) {
+  const valueString = cart
+    .map(
+      (_, index) =>
+        `$1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4}`
+    )
+    .join(`), (`);
+  const valueArray = [];
+  try {
+    for (let item of cart ) {
+      const price = await db_getItemPrice(item.prod_id)
+      valueArray.push(
+          item.prod_id,
+          item.cart_quantity,
+          price
+      );
+    };
+    await client.query(
+      `
+      INSERT INTO order_detail(order_id, prod_id, order_quantity, order_price)
+        VALUES (${valueString});
+    `,
+      [order_id, ...valueArray]
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _createGuest_Order(orderId, formInfo) {
+  const {
+    contactInfo: { firstName, lastName, email },
+    shipInfo,
+    billInfo,
+  } = formInfo;
+  try {
+    await client.query(
+      `
+      INSERT INTO guest_order(order_id, guest_first_name, guest_last_name, guest_email, ship_add1, ship_add2, ship_city, ship_state, ship_zipcode, bill_add1, bill_add2, bill_city, bill_state, bill_zipcode)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14);
+    `,
+      [
+        orderId,
+        firstName,
+        lastName,
+        email,
+        shipInfo.add1,
+        shipInfo.add2,
+        shipInfo.city,
+        shipInfo.state,
+        shipInfo.zipcode,
+        billInfo.add1,
+        billInfo.add2,
+        billInfo.city,
+        billInfo.state,
+        billInfo.zipcode,
+      ]
+    );
+  } catch (error) {
+    throw error;
+  }
+}
 // export
 
 module.exports = {
@@ -462,4 +569,6 @@ module.exports = {
   db_deleteProductById,
   db_updateProduct,
   db_deleteRelationProductById,
+  db_getItemPrice,
+  db_recordGuestOrder,
 };

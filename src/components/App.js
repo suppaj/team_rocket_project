@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
-
+import './style.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -9,6 +9,7 @@ import {
   Redirect,
   Switch,
   Link,
+  useHistory
 } from "react-router-dom";
 
 import { getSomething, getAllProducts, getAllTypes } from "../api";
@@ -21,6 +22,7 @@ import {
   Login,
   Register,
   CheckoutPage,
+  SuccessPage,
   Admin,
 } from "./index";
 
@@ -39,6 +41,8 @@ const App = () => {
         setMessage(error.message);
       });
   }, []);
+
+  const history = useHistory();
 
   return (
     <Router>
@@ -64,6 +68,7 @@ const App = () => {
             <img
               style={{ alignSelf: "left", height: "70px", width: "70px" }}
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
+              alt='Team Rocket Logo'
             />
           </div>
           <Login
@@ -76,7 +81,7 @@ const App = () => {
           <CartButton />
         </Row>
         <Row
-          className="bg-success"
+          className="bg-success align-items-center"
           style={{
             minHeight: "78vh",
             width: "100vw",
@@ -114,6 +119,9 @@ const App = () => {
             </Route>
             <Route path="/shoppingcart">
               <ShoppingCart />
+            </Route>
+            <Route exact path='/checkout/success' >
+              <SuccessPage />
             </Route>
             <Route path="/checkout">
               <CheckoutPage />

@@ -105,7 +105,6 @@ export async function registerCustomer(
 }
 
 export async function getCheckoutSession(sessionArr) {
-  console.log("check", sessionArr);
   try {
     const { data } = await axios.post(
       "/api/checkout/create-checkout-session",
@@ -129,6 +128,15 @@ export async function postPaymentIntent(cart) {
   }
 }
 
+export async function recordGuestOrder( cart , formInfo) {
+  try {
+    const { data } = await axios.post('/api/checkout/guestorder', {cart, formInfo});
+
+  } catch (error) {
+    throw error
+  }
+}
+
 export async function getAllCustomers() {
   try {
     const { data } = await axios.get(`/api/admin/view_customers`);
@@ -148,3 +156,4 @@ export async function getCustomerByEmail(cust_email) {
     throw error;
   }
 }
+
