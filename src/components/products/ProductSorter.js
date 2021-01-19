@@ -9,6 +9,7 @@ const ProductSorter = ({
   setCurrentProducts,
   setSortMethod,
   alphabetize,
+  resetPagination,
 }) => {
   const [sortMessage, setSortMessage] = useState("Sort pokemon...");
 
@@ -54,6 +55,14 @@ const ProductSorter = ({
               onClick={() => {
                 setSortMessage("Sort pokemon...");
                 setSortMethod("");
+                sortProductsByKey(
+                  currentProducts,
+                  "dex_id",
+                  2,
+                  setCurrentProducts
+                );
+                sortProductsByKey(allProducts, "dex_id", 2, setAllProducts);
+                resetPagination();
               }}
             >
               Clear sort
@@ -68,6 +77,7 @@ const ProductSorter = ({
             setSortMethod("price");
             sortProductsByKey(currentProducts, "price", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "price", 1, setAllProducts);
+            resetPagination();
           }}
         >
           High to Low
@@ -78,6 +88,7 @@ const ProductSorter = ({
             setSortMethod("price");
             sortProductsByKey(currentProducts, "price", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "price", 2, setAllProducts);
+            resetPagination();
           }}
         >
           Low to High
@@ -90,6 +101,7 @@ const ProductSorter = ({
             setSortMethod("name");
             sortProductsByKey(currentProducts, "name", 3, setCurrentProducts);
             sortProductsByKey(allProducts, "name", 3, setAllProducts);
+            resetPagination();
           }}
         >
           A to Z
@@ -100,6 +112,7 @@ const ProductSorter = ({
             setSortMethod("price");
             sortProductsByKey(currentProducts, "name", 4, setCurrentProducts);
             sortProductsByKey(allProducts, "name", 4, setAllProducts);
+            resetPagination();
           }}
         >
           Z to A
@@ -112,6 +125,7 @@ const ProductSorter = ({
             setSortMethod("height");
             sortProductsByKey(currentProducts, "height", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "height", 1, setAllProducts);
+            resetPagination();
           }}
         >
           High to Low
@@ -122,6 +136,7 @@ const ProductSorter = ({
             setSortMethod("height");
             sortProductsByKey(currentProducts, "height", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "height", 2, setAllProducts);
+            resetPagination();
           }}
         >
           Low to High
@@ -134,6 +149,7 @@ const ProductSorter = ({
             setSortMethod("weight");
             sortProductsByKey(currentProducts, "weight", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "weight", 1, setAllProducts);
+            resetPagination();
           }}
         >
           High to Low
@@ -144,6 +160,7 @@ const ProductSorter = ({
             setSortMethod("weight");
             sortProductsByKey(currentProducts, "weight", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "weight", 2, setAllProducts);
+            resetPagination();
           }}
         >
           Low to High

@@ -9,6 +9,7 @@ const ProductSearch = ({
   setFilterMessage,
   searchVal,
   setSearchVal,
+  resetPagination,
 }) => {
   // search function built to comb the product object for string matches in any of the given fields
   function searcher(val) {
@@ -52,6 +53,7 @@ const ProductSearch = ({
         placeholder="Search..."
         onChange={(event) => {
           event.preventDefault();
+          resetPagination();
           setSearchVal(event.target.value);
           searcher(event.target.value);
         }}

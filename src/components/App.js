@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
-import './style.css'
+import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -9,7 +9,8 @@ import {
   Redirect,
   Switch,
   Link,
-  useHistory
+  useLocation,
+  useHistory,
 } from "react-router-dom";
 
 import { getSomething, getAllProducts, getAllTypes } from "../api";
@@ -18,6 +19,7 @@ import {
   CartButton,
   Products,
   ProductPage,
+  ProductsReturn,
   ShoppingCart,
   Login,
   Register,
@@ -68,9 +70,10 @@ const App = () => {
             <img
               style={{ alignSelf: "left", height: "70px", width: "70px" }}
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
-              alt='Team Rocket Logo'
+              alt="Team Rocket Logo"
             />
           </div>
+          <ProductsReturn />
           <Login
             setIsLoggedIn={setIsLoggedIn}
             setIsAdmin={setIsAdmin}
@@ -120,7 +123,7 @@ const App = () => {
             <Route path="/shoppingcart">
               <ShoppingCart />
             </Route>
-            <Route exact path='/checkout/success' >
+            <Route exact path="/checkout/success">
               <SuccessPage />
             </Route>
             <Route path="/checkout">
@@ -141,5 +144,4 @@ const App = () => {
     </Router>
   );
 };
-
 export default App;

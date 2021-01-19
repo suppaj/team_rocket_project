@@ -9,6 +9,7 @@ const ProductTypeFilter = ({
   typeFilter,
   filterMessage,
   setFilterMessage,
+  resetPagination,
 }) => {
   function dropdownMapper(collection, key) {
     return collection.map((item) => {
@@ -18,6 +19,7 @@ const ProductTypeFilter = ({
           onClick={() => {
             setFilterMessage(`${item[key]}`);
             typeFilter(item[key]);
+            resetPagination();
           }}
           style={{
             textTransform: "capitalize",
@@ -46,6 +48,7 @@ const ProductTypeFilter = ({
               onClick={() => {
                 setFilterMessage("");
                 setCurrentProducts(allProducts);
+                resetPagination();
               }}
             >
               Clear filter
