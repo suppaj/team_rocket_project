@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
-
 import "./style.css";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -12,15 +10,10 @@ import {
   Switch,
   Link,
   useLocation,
+  useHistory,
 } from "react-router-dom";
 
-import {
-  getSomething,
-  getAllProducts,
-  getAllTypes,
-  loginCustomer,
-  registerCustomer,
-} from "../api";
+import { getSomething, getAllProducts, getAllTypes } from "../api";
 
 import {
   CartButton,
@@ -31,11 +24,15 @@ import {
   Login,
   Register,
   CheckoutPage,
+  SuccessPage,
+  Admin,
 } from "./index";
 
 const App = () => {
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
     getSomething()
@@ -47,12 +44,10 @@ const App = () => {
       });
   }, []);
 
+  const history = useHistory();
+
   return (
     <Router>
-      {/* <div className="App">
-        <h1>Hello, World!</h1>
-        <h2>{message}</h2>
-      </div> */}
       <Container fluid>
         <Row
           className="bg-primary"
@@ -75,15 +70,21 @@ const App = () => {
             <img
               style={{ alignSelf: "left", height: "70px", width: "70px" }}
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
+              alt="Team Rocket Logo"
             />
           </div>
           <ProductsReturn />
-          <Login setIsLoggedIn={setIsLoggedIn} />
+          <Login
+            setIsLoggedIn={setIsLoggedIn}
+            setIsAdmin={setIsAdmin}
+            setFirstName={setFirstName}
+            firstName={firstName}
+          />
           <Register />
           <CartButton />
         </Row>
         <Row
-          className="bg-success"
+          className="bg-success align-items-center"
           style={{
             minHeight: "78vh",
             width: "100vw",
@@ -122,10 +123,15 @@ const App = () => {
             <Route path="/shoppingcart">
               <ShoppingCart />
             </Route>
+            <Route exact path="/checkout/success">
+              <SuccessPage />
+            </Route>
             <Route path="/checkout">
               <CheckoutPage />
             </Route>
-            <Route path="/admin">{/* admin component */}</Route>
+            <Route path="/admin">
+              <Admin isAdmin={isAdmin} />
+            </Route>
           </Switch>
         </Row>
         <Row

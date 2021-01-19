@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { CartItemCard } from './index';
 
 import { loadStripe } from '@stripe/stripe-js';
@@ -21,40 +21,42 @@ const ShoppingCart = ({ cart_id, cust_id }) => {
         cart_quantity: 3
       }] );
 
-    const handleClick = async () => {
-        const stripe = await stripePromise;
-        console.log('stripe', stripe)
+    // uncomment and change onClick of button to handleClick to reinstate
 
-        const ckOutArray = cart.map((item)=>{
-            return {
-                price_data: {
-                    currency: 'usd',
-                    product_data : {
-                        name: item.name,
-                        images: [`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.dex_id}.png`]
-                    },
-                    unit_amount: item.price*100,
-                },
-                quantity: item.cart_quantity
-            }
-        });
+    // const handleClick = async () => {
+    //     const stripe = await stripePromise;
+    //     console.log('stripe', stripe)
 
-        console.log(ckOutArray);
+    //     const ckOutArray = cart.map((item)=>{
+    //         return {
+    //             price_data: {
+    //                 currency: 'usd',
+    //                 product_data : {
+    //                     name: item.name,
+    //                     images: [`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.dex_id}.png`]
+    //                 },
+    //                 unit_amount: item.price*100,
+    //             },
+    //             quantity: item.cart_quantity
+    //         }
+    //     });
 
-        const session = await getCheckoutSession(ckOutArray);
-        console.log('session', session);
+    //     console.log(ckOutArray);
 
-        const result = await stripe.redirectToCheckout({
-            sessionId: session.id
-        });
-        console.log('results', result)
-        if (result.error) {
-            // If `redirectToCheckout` fails due to a browser or network
-            // error, display the localized error message to your customer
-            // using `result.error.message`.
-            console.log(result.error.message)
-        }      
-    }
+    //     const session = await getCheckoutSession(ckOutArray);
+    //     console.log('session', session);
+
+    //     const result = await stripe.redirectToCheckout({
+    //         sessionId: session.id
+    //     });
+    //     console.log('results', result)
+    //     if (result.error) {
+    //         // If `redirectToCheckout` fails due to a browser or network
+    //         // error, display the localized error message to your customer
+    //         // using `result.error.message`.
+    //         console.log(result.error.message)
+    //     }      
+    // }
 
     return (
         <Row>
@@ -71,7 +73,9 @@ const ShoppingCart = ({ cart_id, cust_id }) => {
                             </div>
                         </div> }
                 </div>
-                <button type='button' className='nes-btn is-success' onClick={handleClick} >Continue to Checkout</button>
+                <Button href='/checkout' className='nes-btn is-success' >Continue to Checkout</Button>
+                {' '}
+                <Button href='/' className='nes-btn is-primary' >Return to Shopping</Button>
             </Col>
             <Col md={4} sm={12}>
             itemized info about account.. etc

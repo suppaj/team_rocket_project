@@ -58,6 +58,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           b = b.dex_id;
           return a - b;
         });
+        console.log("repsonse", response);
         setAllProducts(response);
         setCurrentProducts(response);
       })

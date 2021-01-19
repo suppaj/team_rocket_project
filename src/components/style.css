@@ -35,6 +35,10 @@
 }
 
 /* stuff added by kyle */
+#add-cart-dialog {
+  margin: auto;
+}
+
 #ckout-tabs-tab-contact,
 #ckout-tabs-tab-shipping,
 #ckout-tabs-tab-billing,

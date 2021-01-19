@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { registerCustomer } from "../api";
+import { registerCustomer } from "../../api";
 import { Modal, Form, Button } from "react-bootstrap";
+import { Try_again, Welcome } from "../index";
 
 const Register = () => {
   const [registerShow, setRegisterShow] = useState(false);
@@ -8,6 +9,7 @@ const Register = () => {
   const [lastName, setLastName] = useState("");
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [registeredPassword, setRegisteredPassword] = useState("");
+  const [welcomeShow, setWelcomeShow] = useState(false);
 
   const handleCloseRegister = () => setRegisterShow(false);
   const handleShowRegister = () => setRegisterShow(true);
@@ -20,7 +22,14 @@ const Register = () => {
       registeredEmail,
       registeredPassword,
       false
-    );
+    )
+      .then((response) => {
+        if (response) {
+          console.log("this is my response", response);
+          setWelcomeShow(true);
+        }
+      })
+      .catch((error) => console.error(error));
   };
   return (
     <div>
@@ -113,6 +122,11 @@ const Register = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Welcome
+        setWelcomeShow={setWelcomeShow}
+        welcomeShow={welcomeShow}
+        firstName={firstName}
+      />
     </div>
   );
 };
