@@ -45,12 +45,12 @@ apiRouter.delete(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
 });
 
 apiRouter.use("/customers", require("./customers"));
+apiRouter.use("/customers_email/:email", require("./customers"));
 apiRouter.use("/login", require("./customers"));
 apiRouter.use("/register", require("./customers"));
 apiRouter.use("/admin", require("./admin"));
 apiRouter.use("/products", require("./products"));
-const usersRouter = require('./checkout');
-apiRouter.use('/checkout', usersRouter);
-
+const usersRouter = require("./checkout");
+apiRouter.use("/checkout", usersRouter);
 
 module.exports = apiRouter;

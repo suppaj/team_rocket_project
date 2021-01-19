@@ -300,7 +300,6 @@ async function db_getCustomerById(customerID) {
       return null;
     }
 
-    console.log('this is my customer', customer);
     return customer;
   } catch (error) {
     throw error;
