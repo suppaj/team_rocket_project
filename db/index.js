@@ -103,10 +103,7 @@ async function createTypeRelation(type_id, prod_id) {
 async function getAllProducts() {
   try {
     const { rows: pokemon } = await client.query(`SELECT * FROM product`);
-
     const products = await _buildTypes(pokemon);
-
-    console.log("products", products);
     return products;
   } catch (error) {
     throw error;
@@ -119,8 +116,6 @@ async function getProductById(id) {
       `SELECT * FROM product WHERE prod_id = ${id}`
     );
     const [product] = await _buildTypes(pokemon);
-
-    console.log(product);
     return product;
   } catch (error) {
     throw error;
