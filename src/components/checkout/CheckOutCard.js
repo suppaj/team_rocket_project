@@ -10,7 +10,7 @@ const CheckOutCard = ({ item }) => {
             <img className='cart-order-image' src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`} alt={name}/>
             <p>${price}</p>
             <p># in order: {quantity}</p>
-            <p>Item Total: ${quantity * price}</p>
+            <p>Item Total: ${(quantity * price).toFixed(2)}</p>
         </div>
     )
 };
