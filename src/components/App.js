@@ -12,13 +12,7 @@ import {
   useHistory
 } from "react-router-dom";
 
-import {
-  getSomething,
-  getAllProducts,
-  getAllTypes,
-  loginCustomer,
-  registerCustomer,
-} from "../api";
+import { getSomething, getAllProducts, getAllTypes } from "../api";
 
 import {
   CartButton,
@@ -28,12 +22,15 @@ import {
   Login,
   Register,
   CheckoutPage,
-  SuccessPage
+  SuccessPage,
+  Admin,
 } from "./index";
 
 const App = () => {
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
     getSomething()
@@ -49,10 +46,6 @@ const App = () => {
 
   return (
     <Router>
-      {/* <div className="App">
-        <h1>Hello, World!</h1>
-        <h2>{message}</h2>
-      </div> */}
       <Container fluid>
         <Row
           className="bg-primary"
@@ -78,7 +71,12 @@ const App = () => {
               alt='Team Rocket Logo'
             />
           </div>
-          <Login setIsLoggedIn={setIsLoggedIn} />
+          <Login
+            setIsLoggedIn={setIsLoggedIn}
+            setIsAdmin={setIsAdmin}
+            setFirstName={setFirstName}
+            firstName={firstName}
+          />
           <Register />
           <CartButton />
         </Row>
@@ -128,7 +126,9 @@ const App = () => {
             <Route path="/checkout">
               <CheckoutPage />
             </Route>
-            <Route path="/admin">{/* admin component */}</Route>
+            <Route path="/admin">
+              <Admin isAdmin={isAdmin} />
+            </Route>
           </Switch>
         </Row>
         <Row

@@ -1,6 +1,7 @@
 const express = require("express");
 const apiRouter = express.Router();
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 
 const { JWT_SECRET } = process.env;
 
@@ -34,7 +35,8 @@ apiRouter.post("/login", async (req, res, next) => {
       const token = jwt.sign(
         {
           siteAdmin: user.isadmin,
-          cust_email,
+          // cust_email,
+          firstName: user.first_name,
           cartID: cart.cart_id,
           cart: cartArray,
         },
@@ -45,7 +47,7 @@ apiRouter.post("/login", async (req, res, next) => {
       );
 
       res.send({
-        message: `Thank you for logging in ${cust_email}!`,
+        firstName: user.first_name,
         siteAdmin: user.isadmin,
         token,
         cartID: cart.cart_id,
@@ -54,7 +56,7 @@ apiRouter.post("/login", async (req, res, next) => {
     } else {
       next({
         name: "IncorrectCredentialsError",
-        message: "Please verify your credentials",
+        message: "Please verify your email and password",
       });
     }
   } catch (error) {
@@ -88,6 +90,7 @@ apiRouter.post("/register", async (req, res, next) => {
       {
         id: user.id,
         cust_email,
+        firstName: user.first_name,
       },
       process.env.JWT_SECRET,
 
@@ -97,7 +100,8 @@ apiRouter.post("/register", async (req, res, next) => {
     );
 
     res.send({
-      message: `Thank you for signing up ${first_name}!`,
+      // message: `Thank you for signing up ${first_name}!`,
+      firstName: first_name,
       token,
     });
   } catch ({ name, message }) {
