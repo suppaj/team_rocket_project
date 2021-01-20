@@ -131,6 +131,7 @@ export async function postPaymentIntent(cart) {
 export async function recordGuestOrder( cart , formInfo) {
   try {
     await axios.post('/api/checkout/guestorder', {cart, formInfo});
+    return;
   } catch (error) {
     throw error
   }

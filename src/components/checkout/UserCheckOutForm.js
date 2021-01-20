@@ -13,7 +13,8 @@ import CheckOutForm from './CheckOutForm';
 
 const UserCheckOutForm = ({
   cart,
-  user = { first_name: 'Kyle', last_name: 'Howell', cust_id: 7, cust_email : 'kylhowl@gmail.com' },
+  user,
+  setCart
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -83,7 +84,8 @@ const UserCheckOutForm = ({
       } else if (firstOrder) {
         await recordShipandBill(formInfo, user.cust_id);
         await recordUserOrder(user.cust_id, cart);
-        await clearUserCart(user.cart_id)
+        await clearUserCart(user.cartID)
+        setCart([])
         localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',
@@ -91,7 +93,8 @@ const UserCheckOutForm = ({
         });
       } else {
         await recordUserOrder(user.cust_id, cart);
-        await clearUserCart(user.cart_id)
+        await clearUserCart(user.cartID)
+        setCart([])
         localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',

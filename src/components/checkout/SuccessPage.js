@@ -3,7 +3,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Col, Button } from 'react-bootstrap';
 import { registerCustomer } from '../../api';
 
-const SuccessPage = ({ isLoggedIn = true}) => {
+const SuccessPage = ({ isLoggedIn }) => {
   const location = useLocation();
   const history = useHistory();
 

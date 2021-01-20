@@ -34,6 +34,10 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
+  const [ cartCount, setCartCount ] = useState(0)
+  const [ user, setUser ] = useState({});
+  
+ 
 
   useEffect(() => {
     getSomething()
@@ -48,7 +52,20 @@ const App = () => {
     };
   }, []);
 
-  const history = useHistory();
+  useEffect(()=>{
+    findCartCount();
+  },[cart]);
+
+  const findCartCount = async () => {
+    let count = 0;
+    cart.map((item) => {
+      console.log('cart quant: ', item.cart_quantity)
+      count += parseInt(item.cart_quantity);
+      return item;
+    });
+    console.log('cart count: ', count)
+    await setCartCount(count);
+  };
 
   return (
     <Router>
@@ -85,7 +102,7 @@ const App = () => {
             firstName={firstName}
           />
           <Register />
-          <CartButton cart={cart}/>
+          <CartButton cart={cart} cartCount={cartCount}/>
         </Row>
         <Row
           className="bg-success align-items-center"
@@ -121,17 +138,17 @@ const App = () => {
                   justifyContent: "center",
                 }}
               >
-                <ProductPage cart={cart} setCart={setCart}/>
+                <ProductPage cart={cart} setCart={setCart} cartID={user.cartID} isLoggedIn={isLoggedIn}/>
               </Row>
             </Route>
             <Route path="/shoppingcart">
-              <ShoppingCart />
+              <ShoppingCart cart={cart} setCart={setCart} isLoggedIn={isLoggedIn} cartID={user.cartID}/>
             </Route>
             <Route exact path="/checkout/success">
-              <SuccessPage />
+              <SuccessPage isLoggedIn={isLoggedIn}/>
             </Route>
             <Route path="/checkout">
-              <CheckoutPage />
+              <CheckoutPage isLoggedIn={isLoggedIn} cart={cart} user={user} cart_id={user.cartID} setCart={setCart}/>
             </Route>
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />
