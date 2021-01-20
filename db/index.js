@@ -115,7 +115,13 @@ async function getProductById(id) {
     const { rows: pokemon } = await client.query(
       `SELECT * FROM product WHERE prod_id = ${id}`
     );
+    // builds types array into the pokemon object
     const [product] = await _buildTypes(pokemon);
+
+    // builds the reviews array into the product object
+    const product_reviews = await db_getReviewsByProductId(id);
+    product.reviews = [...product_reviews];
+
     return product;
   } catch (error) {
     throw error;
@@ -542,7 +548,6 @@ async function _createGuest_Order(orderId, formInfo) {
 
 async function db_createProductReview(reviewObject) {
   const {
-    review_id,
     prod_id,
     cust_id,
     review_title,
@@ -551,13 +556,13 @@ async function db_createProductReview(reviewObject) {
   } = reviewObject;
 
   try {
-    const customer_review = await client.query(
+    const { rows: customer_review } = await client.query(
       `
-      INSERT INTO product_reviews(review_id, prod_id, cust_id, review_title, review_comment, rating)
-      VALUES ($1, $2, $3, $4, $5, $6)
+      INSERT INTO product_reviews(prod_id, cust_id, review_title, review_comment, rating)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
     `,
-      [review_id, prod_id, cust_id, review_title, review_comment, rating]
+      [prod_id, cust_id, review_title, review_comment, rating]
     );
     console.log("Review created!", customer_review);
   } catch (error) {
@@ -572,8 +577,9 @@ async function db_getReviewsByProductId(prod_id) {
   try {
     const { rows: reviews } = await client.query(
       `
-      SELECT *
+      SELECT review_id, rating, review_title, review_comment, first_name
       FROM product_reviews
+      LEFT JOIN customers on product_reviews.cust_id = customers.cust_id
       WHERE prod_id = ${prod_id}`
     );
     console.log(`Reviews for prod_id ${prod_id}:`, reviews);
@@ -607,4 +613,5 @@ module.exports = {
   db_getItemPrice,
   db_recordGuestOrder,
   db_getReviewsByProductId,
+  db_createProductReview,
 };

@@ -32,6 +32,7 @@ const ProductPage = ({ allProducts }) => {
     weight,
     price,
     quantity,
+    reviews,
   } = currentPoke;
 
   function typeMapper(typeArray) {
@@ -189,7 +190,7 @@ const ProductPage = ({ allProducts }) => {
             </ButtonGroup>
           </div>
         </section>
-        <ProductReviews />
+        <ProductReviews reviews={reviews} />
       </div>
     );
   } else {

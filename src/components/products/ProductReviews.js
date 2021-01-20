@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProductReviews = () => {
+const ProductReviews = ({ reviews }) => {
   const test_reviews = [
     {
       review_id: 1,
@@ -106,7 +106,7 @@ const ProductReviews = () => {
     >
       <h4 style={{ textAlign: "center" }}>Customer Reviews</h4>
       <div className="reviews">
-        <section className="message-list">{reviewMapper(test_reviews)}</section>
+        <section className="message-list">{reviewMapper(reviews)}</section>
       </div>
     </section>
   );
