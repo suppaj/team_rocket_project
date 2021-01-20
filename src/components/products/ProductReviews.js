@@ -1,50 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const ProductReviews = () => {
   const test_reviews = [
     {
+      review_id: 1,
       rating: 5,
       review_title: "I love Team Rocket",
       review_comment: "I love this pokemon Team Rocket stole for me!",
-      display_name: "teamrocketgrunt420",
+      first_name: "Kyle",
     },
     {
+      review_id: 2,
       rating: 1,
       review_title: "Questionably Sourced",
       review_comment:
-        "I think team rocket stole this pokemon from my 5 year old neigbor...",
-      display_name: "marnielover69",
+        "I think Team Rocket stole this pokemon from my 5 year old neigbor...",
+      first_name: "Tiffany",
     },
     {
+      review_id: 3,
       rating: 3,
       review_title: "Team Rocket blasting off again!",
       review_comment:
-        "I think that this company is despicable, but their service is top notch. I'm very conflicted...",
-      display_name: "missingno",
+        "I think this company is absolutely despicable, but their service is top notch. I'm very conflicted...",
+      first_name: "Josh",
     },
   ];
 
+  const test_reviews2 = [];
+
   function reviewMapper(reviewArray) {
-    return reviewArray.map(
-      ({ review_title, review_comment, rating, display_name }) => {
-        return (
-          <section className="message -left">
-            <div className="nes-balloon from-left">
-              <div className="review-title">
-                <div className="customer-rating" style={{ float: "right" }}>
-                  {ratingGenerator(rating)}
+    if (reviewArray.length > 0) {
+      return reviewArray.map(
+        ({ review_id, review_title, review_comment, rating, first_name }) => {
+          return (
+            <section className="message -left" key={review_id}>
+              <div className="nes-balloon from-left">
+                <div className="review-title">
+                  <div className="customer-rating" style={{ float: "right" }}>
+                    {ratingGenerator(rating)}
+                  </div>
+                  <p>{review_title}</p>
+                  <br />
                 </div>
-                <p>{review_title}</p>
+                <p className="review-comment">{review_comment}</p>
                 <br />
+                <p className="review-name">{first_name}</p>
               </div>
-              <p className="review-comment">{review_comment}</p>
-              <br />
-              <p className="review-name">{display_name}</p>
-            </div>
-          </section>
-        );
-      }
-    );
+            </section>
+          );
+        }
+      );
+    } else {
+      return (
+        <div
+          className="no-reviews nes-container is-dark with-title"
+          style={{ marginTop: "25px" }}
+        >
+          <p class="title">Whoops!</p>
+          <p>
+            There don't seem to be any reviews for this product... Be the first
+            to leave a review!
+          </p>
+        </div>
+      );
+    }
   }
 
   function ratingGenerator(rating) {
@@ -81,7 +101,7 @@ const ProductReviews = () => {
 
   return (
     <section
-      style={{ gridRow: "3/4", gridColumn: "2/4", marginTop: "10px" }}
+      style={{ gridRow: "3/4", gridColumn: "2/4", marginTop: "30px" }}
       className="nes-container is-rounded"
     >
       <h4 style={{ textAlign: "center" }}>Customer Reviews</h4>

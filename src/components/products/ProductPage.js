@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-  Link,
-  useParams,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { ButtonGroup, Dropdown } from "react-bootstrap";
 
+// component imports
 import ProductReviews from "./ProductReviews";
-
 import { AddToCart } from "../index";
+
+// function imports
 import { getProductById } from "../../api";
 
 const ProductPage = ({ allProducts }) => {
@@ -175,7 +170,7 @@ const ProductPage = ({ allProducts }) => {
               <p className="title">Description</p>
               <p>{description}</p>
             </div>
-            <ButtonGroup style={{ placeSelf: "center" }}>
+            <ButtonGroup style={{ placeSelf: "center", marginTop: "25px" }}>
               <Dropdown drop="up" style={{ marginRight: "10px" }}>
                 <Dropdown.Toggle variant="dark" id="quantity-dropdown">
                   Qty: {orderAmount}
