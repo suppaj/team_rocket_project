@@ -9,7 +9,7 @@ import ContactForm from './ContactForm';
 import ShipForm from './ShipForm';
 import BillForm from './BillForm';
 
-const CheckOutForm = ({ handlePayment, cart, firstOrder, user }) => {
+const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
   const [key, setKey] = useState('contact');
   const [isChecked, setisChecked] = useState(false);
   const [contactInfo, setContactInfo] = useState({
@@ -36,8 +36,7 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user }) => {
     shipping: true,
     billing: true,
   });
-  const [message, setMessage] = useState('');
-
+  
   const getSubTotal = () => {
     let subTotal = 0;
     for (let item of cart) {

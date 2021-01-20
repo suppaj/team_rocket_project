@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
 
 import { addCartItem, patchCartItem } from "../api";
 
 const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
+
+  const history = useHistory();
+
   const handleAddToCart = async () => {
     product.cart_quantity = orderAmount;
     const { cart_quantity, price, prod_id } = product;
@@ -58,7 +62,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
   };
 
   const handleGoToCheckout = () => {
-    console.log("going to checkout");
+    history.push('/checkout');
   };
 
   return (

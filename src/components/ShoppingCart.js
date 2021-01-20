@@ -73,7 +73,7 @@ const ShoppingCart = ({ cart_id, cust_id }) => {
                             </div>
                         </div> }
                 </div>
-                <Button href='/checkout' className='nes-btn is-success' >Continue to Checkout</Button>
+                <Button href='/checkout' className={ cart.length ? 'nes-btn is-success' : 'nes-btn is-success'} disabled={!cart.length}>Continue to Checkout</Button>
                 {' '}
                 <Button href='/' className='nes-btn is-primary' >Return to Shopping</Button>
             </Col>
