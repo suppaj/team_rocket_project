@@ -3,15 +3,14 @@ import { Button, Badge, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { CartOverlay } from "./index";
 
-const CartButton = ({ cartObj }) => {
+const CartButton = ({ cart }) => {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     findCartCount();
-  }, [cartObj]);
+  }, [cart]);
 
   const findCartCount = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
     let count = 0;
     cart.map((item) => {
       count += parseInt(item.cart_quantity);

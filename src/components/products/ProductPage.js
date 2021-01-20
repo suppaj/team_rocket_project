@@ -14,7 +14,7 @@ import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 import { AddToCart } from "../index";
 import { getProductById } from "../../api";
 
-const ProductPage = ({ allProducts }) => {
+const ProductPage = ({ allProducts, cart, setCart }) => {
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
 
@@ -174,6 +174,8 @@ const ProductPage = ({ allProducts }) => {
                 product={currentPoke}
                 isLoggedIn={false}
                 orderAmount={orderAmount}
+                cart={cart}
+                setCart={setCart}
               />
             </ButtonGroup>
           </div>

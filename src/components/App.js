@@ -33,6 +33,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
+  const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
 
   useEffect(() => {
     getSomething()
@@ -42,6 +43,9 @@ const App = () => {
       .catch((error) => {
         setMessage(error.message);
       });
+    if (!localStorage.getItem('cart')) {
+      localStorage.setItem('cart', JSON.stringify([]))
+    };
   }, []);
 
   const history = useHistory();
@@ -81,7 +85,7 @@ const App = () => {
             firstName={firstName}
           />
           <Register />
-          <CartButton />
+          <CartButton cart={cart}/>
         </Row>
         <Row
           className="bg-success align-items-center"
@@ -117,7 +121,7 @@ const App = () => {
                   justifyContent: "center",
                 }}
               >
-                <ProductPage />
+                <ProductPage cart={cart} setCart={setCart}/>
               </Row>
             </Route>
             <Route path="/shoppingcart">

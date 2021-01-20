@@ -7,7 +7,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { useHistory } from 'react-router-dom';
-import { postPaymentIntent, getUserShipInfo, recordShipandBill, recordUserOrder } from '../../api';
+import { postPaymentIntent, getUserShipInfo, recordShipandBill, recordUserOrder, clearUserCart } from '../../api';
 import RollingBall from '../RollingBall';
 import CheckOutForm from './CheckOutForm';
 
@@ -81,19 +81,17 @@ const UserCheckOutForm = ({
       if (result.error) {
         setMessage(result.error.message);
       } else if (firstOrder) {
-        setMessage(`Payment ${result.paymentIntent.status}`); //not really needed anymore
-        // function to record userOrder, and shipping info etc...
         await recordShipandBill(formInfo, user.cust_id);
-        console.log('completed this step')
         await recordUserOrder(user.cust_id, cart);
+        await clearUserCart(user.cart_id)
         localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',
           state: { formInfo },
         });
       } else {
-        // function to record userOrder
         await recordUserOrder(user.cust_id, cart);
+        await clearUserCart(user.cart_id)
         localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',

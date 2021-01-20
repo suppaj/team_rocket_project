@@ -4,14 +4,14 @@ import { useHistory } from 'react-router-dom';
 
 import { addCartItem, patchCartItem } from "../api";
 
-const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
+const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount, cart, setCart }) => {
 
   const history = useHistory();
 
   const handleAddToCart = async () => {
     product.cart_quantity = orderAmount;
     const { cart_quantity, price, prod_id } = product;
-    const currCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const currCart = [...cart];
     let noDuplicate = true;
 
     if (isLoggedIn) {
@@ -25,7 +25,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
           return item;
         }
       });
-
+      setCart(currCart);
       localStorage.setItem("cart", JSON.stringify(currCart));
 
       if (noDuplicate) {
@@ -55,7 +55,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
       if (noDuplicate) {
         currCart.push(product);
       }
-
+      setCart(currCart);
       localStorage.setItem("cart", JSON.stringify(currCart));
     }
     document.getElementById("add-cart-dialog").showModal();

@@ -188,3 +188,12 @@ export async function getCustomerByEmail(cust_email) {
   }
 }
 
+export async function clearUserCart(cart_id) {
+  try {
+    const { data } = await axios.delete(`api/cart/${cart_id}`);
+    return data;
+  } catch (error) {
+    throw error
+  };
+}
+
