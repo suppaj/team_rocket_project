@@ -1,15 +1,20 @@
 import React from "react";
+import { useHistory} from 'react-router-dom'
 import { Modal, Form, Button } from "react-bootstrap";
 
-const Welcome = ({ welcomeShow, setWelcomeShow, firstName }) => {
+const Welcome = ({ welcomeShow, setWelcomeShow, firstName, setRegisterShow }) => {
   const welcomeHandleClose = () => setWelcomeShow(false);
   const welcomeHandleShow = () => {
-    setWelcomeShow(true);
-    setTimeout(welcomeHandleClose, 1200);
+    setTimeout(welcomeHandleClose, 1500);
   };
+ const history = useHistory();
+
   return (
     <>
-      <Modal show={welcomeShow} onHide={welcomeHandleClose} centered>
+      <Modal show={welcomeShow} id='welcome-modal' onShow={welcomeHandleShow} onHide={welcomeHandleClose} onExited={()=> {
+        history.push('/')
+        setRegisterShow(false)
+      }} centered>
         <Modal.Body>
           <div className="nes-container is-rounded">
             <p>Welcome {firstName.toUpperCase()}!</p>

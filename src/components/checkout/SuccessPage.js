@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Col, Button } from 'react-bootstrap';
+import { Welcome } from '../index';
 import { registerCustomer } from '../../api';
 
 const SuccessPage = ({ isLoggedIn }) => {
@@ -11,13 +12,13 @@ const SuccessPage = ({ isLoggedIn }) => {
   const [confirmPwd, setConfirmPwd] = useState('');
   const [noMatch, setNoMatch] = useState(true);
   const [message, setMessage] = useState('');
-  const [formInfo, setFormInfo] = useState({});
+  const [formInfo, setFormInfo] = useState({ contactInfo: { firstName: '' } });
+  const [welcomeShow, setWelcomeShow] = useState(false);
 
   useEffect(() => {
     if (!location.state && !isLoggedIn) {
       history.push('/');
     } else setFormInfo({ ...location.state.formInfo });
-
   }, []);
 
   useEffect(() => {
@@ -43,7 +44,17 @@ const SuccessPage = ({ isLoggedIn }) => {
       pwd,
       false
     );
-    console.log('results from register', results);
+    console.log(results);
+    if (results) {
+      setWelcomeShow(true);
+    } else {
+      setMessage(
+        'Account with that e-mail exists, login with that email or register with a different email. Returning you to our home page.'
+      );
+      setTimeout(() => {
+        history.push('/');
+      }, 2000);
+    }
   };
 
   return (
@@ -101,6 +112,13 @@ const SuccessPage = ({ isLoggedIn }) => {
           </>
         )}
       </div>
+
+      <Welcome
+        setWelcomeShow={setWelcomeShow}
+        welcomeShow={welcomeShow}
+        firstName={formInfo.contactInfo.firstName}
+        setRegisterShow={()=>'nothing'}
+      />
     </Col>
   );
 };
