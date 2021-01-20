@@ -2,6 +2,7 @@ import React from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { Col, Row } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import { CheckOutCard, UserCheckOutForm, GuestCheckOutForm } from '../index';
 
 const stripePromise = loadStripe(
@@ -9,9 +10,10 @@ const stripePromise = loadStripe(
 );
 
 const CheckoutPage = ({ isLoggedIn, cart, user, setCart }) => {
+
   
   return (
-    <>
+    <>{ cart.length ? 
       <div className='nes-container with-title is-rounded w-100'>
         <p className='title'>TEAM ROCKET CHECKOUT w/ STRIPE</p>
         <Row>
@@ -32,6 +34,8 @@ const CheckoutPage = ({ isLoggedIn, cart, user, setCart }) => {
           <Col md={4}>ORDER ITEMIZED DETAILS</Col>
         </Row>
       </div>
+      :
+      <Redirect to='/shoppingcart' />}
     </>
   );
 };

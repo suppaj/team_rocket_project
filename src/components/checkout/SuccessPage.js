@@ -14,9 +14,10 @@ const SuccessPage = ({ isLoggedIn }) => {
   const [formInfo, setFormInfo] = useState({});
 
   useEffect(() => {
-    if (!location.state) {
+    if (!location.state && !isLoggedIn) {
       history.push('/');
     } else setFormInfo({ ...location.state.formInfo });
+
   }, []);
 
   useEffect(() => {
