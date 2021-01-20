@@ -539,6 +539,50 @@ async function _createGuest_Order(orderId, formInfo) {
     throw error;
   }
 }
+
+async function db_createProductReview(reviewObject) {
+  const {
+    review_id,
+    prod_id,
+    cust_id,
+    review_title,
+    review_comment,
+    rating,
+  } = reviewObject;
+
+  try {
+    const customer_review = await client.query(
+      `
+      INSERT INTO product_reviews(review_id, prod_id, cust_id, review_title, review_comment, rating)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *;
+    `,
+      [review_id, prod_id, cust_id, review_title, review_comment, rating]
+    );
+    console.log("Review created!", customer_review);
+  } catch (error) {
+    console.log(
+      `Trouble creating a review for product ID ${prod_id} from customer ID ${cust_id}!`
+    );
+    throw error;
+  }
+}
+
+async function db_getReviewsByProductId(prod_id) {
+  try {
+    const { rows: reviews } = await client.query(
+      `
+      SELECT *
+      FROM product_reviews
+      WHERE prod_id = ${prod_id}`
+    );
+    console.log(`Reviews for prod_id ${prod_id}:`, reviews);
+    return reviews;
+  } catch (error) {
+    console.log("Trouble getting reviews by product ID in the database!");
+    throw error;
+  }
+}
 // export
 
 module.exports = {
@@ -562,4 +606,5 @@ module.exports = {
   db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
+  db_getReviewsByProductId,
 };
