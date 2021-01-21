@@ -27,8 +27,6 @@ const Login = ({ setIsLoggedIn, setIsAdmin, setFirstName, firstName }) => {
           setIsAdmin(siteAdmin);
           setFirstName(firstName);
         } else {
-          // setWelcomeShow(true);
-          // setTimeout(setWelcomeShow(false), 1800);
           console.log("login credentials incorrect");
         }
       })

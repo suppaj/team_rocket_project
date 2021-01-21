@@ -115,7 +115,13 @@ async function getProductById(id) {
     const { rows: pokemon } = await client.query(
       `SELECT * FROM product WHERE prod_id = ${id}`
     );
+    // builds types array into the pokemon object
     const [product] = await _buildTypes(pokemon);
+
+    // builds the reviews array into the product object
+    const product_reviews = await db_getReviewsByProductId(id);
+    product.reviews = [...product_reviews];
+
     return product;
   } catch (error) {
     throw error;
@@ -274,11 +280,16 @@ async function db_createCustomer({
 
 async function _createUserCart(cust_id) {
   try {
-    const { rows : [ cart_id ] } = await client.query(`
+    const {
+      rows: [cart_id],
+    } = await client.query(
+      `
       INSERT INTO cart_cust_relate(cust_id)
         VALUES ($1)
         RETURNING cart_id;
-    `,[cust_id])
+    `,
+      [cust_id]
+    );
 
     return cart_id;
   } catch (error) {
@@ -441,18 +452,6 @@ async function db_updateProduct(prod_id, fields = {}) {
   }
 }
 
-async function db_getAllUsers() {
-  try {
-    const { rows } = await client.query(`
-      SELECT *
-      FROM customers;
-    `);
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
 // checkout methods
 
 async function db_getItemPrice(prod_id) {
@@ -556,59 +555,135 @@ async function _createGuest_Order(orderId, formInfo) {
   }
 }
 
+async function db_createProductReview(reviewObject) {
+  const {
+    prod_id,
+    cust_id,
+    review_title,
+    review_comment,
+    rating,
+  } = reviewObject;
+
+  try {
+    const { rows: customer_review } = await client.query(
+      `
+      INSERT INTO product_reviews(prod_id, cust_id, review_title, review_comment, rating)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;
+    `,
+      [prod_id, cust_id, review_title, review_comment, rating]
+    );
+    console.log("Review created!", customer_review);
+  } catch (error) {
+    console.log(
+      `Trouble creating a review for product ID ${prod_id} from customer ID ${cust_id}!`
+    );
+    throw error;
+  }
+}
+
+async function db_getOrderHistoryByCustomerId(customerId) {
+  try {
+    const { rows } = await client.query(`
+    SELECT customers.cust_id, order_detail.order_id, order_date, order_quantity, order_price, name
+    FROM order_cust_relate
+    JOIN customers ON order_cust_relate.cust_id = customers.cust_id
+    JOIN order_detail ON order_cust_relate.order_id = order_detail.order_id
+    JOIN product ON order_detail.prod_id = product.prod_id
+    WHERE customers.cust_id = ${customerId};
+    `);
+    console.log("this is customer join", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getReviewsByProductId(prod_id) {
+  try {
+    const { rows: reviews } = await client.query(
+      `
+      SELECT review_id, rating, review_title, review_comment, first_name
+      FROM product_reviews
+      LEFT JOIN customers on product_reviews.cust_id = customers.cust_id
+      WHERE prod_id = ${prod_id}`
+    );
+    console.log(`Reviews for prod_id ${prod_id}:`, reviews);
+    return reviews;
+  } catch (error) {
+    console.log("Trouble getting reviews by product ID in the database!");
+    throw error;
+  }
+}
+
 async function db_getUserShipInfo(cust_id) {
   try {
-    const { rows : [ shipInfo ] } = await client.query(`
+    const {
+      rows: [shipInfo],
+    } = await client.query(
+      `
       SELECT * FROM shipping_add
         WHERE cust_id = $1;
-    `,[ cust_id ]);
-    return shipInfo
+    `,
+      [cust_id]
+    );
+    return shipInfo;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 async function db_recordShipping(cust_id, shipInfo) {
-  const { add1, add2, city, state, zipcode} = shipInfo;
-  console.log('hitting db record shipping')
+  const { add1, add2, city, state, zipcode } = shipInfo;
+  console.log("hitting db record shipping");
   try {
-    await client.query(`
+    await client.query(
+      `
       INSERT INTO shipping_add(cust_id, ship_add1, ship_add2, ship_city, ship_state, ship_zipcode)
         VALUES ($1, $2, $3, $4, $5, $6);
-    `,[cust_id, add1, add2, city, state, zipcode]);
-    return
+    `,
+      [cust_id, add1, add2, city, state, zipcode]
+    );
+    return;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 async function db_recordBilling(cust_id, billInfo) {
-  const { add1, add2, city, state, zipcode} = billInfo;
-  console.log('hitting db record billing');
+  const { add1, add2, city, state, zipcode } = billInfo;
+  console.log("hitting db record billing");
   try {
-    const { rows } = await client.query(`
+    const { rows } = await client.query(
+      `
       INSERT INTO billing_add(cust_id, bill_add1, bill_add2, bill_city, bill_state, bill_zipcode)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *;
-    `,[cust_id, add1, add2, city, state, zipcode]);
-    console.log('billing add?', rows)
-    return
+    `,
+      [cust_id, add1, add2, city, state, zipcode]
+    );
+    console.log("billing add?", rows);
+    return;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 async function db_clearUserCart(cart_id) {
   try {
-    const { rows } = await client.query(`
+    const { rows } = await client.query(
+      `
       DELETE FROM cart_items
         WHERE cart_id = $1;
-    `,[cart_id]);
+    `,
+      [cart_id]
+    );
     return rows;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
+
 // export
 
 module.exports = {
@@ -632,6 +707,9 @@ module.exports = {
   db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
+  db_getReviewsByProductId,
+  db_createProductReview,
+  db_getOrderHistoryByCustomerId,
   db_getUserShipInfo,
   db_recordShipping,
   db_recordBilling,

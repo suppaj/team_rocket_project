@@ -58,7 +58,11 @@ apiRouter.post("/login", async (req, res, next) => {
         cartID: cart.cart_id,
         cart: cartArray,
       });
-
+    } else {
+      next({
+        name: "IncorrectCredentialsError",
+        message: "Please verify your email and password",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -101,7 +105,6 @@ apiRouter.post("/register", async (req, res, next) => {
     );
 
     res.send({
-      // message: `Thank you for signing up ${first_name}!`,
       firstName: first_name,
       token,
     });
