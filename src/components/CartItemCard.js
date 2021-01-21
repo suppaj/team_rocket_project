@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 
 import { deleteCartItem, patchCartItem } from "../api";
 
 const CartItemCard = ({
   order: product,
-  isLoggedIn = true,
+  isLoggedIn,
   cart,
   setCart,
-  cart_id = 1,
+  cart_id,
 }) => {
   const [adjustOrder, setAdjustOrder] = useState(false);
   const [orderAmount, setOrderAmount] = useState(product.cart_quantity);
+
+  useEffect(()=>{
+    setOrderAmount(product.cart_quantity);
+  },[cart])
 
   const handleRemoveItem = () => {
     const copyCart = [...cart];

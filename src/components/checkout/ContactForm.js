@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ContactForm = ({ contactInfo, setContactInfo, formStatus, setKey }) => {
+const ContactForm = ({ contactInfo, setContactInfo, formStatus, setKey, firstOrder }) => {
   return (
     <>
       <div className='nes-field'>
@@ -13,8 +13,9 @@ const ContactForm = ({ contactInfo, setContactInfo, formStatus, setKey }) => {
           value={contactInfo.firstName}
           required
           onChange={(e) =>
-            setContactInfo({ ...contactInfo, firstName: e.target.value })
+            setContactInfo({ ...contactInfo, firstName: e.target.value }) 
           }
+          readOnly={firstOrder}
         />
       </div>
       <div className='nes-field'>
@@ -29,6 +30,7 @@ const ContactForm = ({ contactInfo, setContactInfo, formStatus, setKey }) => {
           onChange={(e) =>
             setContactInfo({ ...contactInfo, lastName: e.target.value })
           }
+          readOnly={firstOrder}
         />
       </div>
       <div className='nes-field'>
@@ -43,6 +45,7 @@ const ContactForm = ({ contactInfo, setContactInfo, formStatus, setKey }) => {
           onChange={(e) =>
             setContactInfo({ ...contactInfo, email: e.target.value })
           }
+          readOnly={firstOrder}
         />
         <small className='form-text'>
           Order confiramtion and shipping updates will be sent to this email

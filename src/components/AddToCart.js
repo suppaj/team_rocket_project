@@ -1,32 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
 
 import { addCartItem, patchCartItem } from "../api";
 
-const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
+const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, setCart }) => {
+
+  const history = useHistory();
+
   const handleAddToCart = async () => {
     product.cart_quantity = orderAmount;
     const { cart_quantity, price, prod_id } = product;
-    const currCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const currCart = [...cart];
     let noDuplicate = true;
-
+    console.log('logged in:', isLoggedIn, ' cart id:', cartID, 'order amount', orderAmount);
     if (isLoggedIn) {
       currCart.map(async (item) => {
         if (item.prod_id === prod_id) {
           noDuplicate = false;
-          item.cart_quantity += orderAmount;
-          await patchCartItem(cart_id, item.cart_quantity, prod_id);
+          item.cart_quantity = parseInt(item.cart_quantity) + parseInt(orderAmount);
+          await patchCartItem(cartID, item.cart_quantity, prod_id);
           return item;
         } else {
           return item;
         }
       });
-
+      setCart(currCart);
       localStorage.setItem("cart", JSON.stringify(currCart));
 
       if (noDuplicate) {
         const results = await addCartItem(
-          cart_id,
+          cartID,
           prod_id,
           cart_quantity,
           price
@@ -34,6 +38,7 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
 
         if (results) {
           currCart.push(product);
+          setCart(currCart);
           localStorage.setItem("cart", JSON.stringify(currCart));
         }
       }
@@ -51,14 +56,14 @@ const AddToCart = ({ product, isLoggedIn, cart_id, orderAmount }) => {
       if (noDuplicate) {
         currCart.push(product);
       }
-
+      setCart(currCart);
       localStorage.setItem("cart", JSON.stringify(currCart));
     }
     document.getElementById("add-cart-dialog").showModal();
   };
 
   const handleGoToCheckout = () => {
-    console.log("going to checkout");
+    history.push('/checkout');
   };
 
   return (
