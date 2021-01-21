@@ -117,7 +117,7 @@ const SuccessPage = ({ isLoggedIn }) => {
         setWelcomeShow={setWelcomeShow}
         welcomeShow={welcomeShow}
         firstName={formInfo.contactInfo.firstName}
-        setRegisterShow={()=>'nothing'}
+        setOuterShow={()=>'nothing'}
       />
     </Col>
   );
