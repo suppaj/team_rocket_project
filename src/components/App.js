@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
-import './style.css'
+import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -9,7 +9,7 @@ import {
   Redirect,
   Switch,
   Link,
-  useHistory
+  useHistory,
 } from "react-router-dom";
 
 import { getSomething, getAllProducts, getAllTypes } from "../api";
@@ -26,10 +26,12 @@ import {
   Admin,
 } from "./index";
 
+import { Access } from "./admin/index";
+
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const App = () => {
             <img
               style={{ alignSelf: "left", height: "70px", width: "70px" }}
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
-              alt='Team Rocket Logo'
+              alt="Team Rocket Logo"
             />
           </div>
           <Login
@@ -78,6 +80,9 @@ const App = () => {
             firstName={firstName}
           />
           <Register />
+          <Link to="/admin">
+            <Access isAdmin={isAdmin} />
+          </Link>
           <CartButton />
         </Row>
         <Row
@@ -120,7 +125,7 @@ const App = () => {
             <Route path="/shoppingcart">
               <ShoppingCart />
             </Route>
-            <Route exact path='/checkout/success' >
+            <Route exact path="/checkout/success">
               <SuccessPage />
             </Route>
             <Route path="/checkout">

@@ -203,8 +203,8 @@ async function populateInitialData() {
       first_name: "GUEST",
       last_name: "GUEST",
       cust_email: "GUEST@teamrocket.com",
-      cust_pwd: '1qaz2wsx!QAZ@WSX',
-      isAdmin: false
+      cust_pwd: "1qaz2wsx!QAZ@WSX",
+      isAdmin: false,
     });
     //guest shipping and billing
     // await client.query(`

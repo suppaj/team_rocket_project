@@ -49,6 +49,7 @@ apiRouter.use("/customers_email/:email", require("./customers"));
 apiRouter.use("/login", require("./customers"));
 apiRouter.use("/register", require("./customers"));
 apiRouter.use("/admin", require("./admin"));
+apiRouter.use("/customers_history", require("./admin"));
 apiRouter.use("/products", require("./products"));
 const usersRouter = require("./checkout");
 apiRouter.use("/checkout", usersRouter);

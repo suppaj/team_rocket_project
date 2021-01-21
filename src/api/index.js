@@ -128,18 +128,21 @@ export async function postPaymentIntent(cart) {
   }
 }
 
-export async function recordGuestOrder( cart , formInfo) {
+export async function recordGuestOrder(cart, formInfo) {
   try {
-    const { data } = await axios.post('/api/checkout/guestorder', {cart, formInfo});
-
+    const { data } = await axios.post("/api/checkout/guestorder", {
+      cart,
+      formInfo,
+    });
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 export async function getAllCustomers() {
   try {
     const { data } = await axios.get(`/api/admin/view_customers`);
+    console.log("these are customers", data);
     return data;
   } catch (error) {
     throw error;
@@ -156,4 +159,13 @@ export async function getCustomerByEmail(cust_email) {
     throw error;
   }
 }
-
+export async function getOrderHistoryByCustomerId(customerId) {
+  try {
+    const { data } = await axios.get(`api/admin/customers_history`, {
+      customerId,
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -1,16 +1,16 @@
 // Connect to DB
-require('dotenv').config();
-const { Client } = require('pg');
+require("dotenv").config();
+const { Client } = require("pg");
 const DB_URL = process.env.DATABASE_URL;
 const client = new Client(DB_URL);
 
 // import data from db_data_pokemon
-const { type, allPokes } = require('./db_data_pokemon.js');
+const { type, allPokes } = require("./db_data_pokemon.js");
 
 // database methods
 
 async function createAllTypeEntries(collection) {
-  console.log('Type collection:', collection);
+  console.log("Type collection:", collection);
   for (const index in collection) {
     const entry = await createTypeEntry(collection[index]);
   }
@@ -29,8 +29,8 @@ async function createTypeEntry({ name }) {
     `,
       [name]
     );
-    console.log('Entry complete:', entry);
-    console.log(' ');
+    console.log("Entry complete:", entry);
+    console.log(" ");
     return entry;
   } catch (error) {
     throw error;
@@ -38,7 +38,7 @@ async function createTypeEntry({ name }) {
 }
 
 async function createAllPokeEntries(collection) {
-  console.log('Pokemon collection:', collection);
+  console.log("Pokemon collection:", collection);
   for (const index in collection) {
     const entry = await createPokeEntry(collection[index]);
   }
@@ -68,8 +68,8 @@ async function createPokeEntry({
 
     await createAllTypeRelations(type, entry.prod_id, name);
 
-    console.log('Entry complete:', entry);
-    console.log(' ');
+    console.log("Entry complete:", entry);
+    console.log(" ");
     return entry;
   } catch (error) {
     throw error;
@@ -94,7 +94,7 @@ async function createTypeRelation(type_id, prod_id) {
     `,
       [prod_id, type_id]
     );
-    console.log('Type relationship entry complete:', entry);
+    console.log("Type relationship entry complete:", entry);
   } catch (error) {
     throw error;
   }
@@ -208,7 +208,7 @@ async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
       [cart_quantity]
     );
 
-    return { message: 'Success, Cart updated' };
+    return { message: "Success, Cart updated" };
   } catch (error) {
     throw error;
   }
@@ -220,7 +220,7 @@ async function db_deleteCartItem(cart_id, prod_id) {
       DELETE FROM cart_items
       WHERE cart_id=${cart_id} AND prod_id=${prod_id}
     `);
-    return { message: 'Success, item removed from your cart.' };
+    return { message: "Success, item removed from your cart." };
   } catch (error) {
     throw error;
   }
@@ -406,7 +406,7 @@ async function db_deleteProductById(prod_id) {
 async function db_updateProduct(prod_id, fields = {}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
-    .join(', ');
+    .join(", ");
 
   if (setString.length === 0) {
     return;
@@ -429,22 +429,9 @@ async function db_updateProduct(prod_id, fields = {}) {
   }
 }
 
-async function db_getAllUsers() {
-  try {
-    const { rows } = await client.query(`
-      SELECT *
-      FROM customers;
-    `);
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
 // checkout methods
 
 async function db_getItemPrice(prod_id) {
-  
   try {
     const {
       rows: [price],
@@ -495,14 +482,10 @@ async function _addOrderItems(cart, order_id) {
     .join(`), (`);
   const valueArray = [];
   try {
-    for (let item of cart ) {
-      const price = await db_getItemPrice(item.prod_id)
-      valueArray.push(
-          item.prod_id,
-          item.cart_quantity,
-          price
-      );
-    };
+    for (let item of cart) {
+      const price = await db_getItemPrice(item.prod_id);
+      valueArray.push(item.prod_id, item.cart_quantity, price);
+    }
     await client.query(
       `
       INSERT INTO order_detail(order_id, prod_id, order_quantity, order_price)
@@ -548,6 +531,24 @@ async function _createGuest_Order(orderId, formInfo) {
     throw error;
   }
 }
+
+async function db_getOrderHistoryByCustomerId(customerId) {
+  try {
+    const { rows } = await client.query(`
+    SELECT customers.cust_id, order_detail.order_id, order_date, order_quantity, order_price, name
+    FROM order_cust_relate
+    JOIN customers ON order_cust_relate.cust_id = customers.cust_id
+    JOIN order_detail ON order_cust_relate.order_id = order_detail.order_id
+    JOIN product ON order_detail.prod_id = product.prod_id
+    WHERE customers.cust_id = ${customerId};
+    `);
+    console.log("this is customer join", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // export
 
 module.exports = {
@@ -571,4 +572,5 @@ module.exports = {
   db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
+  db_getOrderHistoryByCustomerId,
 };
