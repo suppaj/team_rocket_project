@@ -130,11 +130,10 @@ export async function postPaymentIntent(cart) {
 
 export async function recordGuestOrder(cart, formInfo) {
   try {
-
-    await axios.post('/api/checkout/guestorder', {cart, formInfo});
+    await axios.post("/api/checkout/guestorder", { cart, formInfo });
     return;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
@@ -143,28 +142,28 @@ export async function getUserShipInfo(cust_id) {
     const { data } = await axios.get(`/api/users/${cust_id}/ship`);
     return data;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
-export async function recordShipandBill( formInfo, cust_id) {
-  try{
-    await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo);
-    console.log('finished shipping, doing billing')
-    await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo);
-    return
-  } catch (error) {
-    throw error
-  }
-}
-
-export async function recordUserOrder( cust_id, cart) {
+export async function recordShipandBill(formInfo, cust_id) {
   try {
-    const { data } = await axios.post(`/api/orders/${cust_id}/createorderId`)
+    await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo);
+    console.log("finished shipping, doing billing");
+    await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo);
+    return;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function recordUserOrder(cust_id, cart) {
+  try {
+    const { data } = await axios.post(`/api/orders/${cust_id}/createorderId`);
     // data will be {order_id};
-    console.log('this is data', data);
+    console.log("this is data", data);
     await axios.post(`/api/orders/${cust_id}/${data.order_id}`, cart);
-    return
+    return;
   } catch (error) {
     throw error;
   }
@@ -193,23 +192,31 @@ export async function getCustomerByEmail(cust_email) {
 
 export async function getOrderHistoryByCustomerId(customerId) {
   try {
-    const { data } = await axios.get(`api/admin/customers_history`, {
-      customerId,
-    });
+    const { data } = await axios.get(
+      `api/admin/customers_history/${customerId}`
+    );
+    console.log(data);
     return data;
   } catch (error) {
     throw error;
   }
 }
 
+export async function getOrderDetailsbyOrderId(orderId) {
+  try {
+    const { data } = await axios.get(`api/admin/customers_history/${orderId}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function clearUserCart(cart_id) {
   try {
     const { data } = await axios.delete(`api/cart/${cart_id}`);
     return data;
   } catch (error) {
-    throw error
-  };
+    throw error;
+  }
 }
-
-

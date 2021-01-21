@@ -7,6 +7,7 @@ const {
   db_getCustomerById,
   db_getCustomerByEmail,
   db_getOrderHistoryByCustomerId,
+  db_getOrderDetailsbyOrderId,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -31,24 +32,23 @@ apiRouter.get("/customers_email", async (req, res) => {
   }
 });
 
-apiRouter.get("/customers_history", async (req, res) => {
-  const { customerId } = req.body;
-
+apiRouter.get("/customers_history/:customerId", async (req, res) => {
+  const { customerId } = req.params;
   try {
     const orders = await db_getOrderHistoryByCustomerId(customerId);
+    console.log(orders);
     res.send({ orders });
   } catch (error) {
     throw error;
   }
 });
 
-apiRouter.delete("/remove_product/:prod_id/:type_id", async (req, res) => {
-  const { prod_id, type_id } = req.params;
-
+apiRouter.get("/customers_orders/:orderId", async (req, res) => {
+  const { orderId } = req.params;
   try {
-    const relationship = await db_deleteRelationProductById(prod_id, type_id);
-
-    res.send({ relationship, message: "Item Removed" });
+    const details = await db_getOrderDetailsbyOrderId(orderId);
+    console.log(details);
+    res.send({ details });
   } catch (error) {
     throw error;
   }

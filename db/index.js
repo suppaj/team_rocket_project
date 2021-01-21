@@ -274,11 +274,16 @@ async function db_createCustomer({
 
 async function _createUserCart(cust_id) {
   try {
-    const { rows : [ cart_id ] } = await client.query(`
+    const {
+      rows: [cart_id],
+    } = await client.query(
+      `
       INSERT INTO cart_cust_relate(cust_id)
         VALUES ($1)
         RETURNING cart_id;
-    `,[cust_id])
+    `,
+      [cust_id]
+    );
 
     return cart_id;
   } catch (error) {
@@ -359,61 +364,6 @@ async function db_getCustomerCart(cust_email) {
 }
 
 // admin methods
-
-async function db_deleteRelationProductById(prod_id, type_id) {
-  try {
-    await client.query(`
-      DELETE
-      FROM cart_items
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM order_detail
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM product_reviews
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM product_type
-      WHERE prod_id=${prod_id} AND  type_id=${type_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM product
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-
-    `);
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function db_deleteProductById(prod_id) {
-  try {
-    await client.query(`
-      DELETE
-      FROM product
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-  } catch (error) {
-    throw error;
-  }
-}
 
 async function db_updateProduct(prod_id, fields = {}) {
   const setString = Object.keys(fields)
@@ -544,76 +494,124 @@ async function _createGuest_Order(orderId, formInfo) {
   }
 }
 
+// async function db_getOrderHistoryByCustomerId(customerId) {
+//   try {
+//     const {
+//       rows: [orders],
+//     } = await client.query(
+//       `
+//       SELECT *
+//       FROM order_cust_relate
+//       WHERE cust_id = $1;
+//     `,
+//       [customerId]
+//     );
+
+//     return orders;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 async function db_getOrderHistoryByCustomerId(customerId) {
   try {
-    const { rows } = await client.query(`
-    SELECT customers.cust_id, order_detail.order_id, order_date, order_quantity, order_price, name
-    FROM order_cust_relate
-    JOIN customers ON order_cust_relate.cust_id = customers.cust_id
-    JOIN order_detail ON order_cust_relate.order_id = order_detail.order_id
-    JOIN product ON order_detail.prod_id = product.prod_id
-    WHERE customers.cust_id = ${customerId};
-    `);
-    console.log("this is customer join", rows);
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM order_cust_relate
+      WHERE cust_id = $1;
+    `,
+      [customerId]
+    );
+
     return rows;
   } catch (error) {
     throw error;
   }
 }
 
+async function db_getOrderDetailsbyOrderId(orderId) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM order_detail
+      WHERE order_id = $1;
+    `,
+      [orderId]
+    );
+
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function db_getUserShipInfo(cust_id) {
   try {
-    const { rows : [ shipInfo ] } = await client.query(`
+    const {
+      rows: [shipInfo],
+    } = await client.query(
+      `
       SELECT * FROM shipping_add
         WHERE cust_id = $1;
-    `,[ cust_id ]);
-    return shipInfo
+    `,
+      [cust_id]
+    );
+    return shipInfo;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 async function db_recordShipping(cust_id, shipInfo) {
-  const { add1, add2, city, state, zipcode} = shipInfo;
-  console.log('hitting db record shipping')
+  const { add1, add2, city, state, zipcode } = shipInfo;
+  console.log("hitting db record shipping");
   try {
-    await client.query(`
+    await client.query(
+      `
       INSERT INTO shipping_add(cust_id, ship_add1, ship_add2, ship_city, ship_state, ship_zipcode)
         VALUES ($1, $2, $3, $4, $5, $6);
-    `,[cust_id, add1, add2, city, state, zipcode]);
-    return
+    `,
+      [cust_id, add1, add2, city, state, zipcode]
+    );
+    return;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 async function db_recordBilling(cust_id, billInfo) {
-  const { add1, add2, city, state, zipcode} = billInfo;
-  console.log('hitting db record billing');
+  const { add1, add2, city, state, zipcode } = billInfo;
+  console.log("hitting db record billing");
   try {
-    const { rows } = await client.query(`
+    const { rows } = await client.query(
+      `
       INSERT INTO billing_add(cust_id, bill_add1, bill_add2, bill_city, bill_state, bill_zipcode)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *;
-    `,[cust_id, add1, add2, city, state, zipcode]);
-    console.log('billing add?', rows)
-    return
+    `,
+      [cust_id, add1, add2, city, state, zipcode]
+    );
+    console.log("billing add?", rows);
+    return;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 async function db_clearUserCart(cart_id) {
   try {
-    const { rows } = await client.query(`
+    const { rows } = await client.query(
+      `
       DELETE FROM cart_items
         WHERE cart_id = $1;
-    `,[cart_id]);
+    `,
+      [cart_id]
+    );
     return rows;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
@@ -635,9 +633,7 @@ module.exports = {
   db_getCustomerById,
   db_getCustomerByEmail,
   db_getCustomerCart,
-  db_deleteProductById,
   db_updateProduct,
-  db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
   db_getOrderHistoryByCustomerId,
@@ -647,4 +643,5 @@ module.exports = {
   db_createOrderId,
   db_addOrderItems,
   db_clearUserCart,
+  db_getOrderDetailsbyOrderId,
 };
