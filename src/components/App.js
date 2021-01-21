@@ -35,7 +35,7 @@ const App = () => {
   const [firstName, setFirstName] = useState("");
   const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
   const [ cartCount, setCartCount ] = useState(0)
-  const [ user, setUser ] = useState({});
+  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {});
   
  
 
@@ -52,6 +52,10 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user) )
+  },[user]);
+
   useEffect(()=>{
     findCartCount();
   },[cart]);
@@ -64,7 +68,7 @@ const App = () => {
       return item;
     });
     console.log('cart count: ', count)
-    await setCartCount(count);
+    setCartCount(count);
   };
 
   return (

@@ -106,6 +106,8 @@ const Login = ({ setIsLoggedIn, setIsAdmin, setFirstName, firstName }) => {
         setWelcomeShow={setWelcomeShow}
         welcomeShow={welcomeShow}
         firstName={firstName}
+        setOuterShow={setLoginShow}
+
       />
       <Try_again
         setTryAgainShow={setTryAgainShow}
