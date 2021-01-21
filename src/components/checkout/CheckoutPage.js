@@ -8,9 +8,8 @@ const stripePromise = loadStripe(
   'pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i'
 );
 
-const CheckoutPage = ({ isLoggedIn }) => {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
+const CheckoutPage = ({ isLoggedIn, cart, user, setCart }) => {
+  
   return (
     <>
       <div className='nes-container with-title is-rounded w-100'>
@@ -24,9 +23,9 @@ const CheckoutPage = ({ isLoggedIn }) => {
           <Col md={5}>
             <Elements stripe={stripePromise}>
               {isLoggedIn ? (
-                <UserCheckOutForm cart={cart} />
+                <UserCheckOutForm cart={cart} user={user} setCart={setCart}/>
               ) : (
-                <GuestCheckOutForm cart={cart} />
+                <GuestCheckOutForm cart={cart} setCart={setCart} />
               )}
             </Elements>
           </Col>

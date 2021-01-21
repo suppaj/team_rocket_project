@@ -6,6 +6,7 @@ const {
   db_deleteRelationProductById,
   db_getCustomerById,
   db_getCustomerByEmail,
+  db_getOrderHistoryByCustomerId,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -25,6 +26,17 @@ apiRouter.get("/customers_email", async (req, res) => {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
     res.send({ customer });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/customers_history", async (req, res) => {
+  const { customerId } = req.body;
+
+  try {
+    const orders = await db_getOrderHistoryByCustomerId(customerId);
+    res.send({ orders });
   } catch (error) {
     throw error;
   }

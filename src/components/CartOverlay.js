@@ -1,8 +1,6 @@
 import React from 'react';
 
-const CartOverlay =(props) => {
-
-    const cart = JSON.parse(localStorage.getItem('cart'));
+const CartOverlay =({cart}) => {
 
     return (
         <>

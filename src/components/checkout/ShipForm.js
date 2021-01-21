@@ -57,7 +57,7 @@ const ShipForm = ({ shipInfo, setShipInfo, formStatus, setKey }) => {
         </div>
       </div>
       <div className='nes-field'>
-        <label htmlFor='ckout-ship-zip'>Zip</label>
+        <label htmlFor='ckout-ship-zip'>Zipcode</label>
         <input
           type='text'
           id='ckout-ship-zip'

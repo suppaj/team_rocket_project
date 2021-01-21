@@ -11,7 +11,11 @@ import { AddToCart } from "../index";
 // function imports
 import { getProductById } from "../../api";
 
+<<<<<<< HEAD
 const ProductPage = () => {
+=======
+const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
+>>>>>>> master
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
 
@@ -67,7 +71,7 @@ const ProductPage = () => {
         <Dropdown.Item
           key={number}
           onClick={() => {
-            setOrderAmount(number);
+            setOrderAmount(parseInt(number));
           }}
         >
           {number}
@@ -184,8 +188,11 @@ const ProductPage = () => {
               </Dropdown>
               <AddToCart
                 product={currentPoke}
-                isLoggedIn={false}
+                isLoggedIn={isLoggedIn}
                 orderAmount={orderAmount}
+                cart={cart}
+                setCart={setCart}
+                cartID={cartID}
               />
             </ButtonGroup>
           </div>

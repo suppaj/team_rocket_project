@@ -86,7 +86,7 @@ export async function registerCustomer(
   last_name,
   cust_email,
   cust_pwd,
-  isAdmin
+  is_admin
 ) {
   try {
     const { data } = await axios.post(`/api/customers/register`, {
@@ -94,7 +94,7 @@ export async function registerCustomer(
       last_name,
       cust_email,
       cust_pwd,
-      isAdmin,
+      is_admin,
     });
 
     console.log("register response", data);
@@ -128,18 +128,52 @@ export async function postPaymentIntent(cart) {
   }
 }
 
-export async function recordGuestOrder( cart , formInfo) {
+export async function recordGuestOrder(cart, formInfo) {
   try {
-    const { data } = await axios.post('/api/checkout/guestorder', {cart, formInfo});
 
+    await axios.post('/api/checkout/guestorder', {cart, formInfo});
+    return;
   } catch (error) {
     throw error
+  }
+}
+
+export async function getUserShipInfo(cust_id) {
+  try {
+    const { data } = await axios.get(`/api/users/${cust_id}/ship`);
+    return data;
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function recordShipandBill( formInfo, cust_id) {
+  try{
+    await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo);
+    console.log('finished shipping, doing billing')
+    await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo);
+    return
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function recordUserOrder( cust_id, cart) {
+  try {
+    const { data } = await axios.post(`/api/orders/${cust_id}/createorderId`)
+    // data will be {order_id};
+    console.log('this is data', data);
+    await axios.post(`/api/orders/${cust_id}/${data.order_id}`, cart);
+    return
+  } catch (error) {
+    throw error;
   }
 }
 
 export async function getAllCustomers() {
   try {
     const { data } = await axios.get(`/api/admin/view_customers`);
+    console.log("these are customers", data);
     return data;
   } catch (error) {
     throw error;
@@ -156,4 +190,26 @@ export async function getCustomerByEmail(cust_email) {
     throw error;
   }
 }
+
+export async function getOrderHistoryByCustomerId(customerId) {
+  try {
+    const { data } = await axios.get(`api/admin/customers_history`, {
+      customerId,
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function clearUserCart(cart_id) {
+  try {
+    const { data } = await axios.delete(`api/cart/${cart_id}`);
+    return data;
+  } catch (error) {
+    throw error
+  };
+}
+
 

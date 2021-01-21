@@ -11,7 +11,7 @@ async function calculateOrderAmount(cart) {
     }
   }
 
-  return parseInt(orderTotal.toFixed(2));
+  return (orderTotal.toFixed(2));
 }
 
 module.exports = {
