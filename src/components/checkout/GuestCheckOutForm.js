@@ -9,116 +9,21 @@ import {
 import { Tabs, Tab } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { postPaymentIntent, recordGuestOrder } from '../../api';
-import ContactForm from './ContactForm';
-import ShipForm from './ShipForm';
-import BillForm from './BillForm';
+import CheckoutForm from './CheckOutForm';
+import RollingBall from '../RollingBall';
+// import ContactForm from './ContactForm';
+// import ShipForm from './ShipForm';
+// import BillForm from './BillForm';
 
 const GuestCheckOutForm = ({ cart }) => {
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
-  const [key, setKey] = useState('contact');
-  const [isChecked, setisChecked] = useState(false);
-  const [contactInfo, setContactInfo] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-  });
-  const [shipInfo, setShipInfo] = useState({
-    add1: '',
-    add2: '',
-    city: '',
-    state: '',
-    zipcode: '',
-  });
-  const [billInfo, setBillInfo] = useState({
-    add1: '',
-    add2: '',
-    city: '',
-    state: '',
-    zipcode: '',
-  });
-  const [formStatus, setFormStatus] = useState({
-    contact: true,
-    shipping: true,
-    billing: true,
-  });
   const [message, setMessage] = useState('');
 
-  const getSubTotal = () => {
-    let subTotal = 0;
-    for (let item of cart) {
-      subTotal += item.cart_quantity * item.price;
-    }
-    return subTotal;
-  };
-
-  useEffect(() => {
-    setFormStatus({ ...formStatus, contact: false });
-    Object.values(contactInfo).map((value) => {
-      if (value) {
-        return value;
-      } else {
-        setFormStatus({ ...formStatus, contact: true });
-        return value;
-      }
-    });
-  }, [contactInfo]);
-
-  useEffect(() => {
-    setFormStatus({ ...formStatus, shipping: false });
-    let copyShip = { ...shipInfo };
-    delete copyShip.add2;
-    Object.values(copyShip).map((value) => {
-      if (value) {
-        return value;
-      } else {
-        setFormStatus({ ...formStatus, shipping: true });
-        return value;
-      }
-    });
-  }, [shipInfo]);
-
-  useEffect(() => {
-    setFormStatus({ ...formStatus, billing: false });
-    let copyBill = { ...billInfo };
-    delete copyBill.add2;
-    Object.values(copyBill).map((value) => {
-      if (value) {
-        return value;
-      } else {
-        setFormStatus({ ...formStatus, billing: true });
-        return value;
-      }
-    });
-  }, [billInfo]);
-
-  const CARD_OPTIONS = {
-    style: {
-      base: {
-        backgroundColor: 'white',
-        color: 'black',
-        iconColor: 'black',
-        fontSize: '24px',
-      },
-      invalid: {
-        color: 'red',
-        iconColor: 'red',
-      },
-    },
-  };
-
-  const handleCheckbox = () => {
-    const checked = document.getElementById('same-as-shipping').checked;
-    setisChecked(checked);
-    if (checked) {
-      setBillInfo(shipInfo);
-    }
-  };
-
-  const handlePayment = async (e) => {
+  const handlePayment = async (e, formInfo) => {
+    const { contactInfo } = formInfo;
     e.preventDefault();
-    console.log('cart', cart);
     document.getElementById('process-dialog').showModal();
     try {
       const { clientSecret } = await postPaymentIntent(cart);
@@ -135,11 +40,11 @@ const GuestCheckOutForm = ({ cart }) => {
         setMessage(result.error.message);
       } else {
         setMessage(`Payment ${result.paymentIntent.status}`); //not really needed anymore
-        recordGuestOrder(cart, { contactInfo, shipInfo, billInfo })
+        recordGuestOrder(cart, formInfo)
         localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',
-          state: { formInfo: { contactInfo, shipInfo, billInfo } },
+          state: { formInfo },
         });
       }
     } catch (error) {
@@ -151,7 +56,12 @@ const GuestCheckOutForm = ({ cart }) => {
 
   return (
     <>
-      <div className='nes-container' id='checkout-form-guest'>
+    <CheckoutForm handlePayment={handlePayment} cart={cart} message={message}/>
+    <dialog className='nes-dialog' id='process-dialog'>
+        <p>PROCESSING PAYMENT</p>
+        <RollingBall />
+      </dialog>
+      {/* <div className='nes-container' id='checkout-form-guest'>
         <p id='ckout-form-info'>
           Fill out contact, shipping, billing, and CC information to complete
           your purchase.
@@ -201,8 +111,11 @@ const GuestCheckOutForm = ({ cart }) => {
           >
             <p>Payment Information</p>
             <div id='cc-info-box'>
+              Card Number
               <CardNumberElement options={CARD_OPTIONS} />
+              Expiration Date
               <CardExpiryElement options={CARD_OPTIONS} />
+              Security Code
               <CardCvcElement options={CARD_OPTIONS} />
             </div>
             <button
@@ -229,7 +142,7 @@ const GuestCheckOutForm = ({ cart }) => {
           width='75'
           height='75'
         />
-      </dialog>
+      </dialog> */}
     </>
   );
 };

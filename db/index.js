@@ -458,15 +458,15 @@ async function db_getItemPrice(prod_id) {
 
 async function db_recordGuestOrder(cart, formInfo) {
   try {
-    const orderId = await _createOrder(1);
-    await _addOrderItems(cart, orderId);
+    const orderId = await db_createOrderId(1);
+    await db_addOrderItems(cart, orderId);
     await _createGuest_Order(orderId, formInfo);
   } catch (error) {
     throw error;
   }
 }
 
-async function _createOrder(cust_id) {
+async function db_createOrderId(cust_id) {
   try {
     const {
       rows: [orderId],
@@ -481,7 +481,7 @@ async function _createOrder(cust_id) {
   }
 }
 
-async function _addOrderItems(cart, order_id) {
+async function db_addOrderItems(cart, order_id) {
   const valueString = cart
     .map(
       (_, index) =>
@@ -539,6 +539,48 @@ async function _createGuest_Order(orderId, formInfo) {
     throw error;
   }
 }
+
+async function db_getUserShipInfo(cust_id) {
+  try {
+    const { rows : [ shipInfo ] } = await client.query(`
+      SELECT * FROM shipping_add
+        WHERE cust_id = $1;
+    `,[ cust_id ]);
+    return shipInfo
+  } catch (error) {
+    throw error
+  }
+}
+
+async function db_recordShipping(cust_id, shipInfo) {
+  const { add1, add2, city, state, zipcode} = shipInfo;
+  console.log('hitting db record shipping')
+  try {
+    await client.query(`
+      INSERT INTO shipping_add(cust_id, ship_add1, ship_add2, ship_city, ship_state, ship_zipcode)
+        VALUES ($1, $2, $3, $4, $5, $6);
+    `,[cust_id, add1, add2, city, state, zipcode]);
+    return
+  } catch (error) {
+    throw error
+  }
+}
+
+async function db_recordBilling(cust_id, billInfo) {
+  const { add1, add2, city, state, zipcode} = billInfo;
+  console.log('hitting db record billing');
+  try {
+    const { rows } = await client.query(`
+      INSERT INTO billing_add(cust_id, bill_add1, bill_add2, bill_city, bill_state, bill_zipcode)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING *;
+    `,[cust_id, add1, add2, city, state, zipcode]);
+    console.log('billing add?', rows)
+    return
+  } catch (error) {
+    throw error
+  }
+}
 // export
 
 module.exports = {
@@ -562,4 +604,9 @@ module.exports = {
   db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
+  db_getUserShipInfo,
+  db_recordShipping,
+  db_recordBilling,
+  db_createOrderId,
+  db_addOrderItems,
 };

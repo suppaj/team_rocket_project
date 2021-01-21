@@ -1,14 +1,14 @@
-const apiRouter = require("express").Router();
+const apiRouter = require('express').Router();
 
 const {
   db_addCartItem,
   db_patchCartItem,
   db_deleteCartItem,
-} = require("../db/index");
+} = require('../db/index');
 
-apiRouter.get("/", (req, res, next) => {
+apiRouter.get('/', (req, res, next) => {
   res.send({
-    message: "API is under construction!",
+    message: 'API is under construction!',
   });
 });
 
@@ -44,13 +44,14 @@ apiRouter.delete(`/cart/:cart_id/:prod_id`, async (req, res, next) => {
   }
 });
 
-apiRouter.use("/customers", require("./customers"));
-apiRouter.use("/customers_email/:email", require("./customers"));
-apiRouter.use("/login", require("./customers"));
-apiRouter.use("/register", require("./customers"));
-apiRouter.use("/admin", require("./admin"));
-apiRouter.use("/products", require("./products"));
-const usersRouter = require("./checkout");
-apiRouter.use("/checkout", usersRouter);
+apiRouter.use('/orders', require('./orders'));
+apiRouter.use('/customers', require('./customers'));
+apiRouter.use('/customers_email/:email', require('./customers'));
+apiRouter.use('/login', require('./customers'));
+apiRouter.use('/register', require('./customers'));
+apiRouter.use('/users', require('./users'));
+apiRouter.use('/admin', require('./admin'));
+apiRouter.use('/products', require('./products'));
+apiRouter.use('/checkout', require('./checkout'));
 
 module.exports = apiRouter;

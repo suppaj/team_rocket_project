@@ -66,7 +66,7 @@ apiRouter.post("/login", async (req, res, next) => {
 });
 
 apiRouter.post("/register", async (req, res, next) => {
-  const { first_name, last_name, cust_email, cust_pwd, isAdmin } = req.body;
+  const { first_name, last_name, cust_email, cust_pwd, is_admin } = req.body;
 
   try {
     const _user = await db_getCustomerByEmail(cust_email);
@@ -83,7 +83,7 @@ apiRouter.post("/register", async (req, res, next) => {
       last_name,
       cust_email,
       cust_pwd,
-      isAdmin,
+      is_admin,
     });
 
     const token = jwt.sign(
