@@ -105,7 +105,6 @@ apiRouter.post("/register", async (req, res, next) => {
     );
 
     res.send({
-      // message: `Thank you for signing up ${first_name}!`,
       firstName: first_name,
       token,
     });

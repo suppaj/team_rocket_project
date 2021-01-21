@@ -1,8 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { getAllCustomers } from "../../api/index";
 import { Customer_admin, Metrics, Product_admin } from "./index";
 import { Navbar, NavDropdown, Button } from "react-bootstrap";
 const Admin = ({ isAdmin }) => {
+  //   const [customerArr, setCustomerArr] = useState();
+
+  const handleCustomers = (response) => {
+    window.localStorage.setItem("customer_array", JSON.stringify(response));
+  };
+
+  //   const retrieveCustomers = () => {
+  //     const customers = JSON.parse(window.localStorage.getItem("customer_array"));
+  //     console.log("inside of retrieve customers, this is customers", customers);
+  //     setCustomerArr(customers);
+  //   };
+
+  useEffect(() => {
+    getAllCustomers()
+      .then((response) => {
+        console.log("these are all users", response.customers);
+        const customers = response.customers;
+        if (customers) {
+          // setCustomerArr(response.customers);
+          handleCustomers(customers);
+          // retrieveCustomers();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <div id="admin">
       {isAdmin ? (
@@ -28,7 +57,7 @@ const Admin = ({ isAdmin }) => {
             <Metrics isAdmin={isAdmin} />
           </div>
 
-          <div id="admin-label" class="nes-container is-rounded is-dark">
+          <div id="admin-label" className="nes-container is-rounded is-dark">
             <p>Choose your starting {"dashboard".toUpperCase()}! </p>
           </div>
         </div>

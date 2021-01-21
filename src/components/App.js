@@ -28,10 +28,12 @@ import {
   Admin,
 } from "./index";
 
+import { Access } from "./admin/index";
+
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
   const [ cartCount, setCartCount ] = useState(0)
@@ -102,7 +104,14 @@ const App = () => {
             firstName={firstName}
           />
           <Register />
+
+          <Link to="/admin">
+            <Access isAdmin={isAdmin} />
+          </Link>
+         
+
           <CartButton cart={cart} cartCount={cartCount}/>
+
         </Row>
         <Row
           className="bg-success align-items-center"

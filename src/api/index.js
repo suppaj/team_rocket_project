@@ -128,8 +128,9 @@ export async function postPaymentIntent(cart) {
   }
 }
 
-export async function recordGuestOrder( cart , formInfo) {
+export async function recordGuestOrder(cart, formInfo) {
   try {
+
     await axios.post('/api/checkout/guestorder', {cart, formInfo});
     return;
   } catch (error) {
@@ -165,13 +166,14 @@ export async function recordUserOrder( cust_id, cart) {
     await axios.post(`/api/orders/${cust_id}/${data.order_id}`, cart);
     return
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 export async function getAllCustomers() {
   try {
     const { data } = await axios.get(`/api/admin/view_customers`);
+    console.log("these are customers", data);
     return data;
   } catch (error) {
     throw error;
@@ -189,6 +191,18 @@ export async function getCustomerByEmail(cust_email) {
   }
 }
 
+export async function getOrderHistoryByCustomerId(customerId) {
+  try {
+    const { data } = await axios.get(`api/admin/customers_history`, {
+      customerId,
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 export async function clearUserCart(cart_id) {
   try {
     const { data } = await axios.delete(`api/cart/${cart_id}`);
@@ -197,4 +211,5 @@ export async function clearUserCart(cart_id) {
     throw error
   };
 }
+
 

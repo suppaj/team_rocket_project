@@ -441,18 +441,6 @@ async function db_updateProduct(prod_id, fields = {}) {
   }
 }
 
-async function db_getAllUsers() {
-  try {
-    const { rows } = await client.query(`
-      SELECT *
-      FROM customers;
-    `);
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-}
-
 // checkout methods
 
 async function db_getItemPrice(prod_id) {
@@ -556,6 +544,25 @@ async function _createGuest_Order(orderId, formInfo) {
   }
 }
 
+
+async function db_getOrderHistoryByCustomerId(customerId) {
+  try {
+    const { rows } = await client.query(`
+    SELECT customers.cust_id, order_detail.order_id, order_date, order_quantity, order_price, name
+    FROM order_cust_relate
+    JOIN customers ON order_cust_relate.cust_id = customers.cust_id
+    JOIN order_detail ON order_cust_relate.order_id = order_detail.order_id
+    JOIN product ON order_detail.prod_id = product.prod_id
+    WHERE customers.cust_id = ${customerId};
+    `);
+    console.log("this is customer join", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 async function db_getUserShipInfo(cust_id) {
   try {
     const { rows : [ shipInfo ] } = await client.query(`
@@ -609,6 +616,7 @@ async function db_clearUserCart(cart_id) {
     throw error
   }
 }
+
 // export
 
 module.exports = {
@@ -632,6 +640,7 @@ module.exports = {
   db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
+  db_getOrderHistoryByCustomerId,
   db_getUserShipInfo,
   db_recordShipping,
   db_recordBilling,

@@ -5,8 +5,11 @@ const express = require("express");
 const server = express();
 const cors = require("cors");
 const passport = require("passport");
+// const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
+
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const cookieSession = require("cookie-session");
-require("./passport");
+// require("./passport");
 // create logs for everything
 const morgan = require("morgan");
 
@@ -25,8 +28,44 @@ server.use(
   })
 );
 
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:
+        "622808850843-hm2l64kf77vq0ggcm4ll4gi193sagbt5.apps.googleusercontent.com",
+      clientSecret: "UQjGHrYK_9dv99ZtlqkDDRAb",
+      callbackURL: "/auth/google/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return done(err, user);
+      });
+    }
+  )
+);
+
 server.use(passport.initialize());
 server.use(passport.session());
+
+server.get(
+  "/auth/google",
+
+  () => {
+    console.log("hi im in psp");
+    passport.authenticate("google", {
+      scope: ["profile", "email"],
+    });
+  }
+);
+
+server.get(
+  "/auth/google/callback",
+
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    res.redirect("/");
+  }
+);
 
 // here's our static files
 const path = require("path");
@@ -42,20 +81,6 @@ server.use((req, res, next) => {
 
 // bring in the DB connection
 const { client } = require("./db");
-
-server.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-server.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/failed" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/good");
-  }
-);
 
 // connect to the server
 const PORT = process.env.PORT || 5000;
