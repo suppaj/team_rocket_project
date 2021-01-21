@@ -7,7 +7,7 @@ const RollingBall = () => {
       src={
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
       }
-      alt="masterball animation payment processing"
+      alt="masterball animation "
       width="75"
       height="75"
     />

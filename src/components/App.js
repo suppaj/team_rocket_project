@@ -65,11 +65,11 @@ const App = () => {
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-      console.log('cart quant: ', item.cart_quantity)
+      // console.log('cart quant: ', item.cart_quantity)
       count += parseInt(item.cart_quantity);
       return item;
     });
-    console.log('cart count: ', count)
+    // console.log('cart count: ', count)
     setCartCount(count);
   };
 

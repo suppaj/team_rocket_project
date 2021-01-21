@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
-import { CartItemCard } from './index';
+import React from 'react';
+import { Col } from 'react-bootstrap';
+import { BouncingBall, CartItemCard, CartTable } from '../index';
 
 import { loadStripe } from '@stripe/stripe-js';
-import { getCheckoutSession } from '../api';
+// import { getCheckoutSession } from '../api'; // uncomment to use stripe hosted checkout
 
 const stripePromise = loadStripe("pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i");
 
@@ -47,28 +47,35 @@ const ShoppingCart = ({ cartID, cart, setCart, isLoggedIn }) => {
     // }
 
     return (
-        <Row>
-            <Col md={8} sm={12}>
-                <div className='nes-container with-title'>
-                    <p className='title'>TEAM ROCKET CART</p>
-                    <br/>
+        <>
+            <Col md={cart.length ? {span: 7}:{span :'auto', offset: 1}} >
                     {cart.length ? cart.map((order, index)=>{
                         return <CartItemCard key={index} order={order} cart={cart} setCart={setCart} cart_id={cartID} isLoggedIn={isLoggedIn}/>
                     }) : <div className='message-list -left'>
-                            <i className='nes-ash align-bottom'></i>
-                            <div className='nes-balloon from-left align-top'>
+                            <div className='nes-balloon from-right align-top'>
                                 <p>Your cart is empty. Gotta buy them all!</p>
                             </div>
-                        </div> }
+                            <i className='nes-ash align-bottom' style={{transform : 'scaleX(-1)'}}></i>                         
+                        </div> }                
+            </Col>
+            <Col md={cart.length ? {span: 3}:{span: 4}} className={cart.length ? 'align-self-start mx-auto sticky-top' : 'mx-auto align-self-center'}>
+            { cart.length ? <>
+                <CartTable cart={cart} /> 
+                <div>
+                <a className='nes-btn is-primary' href='/' style={{textDecoration:'none', color: 'white'}}>Return to Shopping</a>
+            </div>
+            <br/>
+            <div>
+                <a className={ cart.length ? 'nes-btn is-success' : 'nes-btn is-disabled'} disabled={!cart.length} href='/checkout' style={{textDecoration:'none', color: 'white'}}>Checkout</a>
+            </div></>
+                : 
+                <div>
+                    <a className='nes-btn is-primary' href='/' style={{textDecoration:'none', color: 'white'}}>Return to Shopping</a>
                 </div>
-                <Button href='/checkout' className={ cart.length ? 'nes-btn is-success' : 'nes-btn is-success'} disabled={!cart.length}>Continue to Checkout</Button>
-                {' '}
-                <Button href='/' className='nes-btn is-primary' >Return to Shopping</Button>
+            }
+            <BouncingBall />
             </Col>
-            <Col md={4} sm={12}>
-            itemized info about account.. etc
-            </Col>
-        </Row>
+        </>
 
         
     )

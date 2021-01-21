@@ -129,3 +129,119 @@ iframe {
     transform: rotate(360deg);
   }
 }
+
+#masterball-cart {
+  position: relative;
+  animation-name: bouncing;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes bouncing {
+  0% {
+    left: 0;
+    top: 0;
+    transform: rotate(0deg);
+  }
+  5% {
+    left: 20%;
+    top: 25%;
+    transform: rotate(30deg);
+  }
+  10% {
+    left: 40%;
+    top: 50%;
+    transform: rotate(60deg);
+  }
+  15% {
+    left: 60%;
+    top: 75%;
+    transform: rotate(90deg);
+  }
+  20% {
+    left: 80%;
+    top: 100%;
+    transform: rotate(120deg);
+  }
+  25% {
+    left: 95%;
+    top: 75%;
+    transform: rotate(150deg);
+  }
+  30% {
+    left: 80%;
+    top: 50%;
+    transform: rotate(180deg);
+  }
+  35% {
+    left: 60%;
+    top: 25%;
+    transform: rotate(210deg);
+  }
+  40% {
+    left: 40%;
+    top: 0%;
+    transform: rotate(240deg);
+  }
+  45% {
+    left: 20%;
+    top: 25%;
+    transform: rotate(270deg);
+  }
+  50% {
+    left: 0%;
+    top: 50%;
+    transform: rotate(300deg);
+  }
+  55% {
+    left: 20%;
+    top: 75%;
+    transform: rotate(330deg);
+  }
+  60% {
+    left: 40%;
+    top: 100%;
+    transform: rotate(360deg);
+  }
+  65% {
+    left: 60%;
+    top: 75%;
+    transform: rotate(330deg);
+  }
+  70% {
+    left: 80%;
+    top: 50%;
+    transform: rotate(300deg);
+  }
+  75% {
+    left: 95%;
+    top: 25%;
+    transform: rotate(270deg);
+  }
+  80% {
+    left: 80%;
+    top: 0%;
+    transform: rotate(240deg);
+  }
+  85% {
+    left: 60%;
+    top: 25%;
+    transform: rotate(210deg);
+  }
+  90% {
+    left: 40%;
+    top: 50%;
+    transform: rotate(180deg);
+  }
+  95% {
+    left: 20%;
+    top: 75%;
+    transform: rotate(150deg);
+  }
+  100% {
+    left: 0;
+    top: 100%;
+    transform: rotate(120deg);
+  }
+}

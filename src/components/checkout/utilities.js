@@ -59,3 +59,11 @@ export function statesOptions() {
     </option>
   ));
 }
+
+export function calculateOrderAmount(cart) {
+  let orderTotal = 0;
+  for (let item of cart) { 
+      orderTotal += (item.price * item.cart_quantity);
+    }
+  return (orderTotal.toFixed(2));
+}
