@@ -536,6 +536,7 @@ async function db_getOrderDetailsbyOrderId(orderId) {
       `
       SELECT *
       FROM order_detail
+      NATURAL JOIN product
       WHERE order_id = $1;
     `,
       [orderId]

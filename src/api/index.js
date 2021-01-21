@@ -204,7 +204,7 @@ export async function getOrderHistoryByCustomerId(customerId) {
 
 export async function getOrderDetailsbyOrderId(orderId) {
   try {
-    const { data } = await axios.get(`api/admin/customers_history/${orderId}`);
+    const { data } = await axios.get(`api/admin/customers_orders/${orderId}`);
     console.log(data);
     return data;
   } catch (error) {

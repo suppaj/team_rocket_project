@@ -11,6 +11,7 @@ const Customer_admin = ({ isAdmin }) => {
   const [customerArr, setCustomerArr] = useState([]);
   const [orderHistArr, setOrderHistArr] = useState([]);
   const [selectedCustomerID, setSelectedCustomerID] = useState();
+  const [selectedOrderID, setSelectedOrderID] = useState();
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
