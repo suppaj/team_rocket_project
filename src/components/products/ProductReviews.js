@@ -1,5 +1,7 @@
 import React from "react";
 
+import ReviewForm from "./ReviewForm";
+
 const ProductReviews = ({ reviews }) => {
   const test_reviews = [
     {

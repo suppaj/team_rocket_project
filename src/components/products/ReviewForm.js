@@ -8,6 +8,8 @@ const ReviewForm = () => {
     review_comment: "",
     cust_id: 2,
   });
+
+  return <p>Review Form Placeholder</p>;
 };
 
 export default ReviewForm;
