@@ -15,7 +15,7 @@ import RollingBall from '../RollingBall';
 // import ShipForm from './ShipForm';
 // import BillForm from './BillForm';
 
-const GuestCheckOutForm = ({ cart }) => {
+const GuestCheckOutForm = ({ cart, setCart }) => {
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
@@ -40,7 +40,8 @@ const GuestCheckOutForm = ({ cart }) => {
         setMessage(result.error.message);
       } else {
         setMessage(`Payment ${result.paymentIntent.status}`); //not really needed anymore
-        recordGuestOrder(cart, formInfo)
+        await recordGuestOrder(cart, formInfo);
+        setCart([]);
         localStorage.setItem('cart', JSON.stringify([]));
         history.push({
           pathname: '/checkout/success',
@@ -49,7 +50,7 @@ const GuestCheckOutForm = ({ cart }) => {
       }
     } catch (error) {
       document.getElementById('process-dialog').style.display = 'none';
-      setMessage(error);
+      setMessage(error.message);
       throw error;
     }
   };

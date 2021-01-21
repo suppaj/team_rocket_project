@@ -52,6 +52,7 @@ apiRouter.post('/guestorder', async (req, res, next) => {
     const { cart , formInfo } = req.body
     try {
         await db_recordGuestOrder(cart, formInfo)
+        res.sendStatus(200);
     } catch (error) {
         next(error);
     }

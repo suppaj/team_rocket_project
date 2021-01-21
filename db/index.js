@@ -199,11 +199,10 @@ async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
       `
       UPDATE cart_items
       SET cart_quantity=$1
-      WHERE cart_id=${cart_id} AND prod_id=${prod_id}
+      WHERE cart_id=${cart_id} AND prod_id=${prod_id};
     `,
       [cart_quantity]
     );
-
     return { message: "Success, Cart updated" };
   } catch (error) {
     throw error;
@@ -264,7 +263,24 @@ async function db_createCustomer({
     `,
       [first_name, last_name, cust_email, cust_pwd, is_admin]
     );
+    const cart_id = await _createUserCart(rows[0].cust_id);
+    rows[0].cart_id = cart_id.cart_id;
+
     return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _createUserCart(cust_id) {
+  try {
+    const { rows : [ cart_id ] } = await client.query(`
+      INSERT INTO cart_cust_relate(cust_id)
+        VALUES ($1)
+        RETURNING cart_id;
+    `,[cust_id])
+
+    return cart_id;
   } catch (error) {
     throw error;
   }
@@ -581,6 +597,18 @@ async function db_recordBilling(cust_id, billInfo) {
     throw error
   }
 }
+
+async function db_clearUserCart(cart_id) {
+  try {
+    const { rows } = await client.query(`
+      DELETE FROM cart_items
+        WHERE cart_id = $1;
+    `,[cart_id]);
+    return rows;
+  } catch (error) {
+    throw error
+  }
+}
 // export
 
 module.exports = {
@@ -609,4 +637,5 @@ module.exports = {
   db_recordBilling,
   db_createOrderId,
   db_addOrderItems,
+  db_clearUserCart,
 };

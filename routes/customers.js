@@ -35,8 +35,10 @@ apiRouter.post("/login", async (req, res, next) => {
       const token = jwt.sign(
         {
           siteAdmin: user.isadmin,
-          // cust_email,
           firstName: user.first_name,
+          lastName: user.last_name,
+          custID: user.cust_id,
+          custEmail: user.cust_email,
           cartID: cart.cart_id,
           cart: cartArray,
         },
@@ -48,7 +50,10 @@ apiRouter.post("/login", async (req, res, next) => {
 
       res.send({
         firstName: user.first_name,
+        lastName: user.last_name,
+        custID: user.cust_id,
         siteAdmin: user.isadmin,
+        custEmail: user.cust_email,
         token,
         cartID: cart.cart_id,
         cart: cartArray,

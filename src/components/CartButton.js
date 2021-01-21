@@ -1,38 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button, Badge, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { CartOverlay } from "./index";
 
-const CartButton = ({ cartObj }) => {
-  const [cartCount, setCartCount] = useState(0);
-
-  useEffect(() => {
-    findCartCount();
-  }, [cartObj]);
-
-  const findCartCount = () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let count = 0;
-    cart.map((item) => {
-      count += parseInt(item.cart_quantity);
-      return item;
-    });
-    setCartCount(count);
-  };
+const CartButton = ({ cart, cartCount }) => {
 
   return (
-    <Col sm={1} md={1} lg={1} xl={1}>
+    <Col sm={'auto'} md={'auto'} lg={'auto'} xl={'auto'}>
       <OverlayTrigger
         placement="left"
         overlay={
           <Tooltip>
-            <CartOverlay />
+            <CartOverlay cart={cart} />
           </Tooltip>
         }
       >
         <Button
           href="/shoppingcart"
           variant="link"
+          id='shop-cart-icon'
           style={{ color: "white", fontSize: "1rem" }}
         >
           <span>

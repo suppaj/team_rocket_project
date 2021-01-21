@@ -131,6 +131,7 @@ export async function postPaymentIntent(cart) {
 export async function recordGuestOrder( cart , formInfo) {
   try {
     await axios.post('/api/checkout/guestorder', {cart, formInfo});
+    return;
   } catch (error) {
     throw error
   }
@@ -186,5 +187,14 @@ export async function getCustomerByEmail(cust_email) {
   } catch (error) {
     throw error;
   }
+}
+
+export async function clearUserCart(cart_id) {
+  try {
+    const { data } = await axios.delete(`api/cart/${cart_id}`);
+    return data;
+  } catch (error) {
+    throw error
+  };
 }
 

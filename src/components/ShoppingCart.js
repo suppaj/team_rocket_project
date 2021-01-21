@@ -7,19 +7,7 @@ import { getCheckoutSession } from '../api';
 
 const stripePromise = loadStripe("pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i");
 
-const ShoppingCart = ({ cart_id, cust_id }) => {
-
-    const [ cart, setCart ] = useState( JSON.parse(localStorage.getItem('cart') ) || [{
-        dex_id: 7,
-        name: "squirtle",
-        type: ["water"],
-        description:
-          "Shoots water at prey while in the water. Withdraws into its shell when in danger.",
-        height: 5,
-        weight: 90,
-        price: 20.00,
-        cart_quantity: 3
-      }] );
+const ShoppingCart = ({ cartID, cart, setCart, isLoggedIn }) => {
 
     // uncomment and change onClick of button to handleClick to reinstate
 
@@ -65,7 +53,7 @@ const ShoppingCart = ({ cart_id, cust_id }) => {
                     <p className='title'>TEAM ROCKET CART</p>
                     <br/>
                     {cart.length ? cart.map((order, index)=>{
-                        return <CartItemCard key={index} order={order} cart={cart} setCart={setCart} cart_id={cart_id}/>
+                        return <CartItemCard key={index} order={order} cart={cart} setCart={setCart} cart_id={cartID} isLoggedIn={isLoggedIn}/>
                     }) : <div className='message-list -left'>
                             <i className='nes-ash align-bottom'></i>
                             <div className='nes-balloon from-left align-top'>

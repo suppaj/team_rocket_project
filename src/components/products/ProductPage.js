@@ -14,7 +14,7 @@ import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 import { AddToCart } from "../index";
 import { getProductById } from "../../api";
 
-const ProductPage = ({ allProducts }) => {
+const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
 
@@ -69,7 +69,7 @@ const ProductPage = ({ allProducts }) => {
         <Dropdown.Item
           key={number}
           onClick={() => {
-            setOrderAmount(number);
+            setOrderAmount(parseInt(number));
           }}
         >
           {number}
@@ -172,8 +172,11 @@ const ProductPage = ({ allProducts }) => {
               </Dropdown>
               <AddToCart
                 product={currentPoke}
-                isLoggedIn={false}
+                isLoggedIn={isLoggedIn}
                 orderAmount={orderAmount}
+                cart={cart}
+                setCart={setCart}
+                cartID={cartID}
               />
             </ButtonGroup>
           </div>
