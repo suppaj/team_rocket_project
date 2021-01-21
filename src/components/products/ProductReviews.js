@@ -29,44 +29,6 @@ const ProductReviews = ({ reviews }) => {
 
   const test_reviews2 = [];
 
-  function reviewMapper(reviewArray) {
-    if (reviewArray.length > 0) {
-      return reviewArray.map(
-        ({ review_id, review_title, review_comment, rating, first_name }) => {
-          return (
-            <section className="message -left" key={review_id}>
-              <div className="nes-balloon from-left">
-                <div className="review-title">
-                  <div className="customer-rating" style={{ float: "right" }}>
-                    {ratingGenerator(rating)}
-                  </div>
-                  <p>{review_title}</p>
-                  <br />
-                </div>
-                <p className="review-comment">{review_comment}</p>
-                <br />
-                <p className="review-name">{first_name}</p>
-              </div>
-            </section>
-          );
-        }
-      );
-    } else {
-      return (
-        <div
-          className="no-reviews nes-container is-dark with-title"
-          style={{ marginTop: "25px" }}
-        >
-          <p class="title">Whoops!</p>
-          <p>
-            There don't seem to be any reviews for this product... Be the first
-            to leave a review!
-          </p>
-        </div>
-      );
-    }
-  }
-
   function ratingGenerator(rating) {
     return (
       <>
@@ -99,6 +61,52 @@ const ProductReviews = ({ reviews }) => {
     );
   }
 
+  function reviewMapper(reviewArray) {
+    if (reviewArray.length > 0) {
+      return reviewArray.map(
+        (
+          { review_id, review_title, review_comment, rating, first_name },
+          index
+        ) => {
+          return (
+            <section className="message" key={review_id}>
+              <div
+                className={`nes-balloon from${
+                  index % 2 === 0 ? "-left" : "-right"
+                }`}
+              >
+                <div className="review-title">
+                  <div className="customer-rating" style={{ float: "right" }}>
+                    {ratingGenerator(rating)}
+                  </div>
+                  <p>{review_title}</p>
+                  <br />
+                </div>
+                <p className="review-comment">{review_comment}</p>
+                <br />
+                <p className="review-name">{first_name}</p>
+              </div>
+            </section>
+          );
+        }
+      );
+    } else {
+      return (
+        <div
+          className="no-reviews nes-container is-dark with-title"
+          style={{ marginTop: "25px" }}
+        >
+          <p class="title">Whoops!</p>
+          <p>
+            There don't seem to be any reviews for this product... Be the first
+            to leave a review!
+          </p>
+          <hr />
+        </div>
+      );
+    }
+  }
+
   return (
     <section
       style={{ gridRow: "3/4", gridColumn: "2/4", marginTop: "30px" }}
@@ -108,6 +116,8 @@ const ProductReviews = ({ reviews }) => {
       <div className="reviews">
         <section className="message-list">{reviewMapper(reviews)}</section>
       </div>
+      <hr />
+      <ReviewForm />
     </section>
   );
 };

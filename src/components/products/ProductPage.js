@@ -11,7 +11,7 @@ import { AddToCart } from "../index";
 // function imports
 import { getProductById } from "../../api";
 
-const ProductPage = ({ allProducts }) => {
+const ProductPage = () => {
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
 
