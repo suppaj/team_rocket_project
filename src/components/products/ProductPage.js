@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-  Link,
-  useParams,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
+import { ButtonGroup, Dropdown } from "react-bootstrap";
 
+// component imports
+import ProductReviews from "./ProductReviews";
 import { AddToCart } from "../index";
+
+// function imports
 import { getProductById } from "../../api";
 
 const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
@@ -35,6 +32,7 @@ const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
     weight,
     price,
     quantity,
+    reviews,
   } = currentPoke;
 
   function typeMapper(typeArray) {
@@ -85,35 +83,40 @@ const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
           width: "80vw",
           display: "grid",
           gridTemplateColumns: "1fr 1fr 1fr 1fr",
-          gridTemplateRows: "1fr 1fr",
+          gridTemplateRows: "1fr 1fr auto",
           backgroundColor: "#abbbd1",
         }}
       >
         <section
           className="pokedex-entry"
+          className="nes-container is-rounded"
           style={{
             gridColumn: "2/4",
             gridRow: "1/3",
             display: "grid",
             gridTemplateRows: "1fr 1fr",
-            gridTemplateColumns: "1fr 1fr",
+            girdTempalteColumns: "1fr 1fr",
+            placeItems: "center",
+            textAlign: "center",
           }}
         >
           <div
+            className="poke-top-left"
             style={{
               gridRow: "1/2",
               gridColumn: "2/3",
-              display: "flex",
-              flexWrap: "wrap",
-              alignContent: "center",
-              justifyContent: "center",
+              display: "grid",
+              placeItems: "center",
             }}
           >
             <img
               style={{
                 height: "300px",
                 width: "300px",
-                marginTop: "-80px",
+                marginTop: "-60px",
+                marginLeft: "-50px",
+                marginRight: "-50px",
+                float: "top",
               }}
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
               alt={`a very happy ${name}`}
@@ -128,38 +131,47 @@ const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
             </p>
           </div>
           <div
+            className="poke-top-right"
             style={{
               gridRow: "1/2",
               gridColumn: "3/4",
-              textAlign: "center",
+              display: "grid",
+              placeItems: "center",
             }}
           >
-            <h4
-              style={{
-                textTransform: "capitalize",
-                fontSize: "1.8rem",
-                marginTop: "30px",
-                overflow: "auto",
-              }}
-            >
-              {name}
-            </h4>
-            {type ? typeMapper(type) : ""}
-            <p style={{ marginTop: "20px" }}>Height: {height / 10}m</p>
-            <p>Weight: {weight / 10}kg</p>
-            <p style={{ fontSize: "1.8rem" }}>${price}</p>
+            <div>
+              <h4
+                style={{
+                  textTransform: "capitalize",
+                  marginTop: "30px",
+                  fontSize: "1.6rem",
+                }}
+              >
+                {name}
+              </h4>
+              <div style={{ marginBottom: "10px" }}>
+                {type ? typeMapper(type) : ""}
+              </div>
+              <p>Height: {height / 10}m</p>
+              <p>Weight: {weight / 10}kg</p>
+              <p style={{ fontSize: "1.6rem" }}>${price}</p>
+            </div>
           </div>
           <div
             style={{
               gridRow: "2/3",
               gridColumn: "2/4",
+              display: "grid",
             }}
           >
-            <div className="nes-container with-title is-dark">
+            <div
+              className="nes-container with-title is-dark"
+              style={{ textAlign: "left" }}
+            >
               <p className="title">Description</p>
               <p>{description}</p>
             </div>
-            <ButtonGroup style={{ textAlign: "center" }}>
+            <ButtonGroup style={{ placeSelf: "center", marginTop: "25px" }}>
               <Dropdown drop="up" style={{ marginRight: "10px" }}>
                 <Dropdown.Toggle variant="dark" id="quantity-dropdown">
                   Qty: {orderAmount}
@@ -181,6 +193,7 @@ const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
             </ButtonGroup>
           </div>
         </section>
+        <ProductReviews reviews={reviews} />
       </div>
     );
   } else {
