@@ -49,13 +49,15 @@ server.use(passport.session());
 
 server.get(
   "/auth/google",
-
-  () => {
-    console.log("hi im in psp");
-    passport.authenticate("google", {
-      scope: ["profile", "email"],
-    });
-  }
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+  // () => {
+  //   console.log("hi im in psp");
+  //   passport.authenticate("google", {
+  //     scope: ["profile", "email"],
+  //   });
+  // }
 );
 
 server.get(

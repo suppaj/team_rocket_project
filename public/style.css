@@ -165,7 +165,6 @@ iframe {
     left: 250px;
     transform: rotate(360deg);
   }
-
 }
 
 .custom-modals {
@@ -205,6 +204,8 @@ iframe {
   grid-row: 2;
   border: solid purple;
   padding: 5px;
+  font-size: 0.5rem !important;
+  font-weight: normal !important;
 }
 
 #current-customer-cart {
@@ -246,5 +247,6 @@ tr:nth-child(even) {
   font-weight: bold;
 }
 
-
-
+.customer-rows:hover {
+  color: blue;
+}
