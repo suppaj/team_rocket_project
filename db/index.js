@@ -115,7 +115,13 @@ async function getProductById(id) {
     const { rows: pokemon } = await client.query(
       `SELECT * FROM product WHERE prod_id = ${id}`
     );
+    // builds types array into the pokemon object
     const [product] = await _buildTypes(pokemon);
+
+    // builds the reviews array into the product object
+    const product_reviews = await db_getReviewsByProductId(id);
+    product.reviews = [...product_reviews];
+
     return product;
   } catch (error) {
     throw error;
@@ -513,6 +519,34 @@ async function _createGuest_Order(orderId, formInfo) {
 //   }
 // }
 
+async function db_createProductReview(reviewObject) {
+  const {
+    prod_id,
+    cust_id,
+    review_title,
+    review_comment,
+    rating,
+  } = reviewObject;
+
+  try {
+    const { rows: customer_review } = await client.query(
+      `
+      INSERT INTO product_reviews(prod_id, cust_id, review_title, review_comment, rating)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;
+    `,
+      [prod_id, cust_id, review_title, review_comment, rating]
+    );
+    console.log("Review created!", customer_review);
+  } catch (error) {
+    console.log(
+      `Trouble creating a review for product ID ${prod_id} from customer ID ${cust_id}!`
+    );
+    throw error;
+  }
+}
+
+
 async function db_getOrderHistoryByCustomerId(customerId) {
   try {
     const { rows } = await client.query(
@@ -544,6 +578,23 @@ async function db_getOrderDetailsbyOrderId(orderId) {
 
     return rows;
   } catch (error) {
+       throw error;
+  }
+}
+
+async function db_getReviewsByProductId(prod_id) {
+  try {
+    const { rows: reviews } = await client.query(
+      `
+      SELECT review_id, rating, review_title, review_comment, first_name
+      FROM product_reviews
+      LEFT JOIN customers on product_reviews.cust_id = customers.cust_id
+      WHERE prod_id = ${prod_id}`
+    );
+    console.log(`Reviews for prod_id ${prod_id}:`, reviews);
+    return reviews;
+  } catch (error) {
+    console.log("Trouble getting reviews by product ID in the database!");
     throw error;
   }
 }
@@ -637,6 +688,8 @@ module.exports = {
   db_updateProduct,
   db_getItemPrice,
   db_recordGuestOrder,
+  db_getReviewsByProductId,
+  db_createProductReview,
   db_getOrderHistoryByCustomerId,
   db_getUserShipInfo,
   db_recordShipping,

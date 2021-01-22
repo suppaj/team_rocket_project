@@ -28,6 +28,7 @@ apiRouter.get("/:product_id", async (req, res, next) => {
   try {
     const { product_id } = req.params;
     const product = await getProductById(product_id);
+
     res.send(product);
   } catch (error) {
     throw error;
