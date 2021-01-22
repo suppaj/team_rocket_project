@@ -371,61 +371,6 @@ async function db_getCustomerCart(cust_email) {
 
 // admin methods
 
-async function db_deleteRelationProductById(prod_id, type_id) {
-  try {
-    await client.query(`
-      DELETE
-      FROM cart_items
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM order_detail
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM product_reviews
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM product_type
-      WHERE prod_id=${prod_id} AND  type_id=${type_id}
-      RETURNING *;
-    `);
-
-    await client.query(`
-      DELETE
-      FROM product
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-
-    `);
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function db_deleteProductById(prod_id) {
-  try {
-    await client.query(`
-      DELETE
-      FROM product
-      WHERE prod_id=${prod_id}
-      RETURNING *;
-    `);
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function db_updateProduct(prod_id, fields = {}) {
   const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
@@ -555,6 +500,25 @@ async function _createGuest_Order(orderId, formInfo) {
   }
 }
 
+// async function db_getOrderHistoryByCustomerId(customerId) {
+//   try {
+//     const {
+//       rows: [orders],
+//     } = await client.query(
+//       `
+//       SELECT *
+//       FROM order_cust_relate
+//       WHERE cust_id = $1;
+//     `,
+//       [customerId]
+//     );
+
+//     return orders;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 async function db_createProductReview(reviewObject) {
   const {
     prod_id,
@@ -582,20 +546,39 @@ async function db_createProductReview(reviewObject) {
   }
 }
 
+
 async function db_getOrderHistoryByCustomerId(customerId) {
   try {
-    const { rows } = await client.query(`
-    SELECT customers.cust_id, order_detail.order_id, order_date, order_quantity, order_price, name
-    FROM order_cust_relate
-    JOIN customers ON order_cust_relate.cust_id = customers.cust_id
-    JOIN order_detail ON order_cust_relate.order_id = order_detail.order_id
-    JOIN product ON order_detail.prod_id = product.prod_id
-    WHERE customers.cust_id = ${customerId};
-    `);
-    console.log("this is customer join", rows);
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM order_cust_relate
+      WHERE cust_id = $1;
+    `,
+      [customerId]
+    );
+
     return rows;
   } catch (error) {
     throw error;
+  }
+}
+
+async function db_getOrderDetailsbyOrderId(orderId) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM order_detail
+      NATURAL JOIN product
+      WHERE order_id = $1;
+    `,
+      [orderId]
+    );
+
+    return rows;
+  } catch (error) {
+       throw error;
   }
 }
 
@@ -702,9 +685,7 @@ module.exports = {
   db_getCustomerById,
   db_getCustomerByEmail,
   db_getCustomerCart,
-  db_deleteProductById,
   db_updateProduct,
-  db_deleteRelationProductById,
   db_getItemPrice,
   db_recordGuestOrder,
   db_getReviewsByProductId,
@@ -716,4 +697,5 @@ module.exports = {
   db_createOrderId,
   db_addOrderItems,
   db_clearUserCart,
+  db_getOrderDetailsbyOrderId,
 };
