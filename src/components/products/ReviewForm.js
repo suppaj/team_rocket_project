@@ -112,11 +112,11 @@ const ReviewForm = ({ product_id }) => {
       <button
         type="button"
         id="review_submit-btn"
-        className={`nes-btn is-success ${
+        className={`nes-btn ${
           reviewInfo.rating != 0
             ? reviewInfo.review_title != 0
               ? reviewInfo.review_comment != 0
-                ? ""
+                ? "is-success"
                 : "is-disabled"
               : "is-disabled"
             : "is-disabled"
