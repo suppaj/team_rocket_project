@@ -35,11 +35,11 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
-  const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
-  const [ cartCount, setCartCount ] = useState(0)
-  const [ user, setUser ] = useState({});
-  
- 
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
+  const [cartCount, setCartCount] = useState(0);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     getSomething()
@@ -49,23 +49,23 @@ const App = () => {
       .catch((error) => {
         setMessage(error.message);
       });
-    if (!localStorage.getItem('cart')) {
-      localStorage.setItem('cart', JSON.stringify([]))
-    };
+    if (!localStorage.getItem("cart")) {
+      localStorage.setItem("cart", JSON.stringify([]));
+    }
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     findCartCount();
-  },[cart]);
+  }, [cart]);
 
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-      console.log('cart quant: ', item.cart_quantity)
+      console.log("cart quant: ", item.cart_quantity);
       count += parseInt(item.cart_quantity);
       return item;
     });
-    console.log('cart count: ', count)
+    console.log("cart count: ", count);
     await setCartCount(count);
   };
 
@@ -108,10 +108,8 @@ const App = () => {
           <Link to="/admin">
             <Access isAdmin={isAdmin} />
           </Link>
-         
 
-          <CartButton cart={cart} cartCount={cartCount}/>
-
+          <CartButton cart={cart} cartCount={cartCount} />
         </Row>
         <Row
           className="bg-success align-items-center"
@@ -147,17 +145,34 @@ const App = () => {
                   justifyContent: "center",
                 }}
               >
-                <ProductPage cart={cart} setCart={setCart} cartID={user.cartID} isLoggedIn={isLoggedIn}/>
+                <ProductPage
+                  cart={cart}
+                  setCart={setCart}
+                  cartID={user.cartID}
+                  isLoggedIn={isLoggedIn}
+                  user={user}
+                />
               </Row>
             </Route>
             <Route path="/shoppingcart">
-              <ShoppingCart cart={cart} setCart={setCart} isLoggedIn={isLoggedIn} cartID={user.cartID}/>
+              <ShoppingCart
+                cart={cart}
+                setCart={setCart}
+                isLoggedIn={isLoggedIn}
+                cartID={user.cartID}
+              />
             </Route>
             <Route exact path="/checkout/success">
-              <SuccessPage isLoggedIn={isLoggedIn}/>
+              <SuccessPage isLoggedIn={isLoggedIn} />
             </Route>
             <Route path="/checkout">
-              <CheckoutPage isLoggedIn={isLoggedIn} cart={cart} user={user} cart_id={user.cartID} setCart={setCart}/>
+              <CheckoutPage
+                isLoggedIn={isLoggedIn}
+                cart={cart}
+                user={user}
+                cart_id={user.cartID}
+                setCart={setCart}
+              />
             </Route>
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />

@@ -2,7 +2,7 @@ import React from "react";
 
 import ReviewForm from "./ReviewForm";
 
-const ProductReviews = ({ reviews, product_id }) => {
+const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
   function ratingGenerator(rating) {
     return (
       <>
@@ -70,10 +70,11 @@ const ProductReviews = ({ reviews, product_id }) => {
           className="no-reviews nes-container is-dark with-title"
           style={{ marginTop: "25px" }}
         >
-          <p class="title">Whoops!</p>
+          <p className="title">Whoops!</p>
           <p>
-            There don't seem to be any reviews for this product... Be the first
-            to leave a review!
+            There don't seem to be any reviews for this product...
+            {isLoggedIn ? "Be" : "Login or register and be"} the first to leave
+            a review!
           </p>
           <hr />
         </div>
@@ -91,7 +92,12 @@ const ProductReviews = ({ reviews, product_id }) => {
         <section className="message-list">{reviewMapper(reviews)}</section>
       </div>
       <hr />
-      <ReviewForm product_id={product_id} />
+      {isLoggedIn ? <ReviewForm product_id={product_id} user={user} /> : ""}
+      {isLoggedIn != true && reviews.length > 0 ? (
+        <p style={{ textAlign: "center" }}>Log in to leave a review!</p>
+      ) : (
+        ""
+      )}
     </section>
   );
 };
