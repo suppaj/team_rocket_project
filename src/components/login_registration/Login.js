@@ -119,6 +119,8 @@ const Login = ({
         setWelcomeShow={setWelcomeShow}
         welcomeShow={welcomeShow}
         firstName={firstName}
+        setOuterShow={setLoginShow}
+
       />
       <Try_again
         setTryAgainShow={setTryAgainShow}

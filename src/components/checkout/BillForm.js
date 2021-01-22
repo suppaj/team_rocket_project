@@ -1,4 +1,5 @@
 import React from 'react';
+import { statesOptions } from './utilities';
 
 const BillForm = ( { billInfo, setBillInfo, formStatus, setKey, isChecked, shipInfo, handleCheckbox } ) => {
 
@@ -73,7 +74,7 @@ const BillForm = ( { billInfo, setBillInfo, formStatus, setKey, isChecked, shipI
                 <option value='' disabled hidden>
                   State...
                 </option>
-                <option value='FL'>FL</option>
+                {statesOptions()}
               </select>
             </div>
           </div>
