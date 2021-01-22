@@ -527,7 +527,7 @@ async function db_createProductReview(reviewObject) {
     review_comment,
     rating,
   } = reviewObject;
-
+  console.log("Attempting to create a new review!");
   try {
     const { rows: customer_review } = await client.query(
       `
@@ -537,7 +537,7 @@ async function db_createProductReview(reviewObject) {
     `,
       [prod_id, cust_id, review_title, review_comment, rating]
     );
-    console.log("Review created!", customer_review);
+    return customer_review;
   } catch (error) {
     console.log(
       `Trouble creating a review for product ID ${prod_id} from customer ID ${cust_id}!`
@@ -591,7 +591,6 @@ async function db_getReviewsByProductId(prod_id) {
       LEFT JOIN customers on product_reviews.cust_id = customers.cust_id
       WHERE prod_id = ${prod_id}`
     );
-    console.log(`Reviews for prod_id ${prod_id}:`, reviews);
     return reviews;
   } catch (error) {
     console.log("Trouble getting reviews by product ID in the database!");

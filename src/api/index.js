@@ -220,3 +220,12 @@ export async function clearUserCart(cart_id) {
     throw error;
   }
 }
+
+export async function submitCustomerReview(reviewObject) {
+  try {
+    const { data } = await axios.post("/api/products/review", reviewObject);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

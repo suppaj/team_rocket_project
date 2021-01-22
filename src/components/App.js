@@ -63,7 +63,6 @@ const App = () => {
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-
       // console.log('cart quant: ', item.cart_quantity)
       count += parseInt(item.cart_quantity);
       return item;
@@ -154,6 +153,7 @@ const App = () => {
                   setCart={setCart}
                   cartID={user.cartID}
                   isLoggedIn={isLoggedIn}
+                  user={user}
                 />
               </Row>
             </Route>
