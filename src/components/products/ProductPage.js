@@ -82,7 +82,7 @@ const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
         style={{
           width: "80vw",
           display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr 1fr",
+          gridTemplateColumns: "1fr 1.5fr 1.5fr 1fr",
           gridTemplateRows: "1fr 1fr auto",
           backgroundColor: "#abbbd1",
         }}
@@ -193,7 +193,7 @@ const ProductPage = ({ allProducts, cart, setCart, cartID, isLoggedIn }) => {
             </ButtonGroup>
           </div>
         </section>
-        <ProductReviews reviews={reviews} />
+        <ProductReviews reviews={reviews} product_id={product_id} />
       </div>
     );
   } else {
