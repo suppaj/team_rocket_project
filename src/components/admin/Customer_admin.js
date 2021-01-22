@@ -7,9 +7,10 @@ import {
 } from "../../api/index";
 
 const Customer_admin = ({ isAdmin }) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [customerArr, setCustomerArr] = useState([]);
   const [orderHistArr, setOrderHistArr] = useState([]);
+  const [orderDetailsArr, setOrderDetailsArr] = useState([]);
   const [selectedCustomerID, setSelectedCustomerID] = useState();
   const [selectedOrderID, setSelectedOrderID] = useState();
   const handleClose = () => setShow(false);
@@ -19,15 +20,14 @@ const Customer_admin = ({ isAdmin }) => {
     setCustomerArr(customers);
   };
 
-  //   const retrieveCustomers = () => {
-  //     const customers = JSON.parse(window.localStorage.getItem("customer_array"));
-  //     console.log("inside of retrieve customers, this is customers", customers);
-  //     setCustomerArr(customers);
-  //   };
-
   const handleHistoryRequest = () => {
     const history = JSON.parse(window.localStorage.getItem("order_history"));
     setOrderHistArr(history);
+  };
+
+  const handleDetailsRequest = () => {
+    const details = JSON.parse(window.localStorage.getItem("order_detail"));
+    setOrderDetailsArr(details);
   };
 
   useEffect(() => {
@@ -48,6 +48,24 @@ const Customer_admin = ({ isAdmin }) => {
     }
   }, [selectedCustomerID]);
 
+  useEffect(() => {
+    if (selectedOrderID !== null) {
+      getOrderDetailsbyOrderId(selectedOrderID)
+        .then((response) => {
+          window.localStorage.setItem(
+            "order_detail",
+            JSON.stringify(response.details)
+          );
+
+          handleDetailsRequest();
+        })
+
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [selectedOrderID]);
+
   return (
     <div id="customer_admin">
       {isAdmin ? (
@@ -58,7 +76,7 @@ const Customer_admin = ({ isAdmin }) => {
             onClick={handleShow}
           ></img>
           <div className="admin-title">
-            Customer Portal
+            Customer Orders
             <Modal
               show={show}
               onHide={handleClose}
@@ -67,8 +85,11 @@ const Customer_admin = ({ isAdmin }) => {
             >
               <Modal.Body className="poke-body" id="customer-portal-modal">
                 <div id="customer-pokedex-screen">
-                  <div id="customer-screen">
-                    <table id="customer-list">
+                  <div id="customer-screen" className="nes-table-responsive">
+                    <table
+                      id="customer-list"
+                      className="nes-table is-bordered is-centered"
+                    >
                       <tbody>
                         <tr>
                           <th>ID</th>
@@ -96,12 +117,16 @@ const Customer_admin = ({ isAdmin }) => {
                                     setSelectedCustomerID(cust_id);
                                   }}
                                 >
-                                  <td>{cust_id}</td>
-                                  <td>{first_name}</td>
-                                  <td>{last_name}</td>
-                                  <td>{cust_email}</td>
-                                  <td>{cust_pwd}</td>
-                                  <td>{isadmin}</td>
+                                  {cust_id ? <td>{cust_id}</td> : null}
+                                  {first_name ? <td>{first_name}</td> : null}
+                                  {last_name ? <td>{last_name}</td> : null}
+                                  {cust_email ? <td>{cust_email}</td> : null}
+                                  {cust_pwd ? <td>{cust_pwd}</td> : null}
+                                  {isadmin ? (
+                                    <td>{isadmin.toString()}</td>
+                                  ) : (
+                                    <td>false</td>
+                                  )}
                                 </tr>
                               );
                             })
@@ -109,8 +134,11 @@ const Customer_admin = ({ isAdmin }) => {
                       </tbody>
                     </table>
                   </div>
-                  <div id="customer-orders">
-                    <table>
+                  <div id="customer-orders" className="nes-table-responsive">
+                    <table
+                      id="customer-orders-table"
+                      className="nes-table is-bordered is-centered"
+                    >
                       <tbody>
                         <tr>
                           <th>Customer ID</th>
@@ -122,13 +150,14 @@ const Customer_admin = ({ isAdmin }) => {
                               const { order_id, cust_id, order_date } = order;
                               return (
                                 <tr
+                                  className="customer-rows"
                                   key={index}
                                   onClick={() => {
-                                    console.log("I have been clicked");
+                                    setSelectedOrderID(order_id);
                                   }}
                                 >
-                                  <td>{order_id}</td>
                                   <td>{cust_id}</td>
+                                  <td>{order_id}</td>
                                   <td>{order_date}</td>
                                 </tr>
                               );
@@ -137,7 +166,28 @@ const Customer_admin = ({ isAdmin }) => {
                       </tbody>
                     </table>
                   </div>
-                  <div id="current-customer-cart">update customer info</div>
+                  <div id="current-customer-order-details">
+                    {orderDetailsArr
+                      ? orderDetailsArr.map((detail, index) => {
+                          const {
+                            name,
+                            order_price,
+                            order_quantity,
+                            description,
+                          } = detail;
+                          return (
+                            <div class="nes-container is-rounded" key={index}>
+                              <p>{name}</p>
+                              {description ? <p>{description}</p> : null}
+                              {order_price ? <p>₽{order_price}</p> : null}
+                              {order_quantity ? (
+                                <p>qty: {order_quantity}</p>
+                              ) : null}
+                            </div>
+                          );
+                        })
+                      : null}
+                  </div>
                 </div>
               </Modal.Body>
             </Modal>
