@@ -73,7 +73,9 @@ const ShoppingCart = ({ cartID, cart, setCart, isLoggedIn }) => {
                     <a className='nes-btn is-primary' href='/' style={{textDecoration:'none', color: 'white'}}>Return to Shopping</a>
                 </div>
             }
-            <BouncingBall />
+            {cart.length ?
+            <BouncingBall /> :
+            ''} 
             </Col>
         </>
 
