@@ -1,4 +1,5 @@
 import React from 'react';
+import { statesOptions } from './utilities';
 
 const ShipForm = ({ shipInfo, setShipInfo, formStatus, setKey }) => {
   return (
@@ -39,7 +40,7 @@ const ShipForm = ({ shipInfo, setShipInfo, formStatus, setKey }) => {
           onChange={(e) => setShipInfo({ ...shipInfo, city: e.target.value })}
         />
       </div>
-      <div className='nes-field'>
+      <div className='nes-field' >
         <label htmlFor='ckout-ship-state'>State</label>
         <div className='nes-select'>
           <select
@@ -48,15 +49,17 @@ const ShipForm = ({ shipInfo, setShipInfo, formStatus, setKey }) => {
             onChange={(e) =>
               setShipInfo({ ...shipInfo, state: e.target.value })
             }
+            placeholder='State...'
+            autoComplete='address-level1'
           >
-            <option value='' disabled hidden>
+            <option value={''} disabled >
               State...
             </option>
-            <option value='FL'>FL</option>
+            {statesOptions()}
           </select>
         </div>
       </div>
-      <div className='nes-field'>
+      <div className='nes-field' >
         <label htmlFor='ckout-ship-zip'>Zipcode</label>
         <input
           type='text'
@@ -68,6 +71,7 @@ const ShipForm = ({ shipInfo, setShipInfo, formStatus, setKey }) => {
             setShipInfo({ ...shipInfo, zipcode: e.target.value })
           }
           placeholder='12345 or 12345-0000'
+          autoComplete='postal-code'
         />
       </div>
       <br />

@@ -32,15 +32,13 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
-  const [cartCount, setCartCount] = useState(0);
-  const [user, setUser] = useState({});
-
+  const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
+  const [ cartCount, setCartCount ] = useState(0)
+  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {});
+  
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -55,18 +53,22 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user) )
+  },[user]);
+
+  useEffect(()=>{
     findCartCount();
   }, [cart]);
 
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-      console.log("cart quant: ", item.cart_quantity);
+      // console.log('cart quant: ', item.cart_quantity)
       count += parseInt(item.cart_quantity);
       return item;
     });
-    console.log("cart count: ", count);
-    await setCartCount(count);
+    // console.log('cart count: ', count)
+    setCartCount(count);
   };
 
   return (
@@ -102,6 +104,7 @@ const App = () => {
             setIsAdmin={setIsAdmin}
             setFirstName={setFirstName}
             firstName={firstName}
+            setUser={setUser}
           />
           <Register />
 

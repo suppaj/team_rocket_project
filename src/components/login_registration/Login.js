@@ -2,8 +2,21 @@ import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { loginCustomer } from "../../api";
 import { Try_again, Welcome } from "../index";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+  Link,
+} from "react-router-dom";
 
-const Login = ({ setIsLoggedIn, setIsAdmin, setFirstName, firstName }) => {
+const Login = ({
+  setIsLoggedIn,
+  setIsAdmin,
+  setFirstName,
+  firstName,
+  setUser,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginShow, setLoginShow] = useState(false);
@@ -22,16 +35,16 @@ const Login = ({ setIsLoggedIn, setIsAdmin, setFirstName, firstName }) => {
         if (response) {
           const { siteAdmin, firstName } = response;
           setWelcomeShow(true);
-
           setTimeout(handleCloseLogin, 2200);
           setIsAdmin(siteAdmin);
           setFirstName(firstName);
+          setUser(response);
         } else {
           console.log("login credentials incorrect");
         }
       })
       .catch((error) => {
-        console.error(error);
+        throw error;
       });
     setIsLoggedIn(true);
   };
@@ -86,10 +99,12 @@ const Login = ({ setIsLoggedIn, setIsAdmin, setFirstName, firstName }) => {
           </Form>
         </Modal.Body>
         <Modal.Body className="login-auth-section">
-          <div className="nes-container is-rounded login-container">
-            <i id="google-icon" className="nes-icon google is-small "></i>
-            <p className="login-dialogue">Sign in with Google</p>
-          </div>
+          <Link href="http://localhost:5000/auth/google/">
+            <div className="nes-container is-rounded login-container">
+              <i id="google-icon" className="nes-icon google is-small "></i>
+              <p className="login-dialogue">Sign in with Google</p>
+            </div>
+          </Link>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="dark" onClick={handleCloseLogin}>
@@ -104,6 +119,8 @@ const Login = ({ setIsLoggedIn, setIsAdmin, setFirstName, firstName }) => {
         setWelcomeShow={setWelcomeShow}
         welcomeShow={welcomeShow}
         firstName={firstName}
+        setOuterShow={setLoginShow}
+
       />
       <Try_again
         setTryAgainShow={setTryAgainShow}

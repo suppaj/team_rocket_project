@@ -192,9 +192,20 @@ export async function getCustomerByEmail(cust_email) {
 
 export async function getOrderHistoryByCustomerId(customerId) {
   try {
-    const { data } = await axios.get(`api/admin/customers_history`, {
-      customerId,
-    });
+    const { data } = await axios.get(
+      `api/admin/customers_history/${customerId}`
+    );
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOrderDetailsbyOrderId(orderId) {
+  try {
+    const { data } = await axios.get(`api/admin/customers_orders/${orderId}`);
+    console.log(data);
     return data;
   } catch (error) {
     throw error;

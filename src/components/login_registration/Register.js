@@ -126,6 +126,7 @@ const Register = () => {
         setWelcomeShow={setWelcomeShow}
         welcomeShow={welcomeShow}
         firstName={firstName}
+        setOuterShow={setRegisterShow}
       />
     </div>
   );
