@@ -65,7 +65,7 @@ const App = () => {
       setCart(user.cart)};
   },[user]);
 
-  useEffect(()=>{
+  useEffect(() => {
     findCartCount();
     console.log(cart);
   }, [cart]);

@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import ReviewForm from "./ReviewForm";
 
 const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
+  const [currentReviews, setCurrentReviews] = useState([]);
+
+  useEffect(() => {
+    setCurrentReviews(reviews);
+  }, []);
+
   function ratingGenerator(rating) {
     return (
       <>
@@ -89,11 +95,22 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
     >
       <h4 style={{ textAlign: "center" }}>Customer Reviews</h4>
       <div className="reviews">
-        <section className="message-list">{reviewMapper(reviews)}</section>
+        <section className="message-list">
+          {reviewMapper(currentReviews)}
+        </section>
       </div>
       <hr />
-      {isLoggedIn ? <ReviewForm product_id={product_id} user={user} /> : ""}
-      {isLoggedIn != true && reviews.length > 0 ? (
+      {isLoggedIn ? (
+        <ReviewForm
+          product_id={product_id}
+          user={user}
+          currentReviews={currentReviews}
+          setCurrentReviews={setCurrentReviews}
+        />
+      ) : (
+        ""
+      )}
+      {isLoggedIn != true && currentReviews.length > 0 ? (
         <p style={{ textAlign: "center" }}>Log in to leave a review!</p>
       ) : (
         ""

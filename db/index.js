@@ -102,7 +102,9 @@ async function createTypeRelation(type_id, prod_id) {
 
 async function getAllProducts() {
   try {
-    const { rows: pokemon } = await client.query(`SELECT * FROM product`);
+    const { rows: pokemon } = await client.query(
+      `SELECT * FROM product WHERE is_active = true`
+    );
     const products = await _buildTypes(pokemon);
     return products;
   } catch (error) {
@@ -587,7 +589,7 @@ async function db_getOrderDetailsbyOrderId(orderId) {
 
     return rows;
   } catch (error) {
-       throw error;
+    throw error;
   }
 }
 

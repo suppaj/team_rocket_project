@@ -39,12 +39,6 @@ async function buildTables() {
     console.log("Starting to build tables!");
 
     await client.query(`
-      CREATE TABLE sales(
-        transaction_id SERIAL PRIMARY KEY,
-        transaction_date DATE NOT NULL,
-        prod_id INTEGER REFERENCES product(prod_id)
-      );
-
       CREATE TABLE type(
         type_id SERIAL PRIMARY KEY,
         name VARCHAR(255)
@@ -182,6 +176,12 @@ async function buildTables() {
           FOREIGN KEY(cust_id)
             REFERENCES customers(cust_id)
         );
+
+        CREATE TABLE sales(
+          transaction_id SERIAL PRIMARY KEY,
+          transaction_date DATE NOT NULL,
+          prod_id INTEGER REFERENCES product(prod_id)
+        );
     `);
 
     console.log("Finished building tables!");
@@ -262,6 +262,14 @@ async function populateInitialData() {
       cust_email: "emacvagh4@accuweather.com",
       cust_pwd: "PD3cW3ShhtT",
       is_admin: false,
+    });
+
+    await db_createCustomer({
+      first_name: "Josh",
+      last_name: "Suppa",
+      cust_email: "jsuppa@teamrocket.com",
+      cust_pwd: "bulbasaur",
+      is_admin: true,
     });
 
     console.log("Test of helper functions");
