@@ -52,7 +52,12 @@ const ReviewStars = ({ reviewInfo, setReviewInfo }) => {
   );
 };
 
-const ReviewForm = ({ product_id, user, reviews }) => {
+const ReviewForm = ({
+  product_id,
+  user,
+  currentReviews,
+  setCurrentReviews,
+}) => {
   const [reviewInfo, setReviewInfo] = useState({
     review_id: "current",
     prod_id: parseInt(product_id),
