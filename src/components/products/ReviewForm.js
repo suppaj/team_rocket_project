@@ -129,9 +129,10 @@ const ReviewForm = ({
         }`}
         onClick={async (event) => {
           event.preventDefault();
-          const review = await submitCustomerReview(reviewInfo);
-          // reviews.unshift(reviewInfo);
-          // console.log("new reviews:", reviews);
+          const newReview = await submitCustomerReview(reviewInfo);
+          let copy = [...currentReviews];
+          copy.unshift(reviewInfo);
+          setCurrentReviews(copy);
           resetForm();
         }}
         // conditionally disables the button

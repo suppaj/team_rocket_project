@@ -9,8 +9,6 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
     setCurrentReviews(reviews);
   }, []);
 
-  useEffect(() => {}, [currentReviews]);
-
   function ratingGenerator(rating) {
     return (
       <>
