@@ -149,7 +149,8 @@ const UserCheckOutForm = ({
             PAY ${getSubTotal().toFixed(2)}
           </button>
           <p>{message}</p>
-          <p>test CC card#: 4242 4242 4242 4242</p>
+          <p>test CC card #1: 4242 4242 4242 4242</p>
+          <p>test CC card #2: 4000 0000 0000 0002</p>
         </div>
       )}
       {/* modal */}

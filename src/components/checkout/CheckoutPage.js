@@ -14,15 +14,10 @@ const CheckoutPage = ({ isLoggedIn, cart, user, setUser }) => {
   
   return (
     <>{ cart.length ? 
-      <div className='nes-container with-title is-rounded w-75 mx-auto'>
+      <div className='nes-container with-title is-rounded mx-auto'>
         <p className='title'>TEAM ROCKET CHECKOUT w/ STRIPE</p>
         <Row>
-          {/* <Col md={3}>
-            {cart.map((item) => (
-              <CheckOutCard key={item.dex_id} item={item} />
-            ))}
-          </Col> */}
-          <Col  className='sticky-top'>
+          <Col  className='sticky-top' md={{span: 6, offset:1}}>
             <Elements stripe={stripePromise}>
               {isLoggedIn ? (
                 <UserCheckOutForm cart={cart} user={user} setUser={setUser}/>
@@ -31,7 +26,7 @@ const CheckoutPage = ({ isLoggedIn, cart, user, setUser }) => {
               )}
             </Elements>
           </Col>
-          <Col >
+          <Col md={4}>
             <CartTable cart={cart} />
           </Col>
         </Row>

@@ -165,7 +165,7 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
           <p>Payment Information</p>
           <div id='cc-info-box'>
             Card Number
-            <CardNumberElement options={CARD_OPTIONS} />
+            <CardNumberElement options={CARD_OPTIONS} style={{height : '50px'}}/>
             Expiration Date
             <CardExpiryElement options={CARD_OPTIONS} />
             Security Code
@@ -181,7 +181,8 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
             PAY ${getSubTotal().toFixed(2)}
           </button>
           <p>{message}</p>
-          <p>test CC card#: 4242 4242 4242 4242</p>
+          <p>test CC card #1: 4242 4242 4242 4242</p>
+          <p>test CC card #2: 4000 0000 0000 0002</p>
         </Tab>
       </Tabs>
     </div>
