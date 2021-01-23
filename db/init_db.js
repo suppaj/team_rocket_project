@@ -138,7 +138,8 @@ async function buildTables() {
             REFERENCES cart_cust_relate(cart_id),
         CONSTRAINT fk_prod_id
           FOREIGN KEY(prod_id)
-            REFERENCES product(prod_id)
+            REFERENCES product(prod_id),
+          UNIQUE (cart_id, prod_id)
         );
 
       CREATE TABLE guest_order(

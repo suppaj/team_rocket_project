@@ -16,6 +16,7 @@ const Login = ({
   setFirstName,
   firstName,
   setUser,
+  cart
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +31,7 @@ const Login = ({
 
   const handleCustomerLogin = (e) => {
     e.preventDefault();
-    loginCustomer(email, password)
+    loginCustomer(email, password, cart)
       .then((response) => {
         if (response) {
           const { siteAdmin, firstName } = response;
@@ -86,7 +87,7 @@ const Login = ({
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="password_field"
                   className="nes-input"
                   type="password"
                   placeholder="Password"
