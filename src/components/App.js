@@ -107,7 +107,6 @@ const App = () => {
             />
             
           </div>
-          {isLoggedIn ? 'true' : 'false'}
           <ProductsReturn />
           <Login
             setIsLoggedIn={setIsLoggedIn}
