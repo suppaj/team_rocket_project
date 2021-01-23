@@ -22,10 +22,9 @@ const Product_admin = ({ isAdmin }) => {
               centered
               className="custom-modals"
             >
-             
-              {/* <Modal.Body>
+              <Modal.Body>
                 <div></div>
-              </Modal.Body> */}
+              </Modal.Body>
             </Modal>
             Products
           </div>

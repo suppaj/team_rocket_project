@@ -108,19 +108,25 @@ const App = () => {
             
           </div>
           <ProductsReturn />
-          <Login
-            setIsLoggedIn={setIsLoggedIn}
-            setIsAdmin={setIsAdmin}
-            setFirstName={setFirstName}
-            firstName={firstName}
-            setUser={setUser}
-            cart={cart}
-          />
-          <Register />
 
-          <Link to="/admin">
-            <Access isAdmin={isAdmin} />
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Login
+                setIsLoggedIn={setIsLoggedIn}
+                setIsAdmin={setIsAdmin}
+                setFirstName={setFirstName}
+                firstName={firstName}
+                setUser={setUser}
+              />
+              <Register />
+            </>
+          ) : null}
+
+          {isAdmin ? (
+            <Link to="/admin">
+              <Access isAdmin={isAdmin} />
+            </Link>
+          ) : null}
 
           <CartButton cart={cart} cartCount={cartCount} />
         </Row>
