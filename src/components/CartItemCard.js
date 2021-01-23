@@ -68,14 +68,19 @@ const CartItemCard = ({
   };
 
   return (
-    <div className="nes-container with-title">
+    <div className="nes-container is-rounded">
       <Row>
-        <Col>
+        <Col md='auto'>
           <img
             className="cart-order-image"
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
             alt={product.name}
+            width='300'
+            height='300'
           />
+        </Col>
+        <Col md='auto'>
+          <p>Unit Price:</p>
           <p>${product.price}</p>
           {adjustOrder ? (
             <div className="nes-field">
@@ -93,19 +98,23 @@ const CartItemCard = ({
                 onBlur={handleLoseFocus}
                 autoFocus
               />
+              <br/>
               <Button variant="link" onClick={() => setAdjustOrder(false)}>
                 confirm change
               </Button>
             </div>
           ) : (
+            <>
             <p>
-              Quantity: {orderAmount}{" "}
-              <Button variant="link" onClick={() => setAdjustOrder(true)}>
-                change
-              </Button>
+              Quantity: {orderAmount}
             </p>
+            <Button variant="link" onClick={() => setAdjustOrder(true)}>
+              change
+            </Button>
+            </>
           )}
-          <p>Item Total: ${(orderAmount * product.price).toFixed(2)}</p>
+          <p>Item Total:</p>
+          <p>${(orderAmount * product.price).toFixed(2)}</p>
           <br />
           <button
             type="button"
@@ -115,29 +124,11 @@ const CartItemCard = ({
             Remove Item
           </button>
         </Col>
-        <Col>
+        <Col >
           <p>{product.name.toUpperCase()}</p>
           <p>Description: {product.description}</p>
-          <p>Height: {product.height}</p>
-          <p>Weight: {product.weight}</p>
-          <p>
-            Type:{" "}
-            {product.type.map((type, index) => {
-              return (
-                <span
-                  className={`${type} nes-container is-rounded`}
-                  style={{
-                    marginRight: "10px",
-                    marginLeft: "10px",
-                    padding: "2px",
-                  }}
-                  key={index}
-                >
-                  {type}
-                </span>
-              );
-            })}
-          </p>
+          <p>Height: {product.height/10} m</p>
+          <p>Weight: {product.weight/10} kg</p>
         </Col>
       </Row>
     </div>
