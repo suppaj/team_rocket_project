@@ -34,7 +34,7 @@ const App = () => {
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(
-    window.localStorage.getItem("admin") || false
+    localStorage.getItem("admin") || false
   );
   const [firstName, setFirstName] = useState("");
   const [cart, setCart] = useState(
@@ -59,6 +59,10 @@ const App = () => {
   useEffect(() => {
     findCartCount();
   }, [cart]);
+
+  useEffect(() => {
+    console.log("testing admin persist", isAdmin);
+  }, [isAdmin]);
 
   const findCartCount = async () => {
     let count = 0;
@@ -113,7 +117,7 @@ const App = () => {
             </>
           ) : null}
 
-          {!isAdmin ? (
+          {isAdmin ? (
             <Link to="/admin">
               <Access isAdmin={isAdmin} />
             </Link>
