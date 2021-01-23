@@ -48,9 +48,9 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
   useEffect(() => {
     if (firstOrder) {
       setContactInfo({
-        firstName: user.first_name,
-        lastName: user.last_name,
-        email: user.cust_email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.custEmail,
       });
       setFormStatus({ ...formStatus, contact: false });
       setKey('shipping');

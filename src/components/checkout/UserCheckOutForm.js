@@ -37,6 +37,7 @@ const UserCheckOutForm = ({
       if (results.cust_id) {
         setshipInfo(results);
         setFirstOrder(false);
+        console.log('results', results);
       }
     }
     fetchData();
@@ -74,7 +75,7 @@ const UserCheckOutForm = ({
         payment_method: {
           card: elements.getElement(CardNumberElement),
           billing_details: {
-            name: `${user.first_name} ${user.last_name}`,
+            name: `${user.firstName} ${user.lastName}`,
           },
         },
       });
@@ -82,8 +83,8 @@ const UserCheckOutForm = ({
       if (result.error) {
         setMessage(result.error.message);
       } else if (firstOrder) {
-        await recordShipandBill(formInfo, user.cust_id);
-        await recordUserOrder(user.cust_id, cart);
+        await recordShipandBill(formInfo, user.custID);
+        await recordUserOrder(user.custID, cart);
         await clearUserCart(user.cartID)
         localStorage.setItem('user', JSON.stringify({...user, cart : []}));
         setUser({...user, cart : []})
@@ -92,7 +93,7 @@ const UserCheckOutForm = ({
           state: { formInfo },
         });
       } else {
-        await recordUserOrder(user.cust_id, cart);
+        await recordUserOrder(user.custID, cart);
         await clearUserCart(user.cartID)
         localStorage.setItem('user', JSON.stringify({...user, cart : []}));
         setUser({...user, cart : []});
@@ -116,6 +117,7 @@ const UserCheckOutForm = ({
           firstOrder={firstOrder}
           cart={cart}
           user={user}
+          message={message}
         />
       ) : (
         <div className='nes-container'>
