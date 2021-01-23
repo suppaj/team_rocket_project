@@ -1,14 +1,12 @@
 import React from 'react';
 
-const Logout = ({setUser, setCart, setIsLoggedIn, setIsAdmin}) => {
+const Logout = ({setUser, setIsLoggedIn, setIsAdmin}) => {
 
     const handleLogout = () => {
         console.log('clicked checkout');
-        localStorage.setItem('cart', JSON.stringify([]));
-        localStorage.setItem('user', JSON.stringify({}));
+        localStorage.setItem('user', JSON.stringify({cart:[]}));
         localStorage.removeItem('admin')
         setUser({});
-        setCart([]);
         setIsLoggedIn(false);
         setIsAdmin(false);
     }

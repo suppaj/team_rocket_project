@@ -9,7 +9,7 @@ const stripePromise = loadStripe(
   'pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i'
 );
 
-const CheckoutPage = ({ isLoggedIn, cart, user, setCart }) => {
+const CheckoutPage = ({ isLoggedIn, cart, user, setUser }) => {
 
   
   return (
@@ -25,9 +25,9 @@ const CheckoutPage = ({ isLoggedIn, cart, user, setCart }) => {
           <Col  className='sticky-top'>
             <Elements stripe={stripePromise}>
               {isLoggedIn ? (
-                <UserCheckOutForm cart={cart} user={user} setCart={setCart}/>
+                <UserCheckOutForm cart={cart} user={user} setUser={setUser}/>
               ) : (
-                <GuestCheckOutForm cart={cart} setCart={setCart} />
+                <GuestCheckOutForm cart={cart} user={user} setUser={setUser} />
               )}
             </Elements>
           </Col>

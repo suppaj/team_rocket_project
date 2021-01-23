@@ -7,7 +7,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe("pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i");
 
-const ShoppingCart = ({ cartID, cart, setCart, isLoggedIn }) => {
+const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
 
     // uncomment and change onClick of button to handleClick to reinstate
 
@@ -50,7 +50,7 @@ const ShoppingCart = ({ cartID, cart, setCart, isLoggedIn }) => {
         <>
             <Col md={cart.length ? {span: 7}:{span :'auto', offset: 1}} >
                     {cart.length ? cart.map((order, index)=>{
-                        return <CartItemCard key={index} order={order} cart={cart} setCart={setCart} cart_id={cartID} isLoggedIn={isLoggedIn}/>
+                        return <CartItemCard key={index} order={order} cart={cart} user={user} setUser={setUser} cart_id={cartID} isLoggedIn={isLoggedIn}/>
                     }) : <div className='message-list -left'>
                             <div className='nes-balloon from-right align-top'>
                                 <p>Your cart is empty. Gotta buy them all!</p>

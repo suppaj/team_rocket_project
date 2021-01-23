@@ -14,7 +14,7 @@ import CheckOutForm from './CheckOutForm';
 const UserCheckOutForm = ({
   cart,
   user,
-  setCart
+  setUser
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -33,7 +33,7 @@ const UserCheckOutForm = ({
 
   useEffect(() => {
     async function fetchData() {
-      const results = await getUserShipInfo(user.cust_id);
+      const results = await getUserShipInfo(user.custID);
       if (results.cust_id) {
         setshipInfo(results);
         setFirstOrder(false);
@@ -85,8 +85,8 @@ const UserCheckOutForm = ({
         await recordShipandBill(formInfo, user.cust_id);
         await recordUserOrder(user.cust_id, cart);
         await clearUserCart(user.cartID)
-        setCart([])
-        localStorage.setItem('cart', JSON.stringify([]));
+        localStorage.setItem('user', JSON.stringify({...user, cart : []}));
+        setUser({...user, cart : []})
         history.push({
           pathname: '/checkout/success',
           state: { formInfo },
@@ -94,8 +94,8 @@ const UserCheckOutForm = ({
       } else {
         await recordUserOrder(user.cust_id, cart);
         await clearUserCart(user.cartID)
-        setCart([])
-        localStorage.setItem('cart', JSON.stringify([]));
+        localStorage.setItem('user', JSON.stringify({...user, cart : []}));
+        setUser({...user, cart : []});
         history.push({
           pathname: '/checkout/success',
           state: { message : 'Thank you for your order'}
