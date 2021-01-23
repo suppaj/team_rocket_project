@@ -379,7 +379,7 @@ async function db_getCustomerByEmail(cust_email) {
 async function db_getCustomerCart(cust_email) {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
-    const cart = await _getUserCart(customer.cust_id)
+    const cart = await _getUserCart(customer.cust_id);
 
     const {
       rows: [cartID],
@@ -392,7 +392,7 @@ async function db_getCustomerCart(cust_email) {
       [`${customer.cust_id}`]
     );
 
-    return { cartID :cartID.cart_id, cart }
+    return { cartID: cartID.cart_id, cart };
   } catch (error) {
     throw error;
   }
@@ -587,7 +587,7 @@ async function db_getOrderDetailsbyOrderId(orderId) {
 
     return rows;
   } catch (error) {
-       throw error;
+    throw error;
   }
 }
 

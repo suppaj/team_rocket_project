@@ -1,5 +1,5 @@
 import axios from "axios";
-import { combineCarts } from './utils';
+import { combineCarts } from "./utils";
 
 export async function getSomething() {
   try {
@@ -57,10 +57,13 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
     });
     console.log("login response", data);
     if (cart.length) {
-      const newCart = combineCarts(cart, data.cart)
-      const { data : masterCart }= await axios.patch(`/api/cart/${data.cartID}`, newCart);
-      console.log('masterCart', masterCart);
-      data.cart=masterCart;
+      const newCart = combineCarts(cart, data.cart);
+      const { data: masterCart } = await axios.patch(
+        `/api/cart/${data.cartID}`,
+        newCart
+      );
+      console.log("masterCart", masterCart);
+      data.cart = masterCart;
     }
     return data;
   } catch (error) {
@@ -231,6 +234,48 @@ export async function clearUserCart(cart_id) {
 export async function submitCustomerReview(reviewObject) {
   try {
     const { data } = await axios.post("/api/products/review", reviewObject);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getTopSalesDatabyMonth(month, year) {
+  try {
+    const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function db_getSalesDatabyMonth(month, year) {
+  try {
+    const { data } = await axios.get(
+      `api/admin/product_sales/${month}/${year}`
+    );
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSalesDatabyProductID(prodID) {
+  try {
+    const { data } = await axios.get(`api/admin/product_sales/${prodID}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSalesData() {
+  try {
+    const { data } = await axios.get(`/api/admin/view_sales`);
+    console.log(data);
     return data;
   } catch (error) {
     throw error;

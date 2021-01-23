@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { getAllCustomers } from "../../api/index";
+import { getAllCustomers, getSalesData } from "../../api/index";
 import { Customer_admin, Metrics, Product_admin } from "./index";
 import { Navbar, NavDropdown, Button } from "react-bootstrap";
 const Admin = ({ isAdmin }) => {
@@ -9,12 +9,6 @@ const Admin = ({ isAdmin }) => {
   const handleCustomers = (response) => {
     window.localStorage.setItem("customer_array", JSON.stringify(response));
   };
-
-  //   const retrieveCustomers = () => {
-  //     const customers = JSON.parse(window.localStorage.getItem("customer_array"));
-  //     console.log("inside of retrieve customers, this is customers", customers);
-  //     setCustomerArr(customers);
-  //   };
 
   useEffect(() => {
     console.log("testing admin persist", isAdmin);
@@ -35,6 +29,16 @@ const Admin = ({ isAdmin }) => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    getSalesData()
+      .then((response) => {
+        console.log("on admin front page, this is the response", response);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  });
 
   return (
     <div id="admin">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ultraball from "./ultraball.png";
 import { Modal, Form, Button } from "react-bootstrap";
+
 const Product_admin = ({ isAdmin }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
