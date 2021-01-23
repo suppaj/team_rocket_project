@@ -1,5 +1,4 @@
 #header {
-  /* border: solid red; */
   padding: 10px;
   display: flex !important;
   align-items: flex-end;
@@ -7,7 +6,6 @@
 }
 
 .login-container {
-  /* background-color: darkgreen; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,7 +62,6 @@ iframe {
 }
 
 #admin-display {
-  /* border: solid red; */
   width: 100vw;
   height: 100vh;
   padding: 5px;
@@ -75,7 +72,6 @@ iframe {
 }
 
 .rejected-display {
-  /* border: solid blue; */
   padding: 15px;
   width: 100vw;
   height: 100vh;
@@ -84,7 +80,6 @@ iframe {
 #customer_admin_display,
 #product_admin_display,
 #metrics_display {
-  /* border: solid yellow; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,7 +89,6 @@ iframe {
 #admin_container {
   display: flex;
   align-items: center;
-  /* border: solid gold; */
   width: 100vw;
   height: 60%;
   padding: 5px;
@@ -171,20 +165,20 @@ iframe {
   background-image: url("./customPokedexScreen.png");
   background-size: cover;
   background-repeat: no-repeat;
-  /* border: solid purple; */
   width: 70%;
   margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
 }
 
 #customer-pokedex-screen {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 2fr 1fr;
-  border: solid blue 1px;
+  /* border: solid green; */
   height: 450px;
   /* width: 600px; */
 }
@@ -196,22 +190,22 @@ iframe {
   font-size: 0.5rem;
   overflow: auto;
   /* height: 60%; */
-  border: solid red 1px;
+  /* border: solid red 1px; */
 }
 
 #customer-orders {
   grid-column: 1;
   grid-row: 2;
-  border: solid purple;
+  /* border: solid purple; */
   padding: 5px;
   font-size: 0.5rem !important;
   font-weight: normal !important;
 }
 
-#current-customer-cart {
+#current-customer-order-details {
   grid-column: 2;
   grid-row: 1/3;
-  border: solid red;
+  /* border: solid red; */
   padding: 5px;
 }
 
@@ -224,14 +218,14 @@ iframe {
 
 td,
 th {
-  border: 1px solid #a8a8a8;
+  /* border: 1px solid #a8a8a8; */
   text-align: left;
   padding: 8px;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
   background-color: #999;
-}
+} */
 
 #customer-portal-modal {
   overflow-y: hidden;
@@ -242,11 +236,12 @@ tr:nth-child(even) {
   font-weight: bold;
 }
 
-#current-customer-cart {
+#current-customer-order-details {
   font-size: 0.6rem;
   font-weight: bold;
 }
 
 .customer-rows:hover {
-  color: blue;
+  color: lightgray;
+  background-color: #999;
 }
