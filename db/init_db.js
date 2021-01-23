@@ -257,6 +257,14 @@ async function populateInitialData() {
       is_admin: false,
     });
 
+    await db_createCustomer({
+      first_name: "Josh",
+      last_name: "Suppa",
+      cust_email: "jsuppa@teamrocket.com",
+      cust_pwd: "bulbasaur",
+      is_admin: true,
+    });
+
     console.log("Test of helper functions");
     await db_getCustomerById(2);
 
