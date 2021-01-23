@@ -18,6 +18,7 @@ async function buildTables() {
     console.log("Starting to drop tables...");
 
     await client.query(`
+      DROP TABLE IF EXISTS sales;
       DROP TABLE IF EXISTS product_type;
       DROP TABLE IF EXISTS type;
       DROP TABLE IF EXISTS product_reviews;
