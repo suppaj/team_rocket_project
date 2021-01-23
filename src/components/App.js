@@ -123,6 +123,7 @@ const App = () => {
                 setFirstName={setFirstName}
                 firstName={firstName}
                 setUser={setUser}
+                cart={cart}
               />
               <Register />
             </>

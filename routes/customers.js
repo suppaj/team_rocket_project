@@ -21,14 +21,16 @@ apiRouter.post("/login", async (req, res, next) => {
       message: "Please supply both a cust_email and cust_pwd",
     });
   }
-
+  let cartObj = {};
   try {
     const user = await db_getCustomerByEmail(cust_email);
-    const cartObj = await db_getCustomerCart(cust_email);
-
+    if (user) {
+    cartObj = await db_getCustomerCart(cust_email);
     if (cartObj.cart.length) {
       cartArray.push(...cartObj.cart)
     }
+    }
+    
 
     if (user && user.cust_pwd == cust_pwd) {
       const token = jwt.sign(
