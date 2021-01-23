@@ -21,3 +21,4 @@ export { default as Try_again } from "./login_registration/Try_again";
 export { default as Admin } from "./admin/Admin";
 export { default as CartTable } from "./shoppingcart/CartTable";
 export { default as BouncingBall } from "./BouncingBall";
+export { default as Logout } from './login_registration/Logout';

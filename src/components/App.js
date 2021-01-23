@@ -26,6 +26,7 @@ import {
   CheckoutPage,
   SuccessPage,
   Admin,
+  Logout
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -61,13 +62,11 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user));
     if (user.cart) {
-      console.log('user.cart', user.cart)
       setCart(user.cart)};
   },[user]);
 
   useEffect(() => {
     findCartCount();
-    console.log(cart);
   }, [cart]);
 
   useEffect(() => {
@@ -77,11 +76,9 @@ const App = () => {
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-      console.log('cart quant: ', item.cart_quantity)
       count += parseInt(item.cart_quantity);
       return item;
     });
-    console.log('cart count: ', count)
     setCartCount(count);
   };
 
@@ -127,7 +124,7 @@ const App = () => {
               />
               <Register />
             </>
-          ) : null}
+          ) : <Logout setCart={setCart} setUser={setUser} setIsAdmin={setIsAdmin} setIsLoggedIn={setIsLoggedIn}/>}
 
           {isAdmin ? (
             <Link to="/admin">
