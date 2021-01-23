@@ -109,7 +109,7 @@ const App = () => {
           </div>
           <ProductsReturn />
 
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <>
               <Login
                 setIsLoggedIn={setIsLoggedIn}
@@ -117,6 +117,7 @@ const App = () => {
                 setFirstName={setFirstName}
                 firstName={firstName}
                 setUser={setUser}
+                cart={cart}
               />
               <Register />
             </>
