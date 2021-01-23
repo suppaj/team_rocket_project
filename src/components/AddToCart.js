@@ -28,18 +28,15 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, setCart }) 
       localStorage.setItem("cart", JSON.stringify(currCart));
 
       if (noDuplicate) {
+        currCart.push(product);
+        setCart(currCart);
+        localStorage.setItem("cart", JSON.stringify(currCart));
         const results = await addCartItem(
           cartID,
           prod_id,
           cart_quantity,
           price
-        );
-
-        if (results) {
-          currCart.push(product);
-          setCart(currCart);
-          localStorage.setItem("cart", JSON.stringify(currCart));
-        }
+        ); 
       }
     } else {
       currCart.map(async (item) => {
