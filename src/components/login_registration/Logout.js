@@ -6,6 +6,7 @@ const Logout = ({setUser, setCart, setIsLoggedIn, setIsAdmin}) => {
         console.log('clicked checkout');
         localStorage.setItem('cart', JSON.stringify([]));
         localStorage.setItem('user', JSON.stringify({}));
+        localStorage.removeItem('admin')
         setUser({});
         setCart([]);
         setIsLoggedIn(false);
