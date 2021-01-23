@@ -38,6 +38,7 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, setCart }) 
 
         if (results) {
           currCart.push(product);
+          console.log('currentcart', currCart)
           setCart(currCart);
           localStorage.setItem("cart", JSON.stringify(currCart));
         }

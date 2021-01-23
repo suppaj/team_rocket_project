@@ -129,10 +129,10 @@ const CartItemCard = ({
           <p>Description: {product.description}</p>
           <p>Height: {product.height/10} m</p>
           <p>Weight: {product.weight/10} kg</p>
-          <p>
+          {/* <p>
             Type:{" "}
             {product.type.join(', ')}
-          </p>
+          </p> */}
         </Col>
       </Row>
     </div>

@@ -215,6 +215,34 @@ async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
   }
 }
 
+async function db_updateCart(cart_id, cart) {
+  const valueString = cart
+    .map(
+      (_, index) =>
+        `$1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4}`
+    )
+    .join(`), (`);
+  const valueArray = [];
+  try {
+    await db_clearUserCart(cart_id);
+    for (let item of cart) {
+      const price = await db_getItemPrice(item.prod_id);
+      valueArray.push(item.prod_id, item.cart_quantity, price);
+    }
+    await client.query(
+      `
+      INSERT INTO cart_items(cart_id, prod_id, cart_quantity, cart_price)
+        VALUES (${valueString});
+    `,
+      [cart_id, ...valueArray]
+    );
+    const masterCart = await _getUserCart(cart_id);
+    return masterCart;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function db_deleteCartItem(cart_id, prod_id) {
   try {
     await client.query(`
@@ -351,9 +379,10 @@ async function db_getCustomerByEmail(cust_email) {
 async function db_getCustomerCart(cust_email) {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
+    const cart = await _getUserCart(customer.cust_id)
 
     const {
-      rows: [cart],
+      rows: [cartID],
     } = await client.query(
       `
       SELECT *
@@ -363,7 +392,7 @@ async function db_getCustomerCart(cust_email) {
       [`${customer.cust_id}`]
     );
 
-    return cart;
+    return { cartID :cartID.cart_id, cart }
   } catch (error) {
     throw error;
   }
@@ -697,4 +726,6 @@ module.exports = {
   db_addOrderItems,
   db_clearUserCart,
   db_getOrderDetailsbyOrderId,
+  db_updateCart,
+  _getUserCart,
 };
