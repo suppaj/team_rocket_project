@@ -32,19 +32,6 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-<<<<<<< HEAD
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(true);
-  const [firstName, setFirstName] = useState("");
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
-  const [cartCount, setCartCount] = useState(0);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || {}
-  );
-
-=======
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
@@ -55,7 +42,6 @@ const App = () => {
   const [ cartCount, setCartCount ] = useState(0)
   
   
->>>>>>> master
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -73,16 +59,11 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-<<<<<<< HEAD
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
-=======
     localStorage.setItem('user', JSON.stringify(user));
     if (user.cart) {
       console.log('user.cart', user.cart)
       setCart(user.cart)};
   },[user]);
->>>>>>> master
 
   useEffect(() => {
     findCartCount();
