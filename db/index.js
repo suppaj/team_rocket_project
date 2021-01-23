@@ -217,6 +217,34 @@ async function db_patchCartItem(cart_id, prod_id, cart_quantity) {
   }
 }
 
+async function db_updateCart(cart_id, cart) {
+  const valueString = cart
+    .map(
+      (_, index) =>
+        `$1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4}`
+    )
+    .join(`), (`);
+  const valueArray = [];
+  try {
+    await db_clearUserCart(cart_id);
+    for (let item of cart) {
+      const price = await db_getItemPrice(item.prod_id);
+      valueArray.push(item.prod_id, item.cart_quantity, price);
+    }
+    await client.query(
+      `
+      INSERT INTO cart_items(cart_id, prod_id, cart_quantity, cart_price)
+        VALUES (${valueString});
+    `,
+      [cart_id, ...valueArray]
+    );
+    const masterCart = await _getUserCart(cart_id);
+    return masterCart;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function db_deleteCartItem(cart_id, prod_id) {
   try {
     await client.query(`
@@ -353,9 +381,10 @@ async function db_getCustomerByEmail(cust_email) {
 async function db_getCustomerCart(cust_email) {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
+    const cart = await _getUserCart(customer.cust_id)
 
     const {
-      rows: [cart],
+      rows: [cartID],
     } = await client.query(
       `
       SELECT *
@@ -365,7 +394,7 @@ async function db_getCustomerCart(cust_email) {
       [`${customer.cust_id}`]
     );
 
-    return cart;
+    return { cartID :cartID.cart_id, cart }
   } catch (error) {
     throw error;
   }
@@ -502,25 +531,6 @@ async function _createGuest_Order(orderId, formInfo) {
   }
 }
 
-// async function db_getOrderHistoryByCustomerId(customerId) {
-//   try {
-//     const {
-//       rows: [orders],
-//     } = await client.query(
-//       `
-//       SELECT *
-//       FROM order_cust_relate
-//       WHERE cust_id = $1;
-//     `,
-//       [customerId]
-//     );
-
-//     return orders;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
 async function db_createProductReview(reviewObject) {
   const {
     prod_id,
@@ -595,6 +605,83 @@ async function db_getReviewsByProductId(prod_id) {
     return reviews;
   } catch (error) {
     console.log("Trouble getting reviews by product ID in the database!");
+    throw error;
+  }
+}
+
+async function db_getSalesDatabyProductID(prodID) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM sales
+      NATURAL JOIN product
+      WHERE prod_id = $1;
+    `,
+      [prodID]
+    );
+
+    console.log(rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getSalesDatabyMonth(month, year) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM sales
+      NATURAL JOIN product
+      WHERE EXTRACT(MONTH FROM transaction_date) = $1
+      AND EXTRACT(Year FROM transaction_date) = $2;
+    `,
+      [month, year]
+    );
+
+    console.log(rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getTopSalesDatabyMonth(month, year) {
+  try {
+    const { rows } = await client.query(
+      `
+      select  sum(quantity), prod_id 
+      from sales
+      WHERE EXTRACT(MONTH FROM transaction_date) = $1
+      AND EXTRACT(Year FROM transaction_date) = $2
+      group by prod_id
+      Order by sum(quantity) desc
+      limit 5;
+    `,
+      [month, year]
+    );
+
+    console.log(rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getSalesData() {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM sales
+      NATURAL JOIN product;
+    `
+    );
+    console.log(rows);
+    return rows;
+  } catch (error) {
     throw error;
   }
 }
@@ -698,4 +785,10 @@ module.exports = {
   db_addOrderItems,
   db_clearUserCart,
   db_getOrderDetailsbyOrderId,
+  db_getSalesData,
+  db_getSalesDatabyProductID,
+  db_getSalesDatabyMonth,
+  db_getTopSalesDatabyMonth,
+  db_updateCart,
+  _getUserCart,
 };

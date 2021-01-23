@@ -17,6 +17,10 @@ const Admin = ({ isAdmin }) => {
   //   };
 
   useEffect(() => {
+    console.log("testing admin persist", isAdmin);
+  }, [isAdmin]);
+
+  useEffect(() => {
     getAllCustomers()
       .then((response) => {
         console.log("these are all users", response.customers);

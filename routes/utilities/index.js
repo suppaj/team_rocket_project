@@ -1,4 +1,4 @@
-const { db_getItemPrice } = require('../../db/index');
+const { db_getItemPrice } = require("../../db/index");
 
 async function calculateOrderAmount(cart) {
   let orderTotal = 0;
@@ -11,7 +11,7 @@ async function calculateOrderAmount(cart) {
     }
   }
 
-  return (orderTotal.toFixed(2));
+  return orderTotal.toFixed(2);
 }
 
 module.exports = {

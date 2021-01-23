@@ -1,4 +1,5 @@
 import axios from "axios";
+import { combineCarts } from './utils';
 
 export async function getSomething() {
   try {
@@ -48,13 +49,19 @@ export async function addCartItem(cart_id, prod_id, cart_quantity, price) {
   }
 }
 
-export async function loginCustomer(cust_email, cust_pwd) {
+export async function loginCustomer(cust_email, cust_pwd, cart) {
   try {
     const { data } = await axios.post(`/api/customers/login`, {
       cust_email,
       cust_pwd,
     });
     console.log("login response", data);
+    if (cart.length) {
+      const newCart = combineCarts(cart, data.cart)
+      const { data : masterCart }= await axios.patch(`/api/cart/${data.cartID}`, newCart);
+      console.log('masterCart', masterCart);
+      data.cart=masterCart;
+    }
     return data;
   } catch (error) {
     throw error;

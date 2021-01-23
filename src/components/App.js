@@ -32,6 +32,7 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
+<<<<<<< HEAD
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
@@ -43,6 +44,18 @@ const App = () => {
     JSON.parse(localStorage.getItem("user")) || {}
   );
 
+=======
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(
+    localStorage.getItem("admin") || false
+  );
+  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {});
+  const [firstName, setFirstName] = useState("");
+  const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
+  const [ cartCount, setCartCount ] = useState(0)
+  
+  
+>>>>>>> master
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -54,24 +67,40 @@ const App = () => {
     if (!localStorage.getItem("cart")) {
       localStorage.setItem("cart", JSON.stringify([]));
     }
+    if (user.custID) {
+      setIsLoggedIn(true)
+    }
   }, []);
 
   useEffect(() => {
+<<<<<<< HEAD
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
+=======
+    localStorage.setItem('user', JSON.stringify(user));
+    if (user.cart) {
+      console.log('user.cart', user.cart)
+      setCart(user.cart)};
+  },[user]);
+>>>>>>> master
 
   useEffect(() => {
     findCartCount();
+    console.log(cart);
   }, [cart]);
+
+  useEffect(() => {
+    console.log("testing admin persist", isAdmin);
+  }, [isAdmin]);
 
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-      // console.log('cart quant: ', item.cart_quantity)
+      console.log('cart quant: ', item.cart_quantity)
       count += parseInt(item.cart_quantity);
       return item;
     });
-    // console.log('cart count: ', count)
+    console.log('cart count: ', count)
     setCartCount(count);
   };
 
@@ -101,10 +130,11 @@ const App = () => {
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
               alt="Team Rocket Logo"
             />
+            
           </div>
           <ProductsReturn />
 
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <>
               <Login
                 setIsLoggedIn={setIsLoggedIn}
@@ -112,6 +142,7 @@ const App = () => {
                 setFirstName={setFirstName}
                 firstName={firstName}
                 setUser={setUser}
+                cart={cart}
               />
               <Register />
             </>
