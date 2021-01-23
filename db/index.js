@@ -381,7 +381,7 @@ async function db_getCustomerByEmail(cust_email) {
 async function db_getCustomerCart(cust_email) {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
-    const cart = await _getUserCart(customer.cust_id)
+    const cart = await _getUserCart(customer.cust_id);
 
     const {
       rows: [cartID],
@@ -394,7 +394,7 @@ async function db_getCustomerCart(cust_email) {
       [`${customer.cust_id}`]
     );
 
-    return { cartID :cartID.cart_id, cart }
+    return { cartID: cartID.cart_id, cart };
   } catch (error) {
     throw error;
   }
@@ -541,7 +541,9 @@ async function db_createProductReview(reviewObject) {
   } = reviewObject;
   console.log("Attempting to create a new review!");
   try {
-    const { rows: customer_review } = await client.query(
+    const {
+      rows: [customer_review],
+    } = await client.query(
       `
       INSERT INTO product_reviews(prod_id, cust_id, review_title, review_comment, rating)
       VALUES ($1, $2, $3, $4, $5)

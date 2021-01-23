@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import ReviewForm from "./ReviewForm";
+import ProductRating from "./ProductRating";
 
 const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
   const [currentReviews, setCurrentReviews] = useState([]);
@@ -9,36 +10,16 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
     setCurrentReviews(reviews);
   }, []);
 
-  function ratingGenerator(rating) {
-    return (
-      <>
-        <i
-          className={`nes-icon is-small heart ${
-            rating > 0 ? "" : "is-transparent"
-          }`}
-        ></i>
-        <i
-          className={`nes-icon is-small heart ${
-            rating > 1 ? "" : "is-transparent"
-          }`}
-        ></i>
-        <i
-          className={`nes-icon is-small heart ${
-            rating > 2 ? "" : "is-transparent"
-          }`}
-        ></i>
-        <i
-          className={`nes-icon is-small heart ${
-            rating > 3 ? "" : "is-transparent"
-          }`}
-        ></i>
-        <i
-          className={`nes-icon is-small heart ${
-            rating > 4 ? "" : "is-transparent"
-          }`}
-        ></i>
-      </>
-    );
+  function overallRating(reviewArray) {
+    if (reviewArray.length > 0) {
+      let totalRating = 0;
+      let ratingsCount = reviewArray.length;
+      reviewArray.forEach((element) => {
+        totalRating = totalRating + parseInt(element.rating);
+      });
+      let averageRating = parseFloat(totalRating / ratingsCount);
+      return averageRating;
+    }
   }
 
   function reviewMapper(reviewArray) {
@@ -56,8 +37,15 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
                 }`}
               >
                 <div className="review-title">
-                  <div className="customer-rating" style={{ float: "right" }}>
-                    {ratingGenerator(rating)}
+                  <div
+                    className="customer-rating"
+                    style={{
+                      float: "right",
+                      marginLeft: "5px",
+                      marginTop: "-5px",
+                    }}
+                  >
+                    <ProductRating rating={parseFloat(rating)} size={""} />
                   </div>
                   <p>{review_title}</p>
                   <br />
@@ -93,7 +81,13 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
       style={{ gridRow: "3/4", gridColumn: "2/4", marginTop: "30px" }}
       className="nes-container"
     >
-      <h4 style={{ textAlign: "center" }}>Customer Reviews</h4>
+      <div style={{ textAlign: "center", marginBottom: "10px" }}>
+        <h4>Customer Reviews</h4>
+        <ProductRating
+          rating={overallRating(currentReviews)}
+          size={"is-medium"}
+        />
+      </div>
       <div className="reviews">
         <section className="message-list">
           {reviewMapper(currentReviews)}
@@ -110,7 +104,7 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
       ) : (
         ""
       )}
-      {isLoggedIn != true && currentReviews.length > 0 ? (
+      {isLoggedIn !== true && currentReviews.length > 0 ? (
         <p style={{ textAlign: "center" }}>Log in to leave a review!</p>
       ) : (
         ""

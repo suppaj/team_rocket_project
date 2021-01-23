@@ -56,7 +56,7 @@ const Products = ({
             }}
             key={index}
             onClick={() => {
-              setFilterMessage(`Type: ${type}`);
+              setFilterMessage(`${type}`);
               typeFilter(type);
             }}
           >
