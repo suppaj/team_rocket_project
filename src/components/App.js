@@ -32,9 +32,11 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(
+    localStorage.getItem("admin") || false
+  );
+  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {});
   const [firstName, setFirstName] = useState("");
   const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
   const [ cartCount, setCartCount ] = useState(0)
@@ -67,6 +69,10 @@ const App = () => {
     findCartCount();
     console.log(cart);
   }, [cart]);
+
+  useEffect(() => {
+    console.log("testing admin persist", isAdmin);
+  }, [isAdmin]);
 
   const findCartCount = async () => {
     let count = 0;
