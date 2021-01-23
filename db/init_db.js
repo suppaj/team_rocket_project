@@ -39,6 +39,12 @@ async function buildTables() {
     console.log("Starting to build tables!");
 
     await client.query(`
+      CREATE TABLE sales(
+        transaction_id SERIAL PRIMARY KEY,
+        transaction_date DATE NOT NULL,
+        prod_id INTEGER REFERENCES product(prod_id)
+      );
+
       CREATE TABLE type(
         type_id SERIAL PRIMARY KEY,
         name VARCHAR(255)
