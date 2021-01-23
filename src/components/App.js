@@ -33,7 +33,7 @@ import { Access } from "./admin/index";
 const App = () => {
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
