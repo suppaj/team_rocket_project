@@ -38,6 +38,12 @@ async function buildTables() {
     console.log("Starting to build tables!");
 
     await client.query(`
+      CREATE TABLE sales(
+        transaction_id SERIAL PRIMARY KEY,
+        transaction_date DATE NOT NULL,
+        prod_id INTEGER REFERENCES product(prod_id)
+      );
+
       CREATE TABLE type(
         type_id SERIAL PRIMARY KEY,
         name VARCHAR(255)
@@ -205,7 +211,6 @@ async function populateInitialData() {
       cust_email: "GUEST@teamrocket.com",
       cust_pwd: "1qaz2wsx!QAZ@WSX",
       is_admin: false,
-
     });
     //guest shipping and billing
     // await client.query(`

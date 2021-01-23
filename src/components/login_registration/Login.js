@@ -99,7 +99,7 @@ const Login = ({
           </Form>
         </Modal.Body>
         <Modal.Body className="login-auth-section">
-          <Link href="http://localhost:5000/auth/google/">
+          <Link to="localhost:5000/auth/google/">
             <div className="nes-container is-rounded login-container">
               <i id="google-icon" className="nes-icon google is-small "></i>
               <p className="login-dialogue">Sign in with Google</p>

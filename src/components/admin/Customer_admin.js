@@ -167,6 +167,7 @@ const Customer_admin = ({ isAdmin }) => {
                     </table>
                   </div>
                   <div id="current-customer-order-details">
+                    <p></p>
                     {orderDetailsArr
                       ? orderDetailsArr.map((detail, index) => {
                           const {

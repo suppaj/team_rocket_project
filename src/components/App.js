@@ -32,7 +32,7 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [cart, setCart] = useState(
@@ -98,7 +98,7 @@ const App = () => {
           </div>
           <ProductsReturn />
 
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <>
               <Login
                 setIsLoggedIn={setIsLoggedIn}
@@ -111,7 +111,7 @@ const App = () => {
             </>
           ) : null}
 
-          {isAdmin ? (
+          {!isAdmin ? (
             <Link to="/admin">
               <Access isAdmin={isAdmin} />
             </Link>

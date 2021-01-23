@@ -494,25 +494,6 @@ async function _createGuest_Order(orderId, formInfo) {
   }
 }
 
-// async function db_getOrderHistoryByCustomerId(customerId) {
-//   try {
-//     const {
-//       rows: [orders],
-//     } = await client.query(
-//       `
-//       SELECT *
-//       FROM order_cust_relate
-//       WHERE cust_id = $1;
-//     `,
-//       [customerId]
-//     );
-
-//     return orders;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
 async function db_getOrderHistoryByCustomerId(customerId) {
   try {
     const { rows } = await client.query(
@@ -542,6 +523,83 @@ async function db_getOrderDetailsbyOrderId(orderId) {
       [orderId]
     );
 
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getSalesDatabyProductID(prodID) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM sales
+      NATURAL JOIN product
+      WHERE prod_id = $1;
+    `,
+      [prodID]
+    );
+
+    console.log(rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getSalesDatabyMonth(month, year) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM sales
+      NATURAL JOIN product
+      WHERE EXTRACT(MONTH FROM transaction_date) = $1
+      AND EXTRACT(Year FROM transaction_date) = $2;
+    `,
+      [month, year]
+    );
+
+    console.log(rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getTopSalesDatabyMonth(month, year) {
+  try {
+    const { rows } = await client.query(
+      `
+      select  sum(quantity), prod_id 
+      from sales
+      WHERE EXTRACT(MONTH FROM transaction_date) = $1
+      AND EXTRACT(Year FROM transaction_date) = $2
+      group by prod_id
+      Order by sum(quantity) desc
+      limit 5;
+    `,
+      [month, year]
+    );
+
+    console.log(rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getSalesData() {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM sales
+      NATURAL JOIN product;
+    `
+    );
+    console.log(rows);
     return rows;
   } catch (error) {
     throw error;
@@ -645,4 +703,8 @@ module.exports = {
   db_addOrderItems,
   db_clearUserCart,
   db_getOrderDetailsbyOrderId,
+  db_getSalesData,
+  db_getSalesDatabyProductID,
+  db_getSalesDatabyMonth,
+  db_getTopSalesDatabyMonth,
 };
