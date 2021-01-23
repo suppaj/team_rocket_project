@@ -32,13 +32,17 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isAdmin, setIsAdmin] = useState(true);
   const [firstName, setFirstName] = useState("");
-  const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
-  const [ cartCount, setCartCount ] = useState(0)
-  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {});
-  
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
+  const [cartCount, setCartCount] = useState(0);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
+
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -53,10 +57,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user) )
-  },[user]);
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
-  useEffect(()=>{
+  useEffect(() => {
     findCartCount();
   }, [cart]);
 

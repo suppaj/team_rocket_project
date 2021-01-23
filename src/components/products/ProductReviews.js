@@ -92,7 +92,11 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
         <section className="message-list">{reviewMapper(reviews)}</section>
       </div>
       <hr />
-      {isLoggedIn ? <ReviewForm product_id={product_id} user={user} /> : ""}
+      {isLoggedIn ? (
+        <ReviewForm product_id={product_id} user={user} reviews={reviews} setRevie />
+      ) : (
+        ""
+      )}
       {isLoggedIn != true && reviews.length > 0 ? (
         <p style={{ textAlign: "center" }}>Log in to leave a review!</p>
       ) : (
