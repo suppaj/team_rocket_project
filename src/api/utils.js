@@ -27,3 +27,13 @@ export function combineCarts(localCart, dbCart) {
     console.log('combined cart', cart)
     return cart;
 }
+
+export function calcOrderTotal(orderArray) {
+    let total = 0;
+    orderArray.map((item)=>{
+        total = Number(total) + (item.order_quantity * Number(item.order_price));
+        return item
+    })
+    console.log('total', Number(total));
+    return total.toFixed(2);
+}

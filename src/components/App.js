@@ -26,7 +26,8 @@ import {
   CheckoutPage,
   SuccessPage,
   Admin,
-  Logout
+  Logout,
+  Order_History
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -197,6 +198,9 @@ const App = () => {
             </Route>
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />
+            </Route>
+            <Route path={`/users/:cust_id/history`}>
+              <Order_History />
             </Route>
           </Switch>
         </Row>
