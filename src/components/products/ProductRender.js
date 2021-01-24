@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 
 import "./Product.css";
+import TypeMapper from "./TypeMapper";
 
 const Products = ({
   currentProducts,
@@ -106,7 +107,11 @@ const Products = ({
             alt={`a very happy ${name}`}
           />
         </Button>
-        <div>{typeMapper(type)}</div>
+        <TypeMapper
+          typeArray={type}
+          setFilterMessage={setFilterMessage}
+          typeFilter={typeFilter}
+        />
       </div>
     );
   }

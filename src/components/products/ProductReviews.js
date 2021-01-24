@@ -83,10 +83,14 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
     >
       <div style={{ textAlign: "center", marginBottom: "10px" }}>
         <h4>Customer Reviews</h4>
-        <ProductRating
-          rating={overallRating(currentReviews)}
-          size={"is-medium"}
-        />
+        {reviews.length > 0 ? (
+          <ProductRating
+            rating={overallRating(currentReviews)}
+            size={"is-medium"}
+          />
+        ) : (
+          ""
+        )}
       </div>
       <div className="reviews">
         <section className="message-list">

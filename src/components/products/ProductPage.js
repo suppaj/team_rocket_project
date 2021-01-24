@@ -7,6 +7,7 @@ import { ButtonGroup, Dropdown } from "react-bootstrap";
 // component imports
 import ProductReviews from "./ProductReviews";
 import { AddToCart } from "../index";
+import TypeMapper from "./TypeMapper";
 
 // function imports
 import { getProductById } from "../../api";
@@ -150,7 +151,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user }) => {
                 {name}
               </h4>
               <div style={{ marginBottom: "10px" }}>
-                {type ? typeMapper(type) : ""}
+                <TypeMapper typeArray={type} />
               </div>
               <p>Height: {height / 10}m</p>
               <p>Weight: {weight / 10}kg</p>
