@@ -3,11 +3,10 @@ import { updateUserBilling } from '../../api';
 import { RollingBall } from '../index';
 import { statesOptions } from '../checkout/utilities';
 
-const BillingProfile = ({user, setUserProfile, master, setMaster}) => {
+const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}) => {
 
     const { ship_add1, ship_add2, ship_city, ship_zipcode, ship_state, bill_add1, bill_add2, bill_city, bill_zipcode, bill_state} = user
 
-    const [ edit, setEdit ] = useState(false);
     const [ message, setMessage ] = useState('');
     const [ isChecked, setisChecked ] = useState(false)
 

@@ -12,6 +12,7 @@ const UserProfile = (props) => {
     const [key, setKey] = useState('contact');
     const [ master, setMaster] = useState({})
     const [ userProfile, setUserProfile ] = useState({})
+    const [ edit, setEdit ] = useState(false);
 
     useEffect(()=>{
         if (cust_id == JSON.parse(localStorage.getItem('user')).custID) {
@@ -36,15 +37,15 @@ const UserProfile = (props) => {
             <NotLoggedIn /> : userProfile.cust_id ? 
             <div className='nes-container is-centered'>
                 <p>User Profile Info</p>
-                <Tabs id='profile-tabs' activeKey={key} onSelect={(k) => setKey(k)}>
+                <Tabs id='profile-tabs' activeKey={key} onSelect={(k) => {setKey(k); setEdit(false); setUserProfile({...master})}}>
                     <Tab eventKey='contact' title='Contact Info'>
-                        <ContactProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} />
+                        <ContactProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} edit={edit} setEdit={setEdit}/>
                     </Tab>
                     <Tab eventKey='shipping' title='Shipping Address'>
-                        <ShippingProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} />
+                        <ShippingProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} edit={edit} setEdit={setEdit}/>
                     </Tab>
                     <Tab eventKey='billing' title='Billing Address'>
-                        <BillingProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} />
+                        <BillingProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} edit={edit} setEdit={setEdit}/>
                     </Tab>
                 </Tabs>
             </div> :

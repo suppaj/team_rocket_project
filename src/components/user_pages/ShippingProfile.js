@@ -3,9 +3,8 @@ import { updateUserShipping } from '../../api';
 import { RollingBall } from '../index';
 import { statesOptions } from '../checkout/utilities';
 
-const ShippingProfile = ({user, setUserProfile, master, setMaster}) => {
+const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}) => {
 
-    const [ edit, setEdit ] = useState(false);
     const [ message, setMessage ] = useState('');
 
     const handleSave = async (e) => {

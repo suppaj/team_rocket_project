@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import { RollingBall } from '../index';
 import { updateUserContact } from '../../api';
 
-const ContactProfile = ({user, setUserProfile, master, setMaster}) => {
+const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}) => {
 
-    const [ edit, setEdit ] = useState(false);
     const [ message, setMessage ] = useState('');
 
     const handleSave = async (e) => {
