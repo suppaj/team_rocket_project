@@ -167,9 +167,9 @@ iframe {
   background-repeat: no-repeat;
   width: 70%;
   margin: 0;
-  position: absolute;
+  /* position: absolute;
   top: 50%;
-  left: 50%;
+  left: 50%; */
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
 }
@@ -209,12 +209,12 @@ iframe {
   padding: 5px;
 }
 
-.poke-body {
+/* .poke-body {
   position: absolute;
   top: 140px;
   left: -180px;
   width: 850px;
-}
+} */
 git b td,
 th {
   /* border: 1px solid #a8a8a8; */

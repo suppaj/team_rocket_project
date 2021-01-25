@@ -250,7 +250,7 @@ export async function getTopSalesDatabyMonth(month, year) {
   }
 }
 
-export async function db_getSalesDatabyMonth(month, year) {
+export async function getSalesDatabyMonth(month, year) {
   try {
     const { data } = await axios.get(
       `api/admin/product_sales/${month}/${year}`
@@ -275,7 +275,7 @@ export async function getSalesDatabyProductID(prodID) {
 export async function getSalesData() {
   try {
     const { data } = await axios.get(`/api/admin/view_sales`);
-    console.log(data);
+    console.log("sales data", data);
     return data;
   } catch (error) {
     throw error;

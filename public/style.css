@@ -174,19 +174,41 @@ iframe {
   box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
 }
 
+.show {
+  height: 400px;
+  width: 600px;
+  z-index: 400;
+  background-color: grey;
+  border: solid white;
+  height: 80vh;
+  width: 85vw;
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  padding: 7px;
+  box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
+  /* margin: auto; */
+}
+
+.hide {
+  display: none;
+}
+
 #customer-pokedex-screen {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 2fr 1fr;
-  /* border: solid green; */
-  height: 450px;
+  border: solid red 3px;
+  height: 100%;
   /* width: 600px; */
+  z-index: 999;
 }
 
 #metrics-pokedex-screen {
   border: solid green;
   display: grid;
-  height: 480px;
+  /* height: 480px; */
+  height: 95%;
   grid-template-columns: 2fr 2fr 2fr;
   grid-template-rows: 1fr 2fr;
 }
@@ -199,6 +221,12 @@ iframe {
   overflow: auto;
   /* height: 60%; */
   /* border: solid red 1px; */
+}
+
+#sales-list {
+  font-size: 0.6rem;
+  overflow: auto;
+  height: 60%;
 }
 
 #customer-orders {
@@ -256,11 +284,12 @@ th {
 }
 
 #metrics-body {
-  position: absolute;
-  top: -176px;
-  left: -180px;
-  width: 860px !important;
-  border: solid black;
+  /* position: absolute; */
+  /* top: -176px;
+  left: -180px; */
+  /* width: 860px !important; */
+  border: solid pink;
+  height: 100%;
   padding: 0;
 }
 
@@ -269,12 +298,23 @@ th {
   grid-column: 1;
   grid-row: 1;
   height: 100%;
+  padding: 3px;
 }
 
 #forecast {
   border: solid navy;
   grid-column: 2;
   grid-row: 1;
+  height: 100%;
+  padding: 3px;
+}
+
+#trends {
+  border: solid red;
+  padding: 5px;
+  grid-column: 3;
+  grid-row: 1;
+  height: 100%;
 }
 
 #top-sales {
@@ -290,4 +330,45 @@ th {
   grid-column: 1/3;
   width: 100%;
   height: 100%;
+}
+
+.nes-select {
+  /* background: blue; */
+  width: 200px;
+  font-size: 0.6rem;
+}
+
+#filter-button {
+  margin-left: 10px;
+}
+
+.year-div {
+  margin-left: 15px;
+}
+
+#filters {
+  font-size: 0.6rem;
+  border: solid blue;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+#admin-search {
+  border: solid purple;
+  width: 50%;
+}
+
+.admin-filter {
+  background-color: yellow;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5px;
+}
+
+.close-button {
+  background-color: red;
 }

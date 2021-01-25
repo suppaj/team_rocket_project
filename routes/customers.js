@@ -27,7 +27,7 @@ apiRouter.post("/login", async (req, res, next) => {
     const cartObj = await db_getCustomerCart(cust_email);
 
     if (cartObj.cart.length) {
-      cartArray.push(...cartObj.cart)
+      cartArray.push(...cartObj.cart);
     }
 
     if (user && user.cust_pwd == cust_pwd) {

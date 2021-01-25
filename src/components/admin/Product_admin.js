@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import ultraball from "./ultraball.png";
 import { Modal, Form, Button } from "react-bootstrap";
+import { Search } from "./index";
 
 const Product_admin = ({ isAdmin }) => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showMetrics, setShowMetrics] = useState(false);
+  const handleClose = () => setShowMetrics(false);
+  const handleShow = () => setShowMetrics(true);
   return (
     <div id="product_admin">
       {isAdmin ? (
@@ -16,17 +17,12 @@ const Product_admin = ({ isAdmin }) => {
             onClick={handleShow}
           ></img>
           <div className="admin-title">
-            <Modal
-              show={show}
-              onHide={handleClose}
-              animation={true}
-              centered
-              className="custom-modals"
-            >
-              <Modal.Body>
-                <div></div>
-              </Modal.Body>
-            </Modal>
+            <div className={showMetrics === true ? "show" : "hide"}>
+              <button className="close-button" onClick={handleClose}>
+                X
+              </button>
+              <div>temp holder</div>
+            </div>
             Products
           </div>
         </div>

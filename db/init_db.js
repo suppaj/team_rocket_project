@@ -43,6 +43,7 @@ async function buildTables() {
         transaction_id SERIAL PRIMARY KEY,
         transaction_date DATE NOT NULL,
         prod_id INTEGER REFERENCES product(prod_id)
+        transaction_quantity INTEGER not null
       );
 
       CREATE TABLE type(

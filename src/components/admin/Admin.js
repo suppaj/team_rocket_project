@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { getAllCustomers, getSalesData } from "../../api/index";
 import { Customer_admin, Metrics, Product_admin } from "./index";
-import { Navbar, NavDropdown, Button } from "react-bootstrap";
-const Admin = ({ isAdmin }) => {
-  //   const [customerArr, setCustomerArr] = useState();
 
+const Admin = ({ isAdmin }) => {
   const handleCustomers = (response) => {
     window.localStorage.setItem("customer_array", JSON.stringify(response));
+  };
+  const handleSales = (response) => {
+    window.localStorage.setItem("sales_array", JSON.stringify(response));
   };
 
   useEffect(() => {
@@ -17,12 +18,10 @@ const Admin = ({ isAdmin }) => {
   useEffect(() => {
     getAllCustomers()
       .then((response) => {
-        console.log("these are all users", response.customers);
+        console.log("these are all CUSTOMERS", response.customers);
         const customers = response.customers;
         if (customers) {
-          // setCustomerArr(response.customers);
           handleCustomers(customers);
-          // retrieveCustomers();
         }
       })
       .catch((error) => {
@@ -33,7 +32,10 @@ const Admin = ({ isAdmin }) => {
   useEffect(() => {
     getSalesData()
       .then((response) => {
-        console.log("on admin front page, this is the response", response);
+        console.log("on admin front page, this is the sales data", response);
+        console.log("sales array", response.sales);
+        let sales = response.sales;
+        handleSales(sales);
       })
       .catch((error) => {
         throw error;

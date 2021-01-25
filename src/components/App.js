@@ -36,12 +36,15 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
-  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {});
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
   const [firstName, setFirstName] = useState("");
-  const [ cart, setCart ] = useState(JSON.parse(localStorage.getItem('cart')) || [])
-  const [ cartCount, setCartCount ] = useState(0)
-  
-  
+  const [cart, setCart] = useState(
+    JSON.parse(localStorage.getItem("cart")) || []
+  );
+  const [cartCount, setCartCount] = useState(0);
+
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -54,18 +57,19 @@ const App = () => {
       localStorage.setItem("cart", JSON.stringify([]));
     }
     if (user.custID) {
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     if (user.cart) {
-      console.log('user.cart', user.cart)
-      setCart(user.cart)};
-  },[user]);
+      console.log("user.cart", user.cart);
+      setCart(user.cart);
+    }
+  }, [user]);
 
-  useEffect(()=>{
+  useEffect(() => {
     findCartCount();
     console.log(cart);
   }, [cart]);
@@ -77,11 +81,11 @@ const App = () => {
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-      console.log('cart quant: ', item.cart_quantity)
+      console.log("cart quant: ", item.cart_quantity);
       count += parseInt(item.cart_quantity);
       return item;
     });
-    console.log('cart count: ', count)
+    console.log("cart count: ", count);
     setCartCount(count);
   };
 
@@ -111,7 +115,6 @@ const App = () => {
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
               alt="Team Rocket Logo"
             />
-            
           </div>
           <ProductsReturn />
 
