@@ -41,7 +41,7 @@ const ContactProfile = ({user, setUserProfile, master, setMaster}) => {
         <div className='nes-container'>
             {edit ?
             
-            <div>
+            <div className='text-left'>
                 <div className='nes-field'>
                     <label htmlFor='profile-first-name'>First Name</label>
                     <input
@@ -87,7 +87,7 @@ const ContactProfile = ({user, setUserProfile, master, setMaster}) => {
                 <button type='button' className='nes-btn is-error' onClick={handleCancel}>Cancel Changes</button>
             </div>
             :
-            <div>
+            <div className='text-left'>
             <p>Name: {user.first_name} {user.last_name}</p>
             <p>Email: {user.cust_email}</p>
             { message ?

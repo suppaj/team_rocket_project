@@ -264,3 +264,21 @@ export async function updateUserContact(user) {
     throw error
   }
 }
+
+export async function updateUserShipping(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/shipping`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUserBilling(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/billing`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
