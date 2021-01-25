@@ -2,7 +2,7 @@ import React from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
-const ProductTypeFilter = ({
+const ProductFilter = ({
   allProducts,
   setCurrentProducts,
   allTypes,
@@ -83,4 +83,4 @@ const ProductTypeFilter = ({
   );
 };
 
-export default ProductTypeFilter;
+export default ProductFilter;

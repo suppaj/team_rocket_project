@@ -74,7 +74,7 @@ const Products = ({
           {is_featured ? (
             <i
               style={{ position: "absolute", top: "-8%", left: "-8%" }}
-              className="nes-icon star is-medium nes-pointer"
+              className="nes-icon star is-medium"
             ></i>
           ) : (
             ""

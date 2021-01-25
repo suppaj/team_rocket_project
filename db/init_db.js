@@ -1,5 +1,5 @@
 // code to build and initialize DB goes here
-const { type, allPokes } = require("./db_data_pokemon");
+const { type, allPokes, sampleReviews } = require("./db_data_pokemon");
 const {
   client,
   // other db methods
@@ -7,7 +7,7 @@ const {
   createAllPokeEntries,
   db_createCustomer,
   db_getCustomerById,
-  db_createProductReview,
+  db_createSampleProductReviews,
 } = require("./index");
 
 async function buildTables() {
@@ -181,7 +181,8 @@ async function buildTables() {
         CREATE TABLE sales(
           transaction_id SERIAL PRIMARY KEY,
           transaction_date DATE NOT NULL,
-          prod_id INTEGER REFERENCES product(prod_id)
+          prod_id INTEGER REFERENCES product(prod_id),
+          quantity INTEGER
         );
     `);
 
@@ -276,31 +277,9 @@ async function populateInitialData() {
     console.log("Test of helper functions");
     await db_getCustomerById(2);
 
-    console.log("Creating sample product reviews for Bulbasaur");
-    await db_createProductReview({
-      prod_id: 1,
-      cust_id: 3,
-      rating: 5,
-      review_title: "I love Bulbasaur",
-      review_comment: "I love this pokemon! He is the best Pokemon ever made!",
-    });
-
-    await db_createProductReview({
-      prod_id: 1,
-      cust_id: 4,
-      rating: 3,
-      review_title: "I think Bulbasaur is pretty okay",
-      review_comment:
-        "I do not love or hate this pokemon. He is a Pokemon that was made.",
-    });
-
-    await db_createProductReview({
-      prod_id: 1,
-      cust_id: 5,
-      rating: 1,
-      review_title: "I hate Bulbasaur",
-      review_comment: "I hate this pokemon! He is the worst Pokemon ever made!",
-    });
+    console.log("Creating sample product reviews...");
+    const allSampleReviews = await db_createSampleProductReviews(sampleReviews);
+    console.log(" ");
 
     console.log("Finished populating database!");
   } catch (error) {

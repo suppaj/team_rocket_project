@@ -155,12 +155,13 @@ async function _buildTypes(array) {
 }
 
 async function _buildFeaturedProducts(array) {
-  // const featuredProdArray = [1, 2, 3, 51, 52];
-  const featuredProdArray = await db_getSalesDatabyMonth();
+  //todo find a way to grab last month based on current date!
+  const featuredProdArray = await db_getTopSalesDatabyMonth(12, 2020);
+  console.log("featuredProdArray:", featuredProdArray);
   try {
     for (let product of array) {
       for (let index of featuredProdArray) {
-        if (index === product.prod_id) {
+        if (index.prod_id === product.prod_id) {
           product.is_featured = true;
         }
       }
@@ -578,6 +579,12 @@ async function db_createProductReview(reviewObject) {
   }
 }
 
+async function db_createSampleProductReviews(array) {
+  for (let entry of array) {
+    const review = await db_createProductReview(entry);
+  }
+}
+
 async function db_getOrderHistoryByCustomerId(customerId) {
   try {
     const { rows } = await client.query(
@@ -797,6 +804,7 @@ module.exports = {
   db_recordGuestOrder,
   db_getReviewsByProductId,
   db_createProductReview,
+  db_createSampleProductReviews,
   db_getOrderHistoryByCustomerId,
   db_getUserShipInfo,
   db_recordShipping,

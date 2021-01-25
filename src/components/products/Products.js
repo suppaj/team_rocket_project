@@ -8,7 +8,7 @@ import { Button, Row } from "react-bootstrap";
 import ProductRender from "./ProductRender";
 import ProductSearch from "./ProductSearch";
 import ProductSorter from "./ProductSorter";
-import ProductTypeFilter from "./ProductTypeFilter";
+import ProductFilter from "./ProductFilter";
 
 const Products = ({ getAllProducts, getAllTypes }) => {
   // product states
@@ -131,7 +131,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           resetPagination={resetPagination}
         />
         {/** product filter component*/}
-        <ProductTypeFilter
+        <ProductFilter
           allProducts={allProducts}
           setCurrentProducts={setCurrentProducts}
           allTypes={allTypes}
