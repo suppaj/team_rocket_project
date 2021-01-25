@@ -27,7 +27,8 @@ import {
   SuccessPage,
   Admin,
   Logout,
-  Order_History
+  OrderHistory,
+  UserProfile,
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -63,7 +64,9 @@ const App = () => {
   },[user]);
 
   useEffect(() => {
+    if (cart.length) {
     findCartCount();
+    }
   }, [cart]);
 
   useEffect(() => {
@@ -199,8 +202,11 @@ const App = () => {
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />
             </Route>
-            <Route path={`/users/:cust_id/history`}>
-              <Order_History />
+            <Route path="/users/:cust_id/profile">
+              <UserProfile />
+            </Route>
+            <Route path="/users/:cust_id/history">
+              <OrderHistory />
             </Route>
           </Switch>
         </Row>

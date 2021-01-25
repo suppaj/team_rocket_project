@@ -792,6 +792,38 @@ function _sortHistory(history) {
   return order_history;
 }
 
+async function db_getUserProfile(cust_id) {
+  try {
+    const { rows: [user] } = await client.query(`
+    SELECT * FROM customers
+      NATURAL JOIN shipping_add
+      NATURAL JOIN billing_add
+        WHERE cust_id=$1
+    `, [cust_id]);
+    delete user.cust_pwd;
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_updateUserContact(cust_id, user) {
+  try {
+    const { rows : [userInfo] } = await client.query(`
+      UPDATE customers
+        SET first_name=$1,
+            last_name=$2,
+            cust_email=$3
+        WHERE cust_id=$4
+      RETURNING first_name, last_name, cust_email;
+    `,[ user.first_name, user.last_name, user.cust_email, cust_id ]);
+    console.log(userInfo)
+    return userInfo;
+  } catch (error) {
+    throw error
+  }
+}
+
 // export
 
 module.exports = {
@@ -829,5 +861,7 @@ module.exports = {
   db_getTopSalesDatabyMonth,
   db_updateCart,
   _getUserCart,
-  db_getUserOrderHistory
+  db_getUserOrderHistory,
+  db_getUserProfile,
+  db_updateUserContact,
 };
