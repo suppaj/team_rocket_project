@@ -105,7 +105,8 @@ async function getAllProducts() {
     const { rows: pokemon } = await client.query(
       `SELECT * FROM product WHERE is_active = true`
     );
-    const products = await _buildTypes(pokemon);
+    const addTypes = await _buildTypes(pokemon);
+    const products = await _buildFeaturedProducts(addTypes);
     return products;
   } catch (error) {
     throw error;
@@ -148,6 +149,23 @@ async function _buildTypes(array) {
     }
 
     return products;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _buildFeaturedProducts(array) {
+  // const featuredProdArray = [1, 2, 3, 51, 52];
+  const featuredProdArray = await db_getSalesDatabyMonth();
+  try {
+    for (let product of array) {
+      for (let index of featuredProdArray) {
+        if (index === product.prod_id) {
+          product.is_featured = true;
+        }
+      }
+    }
+    return array;
   } catch (error) {
     throw error;
   }

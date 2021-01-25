@@ -3,7 +3,6 @@ import React from "react";
 const TypeMapper = ({ typeArray, setFilterMessage, typeFilter }) => {
   // if the two callback functions are passed in, the type badges are rendered as buttons that will set the filter
   if (setFilterMessage && typeFilter) {
-    console.log("callbacks present");
     return typeArray.map((type, index) => {
       return (
         <span

@@ -42,30 +42,9 @@ const Products = ({
       price,
       height,
       weight,
-      is_active,
+      is_featured,
     } = poke;
-    // maps the type badges for a given product
-    function typeMapper(typeArray) {
-      return typeArray.map((type, index) => {
-        return (
-          <span
-            className={`${type} nes-container is-rounded nes-pointer`}
-            style={{
-              marginRight: "10px",
-              marginLeft: "10px",
-              padding: "2px",
-            }}
-            key={index}
-            onClick={() => {
-              setFilterMessage(`${type}`);
-              typeFilter(type);
-            }}
-          >
-            {type}
-          </span>
-        );
-      });
-    }
+
     return (
       <div
         key={dex_id}
@@ -91,6 +70,16 @@ const Products = ({
             {name}
           </span>
         </div>
+        <span>
+          {is_featured ? (
+            <i
+              style={{ position: "absolute", top: "-8%", left: "-8%" }}
+              className="nes-icon star is-medium nes-pointer"
+            ></i>
+          ) : (
+            ""
+          )}
+        </span>
         <p>
           ${price}
           {sortMethod === "height" ? ` | ${height / 10}m` : ""}

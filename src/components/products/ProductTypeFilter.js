@@ -56,6 +56,26 @@ const ProductTypeFilter = ({
             <Dropdown.Divider />
           </>
         )}
+        <Dropdown.Item
+          key={"featured"}
+          onClick={() => {
+            setFilterMessage("Featured");
+            let copy = [];
+            allProducts.forEach((product) => {
+              if (product.is_featured) {
+                copy.push(product);
+              }
+            });
+            setCurrentProducts(copy);
+            resetPagination();
+          }}
+          style={{
+            textTransform: "capitalize",
+          }}
+        >
+          Featured Products
+        </Dropdown.Item>
+        <Dropdown.Divider />
         <Dropdown.Header>Filter by type...</Dropdown.Header>
         {dropdownMapper(allTypes, "name")}
       </Dropdown.Menu>
