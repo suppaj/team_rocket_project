@@ -236,3 +236,13 @@ export async function submitCustomerReview(reviewObject) {
     throw error;
   }
 }
+
+export async function getUserOrderHistory(cust_id) {
+  try {
+    const { data : order_history } = await axios.get(`/api/users/${cust_id}/history`);
+    console.log('order history', order_history)
+    return order_history;
+  } catch (error) {
+    throw error
+  }
+}

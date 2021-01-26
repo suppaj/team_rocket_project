@@ -754,6 +754,44 @@ async function db_clearUserCart(cart_id) {
   }
 }
 
+async function db_getUserOrderHistory(cust_id) {
+  const order_history = [];
+  try {
+    const { rows : history } = await client.query(`
+    SELECT order_id, order_date, order_quantity, order_price, dex_id, product.name
+      FROM order_cust_relate
+      NATURAL JOIN order_detail
+      NATURAL JOIN product
+      WHERE cust_id=$1
+      ORDER BY order_date ASC;
+    `,[cust_id])
+    if (history.length) {
+      order_history.push( ..._sortHistory(history) )
+    }
+    console.log('order history', order_history);
+    return order_history;
+  } catch (error) {
+    throw error;
+  }
+}
+
+function _sortHistory(history) {
+  const order_history = [];
+  const order_ids = new Set(history.map((x)=>x.order_id));
+  for ( let id of order_ids ) {
+    let date = '';
+    const orderbydate = []
+    for ( let order of history ) {
+      if ( id === order.order_id ) {
+        orderbydate.push(order);
+        date = order.order_date;
+      } 
+    }
+    order_history.push({ date , order : orderbydate});
+  }
+  return order_history;
+}
+
 // export
 
 module.exports = {
@@ -791,4 +829,5 @@ module.exports = {
   db_getTopSalesDatabyMonth,
   db_updateCart,
   _getUserCart,
+  db_getUserOrderHistory
 };

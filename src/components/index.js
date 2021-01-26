@@ -22,3 +22,7 @@ export { default as Admin } from "./admin/Admin";
 export { default as CartTable } from "./shoppingcart/CartTable";
 export { default as BouncingBall } from "./BouncingBall";
 export { default as Logout } from './login_registration/Logout';
+export { default as RollingBall } from './RollingBall';
+export { default as Order_History } from './user_pages/Order_History';
+export { default as OrderTable } from './user_pages/OrderTable';
+export { default as NotLoggedIn } from './user_pages/NotLoggedIn';

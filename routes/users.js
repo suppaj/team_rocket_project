@@ -4,6 +4,7 @@ const {
 db_recordShipping,
 db_recordBilling,
 db_getUserShipInfo,
+db_getUserOrderHistory,
 } = require('../db')
 
 apiRouter.get(`/:cust_id/ship`, async (req, res, next)=>{
@@ -39,5 +40,15 @@ apiRouter.post(`/:cust_id/bill`, async (req, res, next)=>{
     next(error)
   }
 });
+
+apiRouter.get(`/:cust_id/history`, async (req, res, next)=>{
+  const { cust_id } = req.params;
+  try {
+    const order_history = await db_getUserOrderHistory(cust_id)
+    res.send(order_history);
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = apiRouter;
