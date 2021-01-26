@@ -11,14 +11,28 @@ const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit
 
     const handleSave = async (e) => {
         e.preventDefault();
+<<<<<<< HEAD
         
         setShow(true);
         const results = await updateUserShipping(user);
         setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})
+=======
+        if (user.ship_add1 && user.ship_city && user.ship_state &&  user.ship_zipcode) {
+         
+            document.getElementById('update-dialog').style.display='block';
+            const results = await updateUserShipping(user);
+            document.getElementById('update-dialog').style.display = 'none';
+            setMaster({...master, ...results});
+            setUserProfile({...master, ...results})
+            setEdit(false);
+            setMessage('Changes Saved');
+            return
+        }
+>>>>>>> master
         setEdit(false);
-        setMessage('Changes Saved');
+        return;
     }
 
     const handleCancel = (e) => {
@@ -33,6 +47,7 @@ const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit
             {edit ?
             <div className='text-left'>
                 <p>Shipping Address</p>
+                
                 <div className='nes-field'>
                     <label htmlFor='profile-ship-add1'>Address 1</label>
                     <input
@@ -106,20 +121,24 @@ const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit
                 {' '}
                 <button type='button' className='nes-btn is-error' onClick={handleCancel}>Cancel Changes</button>
             </div>
-            :
+            : user.ship_add1 && user.ship_city && user.ship_state &&  user.ship_zipcode ? 
             <div className='text-left'>
                 <p>Your Shipping Address:</p>
                 <p>{user.first_name} {user.last_name}</p>
                 <p>{user.ship_add1}</p>
                 <p>{user.ship_add2}</p>
-                <p>{user.ship_city}, {user.ship_city} {user.ship_zipcode}</p>
+                <p>{user.ship_city}, {user.ship_state} {user.ship_zipcode}</p>
             { message ?
             <div className='nes-container is-dark'>
                 <p>{message}</p>
             </div> : ''}
             <button type='button' className='nes-btn'onClick={()=>{setEdit(true); setMessage('')}}>Edit</button>
             </div>
-            }
+            :
+            <div>
+                <p>Your shipping address is incomplete, click Edit to update your information</p>
+                <button type='button' className='nes-btn'onClick={()=>{setEdit(true); setMessage('')}}>Edit</button>
+            </div>}
             {/* modal */}
             <Modal className='nes-dialog' show={show} backdrop='static' centered keyboard='false' size='xl'>
                 <Modal.Body>

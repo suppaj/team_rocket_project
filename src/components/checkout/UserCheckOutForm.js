@@ -125,7 +125,7 @@ const UserCheckOutForm = ({
         <div className='nes-container'>
           <p>
             To change shipping information, go to your profile settings{' '}
-            <a>here.</a>
+            <a href={`/users/${user.custID}/account`}>here.</a>
           </p>
           <p>Ship to:</p>
           <p>{user.firstName} {user.lastName}</p>

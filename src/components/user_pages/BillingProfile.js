@@ -23,14 +23,23 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
 
     const handleSave = async (e) => {
         e.preventDefault();
+<<<<<<< HEAD
         
         setShow(true);
+=======
+        if (user.bill_add1 && user.bill_city && user.bill_state && user.bill_zipcode ) {
+        document.getElementById('update-dialog').style.display='block';
+>>>>>>> master
         const results = await updateUserBilling(user);
         setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})
         setEdit(false);
         setMessage('Changes Saved');
+        return;
+        }
+        setEdit(false);
+        return;
     }
 
     const handleCancel = (e) => {
@@ -140,7 +149,7 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
                 {' '}
                 <button type='button' className='nes-btn is-error' onClick={handleCancel}>Cancel Changes</button>
             </div>
-            :
+            : user.bill_add1 && user.bill_city && user.bill_state && user.bill_zipcode ?
             <div className='text-left'>
                 <p>Your Billing Address:</p>
                 <p>{user.bill_add1}</p>
@@ -151,6 +160,10 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
                 <p>{message}</p>
             </div> : ''}
             <button type='button' className='nes-btn'onClick={()=>{setEdit(true); setMessage('')}}>Edit</button>
+            </div>:
+            <div>
+                <p>Your shipping address is incomplete, click Edit to update your information</p>
+                <button type='button' className='nes-btn'onClick={()=>{setEdit(true); setMessage('')}}>Edit</button>
             </div>
             }
             {/* modal */}

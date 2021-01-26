@@ -827,6 +827,16 @@ async function db_getUserProfile(cust_id) {
       NATURAL JOIN billing_add
         WHERE cust_id=$1
     `, [cust_id]);
+
+    if (!user) {
+      const { rows : [ userX ]} = await client.query(`
+        SELECT * FROM customers
+          WHERE cust_id=$1;
+      `,[cust_id]);
+      delete userX.password;
+      return {...userX, ship_add1: '', ship_add2: '', ship_city: '', ship_state:'', ship_zipcode:'',bill_add1:'', bill_add2:'', bill_city:'', bill_state:'', bill_zipcode:''}
+    }
+    console.log('user:', user)
     delete user.cust_pwd;
     return user;
   } catch (error) {
