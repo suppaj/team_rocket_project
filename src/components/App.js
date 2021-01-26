@@ -27,11 +27,8 @@ import {
   SuccessPage,
   Admin,
   Logout,
-<<<<<<< HEAD
-=======
   OrderHistory,
   UserProfile,
->>>>>>> master
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -42,24 +39,13 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
-<<<<<<< HEAD
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || {}
+    JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
   const [firstName, setFirstName] = useState("");
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
+  const [cart, setCart] = useState(user.cart);
   const [cartCount, setCartCount] = useState(0);
 
-=======
-  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {cart: []});
-  const [firstName, setFirstName] = useState("");
-  const [ cart, setCart ] = useState(user.cart);
-  const [ cartCount, setCartCount ] = useState(0)
-  
-  
->>>>>>> master
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -74,21 +60,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-<<<<<<< HEAD
     localStorage.setItem("user", JSON.stringify(user));
-    if (user.cart) {
-      setCart(user.cart);
-    }
+    setCart(user.cart);
   }, [user]);
-=======
-    localStorage.setItem('user', JSON.stringify(user));;
-    setCart(user.cart)
-  },[user]);
->>>>>>> master
 
   useEffect(() => {
     if (cart.length) {
-    findCartCount();
+      findCartCount();
     }
   }, [cart]);
 
@@ -147,18 +125,13 @@ const App = () => {
               />
               <Register />
             </>
-<<<<<<< HEAD
           ) : (
             <Logout
-              setCart={setCart}
               setUser={setUser}
               setIsAdmin={setIsAdmin}
               setIsLoggedIn={setIsLoggedIn}
             />
           )}
-=======
-          ) : <Logout setUser={setUser} setIsAdmin={setIsAdmin} setIsLoggedIn={setIsLoggedIn}/>}
->>>>>>> master
 
           {isAdmin ? (
             <Link to="/admin">
