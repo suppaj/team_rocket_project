@@ -11,7 +11,7 @@ import { AddToCart } from "../index";
 // function imports
 import { getProductById } from "../../api";
 
-const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user }) => {
+const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
 
@@ -189,6 +189,8 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user }) => {
                 cart={cart}
                 setCart={setCart}
                 cartID={cartID}
+                user={user}
+                setUser={setUser}
               />
             </ButtonGroup>
           </div>

@@ -6,6 +6,7 @@ export function combineCarts(localCart, dbCart) {
             if (dbitem.prod_id === localitem.prod_id) {
                 dbitem.cart_quantity += parseInt(localitem.cart_quantity);
                 cart.push(dbitem);
+                match=true
             } 
         }
         if (!match) { 
