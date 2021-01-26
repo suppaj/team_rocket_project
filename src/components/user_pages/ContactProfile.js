@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
+import { Modal } from 'react-bootstrap';
 import { RollingBall } from '../index';
 import { updateUserContact } from '../../api';
 
 const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}) => {
 
     const [ message, setMessage ] = useState('');
+    const [ show, setShow ] = useState(false);
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -12,9 +14,9 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
         if ( user.cust_email != master.cust_email) {
            userUpdate = {...user, emailChange : true }
         }
-        document.getElementById('update-dialog').style.display='block';
+        setShow(true);
         const results = await updateUserContact(userUpdate);
-        document.getElementById('update-dialog').style.display = 'none';
+        setShow(false);
         if (results.message) {
             console.log(results.message)
             setMessage('Account with that email already exists, changes canceled.')
@@ -97,12 +99,12 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
             </div>
             }
             {/* modal */}
-            <dialog className='nes-dialog' id='update-dialog'>
-                <p>Updating Profile</p>
-                <div>
-                <RollingBall />
-                </div>
-            </dialog>
+            <Modal className='nes-dialog' show={show} backdrop='static' centered keyboard='false' size='xl'>
+                <Modal.Body>
+                    <p>Updating Profile</p>
+                    <RollingBall />
+                </Modal.Body>
+            </Modal>
         </div>
     )
 };

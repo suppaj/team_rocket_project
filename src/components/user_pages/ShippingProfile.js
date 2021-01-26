@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Modal } from 'react-bootstrap';
 import { updateUserShipping } from '../../api';
 import { RollingBall } from '../index';
 import { statesOptions } from '../checkout/utilities';
@@ -6,13 +7,14 @@ import { statesOptions } from '../checkout/utilities';
 const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}) => {
 
     const [ message, setMessage ] = useState('');
+    const [ show, setShow ] = useState(false);
 
     const handleSave = async (e) => {
         e.preventDefault();
         
-        document.getElementById('update-dialog').style.display='block';
+        setShow(true);
         const results = await updateUserShipping(user);
-        document.getElementById('update-dialog').style.display = 'none';
+        setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})
         setEdit(false);
@@ -119,12 +121,12 @@ const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit
             </div>
             }
             {/* modal */}
-            <dialog className='nes-dialog' id='update-dialog'>
-                <p>Updating Profile</p>
-                <div>
-                <RollingBall />
-                </div>
-            </dialog>
+            <Modal className='nes-dialog' show={show} backdrop='static' centered keyboard='false' size='xl'>
+                <Modal.Body>
+                    <p>Updating Profile</p>
+                    <RollingBall />
+                </Modal.Body>
+            </Modal>
         </div>
     )
 };
