@@ -60,6 +60,7 @@ apiRouter.get(`/:cust_id/profile`, async (req, res, next)=> {
   const { cust_id } = req.params;
   try {
     const userProfile = await db_getUserProfile(cust_id)
+    console.log(userProfile)
     res.send(userProfile);
   } catch (error) {
     next(error);

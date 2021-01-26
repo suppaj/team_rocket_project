@@ -15,6 +15,8 @@ const SuccessPage = ({ isLoggedIn }) => {
   const [formInfo, setFormInfo] = useState({ contactInfo: { firstName: '' } });
   const [welcomeShow, setWelcomeShow] = useState(false);
 
+  console.log('formInfo', formInfo);
+
   useEffect(() => {
     if (!location.state && !isLoggedIn) {
       history.push('/');

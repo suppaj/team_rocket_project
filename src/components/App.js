@@ -29,6 +29,8 @@ import {
   Logout,
   OrderHistory,
   UserProfile,
+  ProfileButton,
+  AccountPage,
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -39,11 +41,12 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
   const [firstName, setFirstName] = useState("");
-  const [cart, setCart] = useState(user.cart);
+  const [cart, setCart] = useState(user.cart || []);
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -61,6 +64,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
+
     setCart(user.cart);
   }, [user]);
 
@@ -78,6 +82,7 @@ const App = () => {
       count += parseInt(item.cart_quantity);
       return item;
     });
+
     setCartCount(count);
   };
 
@@ -124,11 +129,14 @@ const App = () => {
               <Register />
             </>
           ) : (
-            <Logout
-              setUser={setUser}
-              setIsAdmin={setIsAdmin}
-              setIsLoggedIn={setIsLoggedIn}
-            />
+            <>
+              <Logout
+                setUser={setUser}
+                setIsAdmin={setIsAdmin}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+              <ProfileButton user={user} />
+            </>
           )}
 
           {isAdmin ? (
@@ -140,7 +148,7 @@ const App = () => {
           <CartButton cart={cart} cartCount={cartCount} />
         </Row>
         <Row
-          className="bg-success align-items-center"
+          className="bg-success "
           style={{
             minHeight: "78vh",
             width: "100vw",
@@ -211,6 +219,9 @@ const App = () => {
             </Route>
             <Route path="/users/:cust_id/history">
               <OrderHistory />
+            </Route>
+            <Route path="/users/:cust_id/account">
+              <AccountPage />
             </Route>
           </Switch>
         </Row>

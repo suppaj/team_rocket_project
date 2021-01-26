@@ -8,24 +8,29 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
 
     const handleSave = async (e) => {
         e.preventDefault();
-        let userUpdate = {...user}
-        if ( user.cust_email != master.cust_email) {
-           userUpdate = {...user, emailChange : true }
+        if ( user.first_name && user.last_name && user.cust_email) {
+            let userUpdate = {...user}
+            if ( user.cust_email != master.cust_email) {
+            userUpdate = {...user, emailChange : true }
+            }
+            document.getElementById('update-dialog').style.display='block';
+            const results = await updateUserContact(userUpdate);
+            document.getElementById('update-dialog').style.display = 'none';
+            if (results.message) {
+                console.log(results.message)
+                setMessage('Account with that email already exists, changes canceled.')
+                setUserProfile(master);
+                setEdit(false);
+            } else {
+                setMaster({...master, ...results});
+                setUserProfile({...master, ...results})
+                setEdit(false);
+                setMessage('Changes Saved');
+            }
         }
-        document.getElementById('update-dialog').style.display='block';
-        const results = await updateUserContact(userUpdate);
-        document.getElementById('update-dialog').style.display = 'none';
-        if (results.message) {
-            console.log(results.message)
-            setMessage('Account with that email already exists, changes canceled.')
-            setUserProfile(master);
-            setEdit(false);
-        } else {
-            setMaster({...master, ...results});
-            setUserProfile({...master, ...results})
-            setEdit(false);
-            setMessage('Changes Saved');
-        }
+        setEdit(false);
+        setMessage('Changes canceled, no fields can be blank')
+        setUserProfile({...master});
 
     }
 
@@ -81,9 +86,9 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
                     } 
                     />
                 </div>
-                <button type='submit' className='nes-btn is-success' onClick={handleSave}>Save Changes</button>
-                {' '}
-                <button type='button' className='nes-btn is-error' onClick={handleCancel}>Cancel Changes</button>
+                <button type='submit' className='nes-btn is-success ' onClick={handleSave}>Save Changes</button>
+                
+                <button type='button' className='nes-btn is-error ' onClick={handleCancel}>Cancel Changes</button>
             </div>
             :
             <div className='text-left'>

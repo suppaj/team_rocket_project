@@ -26,14 +26,21 @@ const OrderHistory = (props) => {
 
     return (
         <>
-        <Col md={{span: 8, offset : 2}}>
+            <br/>
+            <h4 className='text-center'>Order History</h4>
             { notValid ? <NotLoggedIn /> : orderHistory ? 
                 orderHistory.length ? 
-                    orderHistory.map((order)=> <OrderTable key={order.date} order={order}/>)
+                    orderHistory.map((order)=> {
+                    return (
+                        <div key={order.date}>
+                        <OrderTable  order={order} />
+                        <br/>
+                        </div>
+                    )
+                })
                 : <div className='nes-container'>YOU HAVE NO ORDERS AT THIS TIME.</div>
             : 
             <div className='loading-screen nes-container'>LOADING ORDER HISTORY <div><RollingBall /></div> </div>}
-        </Col>
         </>
     )
 }
