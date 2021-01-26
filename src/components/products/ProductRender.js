@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 
 import "./Product.css";
+import TypeMapper from "./TypeMapper";
 
 const Products = ({
   currentProducts,
@@ -41,79 +42,67 @@ const Products = ({
       price,
       height,
       weight,
-      is_active,
+      is_featured,
     } = poke;
-    // maps the type badges for a given product
-    function typeMapper(typeArray) {
-      return typeArray.map((type, index) => {
-        return (
+
+    return (
+      <div
+        key={dex_id}
+        style={{
+          marginBottom: "30px",
+          marginLeft: "30px",
+          marginRight: "30px",
+          width: "310px",
+          height: "310px",
+          display: "inline-block",
+          textAlign: "center",
+          backgroundColor: "#abbbd1",
+        }}
+        className={`pokemon-card nes-container with-title is-rounded is-centered`}
+      >
+        <div className="nes-container is-rounded title">
+          <span>#{dex_id} </span>
           <span
-            className={`${type} nes-container is-rounded nes-pointer`}
             style={{
-              marginRight: "10px",
-              marginLeft: "10px",
-              padding: "2px",
-            }}
-            key={index}
-            onClick={() => {
-              setFilterMessage(`Type: ${type}`);
-              typeFilter(type);
+              textTransform: "capitalize",
             }}
           >
-            {type}
+            {name}
           </span>
-        );
-      });
-    }
-
-    if (is_active) {
-      return (
-        <div
-          key={dex_id}
-          style={{
-            marginBottom: "30px",
-            marginLeft: "30px",
-            marginRight: "30px",
-            width: "310px",
-            height: "310px",
-            display: "inline-block",
-            textAlign: "center",
-            backgroundColor: "#abbbd1",
-          }}
-          className={`pokemon-card nes-container with-title is-rounded is-centered`}
-        >
-          <div className="nes-container is-rounded title">
-            <span>#{dex_id} </span>
-            <span
-              style={{
-                textTransform: "capitalize",
-              }}
-            >
-              {name}
-            </span>
-          </div>
-          <p>
-            ${price}
-            {sortMethod === "height" ? ` | ${height / 10}m` : ""}
-            {sortMethod === "weight" ? ` | ${weight / 10}kg` : ""}
-          </p>
-          <Button variant="link" href={`/products/${prod_id}/${name}`}>
-            <img
-              style={{
-                height: "200px",
-                marginTop: "-25px",
-              }}
-              className="nes-pointer"
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
-              alt={`a very happy ${name}`}
-            />
-          </Button>
-          <div>{typeMapper(type)}</div>
         </div>
-      );
-    } else {
-      return "";
-    }
+        <span>
+          {is_featured ? (
+            <i
+              style={{ position: "absolute", top: "-8%", left: "-8%" }}
+              className="nes-icon star is-medium"
+            ></i>
+          ) : (
+            ""
+          )}
+        </span>
+        <p>
+          ${price}
+          {sortMethod === "height" ? ` | ${height / 10}m` : ""}
+          {sortMethod === "weight" ? ` | ${weight / 10}kg` : ""}
+        </p>
+        <Button variant="link" href={`/products/${prod_id}/${name}`}>
+          <img
+            style={{
+              height: "200px",
+              marginTop: "-25px",
+            }}
+            className="nes-pointer"
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
+            alt={`a very happy ${name}`}
+          />
+        </Button>
+        <TypeMapper
+          typeArray={type}
+          setFilterMessage={setFilterMessage}
+          typeFilter={typeFilter}
+        />
+      </div>
+    );
   }
 
   if (currentProducts.length) {

@@ -170,8 +170,6 @@ export async function recordShipandBill(formInfo, cust_id) {
 export async function recordUserOrder(cust_id, cart) {
   try {
     const { data } = await axios.post(`/api/orders/${cust_id}/createorderId`);
-    // data will be {order_id};
-    console.log("this is data", data);
     await axios.post(`/api/orders/${cust_id}/${data.order_id}`, cart);
     return;
   } catch (error) {
@@ -240,6 +238,7 @@ export async function submitCustomerReview(reviewObject) {
   }
 }
 
+
 export async function getTopSalesDatabyMonth(month, year) {
   try {
     const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
@@ -281,3 +280,50 @@ export async function getSalesData() {
     throw error;
   }
 }
+
+export async function getUserOrderHistory(cust_id) {
+  try {
+    const { data : order_history } = await axios.get(`/api/users/${cust_id}/history`);
+    console.log('order history', order_history)
+    return order_history;
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getUserProfile(cust_id) {
+  try {
+    const { data } = await axios.get(`/api/users/${cust_id}/profile`);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUserContact(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/contact`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUserShipping(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/shipping`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUserBilling(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/billing`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+

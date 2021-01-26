@@ -9,29 +9,24 @@ const stripePromise = loadStripe(
   'pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i'
 );
 
-const CheckoutPage = ({ isLoggedIn, cart, user, setCart }) => {
+const CheckoutPage = ({ isLoggedIn, cart, user, setUser }) => {
 
   
   return (
     <>{ cart.length ? 
-      <div className='nes-container with-title is-rounded w-75 mx-auto'>
+      <div className='nes-container with-title is-rounded mx-auto'>
         <p className='title'>TEAM ROCKET CHECKOUT w/ STRIPE</p>
         <Row>
-          {/* <Col md={3}>
-            {cart.map((item) => (
-              <CheckOutCard key={item.dex_id} item={item} />
-            ))}
-          </Col> */}
-          <Col  className='sticky-top'>
+          <Col  className='sticky-top' md={{span: 6, offset:1}}>
             <Elements stripe={stripePromise}>
               {isLoggedIn ? (
-                <UserCheckOutForm cart={cart} user={user} setCart={setCart}/>
+                <UserCheckOutForm cart={cart} user={user} setUser={setUser}/>
               ) : (
-                <GuestCheckOutForm cart={cart} setCart={setCart} />
+                <GuestCheckOutForm cart={cart} user={user} setUser={setUser} />
               )}
             </Elements>
           </Col>
-          <Col >
+          <Col md={4}>
             <CartTable cart={cart} />
           </Col>
         </Row>

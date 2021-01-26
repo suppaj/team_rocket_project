@@ -17,6 +17,9 @@ const Login = ({
   firstName,
   setUser,
   cart,
+
+  setCart
+
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,13 +50,16 @@ const Login = ({
     loginCustomer(email, password, cart)
       .then((response) => {
         if (response) {
-          const { siteAdmin, firstName } = response;
+          const { siteAdmin, firstName, cart} = response;
           setWelcomeShow(true);
           setTimeout(handleCloseLogin, 2200);
           setFirstName(firstName);
           setUser(response);
           setAdminData(siteAdmin);
-          setLoginData();
+
+          setCart(cart)
+          // setLoginData();
+
         } else {
           console.log("login credentials incorrect");
         }

@@ -2,7 +2,7 @@ import React from "react";
 
 import Dropdown from "react-bootstrap/Dropdown";
 
-const ProductTypeFilter = ({
+const ProductFilter = ({
   allProducts,
   setCurrentProducts,
   allTypes,
@@ -34,7 +34,13 @@ const ProductTypeFilter = ({
   return (
     <Dropdown style={{ marginRight: "10px" }}>
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-        <span>{filterMessage ? "Type: " : "Filter pokemon..."}</span>
+        <span>
+          {filterMessage
+            ? filterMessage === "Featured products"
+              ? ""
+              : "Type: "
+            : "Filter pokemon..."}
+        </span>
         <span style={{ textTransform: "capitalize" }}>
           {filterMessage ? `${filterMessage}` : ""}
         </span>
@@ -56,6 +62,26 @@ const ProductTypeFilter = ({
             <Dropdown.Divider />
           </>
         )}
+        <Dropdown.Item
+          key={"featured"}
+          onClick={() => {
+            setFilterMessage("Featured products");
+            let copy = [];
+            allProducts.forEach((product) => {
+              if (product.is_featured) {
+                copy.push(product);
+              }
+            });
+            setCurrentProducts(copy);
+            resetPagination();
+          }}
+          style={{
+            textTransform: "capitalize",
+          }}
+        >
+          Featured Products
+        </Dropdown.Item>
+        <Dropdown.Divider />
         <Dropdown.Header>Filter by type...</Dropdown.Header>
         {dropdownMapper(allTypes, "name")}
       </Dropdown.Menu>
@@ -63,4 +89,4 @@ const ProductTypeFilter = ({
   );
 };
 
-export default ProductTypeFilter;
+export default ProductFilter;

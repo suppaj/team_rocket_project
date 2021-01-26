@@ -52,14 +52,20 @@ const ReviewStars = ({ reviewInfo, setReviewInfo }) => {
   );
 };
 
-const ReviewForm = ({ product_id }) => {
+const ReviewForm = ({
+  product_id,
+  user,
+  currentReviews,
+  setCurrentReviews,
+}) => {
   const [reviewInfo, setReviewInfo] = useState({
     review_id: "current",
     prod_id: parseInt(product_id),
     rating: 0,
     review_title: "",
     review_comment: "",
-    cust_id: 2,
+    cust_id: 0,
+    first_name: "",
   });
 
   function resetForm() {
@@ -69,7 +75,8 @@ const ReviewForm = ({ product_id }) => {
       rating: 0,
       review_title: "",
       review_comment: "",
-      cust_id: 2,
+      cust_id: 0,
+      first_name: "",
     });
   }
 
@@ -105,6 +112,8 @@ const ReviewForm = ({ product_id }) => {
             setReviewInfo({
               ...reviewInfo,
               review_comment: event.target.value,
+              cust_id: user.custID,
+              first_name: user.firstName,
             });
           }}
         ></textarea>
@@ -113,9 +122,9 @@ const ReviewForm = ({ product_id }) => {
         type="button"
         id="review_submit-btn"
         className={`nes-btn ${
-          reviewInfo.rating != 0
-            ? reviewInfo.review_title != 0
-              ? reviewInfo.review_comment != 0
+          reviewInfo.rating !== 0
+            ? reviewInfo.review_title !== 0
+              ? reviewInfo.review_comment !== 0
                 ? "is-success"
                 : "is-disabled"
               : "is-disabled"
@@ -123,16 +132,18 @@ const ReviewForm = ({ product_id }) => {
         }`}
         onClick={async (event) => {
           event.preventDefault();
-          console.log("review object:", reviewInfo);
-          const review = await submitCustomerReview(reviewInfo);
-          console.log("submit response:", review);
+          const newReview = await submitCustomerReview(reviewInfo);
+          newReview.first_name = user.firstName;
+          let copy = [...currentReviews];
+          copy.push(newReview);
+          setCurrentReviews(copy);
           resetForm();
         }}
         // conditionally disables the button
         disabled={
-          reviewInfo.rating != 0
-            ? reviewInfo.review_title != 0
-              ? reviewInfo.review_comment != 0
+          reviewInfo.rating !== 0
+            ? reviewInfo.review_title !== 0
+              ? reviewInfo.review_comment !== 0
                 ? 0
                 : 1
               : 1

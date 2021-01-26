@@ -8,7 +8,7 @@ import { Button, Row } from "react-bootstrap";
 import ProductRender from "./ProductRender";
 import ProductSearch from "./ProductSearch";
 import ProductSorter from "./ProductSorter";
-import ProductTypeFilter from "./ProductTypeFilter";
+import ProductFilter from "./ProductFilter";
 
 const Products = ({ getAllProducts, getAllTypes }) => {
   // product states
@@ -58,7 +58,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           b = b.dex_id;
           return a - b;
         });
-        console.log("current pokemon:", response);
+        console.log("response:", response);
         setAllProducts(response);
         setCurrentProducts(response);
       })
@@ -131,7 +131,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           resetPagination={resetPagination}
         />
         {/** product filter component*/}
-        <ProductTypeFilter
+        <ProductFilter
           allProducts={allProducts}
           setCurrentProducts={setCurrentProducts}
           allTypes={allTypes}

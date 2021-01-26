@@ -26,6 +26,11 @@ import {
   CheckoutPage,
   SuccessPage,
   Admin,
+  Logout,
+  OrderHistory,
+  UserProfile,
+  ProfileButton,
+  AccountPage,
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -38,12 +43,10 @@ const App = () => {
   );
 
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || {}
+    JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
   const [firstName, setFirstName] = useState("");
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) || []
-  );
+  const [cart, setCart] = useState(user.cart || []);
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -54,9 +57,6 @@ const App = () => {
       .catch((error) => {
         setMessage(error.message);
       });
-    if (!localStorage.getItem("cart")) {
-      localStorage.setItem("cart", JSON.stringify([]));
-    }
     if (user.custID) {
       setIsLoggedIn(true);
     }
@@ -64,15 +64,13 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
-    if (user.cart) {
-      console.log("user.cart", user.cart);
-      setCart(user.cart);
-    }
+
+    setCart(user.cart);
   }, [user]);
 
   useEffect(() => {
-    findCartCount();
-    console.log(cart);
+      findCartCount();
+
   }, [cart]);
 
   useEffect(() => {
@@ -82,11 +80,11 @@ const App = () => {
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-      console.log("cart quant: ", item.cart_quantity);
+
       count += parseInt(item.cart_quantity);
       return item;
     });
-    console.log("cart count: ", count);
+
     setCartCount(count);
   };
 
@@ -127,10 +125,20 @@ const App = () => {
                 setFirstName={setFirstName}
                 firstName={firstName}
                 setUser={setUser}
+                cart={cart}
+                setCart={setCart}
               />
               <Register />
             </>
-          ) : null}
+          ) : (<>
+            <Logout
+              setUser={setUser}
+              setIsAdmin={setIsAdmin}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+            <ProfileButton user={user}/>
+            </>
+          )}
 
           {isAdmin ? (
             <Link to="/admin">
@@ -141,7 +149,7 @@ const App = () => {
           <CartButton cart={cart} cartCount={cartCount} />
         </Row>
         <Row
-          className="bg-success align-items-center"
+          className="bg-success "
           style={{
             minHeight: "78vh",
             width: "100vw",
@@ -175,18 +183,19 @@ const App = () => {
                 }}
               >
                 <ProductPage
-                  cart={cart}
-                  setCart={setCart}
                   cartID={user.cartID}
                   isLoggedIn={isLoggedIn}
                   user={user}
+                  cart={cart}
+                  setUser={setUser}
                 />
               </Row>
             </Route>
             <Route path="/shoppingcart">
               <ShoppingCart
                 cart={cart}
-                setCart={setCart}
+                user={user}
+                setUser={setUser}
                 isLoggedIn={isLoggedIn}
                 cartID={user.cartID}
               />
@@ -200,11 +209,20 @@ const App = () => {
                 cart={cart}
                 user={user}
                 cart_id={user.cartID}
-                setCart={setCart}
+                setUser={setUser}
               />
             </Route>
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />
+            </Route>
+            <Route path="/users/:cust_id/profile">
+              <UserProfile />
+            </Route>
+            <Route path="/users/:cust_id/history">
+              <OrderHistory />
+            </Route>
+            <Route path ="/users/:cust_id/account">
+              <AccountPage />
             </Route>
           </Switch>
         </Row>

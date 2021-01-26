@@ -15,7 +15,7 @@ import RollingBall from '../RollingBall';
 // import ShipForm from './ShipForm';
 // import BillForm from './BillForm';
 
-const GuestCheckOutForm = ({ cart, setCart }) => {
+const GuestCheckOutForm = ({ cart, user, setUser }) => {
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
@@ -41,8 +41,8 @@ const GuestCheckOutForm = ({ cart, setCart }) => {
       } else {
         setMessage(`Payment ${result.paymentIntent.status}`); //not really needed anymore
         await recordGuestOrder(cart, formInfo);
-        setCart([]);
-        localStorage.setItem('cart', JSON.stringify([]));
+        localStorage.setItem('user', JSON.stringify({...user, cart : []}));
+        setUser({...user, cart : []});
         history.push({
           pathname: '/checkout/success',
           state: { formInfo },
