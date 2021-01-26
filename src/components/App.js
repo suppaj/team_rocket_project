@@ -27,6 +27,11 @@ import {
   SuccessPage,
   Admin,
   Logout,
+<<<<<<< HEAD
+=======
+  OrderHistory,
+  UserProfile,
+>>>>>>> master
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -37,6 +42,7 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
+<<<<<<< HEAD
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || {}
   );
@@ -46,6 +52,14 @@ const App = () => {
   );
   const [cartCount, setCartCount] = useState(0);
 
+=======
+  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {cart: []});
+  const [firstName, setFirstName] = useState("");
+  const [ cart, setCart ] = useState(user.cart);
+  const [ cartCount, setCartCount ] = useState(0)
+  
+  
+>>>>>>> master
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -54,23 +68,28 @@ const App = () => {
       .catch((error) => {
         setMessage(error.message);
       });
-    if (!localStorage.getItem("cart")) {
-      localStorage.setItem("cart", JSON.stringify([]));
-    }
     if (user.custID) {
       setIsLoggedIn(true);
     }
   }, []);
 
   useEffect(() => {
+<<<<<<< HEAD
     localStorage.setItem("user", JSON.stringify(user));
     if (user.cart) {
       setCart(user.cart);
     }
   }, [user]);
+=======
+    localStorage.setItem('user', JSON.stringify(user));;
+    setCart(user.cart)
+  },[user]);
+>>>>>>> master
 
   useEffect(() => {
+    if (cart.length) {
     findCartCount();
+    }
   }, [cart]);
 
   useEffect(() => {
@@ -124,9 +143,11 @@ const App = () => {
                 firstName={firstName}
                 setUser={setUser}
                 cart={cart}
+                setCart={setCart}
               />
               <Register />
             </>
+<<<<<<< HEAD
           ) : (
             <Logout
               setCart={setCart}
@@ -135,6 +156,9 @@ const App = () => {
               setIsLoggedIn={setIsLoggedIn}
             />
           )}
+=======
+          ) : <Logout setUser={setUser} setIsAdmin={setIsAdmin} setIsLoggedIn={setIsLoggedIn}/>}
+>>>>>>> master
 
           {isAdmin ? (
             <Link to="/admin">
@@ -179,18 +203,19 @@ const App = () => {
                 }}
               >
                 <ProductPage
-                  cart={cart}
-                  setCart={setCart}
                   cartID={user.cartID}
                   isLoggedIn={isLoggedIn}
                   user={user}
+                  cart={cart}
+                  setUser={setUser}
                 />
               </Row>
             </Route>
             <Route path="/shoppingcart">
               <ShoppingCart
                 cart={cart}
-                setCart={setCart}
+                user={user}
+                setUser={setUser}
                 isLoggedIn={isLoggedIn}
                 cartID={user.cartID}
               />
@@ -204,11 +229,17 @@ const App = () => {
                 cart={cart}
                 user={user}
                 cart_id={user.cartID}
-                setCart={setCart}
+                setUser={setUser}
               />
             </Route>
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />
+            </Route>
+            <Route path="/users/:cust_id/profile">
+              <UserProfile />
+            </Route>
+            <Route path="/users/:cust_id/history">
+              <OrderHistory />
             </Route>
           </Switch>
         </Row>

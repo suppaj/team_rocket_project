@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 
-import { deleteCartItem, patchCartItem } from "../api";
+import { deleteCartItem, patchCartItem } from "../../api";
 
 const CartItemCard = ({
   order: product,
   isLoggedIn,
   cart,
-  setCart,
   cart_id,
+  user,
+  setUser
 }) => {
   const [adjustOrder, setAdjustOrder] = useState(false);
   const [orderAmount, setOrderAmount] = useState(product.cart_quantity);
@@ -26,16 +27,18 @@ const CartItemCard = ({
           await deleteCartItem(cart_id, product.prod_id);
         }
       });
-      setCart(copyCart);
-      localStorage.setItem("cart", JSON.stringify(copyCart));
+      localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
+      setUser({...user , cart : copyCart});
+      console.log(copyCart)
+      
     } else {
       cart.forEach(async (item, index) => {
         if (item.prod_id === product.prod_id) {
           copyCart.splice(index, 1);
         }
       });
-      setCart(copyCart);
-      localStorage.setItem("cart", JSON.stringify(copyCart));
+      localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
+      setUser({...user , cart : copyCart})
     }
   };
 
@@ -63,8 +66,8 @@ const CartItemCard = ({
         return item;
       }
     });
-    setCart(copyCart);
-    localStorage.setItem("cart", JSON.stringify(copyCart));
+    localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
+    setUser({...user , cart : copyCart})
   };
 
   return (

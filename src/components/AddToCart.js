@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { addCartItem, patchCartItem } from "../api";
 
-const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, setCart }) => {
+const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUser }) => {
 
   const history = useHistory();
 
@@ -24,20 +24,17 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, setCart }) 
           return item;
         }
       });
-      setCart(currCart);
-      localStorage.setItem("cart", JSON.stringify(currCart));
-
       if (noDuplicate) {
         currCart.push(product);
-        setCart(currCart);
-        localStorage.setItem("cart", JSON.stringify(currCart));
-        const results = await addCartItem(
+        await addCartItem(
           cartID,
           prod_id,
           cart_quantity,
           price
         ); 
       }
+      localStorage.setItem("user", JSON.stringify({...user, cart: currCart}));
+      setUser({...user, cart : currCart});
     } else {
       currCart.map(async (item) => {
         if (item.prod_id === prod_id) {
@@ -52,8 +49,8 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, setCart }) 
       if (noDuplicate) {
         currCart.push(product);
       }
-      setCart(currCart);
-      localStorage.setItem("cart", JSON.stringify(currCart));
+      localStorage.setItem("user", JSON.stringify({...user, cart: currCart}));
+      setUser({...user, cart: currCart}); 
     }
     document.getElementById("add-cart-dialog").showModal();
   };

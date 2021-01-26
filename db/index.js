@@ -781,6 +781,114 @@ async function db_clearUserCart(cart_id) {
   }
 }
 
+async function db_getUserOrderHistory(cust_id) {
+  const order_history = [];
+  try {
+    const { rows : history } = await client.query(`
+    SELECT order_id, order_date, order_quantity, order_price, dex_id, product.name
+      FROM order_cust_relate
+      NATURAL JOIN order_detail
+      NATURAL JOIN product
+      WHERE cust_id=$1
+      ORDER BY order_date ASC;
+    `,[cust_id])
+    if (history.length) {
+      order_history.push( ..._sortHistory(history) )
+    }
+    console.log('order history', order_history);
+    return order_history;
+  } catch (error) {
+    throw error;
+  }
+}
+
+function _sortHistory(history) {
+  const order_history = [];
+  const order_ids = new Set(history.map((x)=>x.order_id));
+  for ( let id of order_ids ) {
+    let date = '';
+    const orderbydate = []
+    for ( let order of history ) {
+      if ( id === order.order_id ) {
+        orderbydate.push(order);
+        date = order.order_date;
+      } 
+    }
+    order_history.push({ date , order : orderbydate});
+  }
+  return order_history;
+}
+
+async function db_getUserProfile(cust_id) {
+  try {
+    const { rows: [user] } = await client.query(`
+    SELECT * FROM customers
+      NATURAL JOIN shipping_add
+      NATURAL JOIN billing_add
+        WHERE cust_id=$1
+    `, [cust_id]);
+    delete user.cust_pwd;
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_updateUserContact(cust_id, user) {
+  try {
+    const { rows : [userInfo] } = await client.query(`
+      UPDATE customers
+        SET first_name=$1,
+            last_name=$2,
+            cust_email=$3
+        WHERE cust_id=$4
+      RETURNING first_name, last_name, cust_email;
+    `,[ user.first_name, user.last_name, user.cust_email, cust_id ]);
+    console.log(userInfo)
+    return userInfo;
+  } catch (error) {
+    throw error
+  }
+}
+
+async function db_updateUserShipping(cust_id, user) {
+  const { ship_add1, ship_add2, ship_city, ship_state, ship_zipcode} = user
+  try {
+    const { rows : [shipInfo] } = await client.query(`
+      UPDATE shipping_add
+        SET ship_add1=$1,
+            ship_add2=$2,
+            ship_city=$3,
+            ship_state=$4,
+            ship_zipcode=$5
+        WHERE cust_id=$6
+      RETURNING *;
+    `,[ship_add1, ship_add2, ship_city, ship_state, ship_zipcode, cust_id]);
+    return shipInfo;
+  } catch (error) {
+    throw error
+  }
+}
+
+async function db_updateUserBilling(cust_id, user) {
+  const { bill_add1, bill_add2, bill_city, bill_state, bill_zipcode} = user
+  try {
+    const { rows : [billInfo] } = await client.query(`
+      UPDATE billing_add
+        SET bill_add1=$1,
+            bill_add2=$2,
+            bill_city=$3,
+            bill_state=$4,
+            bill_zipcode=$5
+        WHERE cust_id=$6
+      RETURNING *;
+    `,[bill_add1, bill_add2, bill_city, bill_state, bill_zipcode, cust_id]);
+    return billInfo;
+  } catch (error) {
+    throw error
+  }
+}
+
 // export
 
 module.exports = {
@@ -819,4 +927,9 @@ module.exports = {
   db_getTopSalesDatabyMonth,
   db_updateCart,
   _getUserCart,
+  db_getUserOrderHistory,
+  db_getUserProfile,
+  db_updateUserContact,
+  db_updateUserShipping,
+  db_updateUserBilling,
 };

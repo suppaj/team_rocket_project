@@ -62,7 +62,7 @@
 
 .StripeElement {
   width: 100%;
-  height: 75px;
+  height: 50px;
 }
 
 iframe {
@@ -78,7 +78,7 @@ iframe {
 #masterball-roll {
   position: relative;
   animation-name: rolling;
-  animation-duration: 0.5s;
+  animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
@@ -89,43 +89,43 @@ iframe {
     transform: rotate(0deg);
   }
   10% {
-    left: 25px;
+    left: 5%;
     transform: rotate(36deg);
   }
   20% {
-    left: 50px;
+    left: 10%;
     transform: rotate(72deg);
   }
   30% {
-    left: 75px;
+    left: 15%;
     transform: rotate(98deg);
   }
   40% {
-    left: 100px;
+    left: 20%;
     transform: rotate(144deg);
   }
   50% {
-    left: 125px;
+    left: 25%;
     transform: rotate(180deg);
   }
   60% {
-    left: 150px;
+    left: 30%;
     transform: rotate(216deg);
   }
   70% {
-    left: 175px;
+    left: 35%;
     transform: rotate(252deg);
   }
   80% {
-    left: 200px;
+    left: 40%;
     transform: rotate(288deg);
   }
   90% {
-    left: 225px;
+    left: 45%;
     transform: rotate(324deg);
   }
   100% {
-    left: 250px;
+    left: 50%;
     transform: rotate(360deg);
   }
 }
