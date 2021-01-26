@@ -11,26 +11,17 @@ const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit
 
     const handleSave = async (e) => {
         e.preventDefault();
-<<<<<<< HEAD
         
+        if (user.ship_add1 && user.ship_city && user.ship_state &&  user.ship_zipcode) {
         setShow(true);
         const results = await updateUserShipping(user);
         setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})
-=======
-        if (user.ship_add1 && user.ship_city && user.ship_state &&  user.ship_zipcode) {
-         
-            document.getElementById('update-dialog').style.display='block';
-            const results = await updateUserShipping(user);
-            document.getElementById('update-dialog').style.display = 'none';
-            setMaster({...master, ...results});
-            setUserProfile({...master, ...results})
-            setEdit(false);
-            setMessage('Changes Saved');
-            return
+        setEdit(false);
+        setMessage('Changes Saved');
+        return
         }
->>>>>>> master
         setEdit(false);
         return;
     }

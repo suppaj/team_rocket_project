@@ -23,13 +23,8 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
 
     const handleSave = async (e) => {
         e.preventDefault();
-<<<<<<< HEAD
-        
-        setShow(true);
-=======
         if (user.bill_add1 && user.bill_city && user.bill_state && user.bill_zipcode ) {
-        document.getElementById('update-dialog').style.display='block';
->>>>>>> master
+        setShow(true);
         const results = await updateUserBilling(user);
         setShow(false);
         setMaster({...master, ...results});
