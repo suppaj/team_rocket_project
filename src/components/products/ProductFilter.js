@@ -34,7 +34,13 @@ const ProductFilter = ({
   return (
     <Dropdown style={{ marginRight: "10px" }}>
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-        <span>{filterMessage ? "Type: " : "Filter pokemon..."}</span>
+        <span>
+          {filterMessage
+            ? filterMessage === "Featured products"
+              ? ""
+              : "Type: "
+            : "Filter pokemon..."}
+        </span>
         <span style={{ textTransform: "capitalize" }}>
           {filterMessage ? `${filterMessage}` : ""}
         </span>
@@ -59,7 +65,7 @@ const ProductFilter = ({
         <Dropdown.Item
           key={"featured"}
           onClick={() => {
-            setFilterMessage("Featured");
+            setFilterMessage("Featured products");
             let copy = [];
             allProducts.forEach((product) => {
               if (product.is_featured) {
