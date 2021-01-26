@@ -1,5 +1,5 @@
 import React, { useState , useEffect } from 'react';
-import { Col, Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
 import { NotLoggedIn, ContactProfile, ShippingProfile, BillingProfile, RollingBall } from '../index';
 import { getUserProfile } from '../../api';
@@ -32,11 +32,12 @@ const UserProfile = (props) => {
 
     return (
         <>
-        <Col md={{span: 8, offset : 2}}>
+            <br/>
             { notValid ? 
             <NotLoggedIn /> : userProfile.cust_id ? 
-            <div className='nes-container is-centered'>
-                <p>User Profile Info</p>
+                <>
+                <h4 className='text-center'>User Profile Info</h4>
+                <div className='nes-container is-centered'>
                 <Tabs id='profile-tabs' activeKey={key} onSelect={(k) => {setKey(k); setEdit(false); setUserProfile({...master})}}>
                     <Tab eventKey='contact' title='Contact Info'>
                         <ContactProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} edit={edit} setEdit={setEdit}/>
@@ -48,13 +49,14 @@ const UserProfile = (props) => {
                         <BillingProfile user={userProfile} setUserProfile={setUserProfile} master={master} setMaster={setMaster} edit={edit} setEdit={setEdit}/>
                     </Tab>
                 </Tabs>
-            </div> :
+            </div>
+            </>
+            :
             <div className='nes-container'>
                 <p className='text-center'>Loading Your Profile</p>
                 <RollingBall />
             </div>
             }
-        </Col>
         </>
     )
 };

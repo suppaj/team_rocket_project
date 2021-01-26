@@ -170,8 +170,6 @@ export async function recordShipandBill(formInfo, cust_id) {
 export async function recordUserOrder(cust_id, cart) {
   try {
     const { data } = await axios.post(`/api/orders/${cust_id}/createorderId`);
-    // data will be {order_id};
-    console.log("this is data", data);
     await axios.post(`/api/orders/${cust_id}/${data.order_id}`, cart);
     return;
   } catch (error) {
