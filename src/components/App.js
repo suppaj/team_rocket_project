@@ -144,7 +144,7 @@ const App = () => {
           <CartButton cart={cart} cartCount={cartCount} />
         </Row>
         <Row
-          className="bg-success align-items-center"
+          className="bg-success "
           style={{
             minHeight: "78vh",
             width: "100vw",

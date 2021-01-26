@@ -23,7 +23,7 @@ export { default as CartTable } from "./shoppingcart/CartTable";
 export { default as BouncingBall } from "./BouncingBall";
 export { default as Logout } from './login_registration/Logout';
 export { default as RollingBall } from './RollingBall';
-export { default as OrderHistory } from './user_pages/Order_History';
+export { default as OrderHistory } from './user_pages/OrderHistory';
 export { default as OrderTable } from './user_pages/OrderTable';
 export { default as NotLoggedIn } from './user_pages/NotLoggedIn';
 export { default as UserProfile } from './user_pages/UserProfile';
