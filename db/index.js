@@ -441,6 +441,7 @@ async function db_updateProduct(prod_id, fields = {}) {
     `,
       Object.values(fields)
     );
+    console.log("inside of update product this is the product");
     return product;
   } catch (error) {
     throw error;
@@ -679,12 +680,12 @@ async function db_getTopSalesDatabyMonth(month, year) {
   try {
     const { rows } = await client.query(
       `
-      select  sum(quantity), prod_id 
+      select  sum(transaction_quantity), prod_id 
       from sales
       WHERE EXTRACT(MONTH FROM transaction_date) = $1
       AND EXTRACT(Year FROM transaction_date) = $2
       group by prod_id
-      Order by sum(quantity) desc
+      Order by sum(transaction_quantity) desc
       limit 5;
     `,
       [month, year]

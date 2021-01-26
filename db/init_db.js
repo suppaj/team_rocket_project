@@ -40,6 +40,7 @@ async function buildTables() {
     console.log("Starting to build tables!");
 
     await client.query(`
+
       CREATE TABLE type(
         type_id SERIAL PRIMARY KEY,
         name VARCHAR(255)
@@ -178,11 +179,14 @@ async function buildTables() {
             REFERENCES customers(cust_id)
         );
 
+      
+
         CREATE TABLE sales(
-          transaction_id SERIAL PRIMARY KEY,
-          transaction_date DATE NOT NULL,
-          prod_id INTEGER REFERENCES product(prod_id),
-          quantity INTEGER
+        transaction_id SERIAL PRIMARY KEY,
+        transaction_date DATE NOT NULL,
+        prod_id INTEGER REFERENCES product(prod_id)
+        transaction_quantity INTEGER not null
+      
         );
     `);
 

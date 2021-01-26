@@ -41,6 +41,7 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
@@ -63,11 +64,13 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
+
     setCart(user.cart);
   }, [user]);
 
   useEffect(() => {
       findCartCount();
+
   }, [cart]);
 
   useEffect(() => {
@@ -77,9 +80,11 @@ const App = () => {
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
+
       count += parseInt(item.cart_quantity);
       return item;
     });
+
     setCartCount(count);
   };
 
