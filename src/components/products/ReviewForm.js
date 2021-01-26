@@ -65,6 +65,7 @@ const ReviewForm = ({
     review_title: "",
     review_comment: "",
     cust_id: 0,
+    first_name: "",
   });
 
   function resetForm() {
@@ -75,6 +76,7 @@ const ReviewForm = ({
       review_title: "",
       review_comment: "",
       cust_id: 0,
+      first_name: "",
     });
   }
 
@@ -111,6 +113,7 @@ const ReviewForm = ({
               ...reviewInfo,
               review_comment: event.target.value,
               cust_id: user.custID,
+              first_name: user.firstName,
             });
           }}
         ></textarea>
@@ -119,9 +122,9 @@ const ReviewForm = ({
         type="button"
         id="review_submit-btn"
         className={`nes-btn ${
-          reviewInfo.rating != 0
-            ? reviewInfo.review_title != 0
-              ? reviewInfo.review_comment != 0
+          reviewInfo.rating !== 0
+            ? reviewInfo.review_title !== 0
+              ? reviewInfo.review_comment !== 0
                 ? "is-success"
                 : "is-disabled"
               : "is-disabled"
@@ -130,16 +133,17 @@ const ReviewForm = ({
         onClick={async (event) => {
           event.preventDefault();
           const newReview = await submitCustomerReview(reviewInfo);
+          newReview.first_name = user.firstName;
           let copy = [...currentReviews];
-          copy.unshift(reviewInfo);
+          copy.push(newReview);
           setCurrentReviews(copy);
           resetForm();
         }}
         // conditionally disables the button
         disabled={
-          reviewInfo.rating != 0
-            ? reviewInfo.review_title != 0
-              ? reviewInfo.review_comment != 0
+          reviewInfo.rating !== 0
+            ? reviewInfo.review_title !== 0
+              ? reviewInfo.review_comment !== 0
                 ? 0
                 : 1
               : 1

@@ -1,3 +1,44 @@
+const sampleReviews = [
+  {
+    prod_id: 1,
+    cust_id: 3,
+    rating: 4,
+    review_title: "He's pretty cool!",
+    review_comment: "I really like this pokemon! He's just so cute!",
+  },
+  {
+    prod_id: 1,
+    cust_id: 7,
+    rating: 5,
+    review_title: "Bulbasaur is #1",
+    review_comment:
+      "Actually my favorite pokemon ever. He's a cute frog with a plant on his back!",
+  },
+  {
+    prod_id: 2,
+    cust_id: 7,
+    rating: 1,
+    review_title: "I don't like him",
+    review_comment:
+      "Burn it! Burn it with fire! Wait a second....would that even work?",
+  },
+  {
+    prod_id: 3,
+    cust_id: 7,
+    rating: 4,
+    review_title: "Squad up!",
+    review_comment: "This would be a 5, but the sunglasses weren't included...",
+  },
+  {
+    prod_id: 52,
+    cust_id: 7,
+    rating: 5,
+    review_title: "Amaazing possibilites!",
+    review_comment:
+      "There are so many possibilities for evolution with Eeevee!",
+  },
+];
+
 const type = [
   { name: "normal" },
   { name: "fighting" },
@@ -545,4 +586,4 @@ const allPokes = [
   },
 ];
 
-module.exports = { type, allPokes };
+module.exports = { type, allPokes, sampleReviews };

@@ -39,12 +39,13 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
-  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('user')) || {cart: []});
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || { cart: [] }
+  );
   const [firstName, setFirstName] = useState("");
-  const [ cart, setCart ] = useState(user.cart);
-  const [ cartCount, setCartCount ] = useState(0)
-  
-  
+  const [cart, setCart] = useState(user.cart);
+  const [cartCount, setCartCount] = useState(0);
+
   useEffect(() => {
     getSomething()
       .then((response) => {
@@ -54,18 +55,18 @@ const App = () => {
         setMessage(error.message);
       });
     if (user.custID) {
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));;
-    setCart(user.cart)
-  },[user]);
+    localStorage.setItem("user", JSON.stringify(user));
+    setCart(user.cart);
+  }, [user]);
 
   useEffect(() => {
     if (cart.length) {
-    findCartCount();
+      findCartCount();
     }
   }, [cart]);
 
@@ -108,7 +109,6 @@ const App = () => {
               src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
               alt="Team Rocket Logo"
             />
-            
           </div>
           <ProductsReturn />
 
@@ -125,7 +125,13 @@ const App = () => {
               />
               <Register />
             </>
-          ) : <Logout setUser={setUser} setIsAdmin={setIsAdmin} setIsLoggedIn={setIsLoggedIn}/>}
+          ) : (
+            <Logout
+              setUser={setUser}
+              setIsAdmin={setIsAdmin}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          )}
 
           {isAdmin ? (
             <Link to="/admin">

@@ -105,7 +105,8 @@ async function getAllProducts() {
     const { rows: pokemon } = await client.query(
       `SELECT * FROM product WHERE is_active = true`
     );
-    const products = await _buildTypes(pokemon);
+    const addTypes = await _buildTypes(pokemon);
+    const products = await _buildFeaturedProducts(addTypes);
     return products;
   } catch (error) {
     throw error;
@@ -148,6 +149,24 @@ async function _buildTypes(array) {
     }
 
     return products;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function _buildFeaturedProducts(array) {
+  //todo find a way to grab last month based on current date!
+  const featuredProdArray = await db_getTopSalesDatabyMonth(12, 2020);
+  console.log("featuredProdArray:", featuredProdArray);
+  try {
+    for (let product of array) {
+      for (let index of featuredProdArray) {
+        if (index.prod_id === product.prod_id) {
+          product.is_featured = true;
+        }
+      }
+    }
+    return array;
   } catch (error) {
     throw error;
   }
@@ -381,7 +400,7 @@ async function db_getCustomerByEmail(cust_email) {
 async function db_getCustomerCart(cust_email) {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
-    const cart = await _getUserCart(customer.cust_id)
+    const cart = await _getUserCart(customer.cust_id);
 
     const {
       rows: [cartID],
@@ -394,7 +413,7 @@ async function db_getCustomerCart(cust_email) {
       [`${customer.cust_id}`]
     );
 
-    return { cartID :cartID.cart_id, cart }
+    return { cartID: cartID.cart_id, cart };
   } catch (error) {
     throw error;
   }
@@ -541,7 +560,9 @@ async function db_createProductReview(reviewObject) {
   } = reviewObject;
   console.log("Attempting to create a new review!");
   try {
-    const { rows: customer_review } = await client.query(
+    const {
+      rows: [customer_review],
+    } = await client.query(
       `
       INSERT INTO product_reviews(prod_id, cust_id, review_title, review_comment, rating)
       VALUES ($1, $2, $3, $4, $5)
@@ -555,6 +576,12 @@ async function db_createProductReview(reviewObject) {
       `Trouble creating a review for product ID ${prod_id} from customer ID ${cust_id}!`
     );
     throw error;
+  }
+}
+
+async function db_createSampleProductReviews(array) {
+  for (let entry of array) {
+    const review = await db_createProductReview(entry);
   }
 }
 
@@ -885,6 +912,7 @@ module.exports = {
   db_recordGuestOrder,
   db_getReviewsByProductId,
   db_createProductReview,
+  db_createSampleProductReviews,
   db_getOrderHistoryByCustomerId,
   db_getUserShipInfo,
   db_recordShipping,
