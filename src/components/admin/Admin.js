@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { getAllCustomers, getSalesData } from "../../api/index";
-import { Customer_admin, Metrics, Product_admin } from "./index";
+import { getAllCustomers, getSalesData, getAllProducts } from "../../api/index";
+import { Customer_admin, Metrics, Product_admin, Rejected } from "./index";
 
 const Admin = ({ isAdmin }) => {
   const handleCustomers = (response) => {
@@ -11,6 +11,10 @@ const Admin = ({ isAdmin }) => {
     window.localStorage.setItem("sales_array", JSON.stringify(response));
   };
 
+  const handleProducts = (response) => {
+    window.localStorage.setItem("prod_array", JSON.stringify(response));
+  };
+
   useEffect(() => {
     console.log("testing admin persist", isAdmin);
   }, [isAdmin]);
@@ -18,7 +22,6 @@ const Admin = ({ isAdmin }) => {
   useEffect(() => {
     getAllCustomers()
       .then((response) => {
-        console.log("these are all CUSTOMERS", response.customers);
         const customers = response.customers;
         if (customers) {
           handleCustomers(customers);
@@ -32,10 +35,18 @@ const Admin = ({ isAdmin }) => {
   useEffect(() => {
     getSalesData()
       .then((response) => {
-        console.log("on admin front page, this is the sales data", response);
-        console.log("sales array", response.sales);
         let sales = response.sales;
         handleSales(sales);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  });
+
+  useEffect(() => {
+    getAllProducts()
+      .then((response) => {
+        handleProducts(response);
       })
       .catch((error) => {
         throw error;
@@ -72,7 +83,7 @@ const Admin = ({ isAdmin }) => {
           </div>
         </div>
       ) : (
-        <div className="rejected-display">REJECTED</div>
+        <Rejected />
       )}
     </div>
   );

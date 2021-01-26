@@ -7,7 +7,7 @@ const Search = () => {
         <input
           type="text"
           id="name_field"
-          class="nes-input"
+          className="nes-input"
           onChange={(e) => {
             console.log(e.target.value);
           }}

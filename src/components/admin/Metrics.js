@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from "react";
 import pokeball from "./pokeball.png";
 import { Modal, Form, Button } from "react-bootstrap";
-import { Filter, Search } from "./index";
+import { Filter, Rejected } from "./index";
 import {
   getSalesData,
   getSalesDatabyProductID,
   getSalesDatabyMonth,
   getTopSalesDatabyMonth,
 } from "../../api/index";
+
+import {
+  getMonth,
+  filterSales,
+  filterSalesbyMonthAndYear,
+  handleSales,
+  handleRetrieveSales,
+  handleTotalSales,
+  handleRetrieveTotalSales,
+} from "./utils";
+
 const Metrics = ({ isAdmin }) => {
   const [show, setShow] = useState(false);
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
+  const [forecast, setForecast] = useState(null);
+  const [totalSales, setTotalSales] = useState(null);
   const [salesArr, setSalesArr] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
   const [topSalesArr, setTopSalesArr] = useState([]);
-  const [showMetrics, setShowMetrics] = useState(true);
+  const [showMetrics, setShowMetrics] = useState(false);
 
   const handleClose = () => setShowMetrics(false);
   const handleShow = () => {
     setShowMetrics(true);
     const sales = JSON.parse(window.localStorage.getItem("sales_array"));
     setSalesArr(sales);
+    const totalSales = filterSales(sales);
+
+    setTotalSales(totalSales);
   };
 
   useEffect(() => {
     if (month !== null && year !== null) {
       getTopSalesDatabyMonth(month, year)
         .then((response) => {
-          console.log("inside of getTopSales DATA", response.topMonthlySales);
           const topSales = response.topMonthlySales;
           setTopSalesArr(topSales);
         })
@@ -38,13 +53,29 @@ const Metrics = ({ isAdmin }) => {
 
       getSalesDatabyMonth(month, year)
         .then((response) => {
-          console.log("inside of GET SALES DATA BY MONTH", response);
+          const monthlySales = response.monthlySales;
+          handleSales(monthlySales);
+
+          setSalesArr(handleRetrieveSales);
         })
+
         .catch((error) => {
           throw error;
         });
+
+      setUpdateFilter(false);
     }
   }, [updateFilter]);
+
+  useEffect(() => {
+    setForecast(getMonth());
+  });
+
+  useEffect(() => {});
+
+  //   useEffect(() => {
+  //     setUpdateFilter(false);
+  //   }, [month, year]);
 
   return (
     <div id="metrics">
@@ -64,12 +95,17 @@ const Metrics = ({ isAdmin }) => {
                 <div id="metrics-pokedex-screen">
                   <div id="top-sales">Top Sales by Product </div>
                   <div id="trends">Monthly Trends</div>
-                  <div id="forecast">Forecasted Sales</div>
-                  <div id="total-sales">Sales Totals</div>
+                  <div id="forecast">
+                    <p>Forecasted Sales</p>
+                    {forecast ? <p>{forecast}</p> : null}
+                  </div>
+                  <div id="total-sales">
+                    <p>Sales Totals</p>
+                    {totalSales ? <p>₽{totalSales}K</p> : null}
+                  </div>
                   <div id="sales-list">
-                    Sales Data
+                    Filter Historical Sales Data
                     <div className="admin-filter">
-                      <Search />
                       <Filter
                         setMonth={setMonth}
                         setYear={setYear}
@@ -89,8 +125,6 @@ const Metrics = ({ isAdmin }) => {
                         </tr>
                         {salesArr
                           ? salesArr.map((sale, index) => {
-                              // console.log("I am the sale", index, sale);
-
                               const {
                                 prod_id,
                                 transaction_id,
@@ -106,7 +140,9 @@ const Metrics = ({ isAdmin }) => {
                                   <td>{transaction_date}</td>
                                   <td>{name}</td>
                                   <td>{transaction_quantity}</td>
-                                  <td>{price * transaction_quantity}</td>
+                                  <td>
+                                    {(price * transaction_quantity).toFixed(2)}
+                                  </td>
                                 </tr>
                               );
                             })
@@ -121,7 +157,7 @@ const Metrics = ({ isAdmin }) => {
           </div>
         </div>
       ) : (
-        <div className="rejected-display">REJECTED</div>
+        <Rejected />
       )}
     </div>
   );

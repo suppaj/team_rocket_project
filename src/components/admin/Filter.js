@@ -10,14 +10,7 @@ const Filter = ({ setMonth, setYear, setUpdateFilter, month, year }) => {
             required
             id="month-div"
             onChange={(event) => {
-              console.log(
-                "a change has been made ths is the month",
-                event.target.value
-              );
-
-              console.log(typeof event.target.value);
               setMonth(parseInt(event.target.value));
-              //     console.log(parseInt(event.target.value));
             }}
           >
             <option value="" disabled defaultValue hidden>
@@ -48,10 +41,9 @@ const Filter = ({ setMonth, setYear, setUpdateFilter, month, year }) => {
             id="year-select"
             onChange={(event) => {
               setYear(parseInt(event.target.value));
-              console.log("this is the year", event.target.value);
             }}
           >
-            <option value="" disabled selected hidden>
+            <option value="" disabled defaultValue hidden>
               Select year...
             </option>
             <option value="2021">2021</option>
@@ -65,7 +57,6 @@ const Filter = ({ setMonth, setYear, setUpdateFilter, month, year }) => {
         className="nes-btn is-primary"
         id="filter-button"
         onClick={() => {
-          console.log("I have been clicked");
           if (
             month === null ||
             year === null ||

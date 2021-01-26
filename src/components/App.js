@@ -36,6 +36,7 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || {}
   );

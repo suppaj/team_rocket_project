@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import masterball from "./masterball.png";
 import { Modal, Form, Button } from "react-bootstrap";
-import { Search } from "./index";
+import { Rejected } from "./index";
 import {
   getOrderHistoryByCustomerId,
   getOrderDetailsbyOrderId,
 } from "../../api/index";
 
 const Customer_admin = ({ isAdmin }) => {
-  const [show, setShow] = useState(false);
   const [customerArr, setCustomerArr] = useState([]);
   const [orderHistArr, setOrderHistArr] = useState([]);
   const [orderDetailsArr, setOrderDetailsArr] = useState([]);
@@ -24,13 +23,6 @@ const Customer_admin = ({ isAdmin }) => {
     const customers = JSON.parse(window.localStorage.getItem("customer_array"));
     setCustomerArr(customers);
   };
-
-  //   const handleClose = () => setShow(false);
-  //   const handleShow = () => {
-  //     setShow(true);
-  //     const customers = JSON.parse(window.localStorage.getItem("customer_array"));
-  //     setCustomerArr(customers);
-  //   };
 
   const handleHistoryRequest = () => {
     const history = JSON.parse(window.localStorage.getItem("order_history"));
@@ -203,7 +195,7 @@ const Customer_admin = ({ isAdmin }) => {
           </div>
         </div>
       ) : (
-        <div className="rejected-display">REJECTED</div>
+        <Rejected />
       )}
     </div>
   );

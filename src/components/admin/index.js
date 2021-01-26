@@ -4,3 +4,4 @@ export { default as Product_admin } from "./Product_admin";
 export { default as Access } from "./Access_admin";
 export { default as Filter } from "./Filter";
 export { default as Search } from "./Search";
+export { default as Rejected } from "./Rejected";

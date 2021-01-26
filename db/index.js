@@ -420,6 +420,7 @@ async function db_updateProduct(prod_id, fields = {}) {
     `,
       Object.values(fields)
     );
+    console.log("inside of update product this is the product");
     return product;
   } catch (error) {
     throw error;
