@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory} from 'react-router-dom'
+import { useHistory, useLocation} from 'react-router-dom'
 import { Modal, Form, Button } from "react-bootstrap";
 
 const Welcome = ({ welcomeShow, setWelcomeShow, firstName, setOuterShow }) => {
@@ -8,11 +8,14 @@ const Welcome = ({ welcomeShow, setWelcomeShow, firstName, setOuterShow }) => {
     setTimeout(welcomeHandleClose, 1500);
   };
  const history = useHistory();
+ const location = useLocation();
 
   return (
     <>
       <Modal show={welcomeShow} id='welcome-modal' onShow={welcomeHandleShow} onHide={welcomeHandleClose} onExited={()=> {
+        if ( location.pathname ==='/checkout/success') {
         history.push('/')
+        }
         setOuterShow(false)
       }} centered>
         <Modal.Body>
