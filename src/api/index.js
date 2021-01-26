@@ -246,3 +246,39 @@ export async function getUserOrderHistory(cust_id) {
     throw error
   }
 }
+
+export async function getUserProfile(cust_id) {
+  try {
+    const { data } = await axios.get(`/api/users/${cust_id}/profile`);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUserContact(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/contact`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUserShipping(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/shipping`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function updateUserBilling(user) {
+  try {
+    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/billing`, user);
+    return data
+  } catch (error) {
+    throw error
+  }
+}

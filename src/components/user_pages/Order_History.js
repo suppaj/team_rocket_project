@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Redirect, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 import { getUserOrderHistory } from '../../api';
 import { RollingBall, OrderTable, NotLoggedIn } from '../index';
 
-const Order_History = (props) => {
+const OrderHistory = (props) => {
 
     const { cust_id } = useParams();
 
@@ -18,7 +18,7 @@ const Order_History = (props) => {
     }    
 
     useEffect(()=>{
-        if (cust_id === JSON.parse(localStorage.getItem('user')).custID) {
+        if (cust_id == JSON.parse(localStorage.getItem('user')).custID) {
         setNotValid(false)
         fetchHistory();
         }
@@ -38,4 +38,4 @@ const Order_History = (props) => {
     )
 }
 
-export default Order_History
+export default OrderHistory

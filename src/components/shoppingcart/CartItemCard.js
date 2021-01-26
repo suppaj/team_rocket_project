@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 
-import { deleteCartItem, patchCartItem } from "../api";
+import { deleteCartItem, patchCartItem } from "../../api";
 
 const CartItemCard = ({
   order: product,
