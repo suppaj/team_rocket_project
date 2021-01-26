@@ -29,6 +29,8 @@ import {
   Logout,
   OrderHistory,
   UserProfile,
+  ProfileButton,
+  AccountPage,
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -43,7 +45,7 @@ const App = () => {
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
   const [firstName, setFirstName] = useState("");
-  const [cart, setCart] = useState(user.cart);
+  const [cart, setCart] = useState(user.cart || []);
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
@@ -65,9 +67,7 @@ const App = () => {
   }, [user]);
 
   useEffect(() => {
-    if (cart.length) {
       findCartCount();
-    }
   }, [cart]);
 
   useEffect(() => {
@@ -125,12 +125,14 @@ const App = () => {
               />
               <Register />
             </>
-          ) : (
+          ) : (<>
             <Logout
               setUser={setUser}
               setIsAdmin={setIsAdmin}
               setIsLoggedIn={setIsLoggedIn}
             />
+            <ProfileButton user={user}/>
+            </>
           )}
 
           {isAdmin ? (
@@ -213,6 +215,9 @@ const App = () => {
             </Route>
             <Route path="/users/:cust_id/history">
               <OrderHistory />
+            </Route>
+            <Route path ="/users/:cust_id/account">
+              <AccountPage />
             </Route>
           </Switch>
         </Row>

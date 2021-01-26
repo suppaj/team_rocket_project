@@ -30,3 +30,5 @@ export { default as UserProfile } from './user_pages/UserProfile';
 export { default as ContactProfile} from './user_pages/ContactProfile';
 export { default as ShippingProfile} from './user_pages/ShippingProfile';
 export { default as BillingProfile} from './user_pages/BillingProfile';
+export { default as ProfileButton } from './header/ProfileButton';
+export { default as AccountPage } from './user_pages/AccountPage';
