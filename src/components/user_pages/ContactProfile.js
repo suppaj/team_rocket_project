@@ -10,7 +10,7 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
         e.preventDefault();
         if ( user.first_name && user.last_name && user.cust_email) {
             let userUpdate = {...user}
-            if ( user.cust_email != master.cust_email) {
+            if ( user.cust_email !== master.cust_email) {
             userUpdate = {...user, emailChange : true }
             }
             document.getElementById('update-dialog').style.display='block';
@@ -27,10 +27,11 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
                 setEdit(false);
                 setMessage('Changes Saved');
             }
-        }
+        } else {
         setEdit(false);
         setMessage('Changes canceled, no fields can be blank')
-        setUserProfile({...master});
+        setUserProfile({...master}) 
+        }
 
     }
 
@@ -86,8 +87,9 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
                     } 
                     />
                 </div>
+                <br/>
                 <button type='submit' className='nes-btn is-success ' onClick={handleSave}>Save Changes</button>
-                
+                {' '}
                 <button type='button' className='nes-btn is-error ' onClick={handleCancel}>Cancel Changes</button>
             </div>
             :
