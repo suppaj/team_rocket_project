@@ -69,8 +69,7 @@ const App = () => {
   }, [user]);
 
   useEffect(() => {
-      findCartCount();
-
+    findCartCount();
   }, [cart]);
 
   useEffect(() => {
@@ -80,7 +79,6 @@ const App = () => {
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
-
       count += parseInt(item.cart_quantity);
       return item;
     });
@@ -130,13 +128,14 @@ const App = () => {
               />
               <Register />
             </>
-          ) : (<>
-            <Logout
-              setUser={setUser}
-              setIsAdmin={setIsAdmin}
-              setIsLoggedIn={setIsLoggedIn}
-            />
-            <ProfileButton user={user}/>
+          ) : (
+            <>
+              <Logout
+                setUser={setUser}
+                setIsAdmin={setIsAdmin}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+              <ProfileButton user={user} />
             </>
           )}
 
@@ -221,7 +220,7 @@ const App = () => {
             <Route path="/users/:cust_id/history">
               <OrderHistory />
             </Route>
-            <Route path ="/users/:cust_id/account">
+            <Route path="/users/:cust_id/account">
               <AccountPage />
             </Route>
           </Switch>

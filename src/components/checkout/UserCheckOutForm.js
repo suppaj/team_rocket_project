@@ -1,34 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
   useStripe,
   useElements,
-} from '@stripe/react-stripe-js';
-import { useHistory } from 'react-router-dom';
-import { postPaymentIntent, getUserShipInfo, recordShipandBill, recordUserOrder, clearUserCart } from '../../api';
-import RollingBall from '../RollingBall';
-import CheckOutForm from './CheckOutForm';
+} from "@stripe/react-stripe-js";
+import { useHistory } from "react-router-dom";
+import {
+  postPaymentIntent,
+  getUserShipInfo,
+  recordShipandBill,
+  recordUserOrder,
+  clearUserCart,
+} from "../../api";
+import RollingBall from "../RollingBall";
+import CheckOutForm from "./CheckOutForm";
 
-const UserCheckOutForm = ({
-  cart,
-  user,
-  setUser
-}) => {
+const UserCheckOutForm = ({ cart, user, setUser }) => {
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
 
   const [firstOrder, setFirstOrder] = useState(true);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const [shipInfo, setshipInfo] = useState({
-    add1: '',
-    add2: '',
-    city: '',
-    state: '',
-    zipcode: '',
+    add1: "",
+    add2: "",
+    city: "",
+    state: "",
+    zipcode: "",
   });
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const UserCheckOutForm = ({
       if (results.cust_id) {
         setshipInfo(results);
         setFirstOrder(false);
-        console.log('results', results);
+        console.log("results", results);
       }
     }
     fetchData();
@@ -54,21 +56,21 @@ const UserCheckOutForm = ({
   const CARD_OPTIONS = {
     style: {
       base: {
-        backgroundColor: 'white',
-        color: 'black',
-        iconColor: 'black',
-        fontSize: '24px',
+        backgroundColor: "white",
+        color: "black",
+        iconColor: "black",
+        fontSize: "24px",
       },
       invalid: {
-        color: 'red',
-        iconColor: 'red',
+        color: "red",
+        iconColor: "red",
       },
     },
   };
 
   const handlePayment = async (e, formInfo) => {
     e.preventDefault();
-    document.getElementById('process-dialog').showModal();
+    document.getElementById("process-dialog").showModal();
     try {
       const { clientSecret } = await postPaymentIntent(cart);
       const result = await stripe.confirmCardPayment(clientSecret, {
@@ -79,31 +81,31 @@ const UserCheckOutForm = ({
           },
         },
       });
-      document.getElementById('process-dialog').style.display = 'none';
+      document.getElementById("process-dialog").style.display = "none";
       if (result.error) {
         setMessage(result.error.message);
       } else if (firstOrder) {
         await recordShipandBill(formInfo, user.custID);
         await recordUserOrder(user.custID, cart);
-        await clearUserCart(user.cartID)
-        localStorage.setItem('user', JSON.stringify({...user, cart : []}));
-        setUser({...user, cart : []})
+        await clearUserCart(user.cartID);
+        localStorage.setItem("user", JSON.stringify({ ...user, cart: [] }));
+        setUser({ ...user, cart: [] });
         history.push({
-          pathname: '/checkout/success',
+          pathname: "/checkout/success",
           state: { formInfo },
         });
       } else {
         await recordUserOrder(user.custID, cart);
-        await clearUserCart(user.cartID)
-        localStorage.setItem('user', JSON.stringify({...user, cart : []}));
-        setUser({...user, cart : []});
+        await clearUserCart(user.cartID);
+        localStorage.setItem("user", JSON.stringify({ ...user, cart: [] }));
+        setUser({ ...user, cart: [] });
         history.push({
-          pathname: '/checkout/success',
-          state: { message : 'Thank you for your order'}
+          pathname: "/checkout/success",
+          state: { message: "Thank you for your order" },
         });
       }
     } catch (error) {
-      document.getElementById('process-dialog').style.display = 'none';
+      document.getElementById("process-dialog").style.display = "none";
       setMessage(error);
       throw error;
     }
@@ -120,9 +122,9 @@ const UserCheckOutForm = ({
           message={message}
         />
       ) : (
-        <div className='nes-container'>
+        <div className="nes-container">
           <p>
-            To change shipping information, go to your profile settings{' '}
+            To change shipping information, go to your profile settings{" "}
             <a href={`/users/${user.custID}/account`}>here.</a>
           </p>
           <p>Ship to:</p>
@@ -133,7 +135,7 @@ const UserCheckOutForm = ({
           </p>
           <br />
           <p>Payment Information</p>
-          <div id='cc-info-box'>
+          <div id="cc-info-box">
             Card Number
             <CardNumberElement options={CARD_OPTIONS} />
             Expiration Date
@@ -142,8 +144,8 @@ const UserCheckOutForm = ({
             <CardCvcElement options={CARD_OPTIONS} />
           </div>
           <button
-            className='nes-btn is-primary'
-            style={{ fontSize: '1.5rem', width: '100%' }}
+            className="nes-btn is-primary"
+            style={{ fontSize: "1.5rem", width: "100%" }}
             onClick={handlePayment}
           >
             PAY ${getSubTotal().toFixed(2)}
@@ -154,7 +156,7 @@ const UserCheckOutForm = ({
         </div>
       )}
       {/* modal */}
-      <dialog className='nes-dialog' id='process-dialog'>
+      <dialog className="nes-dialog" id="process-dialog">
         <p>PROCESSING PAYMENT</p>
         <RollingBall />
       </dialog>

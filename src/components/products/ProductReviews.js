@@ -35,6 +35,7 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
                 className={`nes-balloon from${
                   index % 2 === 0 ? "-left" : "-right"
                 }`}
+                style={{ minWidth: "100%" }}
               >
                 <div className="review-title">
                   <div

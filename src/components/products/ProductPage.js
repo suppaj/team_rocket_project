@@ -114,7 +114,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
               style={{
                 height: "300px",
                 width: "300px",
-                marginTop: "-60px",
+                marginTop: "-50px",
                 marginLeft: "-50px",
                 marginRight: "-50px",
                 float: "top",
@@ -124,7 +124,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
             />
             <p
               style={{
-                marginTop: "-50px",
+                marginTop: "-30px",
                 fontSize: "1.5rem",
               }}
             >
@@ -155,6 +155,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
               </div>
               <p>Height: {height / 10}m</p>
               <p>Weight: {weight / 10}kg</p>
+              <p>{quantity} available</p>
               <p style={{ fontSize: "1.6rem" }}>${price}</p>
             </div>
           </div>
