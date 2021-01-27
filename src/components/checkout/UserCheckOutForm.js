@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -12,25 +12,21 @@ import { postPaymentIntent, getUserShipInfo, recordShipandBill, recordUserOrder,
 import RollingBall from '../RollingBall';
 import CheckOutForm from './CheckOutForm';
 
-const UserCheckOutForm = ({
-  cart,
-  user,
-  setUser
-}) => {
+const UserCheckOutForm = ({ cart, user, setUser }) => {
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
 
   const [ show, setShow ] = useState(false);
   const [firstOrder, setFirstOrder] = useState(true);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const [shipInfo, setshipInfo] = useState({
-    add1: '',
-    add2: '',
-    city: '',
-    state: '',
-    zipcode: '',
+    add1: "",
+    add2: "",
+    city: "",
+    state: "",
+    zipcode: "",
   });
 
   useEffect(() => {
@@ -39,7 +35,7 @@ const UserCheckOutForm = ({
       if (results.cust_id) {
         setshipInfo(results);
         setFirstOrder(false);
-        console.log('results', results);
+        console.log("results", results);
       }
     }
     fetchData();
@@ -56,14 +52,14 @@ const UserCheckOutForm = ({
   const CARD_OPTIONS = {
     style: {
       base: {
-        backgroundColor: 'white',
-        color: 'black',
-        iconColor: 'black',
-        fontSize: '24px',
+        backgroundColor: "white",
+        color: "black",
+        iconColor: "black",
+        fontSize: "24px",
       },
       invalid: {
-        color: 'red',
-        iconColor: 'red',
+        color: "red",
+        iconColor: "red",
       },
     },
   };
@@ -87,21 +83,21 @@ const UserCheckOutForm = ({
       } else if (firstOrder) {
         await recordShipandBill(formInfo, user.custID);
         await recordUserOrder(user.custID, cart);
-        await clearUserCart(user.cartID)
-        localStorage.setItem('user', JSON.stringify({...user, cart : []}));
-        setUser({...user, cart : []})
+        await clearUserCart(user.cartID);
+        localStorage.setItem("user", JSON.stringify({ ...user, cart: [] }));
+        setUser({ ...user, cart: [] });
         history.push({
           pathname: '/checkout/success',
           state: { message : 'Thank you for your order' },
         });
       } else {
         await recordUserOrder(user.custID, cart);
-        await clearUserCart(user.cartID)
-        localStorage.setItem('user', JSON.stringify({...user, cart : []}));
-        setUser({...user, cart : []});
+        await clearUserCart(user.cartID);
+        localStorage.setItem("user", JSON.stringify({ ...user, cart: [] }));
+        setUser({ ...user, cart: [] });
         history.push({
-          pathname: '/checkout/success',
-          state: { message : 'Thank you for your order'}
+          pathname: "/checkout/success",
+          state: { message: "Thank you for your order" },
         });
       }
     } catch (error) {
@@ -122,9 +118,9 @@ const UserCheckOutForm = ({
           message={message}
         />
       ) : (
-        <div className='nes-container'>
+        <div className="nes-container">
           <p>
-            To change shipping information, go to your profile settings{' '}
+            To change shipping information, go to your profile settings{" "}
             <a href={`/users/${user.custID}/account`}>here.</a>
           </p>
           <p>Ship to:</p>
@@ -136,7 +132,7 @@ const UserCheckOutForm = ({
           </p>
           <br />
           <p>Payment Information</p>
-          <div id='cc-info-box'>
+          <div id="cc-info-box">
             Card Number
             <CardNumberElement options={CARD_OPTIONS} />
             Expiration Date
@@ -145,8 +141,8 @@ const UserCheckOutForm = ({
             <CardCvcElement options={CARD_OPTIONS} />
           </div>
           <button
-            className='nes-btn is-primary'
-            style={{ fontSize: '1.5rem', width: '100%' }}
+            className="nes-btn is-primary"
+            style={{ fontSize: "1.5rem", width: "100%" }}
             onClick={handlePayment}
           >
             PAY ${getSubTotal().toFixed(2)}

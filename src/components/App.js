@@ -41,6 +41,7 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(
     localStorage.getItem("admin") || false
   );
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
@@ -63,11 +64,12 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
+
     setCart(user.cart);
   }, [user]);
 
   useEffect(() => {
-      findCartCount();
+    findCartCount();
   }, [cart]);
 
   useEffect(() => {
@@ -80,6 +82,7 @@ const App = () => {
       count += parseInt(item.cart_quantity);
       return item;
     });
+
     setCartCount(count);
   };
 
@@ -125,13 +128,14 @@ const App = () => {
               />
               <Register />
             </>
-          ) : (<>
-            <Logout
-              setUser={setUser}
-              setIsAdmin={setIsAdmin}
-              setIsLoggedIn={setIsLoggedIn}
-            />
-            <ProfileButton user={user}/>
+          ) : (
+            <>
+              <Logout
+                setUser={setUser}
+                setIsAdmin={setIsAdmin}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+              <ProfileButton user={user} />
             </>
           )}
 
@@ -216,7 +220,7 @@ const App = () => {
             <Route path="/users/:cust_id/history">
               <OrderHistory />
             </Route>
-            <Route path ="/users/:cust_id/account">
+            <Route path="/users/:cust_id/account">
               <AccountPage />
             </Route>
           </Switch>

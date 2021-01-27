@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { getAllCustomers } from "../../api/index";
-import { Customer_admin, Metrics, Product_admin } from "./index";
-import { Navbar, NavDropdown, Button } from "react-bootstrap";
-const Admin = ({ isAdmin }) => {
-  //   const [customerArr, setCustomerArr] = useState();
+import { getAllCustomers, getSalesData, getAllProducts } from "../../api/index";
+import { Customer_admin, Metrics, Product_admin, Rejected } from "./index";
 
+const Admin = ({ isAdmin }) => {
   const handleCustomers = (response) => {
     window.localStorage.setItem("customer_array", JSON.stringify(response));
   };
+  const handleSales = (response) => {
+    window.localStorage.setItem("sales_array", JSON.stringify(response));
+  };
 
-  //   const retrieveCustomers = () => {
-  //     const customers = JSON.parse(window.localStorage.getItem("customer_array"));
-  //     console.log("inside of retrieve customers, this is customers", customers);
-  //     setCustomerArr(customers);
-  //   };
+  const handleProducts = (response) => {
+    window.localStorage.setItem("prod_array", JSON.stringify(response));
+  };
 
   useEffect(() => {
     console.log("testing admin persist", isAdmin);
@@ -23,18 +22,36 @@ const Admin = ({ isAdmin }) => {
   useEffect(() => {
     getAllCustomers()
       .then((response) => {
-        console.log("these are all users", response.customers);
         const customers = response.customers;
         if (customers) {
-          // setCustomerArr(response.customers);
           handleCustomers(customers);
-          // retrieveCustomers();
         }
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    getSalesData()
+      .then((response) => {
+        let sales = response.sales;
+        handleSales(sales);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  });
+
+  useEffect(() => {
+    getAllProducts()
+      .then((response) => {
+        handleProducts(response);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  });
 
   return (
     <div id="admin">
@@ -66,7 +83,7 @@ const Admin = ({ isAdmin }) => {
           </div>
         </div>
       ) : (
-        <div className="rejected-display">REJECTED</div>
+        <Rejected />
       )}
     </div>
   );

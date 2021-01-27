@@ -3,11 +3,14 @@ const apiRouter = express.Router();
 
 const {
   db_getAllCustomers,
-  db_deleteRelationProductById,
   db_getCustomerById,
   db_getCustomerByEmail,
   db_getOrderHistoryByCustomerId,
   db_getOrderDetailsbyOrderId,
+  db_getSalesData,
+  db_getSalesDatabyProductID,
+  db_getSalesDatabyMonth,
+  db_getTopSalesDatabyMonth,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -62,4 +65,58 @@ apiRouter.get("/view_customers", async (req, res) => {
     throw error;
   }
 });
+
+apiRouter.get("/view_sales", async (req, res) => {
+  try {
+    const sales = await db_getSalesData();
+    res.send({ sales });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/product_sales/:prodID", async (req, res) => {
+  const { prodID } = req.params;
+
+  try {
+    const productSales = await db_getSalesDatabyProductID(prodID);
+    res.send({ productSales });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/product_sales/:month/:year", async (req, res) => {
+  const { month, year } = req.params;
+
+  try {
+    const monthlySales = await db_getSalesDatabyMonth(month, year);
+    res.send({ monthlySales });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/product_sales/:month/:year", async (req, res) => {
+  const { month, year } = req.params;
+
+  try {
+    const monthlySales = await db_getSalesDatabyMonth(month, year);
+    res.send({ monthlySales });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/top_sales/:month/:year", async (req, res) => {
+  const { month, year } = req.params;
+
+  try {
+    const topMonthlySales = await db_getTopSalesDatabyMonth(month, year);
+    res.send({ topMonthlySales });
+  } catch (error) {
+    throw error;
+  }
+});
+
 module.exports = apiRouter;

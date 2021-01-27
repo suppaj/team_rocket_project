@@ -238,6 +238,49 @@ export async function submitCustomerReview(reviewObject) {
   }
 }
 
+
+export async function getTopSalesDatabyMonth(month, year) {
+  try {
+    const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSalesDatabyMonth(month, year) {
+  try {
+    const { data } = await axios.get(
+      `api/admin/product_sales/${month}/${year}`
+    );
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSalesDatabyProductID(prodID) {
+  try {
+    const { data } = await axios.get(`api/admin/product_sales/${prodID}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSalesData() {
+  try {
+    const { data } = await axios.get(`/api/admin/view_sales`);
+    console.log("sales data", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getUserOrderHistory(cust_id) {
   try {
     const { data : order_history } = await axios.get(`/api/users/${cust_id}/history`);
@@ -283,3 +326,4 @@ export async function updateUserBilling(user) {
     throw error
   }
 }
+
