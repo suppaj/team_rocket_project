@@ -506,6 +506,11 @@ async function db_addOrderItems(cart, order_id) {
     for (let item of cart) {
       const price = await db_getItemPrice(item.prod_id);
       valueArray.push(item.prod_id, item.cart_quantity, price);
+      await client.query(`
+        UPDATE product
+          SET quantity = product.quantity - $1
+          WHERE prod_id=$2;
+      `,[item.cart_quantity, item.prod_id]);
     }
     await client.query(
       `
