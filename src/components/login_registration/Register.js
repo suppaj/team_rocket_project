@@ -68,7 +68,7 @@ const Register = () => {
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="lastname_field"
                   className="nes-input"
                   type="text"
                   placeholder="Last Name"
@@ -84,7 +84,7 @@ const Register = () => {
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="email_field"
                   className="nes-input"
                   type="text"
                   placeholder="Email"
@@ -100,7 +100,7 @@ const Register = () => {
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="password_field"
                   className="nes-input"
                   type="password"
                   placeholder="Password"
