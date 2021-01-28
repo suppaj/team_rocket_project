@@ -4,13 +4,22 @@ import { calcOrderTotal } from '../../api/utils';
 
 const OrderTable = ({order}) => {
 
+    const dateFormat =(date) => {
+        const DD = new Date(date).getDate();
+        const MM = new Date(date).getMonth();
+        const YYYY = new Date(date).getFullYear();
+        const hh = new Date(date).getHours();
+        const mm = new Date(date).getMinutes();
+        return `${MM + 1}/${DD}/${YYYY}  ${hh}:${mm}`
+    }
+
 
     return (
         <>
         <table className='nes-table is-bordered is-centered mx-auto' >
             <thead>
                 <tr>
-                    <td colSpan='5'>{order.date}</td>
+                    <td colSpan='5'>Order Date: {dateFormat(order.date)}</td>
                 </tr>
                 <tr className='text-center'>
                     <td></td>
