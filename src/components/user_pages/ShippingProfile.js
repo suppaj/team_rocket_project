@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Modal } from 'react-bootstrap';
 import { updateUserShipping } from '../../api';
 import { RollingBall } from '../index';
 import { statesOptions } from '../checkout/utilities';
@@ -6,19 +7,20 @@ import { statesOptions } from '../checkout/utilities';
 const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}) => {
 
     const [ message, setMessage ] = useState('');
+    const [ show, setShow ] = useState(false);
 
     const handleSave = async (e) => {
         e.preventDefault();
+        
         if (user.ship_add1 && user.ship_city && user.ship_state &&  user.ship_zipcode) {
-         
-            document.getElementById('update-dialog').style.display='block';
-            const results = await updateUserShipping(user);
-            document.getElementById('update-dialog').style.display = 'none';
-            setMaster({...master, ...results});
-            setUserProfile({...master, ...results})
-            setEdit(false);
-            setMessage('Changes Saved');
-            return
+        setShow(true);
+        const results = await updateUserShipping(user);
+        setShow(false);
+        setMaster({...master, ...results});
+        setUserProfile({...master, ...results})
+        setEdit(false);
+        setMessage('Changes Saved');
+        return
         }
         setEdit(false);
         return;
@@ -129,12 +131,12 @@ const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit
                 <button type='button' className='nes-btn'onClick={()=>{setEdit(true); setMessage('')}}>Edit</button>
             </div>}
             {/* modal */}
-            <dialog className='nes-dialog' id='update-dialog'>
-                <p>Updating Profile</p>
-                <div>
-                <RollingBall />
-                </div>
-            </dialog>
+            <Modal className='nes-dialog' show={show} backdrop='static' centered keyboard='false' size='xl'>
+                <Modal.Body>
+                    <p>Updating Profile</p>
+                    <RollingBall />
+                </Modal.Body>
+            </Modal>
         </div>
     )
 };

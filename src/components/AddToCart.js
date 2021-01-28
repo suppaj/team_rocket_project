@@ -1,11 +1,13 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+
+import React, { useState }from "react";
+import { Button, Modal } from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
 
 import { addCartItem, patchCartItem } from "../api";
 
 const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUser }) => {
 
+  const [ show, setShow ] = useState(false);
   const history = useHistory();
 
   const handleAddToCart = async () => {
@@ -52,12 +54,25 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
       localStorage.setItem("user", JSON.stringify({...user, cart: currCart}));
       setUser({...user, cart: currCart}); 
     }
-    document.getElementById("add-cart-dialog").showModal();
+    setShow(true)
   };
 
   const handleGoToCheckout = () => {
+    setShow(false);
     history.push('/checkout');
   };
+
+  const imageLoop = (n) => {
+      if (n >6 ) {
+        n = 6
+      }
+      if (n === 1) {
+        return <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}/>
+      }
+    
+      return (<><img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`} />  {imageLoop(n-1)} </>)
+    
+  }
 
   return (
     <>
@@ -80,25 +95,25 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
         <span>Add to Cart</span>
       </Button>
 
-      <dialog className="new-dialog" id="add-cart-dialog">
-        <form method="dialog">
-          <p className="title">Added To Cart</p>
-          <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
-          />
-          <p>
-            {orderAmount} {product.name.toUpperCase()}(s) has been added to your
-            cart.
-          </p>
-          <menu className="dialog-menu">
-            <button className="nes-btn is-success">Continue Shopping</button>
-            {"  "}
-            <button className="nes-btn is-primary" onClick={handleGoToCheckout}>
-              Checkout
-            </button>
-          </menu>
-        </form>
-      </dialog>
+      <Modal className="nes-dialog" centered size='lg' show={show} onHide={()=>setShow(false)} >
+        <Modal.Body >
+          <form method="dialog">
+            <p className="text-center">Added To Cart</p>
+            <div className='d-flex justify-content-center'>
+              {imageLoop(orderAmount)}              
+            </div>
+            <p className='text-center'>
+              {orderAmount} {product.name.toUpperCase()}(s) has been added to your
+              cart.
+            </p>
+            <div className='d-flex justify-content-around'>
+              <button className="nes-btn is-success" onClick={()=>setShow(false)}>Continue Shopping</button>
+              {"  "}
+              <button className="nes-btn is-primary" onClick={handleGoToCheckout}>Checkout</button>
+            </div> 
+          </form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
