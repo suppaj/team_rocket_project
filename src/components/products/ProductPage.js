@@ -173,7 +173,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
             <ButtonGroup style={{ placeSelf: "center", marginTop: "25px" }}>
               <div className='nes-field is-inline'>
                 <label htmlFor='order-amount'>Quantity:</label>
-                <input type='number' id='order-amount' className='nes-input is-success' value={orderAmount} min={1} max={maxQuantity} onChange={(e)=>setOrderAmount(parseInt(e.target.value))} />
+                <input type='number' id='order-amount' className='nes-input' value={orderAmount} min={1} max={maxQuantity} onChange={(e)=>setOrderAmount(parseInt(e.target.value))} />
               </div>
               <AddToCart
                 product={currentPoke}

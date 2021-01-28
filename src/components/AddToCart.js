@@ -80,10 +80,10 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
 
   return (
     <>
-      <Button
-        variant="dark"
-        style={{ borderRadius: "5px" }}
+      <button
         onClick={handleAddToCart}
+        className='nes-btn is-success'
+        style={{marginLeft: '10px'}}
       >
         <img
           style={{
@@ -97,7 +97,7 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
           }
         />
         <span>Add to Cart</span>
-      </Button>
+      </button>
 
       <Modal className="nes-dialog" centered size='lg' show={show} onHide={()=>setShow(false)} >
         <Modal.Body >
