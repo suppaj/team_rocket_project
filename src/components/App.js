@@ -16,21 +16,18 @@ import {
 import { getSomething, getAllProducts, getAllTypes } from "../api";
 
 import {
-  CartButton,
+  
   Products,
   ProductPage,
   ProductsReturn,
   ShoppingCart,
-  Login,
-  Register,
   CheckoutPage,
   SuccessPage,
   Admin,
-  Logout,
   OrderHistory,
   UserProfile,
-  ProfileButton,
   AccountPage,
+  Header,
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -92,61 +89,17 @@ const App = () => {
             width: "100vw",
           }}
         >
-          <div
-            className="nes-container is-rounded"
-            style={{
-              backgroundColor: "#E7E7E7",
-              padding: "5px 5px 5px 5px",
-              position: "absolute",
-              left: "5px",
-              top: "5px",
-            }}
-          >
-            <img
-              style={{ alignSelf: "left", height: "70px", width: "70px" }}
-              src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
-              alt="Team Rocket Logo"
-            />
-          </div>
-          <ProductsReturn />
-
-          <div className={isLoggedIn === false ? "show-login" : "hide-login"}>
-            <Login
-              setIsLoggedIn={setIsLoggedIn}
+          <Header setIsLoggedIn={setIsLoggedIn}
               setIsAdmin={setIsAdmin}
               setFirstName={setFirstName}
               firstName={firstName}
               setUser={setUser}
               cart={cart}
               setCart={setCart}
-            />
-            <Register />
-          </div>
-
-          <div className={isLoggedIn ? "show-logout" : "hide-logout"}>
-            <>
-              <Logout
-                setUser={setUser}
-                setIsAdmin={setIsAdmin}
-                setIsLoggedIn={setIsLoggedIn}
-              />
-              <ProfileButton user={user} />
-            </>
-          </div>
-
-          <div
-            className={
-              isAdmin !== null && isLoggedIn === true
-                ? "show-admin"
-                : "hide-admin"
-            }
-          >
-            <Link to="/admin">
-              <Access isAdmin={isAdmin} />
-            </Link>
-          </div>
-
-          <CartButton cart={cart} cartCount={cartCount} />
+              isAdmin={isAdmin}
+              isLoggedIn={isLoggedIn}
+              cartCount={cartCount}
+              user={user}/>
         </Row>
         <Row
           className="bg-success "
