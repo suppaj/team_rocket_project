@@ -37,11 +37,10 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(
-    localStorage.getItem("admin") || false
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    JSON.parse(localStorage.getItem("logged-in")) || false
   );
-
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
@@ -71,10 +70,6 @@ const App = () => {
   useEffect(() => {
     findCartCount();
   }, [cart]);
-
-  useEffect(() => {
-    console.log("testing admin persist", isAdmin);
-  }, [isAdmin]);
 
   const findCartCount = async () => {
     let count = 0;
@@ -115,20 +110,20 @@ const App = () => {
           </div>
           <ProductsReturn />
 
-          {!isLoggedIn ? (
-            <>
-              <Login
-                setIsLoggedIn={setIsLoggedIn}
-                setIsAdmin={setIsAdmin}
-                setFirstName={setFirstName}
-                firstName={firstName}
-                setUser={setUser}
-                cart={cart}
-                setCart={setCart}
-              />
-              <Register />
-            </>
-          ) : (
+          <div className={isLoggedIn === false ? "show-login" : "hide-login"}>
+            <Login
+              setIsLoggedIn={setIsLoggedIn}
+              setIsAdmin={setIsAdmin}
+              setFirstName={setFirstName}
+              firstName={firstName}
+              setUser={setUser}
+              cart={cart}
+              setCart={setCart}
+            />
+            <Register />
+          </div>
+
+          <div className={isLoggedIn ? "show-logout" : "hide-logout"}>
             <>
               <Logout
                 setUser={setUser}
@@ -137,13 +132,19 @@ const App = () => {
               />
               <ProfileButton user={user} />
             </>
-          )}
+          </div>
 
-          {isAdmin ? (
+          <div
+            className={
+              isAdmin !== null && isLoggedIn === true
+                ? "show-admin"
+                : "hide-admin"
+            }
+          >
             <Link to="/admin">
               <Access isAdmin={isAdmin} />
             </Link>
-          ) : null}
+          </div>
 
           <CartButton cart={cart} cartCount={cartCount} />
         </Row>

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { getAllCustomers, getSalesData, getAllProducts } from "../../api/index";
+import {
+  getAllCustomers,
+  getSalesData,
+  adminGetAllProducts,
+} from "../../api/index";
 import { Customer_admin, Metrics, Product_admin, Rejected } from "./index";
 
 const Admin = ({ isAdmin }) => {
@@ -20,37 +24,44 @@ const Admin = ({ isAdmin }) => {
   }, [isAdmin]);
 
   useEffect(() => {
-    getAllCustomers()
-      .then((response) => {
-        const customers = response.customers;
-        if (customers) {
-          handleCustomers(customers);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (isAdmin) {
+      getAllCustomers()
+        .then((response) => {
+          const customers = response.customers;
+          if (customers) {
+            handleCustomers(customers);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, []);
 
   useEffect(() => {
-    getSalesData()
-      .then((response) => {
-        let sales = response.sales;
-        handleSales(sales);
-      })
-      .catch((error) => {
-        throw error;
-      });
+    if (isAdmin) {
+      getSalesData()
+        .then((response) => {
+          let sales = response.sales;
+          handleSales(sales);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    }
   });
 
   useEffect(() => {
-    getAllProducts()
-      .then((response) => {
-        handleProducts(response);
-      })
-      .catch((error) => {
-        throw error;
-      });
+    if (isAdmin) {
+      adminGetAllProducts()
+        .then((response) => {
+          console.log("this is the response", response);
+          handleProducts(response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    }
   });
 
   return (
