@@ -36,7 +36,8 @@ const Login = ({
   };
 
   const setLoginData = () => {
-    window.localStorage.setItem("logged-in", JSON.stringify(true));
+    // window.localStorage.setItem("logged-in", JSON.stringify(true));
+    setIsLoggedIn(true);
   };
 
   const handleLoginRequest = () => {
