@@ -115,6 +115,17 @@ async function getAllProducts() {
   }
 }
 
+async function db_getAllProductsAdmin() {
+  try {
+    const { rows: pokemon } = await client.query(`SELECT * FROM product`);
+    const addTypes = await _buildTypes(pokemon);
+    const products = await _buildFeaturedProducts(addTypes);
+    return products;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function getProductById(id) {
   try {
     const { rows: pokemon } = await client.query(
@@ -985,4 +996,5 @@ module.exports = {
   db_updateUserContact,
   db_updateUserShipping,
   db_updateUserBilling,
+  db_getAllProductsAdmin,
 };

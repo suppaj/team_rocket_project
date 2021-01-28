@@ -11,6 +11,7 @@ const {
   db_getSalesDatabyProductID,
   db_getSalesDatabyMonth,
   db_getTopSalesDatabyMonth,
+  db_getAllProductsAdmin,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -61,6 +62,15 @@ apiRouter.get("/view_customers", async (req, res) => {
   try {
     const customers = await db_getAllCustomers();
     res.send({ customers });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/view_products", async (req, res) => {
+  try {
+    const products = await db_getAllProductsAdmin();
+    res.send({ products });
   } catch (error) {
     throw error;
   }

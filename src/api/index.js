@@ -19,6 +19,15 @@ export async function getAllProducts() {
   }
 }
 
+export async function adminGetAllProducts() {
+  try {
+    const { data } = await axios.get("/api/admin/view_products");
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getAllTypes() {
   try {
     const { data } = await axios.get("/api/products/types");
@@ -238,7 +247,6 @@ export async function submitCustomerReview(reviewObject) {
   }
 }
 
-
 export async function getTopSalesDatabyMonth(month, year) {
   try {
     const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
@@ -283,47 +291,57 @@ export async function getSalesData() {
 
 export async function getUserOrderHistory(cust_id) {
   try {
-    const { data : order_history } = await axios.get(`/api/users/${cust_id}/history`);
-    console.log('order history', order_history)
+    const { data: order_history } = await axios.get(
+      `/api/users/${cust_id}/history`
+    );
+    console.log("order history", order_history);
     return order_history;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 export async function getUserProfile(cust_id) {
   try {
     const { data } = await axios.get(`/api/users/${cust_id}/profile`);
-    return data
+    return data;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 export async function updateUserContact(user) {
   try {
-    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/contact`, user);
-    return data
+    const { data } = await axios.patch(
+      `/api/users/${user.cust_id}/update/contact`,
+      user
+    );
+    return data;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 export async function updateUserShipping(user) {
   try {
-    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/shipping`, user);
-    return data
+    const { data } = await axios.patch(
+      `/api/users/${user.cust_id}/update/shipping`,
+      user
+    );
+    return data;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
 export async function updateUserBilling(user) {
   try {
-    const { data } = await axios.patch(`/api/users/${user.cust_id}/update/billing`, user);
-    return data
+    const { data } = await axios.patch(
+      `/api/users/${user.cust_id}/update/billing`,
+      user
+    );
+    return data;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
-
