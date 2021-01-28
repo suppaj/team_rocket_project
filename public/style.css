@@ -466,3 +466,18 @@ th {
 .rej-img {
   height: 180px;
 }
+
+.show-login,
+.show-logout {
+  display: flex;
+}
+
+.show-admin {
+  display: inline-block;
+}
+
+.hide-login,
+.hide-admin,
+.hide-logout {
+  display: none;
+}

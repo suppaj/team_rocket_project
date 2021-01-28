@@ -5,23 +5,19 @@ import {
   CardCvcElement,
   useStripe,
   useElements,
-} from "@stripe/react-stripe-js";
-import { useHistory } from "react-router-dom";
-import {
-  postPaymentIntent,
-  getUserShipInfo,
-  recordShipandBill,
-  recordUserOrder,
-  clearUserCart,
-} from "../../api";
-import RollingBall from "../RollingBall";
-import CheckOutForm from "./CheckOutForm";
+} from '@stripe/react-stripe-js';
+import { useHistory } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import { postPaymentIntent, getUserShipInfo, recordShipandBill, recordUserOrder, clearUserCart } from '../../api';
+import RollingBall from '../RollingBall';
+import CheckOutForm from './CheckOutForm';
 
 const UserCheckOutForm = ({ cart, user, setUser }) => {
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
 
+  const [ show, setShow ] = useState(false);
   const [firstOrder, setFirstOrder] = useState(true);
   const [message, setMessage] = useState("");
 
@@ -70,7 +66,7 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
 
   const handlePayment = async (e, formInfo) => {
     e.preventDefault();
-    document.getElementById("process-dialog").showModal();
+    setShow(true);
     try {
       const { clientSecret } = await postPaymentIntent(cart);
       const result = await stripe.confirmCardPayment(clientSecret, {
@@ -81,7 +77,7 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
           },
         },
       });
-      document.getElementById("process-dialog").style.display = "none";
+      setShow(false);
       if (result.error) {
         setMessage(result.error.message);
       } else if (firstOrder) {
@@ -91,8 +87,8 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
         localStorage.setItem("user", JSON.stringify({ ...user, cart: [] }));
         setUser({ ...user, cart: [] });
         history.push({
-          pathname: "/checkout/success",
-          state: { formInfo },
+          pathname: '/checkout/success',
+          state: { message : 'Thank you for your order' },
         });
       } else {
         await recordUserOrder(user.custID, cart);
@@ -105,7 +101,7 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
         });
       }
     } catch (error) {
-      document.getElementById("process-dialog").style.display = "none";
+      setShow(false)
       setMessage(error);
       throw error;
     }
@@ -128,6 +124,7 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
             <a href={`/users/${user.custID}/account`}>here.</a>
           </p>
           <p>Ship to:</p>
+          <p>{user.firstName} {user.lastName}</p>
           <p>{shipInfo.ship_add1}</p>
           <p>{shipInfo.ship_add2}</p>
           <p>
@@ -156,10 +153,12 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
         </div>
       )}
       {/* modal */}
-      <dialog className="nes-dialog" id="process-dialog">
-        <p>PROCESSING PAYMENT</p>
-        <RollingBall />
-      </dialog>
+      <Modal className='nes-dialog' id='process-dialog' show={show} backdrop='static' centered keyboard='false' size='xl'>
+      <Modal.Body>
+          <p>PROCESSING PAYMENT</p>
+          <RollingBall />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

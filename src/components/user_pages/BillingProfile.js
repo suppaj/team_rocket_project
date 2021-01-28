@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Modal } from 'react-bootstrap';
 import { updateUserBilling } from '../../api';
 import { RollingBall } from '../index';
 import { statesOptions } from '../checkout/utilities';
@@ -8,7 +9,8 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
     const { ship_add1, ship_add2, ship_city, ship_zipcode, ship_state, bill_add1, bill_add2, bill_city, bill_zipcode, bill_state} = user
 
     const [ message, setMessage ] = useState('');
-    const [ isChecked, setisChecked ] = useState(false)
+    const [ isChecked, setisChecked ] = useState(false);
+    const [ show , setShow ] = useState(false);
 
     useEffect(()=>{
         if (edit) {
@@ -22,9 +24,9 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
     const handleSave = async (e) => {
         e.preventDefault();
         if (user.bill_add1 && user.bill_city && user.bill_state && user.bill_zipcode ) {
-        document.getElementById('update-dialog').style.display='block';
+        setShow(true);
         const results = await updateUserBilling(user);
-        document.getElementById('update-dialog').style.display = 'none';
+        setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})
         setEdit(false);
@@ -161,12 +163,12 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
             </div>
             }
             {/* modal */}
-            <dialog className='nes-dialog' id='update-dialog'>
-                <p>Updating Profile</p>
-                <div>
-                <RollingBall />
-                </div>
-            </dialog>
+            <Modal className='nes-dialog' show={show} backdrop='static' centered keyboard='false' size='xl'>
+                <Modal.Body>
+                    <p>Updating Profile</p>
+                    <RollingBall />
+                </Modal.Body>
+            </Modal>
         </div>
     )
 };

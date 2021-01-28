@@ -25,40 +25,62 @@ apiRouter.post("/login", async (req, res, next) => {
   try {
     const user = await db_getCustomerByEmail(cust_email);
     if (user) {
-    cartObj = await db_getCustomerCart(cust_email);
-    if (cartObj.cart.length) {
-      cartArray.push(...cartObj.cart);
+      cartObj = await db_getCustomerCart(cust_email);
+      if (cartObj.cart.length) {
+        cartArray.push(...cartObj.cart);
+      }
     }
-    }
-    
 
     if (user && user.cust_pwd == cust_pwd) {
-      const token = jwt.sign(
-        {
-          siteAdmin: user.isadmin,
+      console.log("THIS IS USER", user);
+      if (user.is_admin) {
+        const adminToken = jwt.sign(
+          {
+            firstName: user.first_name,
+            custID: user.cust_id,
+            custEmail: user.cust_email,
+            cartID: cartObj.cartID,
+            cart: cartArray,
+          },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "1h",
+          }
+        );
+
+        res.send({
+          adminToken,
+          firstName: user.first_name,
+          cartID: cartObj.cartID,
+          cart: cartArray,
+        });
+      } else {
+        const token = jwt.sign(
+          {
+            siteAdmin: user.isadmin,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            custID: user.cust_id,
+            custEmail: user.cust_email,
+            cartID: cartObj.cartID,
+            cart: cartArray,
+          },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "1w",
+          }
+        );
+
+        res.send({
           firstName: user.first_name,
           lastName: user.last_name,
           custID: user.cust_id,
+          siteAdmin: user.isadmin,
           custEmail: user.cust_email,
           cartID: cartObj.cartID,
           cart: cartArray,
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "1w",
-        }
-      );
-
-      res.send({
-        firstName: user.first_name,
-        lastName: user.last_name,
-        custID: user.cust_id,
-        siteAdmin: user.isadmin,
-        custEmail: user.cust_email,
-        token,
-        cartID: cartObj.cartID,
-        cart: cartArray,
-      });
+        });
+      }
     } else {
       next({
         name: "IncorrectCredentialsError",

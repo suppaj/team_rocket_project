@@ -5,6 +5,8 @@ import { Welcome } from '../index';
 import { registerCustomer } from '../../api';
 
 const SuccessPage = ({ isLoggedIn }) => {
+
+  console.log('logged in', isLoggedIn);
   const location = useLocation();
   const history = useHistory();
 
@@ -15,12 +17,13 @@ const SuccessPage = ({ isLoggedIn }) => {
   const [formInfo, setFormInfo] = useState({ contactInfo: { firstName: '' } });
   const [welcomeShow, setWelcomeShow] = useState(false);
 
-  console.log('formInfo', formInfo);
-
   useEffect(() => {
+    
     if (!location.state && !isLoggedIn) {
       history.push('/');
-    } else setFormInfo({ ...location.state.formInfo });
+    } else if (isLoggedIn === false) {
+      setFormInfo({ ...location.state.formInfo })
+    };
   }, []);
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const SuccessPage = ({ isLoggedIn }) => {
   return (
     <Col md={{ span: 6, offset: 3 }}>
       <div className='nes-container '>
-        {isLoggedIn ? (
+        {isLoggedIn || JSON.parse(localStorage.getItem('user')).firstName ? (
           <>
             <p>Thank you for your purchase!</p>
             <Button href='/' className='nes-btn is-success'>

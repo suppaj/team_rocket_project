@@ -18,8 +18,7 @@ const Login = ({
   setUser,
   cart,
 
-  setCart
-
+  setCart,
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,11 +32,12 @@ const Login = ({
   };
 
   const setAdminData = (e) => {
-    window.localStorage.setItem("admin", JSON.stringify(e));
+    window.localStorage.setItem("token", JSON.stringify(e));
   };
 
   const setLoginData = () => {
-    window.localStorage.setItem("logged-in", JSON.stringify(true));
+    // window.localStorage.setItem("logged-in", JSON.stringify(true));
+    setIsLoggedIn(true);
   };
 
   const handleLoginRequest = () => {
@@ -50,16 +50,17 @@ const Login = ({
     loginCustomer(email, password, cart)
       .then((response) => {
         if (response) {
-          const { siteAdmin, firstName, cart} = response;
+          const { siteAdmin, adminToken, firstName, cart } = response;
+          console.log("THIS IS MY LOGIN RESPONSE", response);
           setWelcomeShow(true);
           setTimeout(handleCloseLogin, 2200);
           setFirstName(firstName);
           setUser(response);
-          setAdminData(siteAdmin);
-
-          setCart(cart)
-          // setLoginData();
-
+          if (adminToken) {
+            setAdminData(adminToken);
+          }
+          setCart(cart);
+          setLoginData();
         } else {
           console.log("login credentials incorrect");
         }

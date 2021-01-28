@@ -1,27 +1,27 @@
-import React from 'react';
+import React from "react";
 
-const Logout = ({setUser, setIsLoggedIn, setIsAdmin}) => {
+const Logout = ({ setUser, setIsLoggedIn, setIsAdmin }) => {
+  const handleLogout = () => {
+    console.log("clicked checkout");
+    localStorage.setItem("user", JSON.stringify({ cart: [] }));
+    localStorage.removeItem("token");
+    localStorage.removeItem("logged-in");
+    setUser({ cart: [] });
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+  };
 
-    const handleLogout = () => {
-        console.log('clicked checkout');
-        localStorage.setItem('user', JSON.stringify({cart:[]}));
-        localStorage.removeItem('admin')
-        setUser({cart:[]});
-        setIsLoggedIn(false);
-        setIsAdmin(false);
-    }
+  return (
+    <div>
+      <button
+        type="button"
+        className="nes-btn is-normal"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
+    </div>
+  );
+};
 
-    return (
-        <div>
-            <button
-            type="button"
-            className="nes-btn is-normal"
-            onClick={handleLogout}
-            >
-            Logout
-            </button>
-        </div>
-    )
-}
-
-export default Logout
+export default Logout;

@@ -16,32 +16,28 @@ import {
 import { getSomething, getAllProducts, getAllTypes } from "../api";
 
 import {
-  CartButton,
+  
   Products,
   ProductPage,
   ProductsReturn,
   ShoppingCart,
-  Login,
-  Register,
   CheckoutPage,
   SuccessPage,
   Admin,
-  Logout,
   OrderHistory,
   UserProfile,
-  ProfileButton,
   AccountPage,
+  Header,
 } from "./index";
 
 import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(
-    localStorage.getItem("admin") || false
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    JSON.parse(localStorage.getItem("logged-in")) || false
   );
-
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
@@ -72,10 +68,6 @@ const App = () => {
     findCartCount();
   }, [cart]);
 
-  useEffect(() => {
-    console.log("testing admin persist", isAdmin);
-  }, [isAdmin]);
-
   const findCartCount = async () => {
     let count = 0;
     cart.map((item) => {
@@ -97,55 +89,17 @@ const App = () => {
             width: "100vw",
           }}
         >
-          <div
-            className="nes-container is-rounded"
-            style={{
-              backgroundColor: "#E7E7E7",
-              padding: "5px 5px 5px 5px",
-              position: "absolute",
-              left: "5px",
-              top: "5px",
-            }}
-          >
-            <img
-              style={{ alignSelf: "left", height: "70px", width: "70px" }}
-              src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
-              alt="Team Rocket Logo"
-            />
-          </div>
-          <ProductsReturn />
-
-          {!isLoggedIn ? (
-            <>
-              <Login
-                setIsLoggedIn={setIsLoggedIn}
-                setIsAdmin={setIsAdmin}
-                setFirstName={setFirstName}
-                firstName={firstName}
-                setUser={setUser}
-                cart={cart}
-                setCart={setCart}
-              />
-              <Register />
-            </>
-          ) : (
-            <>
-              <Logout
-                setUser={setUser}
-                setIsAdmin={setIsAdmin}
-                setIsLoggedIn={setIsLoggedIn}
-              />
-              <ProfileButton user={user} />
-            </>
-          )}
-
-          {isAdmin ? (
-            <Link to="/admin">
-              <Access isAdmin={isAdmin} />
-            </Link>
-          ) : null}
-
-          <CartButton cart={cart} cartCount={cartCount} />
+          <Header setIsLoggedIn={setIsLoggedIn}
+              setIsAdmin={setIsAdmin}
+              setFirstName={setFirstName}
+              firstName={firstName}
+              setUser={setUser}
+              cart={cart}
+              setCart={setCart}
+              isAdmin={isAdmin}
+              isLoggedIn={isLoggedIn}
+              cartCount={cartCount}
+              user={user}/>
         </Row>
         <Row
           className="bg-success "
