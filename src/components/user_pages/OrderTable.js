@@ -10,7 +10,7 @@ const OrderTable = ({order}) => {
         const YYYY = new Date(date).getFullYear();
         const hh = new Date(date).getHours();
         const mm = new Date(date).getMinutes();
-        return `${MM + 1}/${DD}/${YYYY}  ${hh}:${mm}`
+        return `${MM + 1}/${DD}/${YYYY}  ${hh}:${mm<10? '0'+ mm : mm}`
     }
 
 
