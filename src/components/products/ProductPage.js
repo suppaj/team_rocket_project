@@ -187,8 +187,8 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
               />
             </ButtonGroup> 
             :
-            <div className='nes-container is-dark is-rounded'>
-              <p>{currentPoke.name} is OUT OF STOCK! Jessie, James and Meowth are currently out trying to "catch" more.</p>
+            <div className='nes-container is-dark text-left'>
+              <p>{currentPoke.name.charAt(0).toUpperCase() + currentPoke.name.slice(1)} is OUT OF STOCK! Jessie, James and Meowth are currently out trying to "catch" more.</p>
             </div>
             }
           </div>
