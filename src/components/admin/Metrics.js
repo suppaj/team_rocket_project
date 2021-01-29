@@ -24,7 +24,9 @@ const Metrics = ({ isAdmin }) => {
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
   const [forecast, setForecast] = useState(null);
-  const [totalSales, setTotalSales] = useState(null);
+  const [totalSales, setTotalSales] = useState(
+    JSON.parse(window.localStorage.getItem("total_sales")) || null
+  );
   const [salesArr, setSalesArr] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
   const [topSalesArr, setTopSalesArr] = useState([]);
@@ -36,7 +38,6 @@ const Metrics = ({ isAdmin }) => {
     const sales = JSON.parse(window.localStorage.getItem("sales_array"));
     setSalesArr(sales);
     const totalSales = filterSales(sales);
-
     setTotalSales(totalSales);
   };
 
@@ -57,6 +58,9 @@ const Metrics = ({ isAdmin }) => {
           handleSales(monthlySales);
 
           setSalesArr(handleRetrieveSales);
+
+          handleTotalSales(filterSalesbyMonthAndYear(salesArr, month, year));
+          // console.log("TOTAL SALES ARR", totalSales);
         })
 
         .catch((error) => {

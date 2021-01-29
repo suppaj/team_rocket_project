@@ -12,6 +12,7 @@ const {
   db_getSalesDatabyMonth,
   db_getTopSalesDatabyMonth,
   db_getAllProductsAdmin,
+  db_updateProduct,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -31,6 +32,19 @@ apiRouter.get("/customers_email", async (req, res) => {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
     res.send({ customer });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.post("/update_product", async (req, res) => {
+  const { prod_id, attributes } = req.body;
+  console.log("THIS IS THE REQ BODY", req.body);
+  console.log("THIS IS THE PARAMS", req.params);
+
+  try {
+    const product = await db_updateProduct(prod_id, attributes);
+    res.send({ message: "Update complete!", product });
   } catch (error) {
     throw error;
   }

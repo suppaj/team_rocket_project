@@ -187,6 +187,14 @@ iframe {
   /* margin: auto; */
 }
 
+.products-show {
+  width: 98%;
+  height: 90vh;
+  position: absolute;
+  top: 20%;
+  left: 1%;
+}
+
 .hide {
   display: none;
 }
@@ -222,7 +230,8 @@ iframe {
   /* border: solid red 1px; */
 }
 
-#sales-list {
+#sales-list,
+#product-admin-table {
   font-size: 0.6rem;
   overflow: auto;
   height: 60%;
@@ -419,8 +428,8 @@ th {
   border: solid rgb(111, 185, 231);
   background-color: lightskyblue;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 2fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 3fr;
   height: 95%;
   overflow: hidden;
   padding: 10px;
@@ -432,15 +441,22 @@ th {
   grid-row: 1;
 }
 
-.inactive-products {
-  grid-column: 2;
+.product-metrics {
+  grid-column: 3;
   grid-row: 1;
+  border-left: solid black;
+  border-right: solid black;
+
+  text-align: center;
 }
 
 #all-products {
   grid-column: 1/4;
   grid-row: 2;
-  overflow: auto;
+  border: solid red;
+  margin-top: 5px;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 #reject-message {
@@ -480,4 +496,92 @@ th {
 .hide-admin,
 .hide-logout {
   display: none;
+}
+
+.product-rows:hover {
+  color: lightgray;
+  background-color: #999;
+}
+
+.active-products {
+  border-right: solid black !important;
+  padding: 5px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.inactive-products {
+  padding: 5px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+  /* border-left: solid black; */
+}
+
+.product-metrics {
+  padding: 5px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.active-count,
+.inactive-count {
+  font-size: 1.5rem;
+}
+
+.price-input,
+.quantity-input {
+  width: 90px;
+  text-align: center;
+}
+
+.price-histo {
+  padding: 5px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-data {
+  text-align: center;
+}
+
+.type-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.active-data,
+.featured-data,
+.prod-id-data,
+.dex-id-data {
+  text-align: center;
+}
+
+.prod-admin-instructions {
+  grid-column: 4;
+  grid-row: 2;
+  /* border: solid green; */
+  padding: 4px;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#prod-instructions {
+  /* height: 100%; */
+  font-size: 0.65rem;
+  /* overflow-y: scroll; */
 }

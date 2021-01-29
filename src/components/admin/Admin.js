@@ -56,7 +56,7 @@ const Admin = ({ isAdmin }) => {
       adminGetAllProducts()
         .then((response) => {
           console.log("this is the response", response);
-          handleProducts(response);
+          handleProducts(response.products);
         })
         .catch((error) => {
           throw error;

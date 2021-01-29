@@ -434,32 +434,34 @@ async function db_getCustomerCart(cust_email) {
 
 // admin methods
 
-async function db_updateProduct(prod_id, fields = {}) {
-  const setString = Object.keys(fields)
-    .map((key, index) => `"${key}"=$${index + 1}`)
-    .join(", ");
-
-  if (setString.length === 0) {
-    return;
-  }
+async function db_updateProduct(prod_id, attributes) {
+  const { price, quantity, is_active } = attributes;
   try {
     const {
       rows: [product],
     } = await client.query(
       `
       UPDATE product
-      SET ${setString}
+      SET price=$1, 
+      quantity=$2,
+      is_active=$3
       WHERE prod_id=${prod_id}
       RETURNING *;
     `,
-      Object.values(fields)
+      [price, quantity, is_active]
     );
-    console.log("inside of update product this is the product");
+
+    console.log("inside of update product this is the product", product);
     return product;
   } catch (error) {
     throw error;
   }
 }
+// db_updateProduct(1, {
+//   price: 10.99,
+//   quantity: 2,
+//   is_active: false,
+// });
 
 // checkout methods
 
@@ -517,11 +519,14 @@ async function db_addOrderItems(cart, order_id) {
     for (let item of cart) {
       const price = await db_getItemPrice(item.prod_id);
       valueArray.push(item.prod_id, item.cart_quantity, price);
-      await client.query(`
+      await client.query(
+        `
         UPDATE product
           SET quantity = product.quantity - $1
           WHERE prod_id=$2;
-      `,[item.cart_quantity, item.prod_id]);
+      `,
+        [item.cart_quantity, item.prod_id]
+      );
     }
     await client.query(
       `
@@ -1002,4 +1007,5 @@ module.exports = {
   db_updateUserShipping,
   db_updateUserBilling,
   db_getAllProductsAdmin,
+  db_updateProduct,
 };

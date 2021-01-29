@@ -1,17 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Chart } from "react-google-charts";
 import ultraball from "./ultraball.png";
 import { Modal, Form, Button } from "react-bootstrap";
 import { Search, Rejected } from "./index";
+import { countActive, countInactive } from "./utils";
+import { updateProduct } from "../../api/index";
 
 const Product_admin = ({ isAdmin }) => {
-  const [showMetrics, setShowMetrics] = useState(false);
+  const [showMetrics, setShowMetrics] = useState(true);
   const [productsArr, setProductsArr] = useState([]);
+  const [activeProducts, setActiveProducts] = useState(null);
+  const [inactiveProducts, setInactiveProducts] = useState(null);
+  const [priceData, setPriceData] = useState(
+    JSON.parse(window.localStorage.getItem("price_details")) || []
+  );
+  const [editRow, setEditRow] = useState(false);
+  const [editPrice, setEditPrice] = useState(null);
+  const [editQuantity, setEditQuantity] = useState(null);
+  const [editActive, setEditActive] = useState(false);
+
   const handleClose = () => setShowMetrics(false);
   const handleShow = () => {
     setShowMetrics(true);
     const products = JSON.parse(window.localStorage.getItem("prod_array"));
     setProductsArr(products);
+    const activeProducts = countActive(products);
+    const inactiveProducts = countInactive(products);
+    setActiveProducts(activeProducts);
+    setInactiveProducts(inactiveProducts);
   };
+
+  useEffect(() => {
+    const data = [["Product", "Price"]];
+    if (productsArr) {
+      productsArr.map((product, index) => {
+        const { name, price } = product;
+        console.log([name, parseInt(price)]);
+        data.push([name, price]);
+      });
+      console.log("test of data", data);
+
+      window.localStorage.setItem("price_details", JSON.stringify(data));
+    }
+  });
+
   return (
     <div id="product_admin">
       {isAdmin ? (
@@ -22,29 +54,130 @@ const Product_admin = ({ isAdmin }) => {
             onClick={handleShow}
           ></img>
           <div className="admin-title">
-            <div className={showMetrics === true ? "show" : "hide"}>
+            <div
+              className={showMetrics === true ? "show products-show" : "hide"}
+            >
               <button className="close-button" onClick={handleClose}>
                 X
               </button>
               <div id="products-display">
                 <div className="active-products">
                   <p>Active Products</p>
-                  <p>Pending</p>
+                  {activeProducts ? (
+                    <p className="active-count">{activeProducts}</p>
+                  ) : (
+                    <p className="active-count">0</p>
+                  )}
                 </div>
                 <div className="inactive-products">
                   <p>Inactive Products</p>
-                  <p>Pending</p>
+                  {inactiveProducts ? (
+                    <p className="inactive-count">{inactiveProducts}</p>
+                  ) : (
+                    <p className="inactive-count">0</p>
+                  )}
+                </div>
+
+                <div className="product-metrics">
+                  <p>Activity Ratio</p>
+                  <div className="product-ratio" id="piechart">
+                    <Chart
+                      width={"300px"}
+                      height={"120px"}
+                      chartType="PieChart"
+                      loader={<div>Loading</div>}
+                      data={[
+                        ["Product-Status", "Number"],
+                        ["Active", activeProducts],
+                        ["Inactive", inactiveProducts],
+                      ]}
+                      options={{
+                        backgroundColor: "transparent",
+                      }}
+                      rootProps={{ "data-testid": "1" }}
+                    />
+                  </div>
+                </div>
+
+                <div className="price-histo">
+                  <p>Price Details</p>
+                  <Chart
+                    width={"300px"}
+                    height={"120px"}
+                    chartType="Histogram"
+                    loader={<div>Loading Chart</div>}
+                    data={priceData}
+                    options={{
+                      legend: { position: "none" },
+                      backgroundColor: "transparent",
+                    }}
+                    rootProps={{ "data-testid": "1" }}
+                  />
+                </div>
+
+                <div className="prod-admin-instructions">
+                  <div
+                    class="nes-container is-rounded is-dark"
+                    id="prod-instructions"
+                  >
+                    <p> Instructions </p>
+                    <p>
+                      {"Active Products".toUpperCase()}: Lorem ipsum dolor sit
+                      amet, consectetur adipiscing elit, sed do eiusmod tempor
+                      incididunt ut labore et dolore magna aliqua. Viverra
+                      tellus in hac habitasse platea. Eget mi proin sed libero
+                      enim sed faucibus turpis. Rhoncus est pellentesque elit
+                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
+                      Neque gravida in fermentum et.
+                    </p>
+                    <p>
+                      {"Inactive Products".toUpperCase()}: Lorem ipsum dolor sit
+                      amet, consectetur adipiscing elit, sed do eiusmod tempor
+                      incididunt ut labore et dolore magna aliqua. Viverra
+                      tellus in hac habitasse platea. Eget mi proin sed libero
+                      enim sed faucibus turpis. Rhoncus est pellentesque elit
+                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
+                      Neque gravida in fermentum et.
+                    </p>
+                    <p>
+                      {"Activity Ratio".toUpperCase()}: Lorem ipsum dolor sit
+                      amet, consectetur adipiscing elit, sed do eiusmod tempor
+                      incididunt ut labore et dolore magna aliqua. Viverra
+                      tellus in hac habitasse platea. Eget mi proin sed libero
+                      enim sed faucibus turpis. Rhoncus est pellentesque elit
+                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
+                      Neque gravida in fermentum et.
+                    </p>
+                    <p>
+                      Price Details: Lorem ipsum dolor sit amet, consectetur
+                      adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Viverra tellus in hac
+                      habitasse platea. Eget mi proin sed libero enim sed
+                      faucibus turpis. Rhoncus est pellentesque elit
+                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
+                      Neque gravida in fermentum et.
+                    </p>
+                    <p>
+                      Product List: Lorem ipsum dolor sit amet, consectetur
+                      adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Viverra tellus in hac
+                      habitasse platea. Eget mi proin sed libero enim sed
+                      faucibus turpis. Rhoncus est pellentesque elit
+                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
+                      Neque gravida in fermentum et.
+                    </p>
+                  </div>
                 </div>
 
                 <div id="all-products">
-                  <p>Product Table</p>
+                  <p>Product List</p>
                   <div id="product-details" className="nes-table-responsive">
                     <table
                       id="product-admin-table"
                       className="nes-table is-bordered is-centered"
                     >
                       <tbody>
-                        <tr>
+                        <tr className="product-table-header">
                           <th>Product ID</th>
                           <th>DEX ID</th>
                           <th>Name</th>
@@ -52,6 +185,8 @@ const Product_admin = ({ isAdmin }) => {
                           <th>Quantity</th>
                           <th>Type</th>
                           <th>Active?</th>
+                          <th>Featured?</th>
+                          <th>Edit</th>
                         </tr>
                         {productsArr.length > 0
                           ? productsArr.map((product, index) => {
@@ -62,16 +197,95 @@ const Product_admin = ({ isAdmin }) => {
                                 price,
                                 quantity,
                                 type,
+                                is_active,
+                                is_featured,
                               } = product;
                               return (
-                                <tr className="product-rows" key={index}>
-                                  <td>{prod_id}</td>
-                                  <td>{dex_id}</td>
-                                  <td>{name}</td>
-                                  <td>{price}</td>
-                                  <td>{quantity}</td>
-                                  <td>{type}</td>
-                                  <td>pending</td>
+                                <tr
+                                  className="product-rows"
+                                  key={index}
+                                  onMouseEnter={() =>
+                                    console.log("mouse has entered", name)
+                                  }
+                                >
+                                  {prod_id ? (
+                                    <td className="prod-id-data">{prod_id}</td>
+                                  ) : null}
+                                  {dex_id ? (
+                                    <td className="dex-id-data">{dex_id}</td>
+                                  ) : null}
+                                  {name ? (
+                                    <td className="name-data">{name}</td>
+                                  ) : null}
+
+                                  {price ? (
+                                    <td>
+                                      <input
+                                        className="price-input"
+                                        placeholder={price}
+                                        onChange={(e) => {
+                                          console.log(e.target.value);
+                                          setEditPrice(e.target.value);
+                                        }}
+                                      ></input>
+                                    </td>
+                                  ) : null}
+
+                                  {quantity ? (
+                                    <td className="quantity-data">
+                                      <input
+                                        className="quantity-input"
+                                        // value={quantity}
+                                        placeholder={quantity}
+                                        onChange={(e) => {
+                                          console.log(e.target.value);
+                                          setEditQuantity(e.target.value);
+                                        }}
+                                      ></input>
+                                    </td>
+                                  ) : null}
+
+                                  {type ? (
+                                    <td className="type-data">
+                                      {type.map((item, index) => {
+                                        return <p key={index}>{item}</p>;
+                                      })}
+                                    </td>
+                                  ) : null}
+
+                                  <td className="active-data">
+                                    <input
+                                      className="product-active-input"
+                                      type="checkbox"
+                                      defaultChecked={is_active}
+                                      onChange={(e) => {
+                                        setEditActive(e.target.value);
+                                      }}
+                                    ></input>
+                                  </td>
+
+                                  <td className="featured-data">
+                                    <input
+                                      className="product-featured-input"
+                                      type="checkbox"
+                                      disabled
+                                      defaultChecked={is_featured}
+                                    ></input>
+                                  </td>
+                                  <td>
+                                    <button
+                                      onClick={() => {
+                                        console.log(
+                                          "edit button has been clicked"
+                                        );
+                                        // updateProduct(prod_id,{price: !})
+
+                                        setEditRow(true);
+                                      }}
+                                    >
+                                      edit
+                                    </button>
+                                  </td>
                                 </tr>
                               );
                             })
