@@ -345,3 +345,17 @@ export async function updateUserBilling(user) {
     throw error;
   }
 }
+
+export async function updateProduct(prod_id, attributes) {
+  try {
+    const { data } = await axios.post("/api/admin/update_product", {
+      prod_id,
+      attributes,
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// updateProduct(1, { price: 1, quantity: 12.0, is_active: false });

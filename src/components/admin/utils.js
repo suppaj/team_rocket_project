@@ -111,6 +111,7 @@ export const filterSalesbyMonthAndYear = (salesData, month, year) => {
       return a + b;
     }, 0);
 
+    console.log("SALES RETURN", sumSales.toFixed(2));
     return sumSales.toFixed(2);
   }
 };
@@ -132,4 +133,21 @@ export const handleRetrieveTotalSales = () => {
   const sales = JSON.parse(window.localStorage.getItem("total_sales"));
 
   return sales;
+};
+
+export const countActive = (array) => {
+  const sumActive = array.filter((item, index) => {
+    const { is_active } = item;
+    return is_active;
+  });
+  console.log("THIS IS THE RESULT OF SUM ACTIVE", sumActive);
+  return sumActive.length;
+};
+export const countInactive = (array) => {
+  const sumInactive = array.filter((item, index) => {
+    const { is_active } = item;
+    return !is_active;
+  });
+  console.log("THIS IS THE RESULT OF SUM ACTIVE", sumInactive);
+  return sumInactive.length;
 };
