@@ -147,6 +147,7 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
             : user.bill_add1 && user.bill_city && user.bill_state && user.bill_zipcode ?
             <div className='text-left'>
                 <p>Your Billing Address:</p>
+                <p>{user.first_name} {user.last_name}</p>
                 <p>{user.bill_add1}</p>
                 <p>{user.bill_add2}</p>
                 <p>{user.bill_city}, {user.bill_city} {user.bill_zipcode}</p>
