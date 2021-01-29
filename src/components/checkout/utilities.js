@@ -10,6 +10,7 @@ export function statesOptions() {
     'CO',
     'CT',
     'DE',
+    'DC',
     'FL',
     'GA',
     'HI',

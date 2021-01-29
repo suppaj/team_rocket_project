@@ -3,13 +3,13 @@ import { registerCustomer } from "../../api";
 import { Modal, Form, Button } from "react-bootstrap";
 import { Try_again, Welcome } from "../index";
 
-const Register = () => {
+const Register = ({setWelcomeShow, firstName, setFirstName}) => {
   const [registerShow, setRegisterShow] = useState(false);
-  const [firstName, setFirstName] = useState("");
+  // const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [registeredPassword, setRegisteredPassword] = useState("");
-  const [welcomeShow, setWelcomeShow] = useState(false);
+  // const [welcomeShow, setWelcomeShow] = useState(false);
 
   const handleCloseRegister = () => setRegisterShow(false);
   const handleShowRegister = () => setRegisterShow(true);
@@ -26,6 +26,7 @@ const Register = () => {
       .then((response) => {
         if (response) {
           console.log("this is my response", response);
+          setRegisterShow(false)
           setWelcomeShow(true);
         }
       })
@@ -122,12 +123,12 @@ const Register = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Welcome
+      {/* <Welcome
         setWelcomeShow={setWelcomeShow}
         welcomeShow={welcomeShow}
         firstName={firstName}
         setOuterShow={setRegisterShow}
-      />
+      /> */}
     </div>
   );
 };
