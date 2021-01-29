@@ -206,7 +206,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
             </ButtonGroup> 
             :
             tookEmAll ? <div className='nes-container is-dark text-left'>
-            <p>Looks like you are buying all our {currentPoke.name.charAt(0).toUpperCase() + currentPoke.name.slice(1)}. Jessie, James and Meowth will have to "catch" more.</p>
+            <p>Looks like you are buying all our {currentPoke.name.charAt(0).toUpperCase() + currentPoke.name.slice(1)} supply. Jessie, James and Meowth will have to "catch" more.</p>
             </div> 
             :
             <div className='nes-container is-dark text-left'>
