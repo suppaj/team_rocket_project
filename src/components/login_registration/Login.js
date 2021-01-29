@@ -14,16 +14,16 @@ const Login = ({
   setIsLoggedIn,
   setIsAdmin,
   setFirstName,
-  firstName,
+  // firstName,
   setUser,
   cart,
-
   setCart,
+  setWelcomeShow,
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginShow, setLoginShow] = useState(false);
-  const [welcomeShow, setWelcomeShow] = useState(false);
+  // const [welcomeShow, setWelcomeShow] = useState(false);
   const [tryAgainShow, setTryAgainShow] = useState(false);
   const handleShowLogin = () => setLoginShow(true);
   const handleCloseLogin = () => {
@@ -52,14 +52,15 @@ const Login = ({
         if (response) {
           const { siteAdmin, adminToken, firstName, cart } = response;
           console.log("THIS IS MY LOGIN RESPONSE", response);
-          setWelcomeShow(true);
-          setTimeout(handleCloseLogin, 2200);
+          setLoginShow(false);
+          // setTimeout(handleCloseLogin, 2200);
           setFirstName(firstName);
           setUser(response);
+          setWelcomeShow(true);
           if (adminToken) {
             setAdminData(adminToken);
           }
-          setCart(cart);
+          // setCart(cart);
           setLoginData();
         } else {
           console.log("login credentials incorrect");
@@ -137,12 +138,12 @@ const Login = ({
           </Button>
         </Modal.Footer>
       </Modal>
-      <Welcome
+      {/* <Welcome
         setWelcomeShow={setWelcomeShow}
         welcomeShow={welcomeShow}
         firstName={firstName}
         setOuterShow={setLoginShow}
-      />
+      /> */}
       <Try_again
         setTryAgainShow={setTryAgainShow}
         tryAgainShow={tryAgainShow}
