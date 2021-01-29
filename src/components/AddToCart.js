@@ -104,7 +104,7 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
           <form method="dialog">
             <p className="text-center">Added To Cart</p>
             <div className='d-flex justify-content-center'>
-              {imageLoop(orderAmount)}              
+              {orderAmount || orderAmount > 0 ? imageLoop(orderAmount) : ''}              
             </div>
             <p className='text-center'>
               {orderAmount} {product.name.toUpperCase()}(s) has been added to your

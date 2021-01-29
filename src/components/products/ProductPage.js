@@ -16,6 +16,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
   const [orderAmount, setOrderAmount] = useState(1);
   const [currentPoke, setCurrentPoke] = useState({});
   const [ maxQuantity, setMaxQuantity ] = useState(currentPoke.quantity || 0);
+  const [ tookEmAll, setTookEmAll] = useState(false)
 
   let { product_id } = useParams();
 
@@ -28,18 +29,27 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
     if (currentPoke.quantity) {
       setMaxQuantity(currentPoke.quantity);
       for (let item of cart) {
-        console.log('item.prod_id', item.prod_id, ' product_id ', parseInt(product_id))
-        if ( item.prod_id === parseInt(product_id)) {
-          console.log('setting new max q', maxQuantity)
-          console.log(currentPoke.quantity , item.cart_quantity);
+        if ( item.prod_id === parseInt(product_id)) { 
           setMaxQuantity(currentPoke.quantity - parseInt(item.cart_quantity))
+          if (currentPoke.quantity === parseInt(item.cart_quantity)) {
+            setTookEmAll(true);
+          } else { setTookEmAll(false)}
           break;
         } 
       }
-      
     }
-    console.log('useEffect ran');
   },[currentPoke, cart]);
+
+  const handleChange = (e) => {
+    if (parseInt(e.target.value) <1 ) {
+      setOrderAmount(1) 
+    } else if ( parseInt(e.target.value) > maxQuantity) {
+      setOrderAmount(maxQuantity)
+    } else {
+      setOrderAmount(parseInt(e.target.value))
+    }
+  }
+  
 
   const {
     dex_id,
@@ -151,7 +161,15 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
               </div>
               <p>Height: {height / 10}m</p>
               <p>Weight: {weight / 10}kg</p>
-              <p>{maxQuantity} available</p>
+              {
+              maxQuantity ?
+              <p>{maxQuantity} available</p> 
+              : 
+              <p className='nes-container is-dark'>Out of Stock</p>
+              // <a href="#" className="nes-badge" style={{display: 'inline-flex', width : '100%'}}>
+              //   <span className='is-error'>Out of Stock</span>
+              // </a>
+              }
               <p style={{ fontSize: "1.6rem" }}>${price}</p>
             </div>
           </div>
@@ -173,7 +191,7 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
             <ButtonGroup style={{ placeSelf: "center", marginTop: "25px" }}>
               <div className='nes-field is-inline'>
                 <label htmlFor='order-amount'>Quantity:</label>
-                <input type='number' id='order-amount' className='nes-input' value={orderAmount} min={1} max={maxQuantity} onChange={(e)=>setOrderAmount(parseInt(e.target.value))} />
+                <input type='number' id='order-amount' className='nes-input' value={isNaN(orderAmount)? 1 : orderAmount} min={1} max={maxQuantity} onChange={handleChange} />
               </div>
               <AddToCart
                 product={currentPoke}
@@ -186,6 +204,10 @@ const ProductPage = ({ cart, setCart, cartID, isLoggedIn, user, setUser }) => {
                 setUser={setUser}
               />
             </ButtonGroup> 
+            :
+            tookEmAll ? <div className='nes-container is-dark text-left'>
+            <p>Looks like you are buying all our {currentPoke.name.charAt(0).toUpperCase() + currentPoke.name.slice(1)}. Jessie, James and Meowth will have to "catch" more.</p>
+            </div> 
             :
             <div className='nes-container is-dark text-left'>
               <p>{currentPoke.name.charAt(0).toUpperCase() + currentPoke.name.slice(1)} is OUT OF STOCK! Jessie, James and Meowth are currently out trying to "catch" more.</p>
