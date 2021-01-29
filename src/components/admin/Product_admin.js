@@ -6,15 +6,16 @@ import { Search, Rejected } from "./index";
 import { countActive, countInactive } from "./utils";
 import { updateProduct } from "../../api/index";
 
-const Product_admin = ({ isAdmin }) => {
-  const [showMetrics, setShowMetrics] = useState(true);
+const Product_admin = ({ isAdmin, setProductEdited }) => {
+  const [showMetrics, setShowMetrics] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
   const [productsArr, setProductsArr] = useState([]);
   const [activeProducts, setActiveProducts] = useState(null);
   const [inactiveProducts, setInactiveProducts] = useState(null);
   const [priceData, setPriceData] = useState(
     JSON.parse(window.localStorage.getItem("price_details")) || []
   );
-  const [editRow, setEditRow] = useState(false);
+
   const [editPrice, setEditPrice] = useState(null);
   const [editQuantity, setEditQuantity] = useState(null);
   const [editActive, setEditActive] = useState(false);
@@ -35,10 +36,10 @@ const Product_admin = ({ isAdmin }) => {
     if (productsArr) {
       productsArr.map((product, index) => {
         const { name, price } = product;
-        console.log([name, parseInt(price)]);
+        //    console.log([name, parseInt(price)]);
         data.push([name, price]);
       });
-      console.log("test of data", data);
+      //  console.log("test of data", data);
 
       window.localStorage.setItem("price_details", JSON.stringify(data));
     }
@@ -117,54 +118,43 @@ const Product_admin = ({ isAdmin }) => {
 
                 <div className="prod-admin-instructions">
                   <div
-                    class="nes-container is-rounded is-dark"
+                    className="nes-container is-rounded is-dark"
                     id="prod-instructions"
                   >
-                    <p> Instructions </p>
-                    <p>
-                      {"Active Products".toUpperCase()}: Lorem ipsum dolor sit
-                      amet, consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua. Viverra
-                      tellus in hac habitasse platea. Eget mi proin sed libero
-                      enim sed faucibus turpis. Rhoncus est pellentesque elit
-                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
-                      Neque gravida in fermentum et.
+                    <p className="prod-instructions-title">
+                      {" "}
+                      {"Instructions".toUpperCase()}{" "}
                     </p>
                     <p>
-                      {"Inactive Products".toUpperCase()}: Lorem ipsum dolor sit
-                      amet, consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua. Viverra
-                      tellus in hac habitasse platea. Eget mi proin sed libero
-                      enim sed faucibus turpis. Rhoncus est pellentesque elit
-                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
-                      Neque gravida in fermentum et.
+                      {"Active Products".toUpperCase()}: The number of products
+                      that are listed on the {"products".toUpperCase()} page for
+                      customers to purchase, depending on their preference.
                     </p>
                     <p>
-                      {"Activity Ratio".toUpperCase()}: Lorem ipsum dolor sit
-                      amet, consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua. Viverra
-                      tellus in hac habitasse platea. Eget mi proin sed libero
-                      enim sed faucibus turpis. Rhoncus est pellentesque elit
-                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
-                      Neque gravida in fermentum et.
+                      {"Inactive Products".toUpperCase()}: The count of products
+                      that are {"not".toUpperCase()} available for customers to
+                      purchase.
                     </p>
                     <p>
-                      Price Details: Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Viverra tellus in hac
-                      habitasse platea. Eget mi proin sed libero enim sed
-                      faucibus turpis. Rhoncus est pellentesque elit
-                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
-                      Neque gravida in fermentum et.
+                      {"Activity Ratio".toUpperCase()}: The number of{" "}
+                      {"active".toUpperCase()} products compared to the number
+                      of {"inactive".toUpperCase()} products.
                     </p>
                     <p>
-                      Product List: Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Viverra tellus in hac
-                      habitasse platea. Eget mi proin sed libero enim sed
-                      faucibus turpis. Rhoncus est pellentesque elit
-                      ullamcorper. Viverra aliquet eget sit amet tellus cras.
-                      Neque gravida in fermentum et.
+                      Price Details: Summarizes the{" "}
+                      {"distribution".toUpperCase()} of prices across all{" "}
+                      {"active".toUpperCase()}
+                      and {"inactive".toUpperCase()} products.
+                    </p>
+                    <p>
+                      Product List: To view or change a product's settings use
+                      the {"product list".toUpperCase()} table. products can be
+                      updated by
+                      {"price".toUpperCase()}, {"quantity".toUpperCase()}, and
+                      {"active status".toUpperCase()}.
+                    </p>
+                    <p>
+                      To save your updates click the {"edit".toUpperCase()}.
                     </p>
                   </div>
                 </div>
@@ -179,8 +169,9 @@ const Product_admin = ({ isAdmin }) => {
                       <tbody>
                         <tr className="product-table-header">
                           <th>Product ID</th>
-                          <th>DEX ID</th>
+                          <th>Dex ID</th>
                           <th>Name</th>
+                          <th>Image</th>
                           <th>Price</th>
                           <th>Quantity</th>
                           <th>Type</th>
@@ -204,9 +195,20 @@ const Product_admin = ({ isAdmin }) => {
                                 <tr
                                   className="product-rows"
                                   key={index}
-                                  onMouseEnter={() =>
-                                    console.log("mouse has entered", name)
-                                  }
+                                  onMouseEnter={() => {
+                                    console.log(
+                                      "mouse has entered",
+                                      name,
+                                      prod_id,
+                                      Number(price),
+                                      quantity,
+                                      is_active
+                                    );
+
+                                    setEditPrice(Number(price));
+                                    setEditQuantity(quantity);
+                                    setEditActive(is_active);
+                                  }}
                                 >
                                   {prod_id ? (
                                     <td className="prod-id-data">{prod_id}</td>
@@ -216,6 +218,15 @@ const Product_admin = ({ isAdmin }) => {
                                   ) : null}
                                   {name ? (
                                     <td className="name-data">{name}</td>
+                                  ) : null}
+                                  {dex_id ? (
+                                    <td className="dex-id-data">
+                                      <img
+                                        className="prod-admin-image-poke"
+                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
+                                        alt={`${name}`}
+                                      ></img>
+                                    </td>
                                   ) : null}
 
                                   {price ? (
@@ -259,7 +270,11 @@ const Product_admin = ({ isAdmin }) => {
                                       type="checkbox"
                                       defaultChecked={is_active}
                                       onChange={(e) => {
-                                        setEditActive(e.target.value);
+                                        setEditActive(e.target.checked);
+                                        console.log(
+                                          "VALUE OF CHECKBOX",
+                                          e.target.checked
+                                        );
                                       }}
                                     ></input>
                                   </td>
@@ -278,9 +293,22 @@ const Product_admin = ({ isAdmin }) => {
                                         console.log(
                                           "edit button has been clicked"
                                         );
-                                        // updateProduct(prod_id,{price: !})
+                                        updateProduct(prod_id, {
+                                          price: editPrice,
+                                          quantity: editQuantity,
+                                          is_active: editActive,
+                                        })
+                                          .then((response) => {
+                                            console.log(
+                                              "THIS IS THE RESPONSE OF UPDATE PRODUCT",
+                                              response
+                                            );
+                                          })
+                                          .catch((error) => {
+                                            throw error;
+                                          });
 
-                                        setEditRow(true);
+                                        setProductEdited(true);
                                       }}
                                     >
                                       edit
@@ -294,6 +322,24 @@ const Product_admin = ({ isAdmin }) => {
                     </table>
                   </div>
                 </div>
+                <div></div>
+              </div>
+              <div
+                className={
+                  showUpdate === true
+                    ? "update-show nes-container is-rounded is-dark"
+                    : "hide"
+                }
+              >
+                <img
+                  className="edit-prod-success"
+                  src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/31.png?raw=true"
+                ></img>
+                <p className="update-message">Update Complete!</p>
+                <img
+                  className="edit-prod-success"
+                  src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/26.png?raw=true"
+                ></img>
               </div>
             </div>
             Products

@@ -79,6 +79,7 @@ apiRouter.post("/login", async (req, res, next) => {
           custEmail: user.cust_email,
           cartID: cartObj.cartID,
           cart: cartArray,
+          token,
         });
       }
     } else {

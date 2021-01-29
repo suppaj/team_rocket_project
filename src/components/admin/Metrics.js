@@ -118,7 +118,10 @@ const Metrics = ({ isAdmin }) => {
                         setUpdateFilter={setUpdateFilter}
                       />
                     </div>
-                    <table className="nes-table is-bordered is-centered">
+                    <table
+                      className="nes-table is-bordered is-centered"
+                      id="sales-table"
+                    >
                       <tbody>
                         <tr>
                           <th>ID</th>

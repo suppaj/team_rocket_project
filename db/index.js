@@ -446,7 +446,7 @@ async function db_updateProduct(prod_id, attributes) {
       quantity=$2,
       is_active=$3
       WHERE prod_id=${prod_id}
-      RETURNING *;
+      RETURNING name;
     `,
       [price, quantity, is_active]
     );
@@ -703,8 +703,8 @@ async function db_getTopSalesDatabyMonth(month, year) {
   try {
     const { rows } = await client.query(
       `
-      select  sum(transaction_quantity), prod_id 
-      from sales
+      SELECT  sum(transaction_quantity), prod_id 
+      FROM sales
       WHERE EXTRACT(MONTH FROM transaction_date) = $1
       AND EXTRACT(Year FROM transaction_date) = $2
       group by prod_id
@@ -720,6 +720,42 @@ async function db_getTopSalesDatabyMonth(month, year) {
     throw error;
   }
 }
+
+async function db_joinTopSales(month, year) {
+  const topSales = await db_getTopSalesDatabyMonth(month, year);
+
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM product  
+    `
+    );
+
+    const topSalesArr = [];
+    const result = rows.map((row, index) => {
+      console.log("this is the prod id", row.prod_id);
+      const topItem = topSales.map((sale, index) => {
+        if (row.prod_id === sale.prod_id) {
+          topSalesArr.push({
+            prodID: row.prod_id,
+            poke_name: row.name,
+            DEX: row.dex_id,
+          });
+          // console.log("TOP SALES IS FILLING UP", topSalesArr);
+          return topSalesArr;
+        }
+      });
+    });
+
+    console.log("FINAL TEST OF TOP SALES ARR", topSalesArr);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// db_joinTopSales(10, 2020);
 
 async function db_getSalesData() {
   try {
