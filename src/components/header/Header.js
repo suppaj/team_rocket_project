@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import {
     Register,
@@ -7,7 +7,8 @@ import {
     ProfileButton,
     ProductsReturn,
     CartButton,
-    Access
+    Access,
+    Welcome
 } from '../index';
 
 const Header = ({
@@ -24,6 +25,9 @@ const Header = ({
     user
     }
     ) => {
+
+    const [ welcomeShow, setWelcomeShow ] = useState(false);
+
 
     return (
         <>
@@ -62,8 +66,15 @@ const Header = ({
                 setUser={setUser}
                 cart={cart}
                 setCart={setCart}
+                setWelcomeShow={setWelcomeShow}
             />
-            <Register /> </>
+            <Register 
+            setWelcomeShow={setWelcomeShow}
+            welcomeShow={welcomeShow}
+            setOuterShow={()=>null}
+            firstName={firstName}
+            setFirstName={setFirstName}
+            /> </>
             }
 
         { isAdmin ?
@@ -76,6 +87,14 @@ const Header = ({
           
 
         <CartButton cart={cart} cartCount={cartCount} />
+        
+        {/* modal moved to live in header */}
+        <Welcome
+        setWelcomeShow={setWelcomeShow}
+        welcomeShow={welcomeShow}
+        firstName={firstName}
+        setOuterShow={()=>null}
+      />
         </>
     )
 }

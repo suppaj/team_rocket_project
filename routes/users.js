@@ -73,16 +73,15 @@ apiRouter.patch(`/:cust_id/update/contact`, async (req, res, next)=>{
   try {
     if (user.emailChange) {
     const _user = await db_getCustomerByEmail(user.cust_email);
-
+    
     if (_user) {
       res.send({
         name: "UserExistsError",
         message: "An account with that email address already exists!",
       });
-    }};
-
+    } else { 
     const results = await db_updateUserContact(cust_id, user);
-    res.send(results)
+    res.send(results)}}
   } catch (error) {
     next(error)
   }
