@@ -25,6 +25,7 @@ const Login = ({
   const [loginShow, setLoginShow] = useState(false);
   const [welcomeShow, setWelcomeShow] = useState(false);
   const [tryAgainShow, setTryAgainShow] = useState(false);
+  const [ errMsg, setErrMsg ] = useState('')
   const handleShowLogin = () => setLoginShow(true);
   const handleCloseLogin = () => {
     setLoginShow(false);
@@ -49,7 +50,7 @@ const Login = ({
     e.preventDefault();
     loginCustomer(email, password, cart)
       .then((response) => {
-        if (response) {
+        if (response.cart) {
           const { siteAdmin, adminToken, firstName, cart } = response;
           console.log("THIS IS MY LOGIN RESPONSE", response);
           setWelcomeShow(true);
@@ -63,6 +64,7 @@ const Login = ({
           setLoginData();
         } else {
           console.log("login credentials incorrect");
+          setErrMsg(response.message);
         }
       })
       .catch((error) => {
@@ -119,6 +121,9 @@ const Login = ({
               </div>
             </Form.Group>
           </Form>
+          <div>
+            <p className='nes-text is-error'>{errMsg}</p>
+          </div>
         </Modal.Body>
         <Modal.Body className="login-auth-section">
           <Link to="localhost:5000/auth/google/">
