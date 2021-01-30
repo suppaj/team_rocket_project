@@ -7,40 +7,12 @@ const ProductSorter = ({
   setAllProducts,
   currentProducts,
   setCurrentProducts,
+  sortMessage,
   setSortMethod,
-  alphabetize,
+  setSortMessage,
   resetPagination,
+  sortProductsByKey,
 }) => {
-  const [sortMessage, setSortMessage] = useState("Sort pokemon...");
-
-  // sorts the given array based on a given object key
-  // sortMethod is a callback function to signal setting all/current products
-  function sortProductsByKey(productArray, key, sortMethod, setMethod) {
-    let sorted = [...productArray];
-    // sorts keys high to low (sortMethod === 1)
-    if (sortMethod === 1) {
-      sorted.sort((a, b) => {
-        a = parseInt(a[key]);
-        b = parseInt(b[key]);
-        return b - a;
-      });
-
-      //   sorts keys low to high (sortMethod === 2)
-    } else if (sortMethod === 2) {
-      sorted.sort((a, b) => {
-        a = parseInt(a[key]);
-        b = parseInt(b[key]);
-        return a - b;
-      });
-    } else if (sortMethod === 3) {
-      sorted.sort(alphabetize);
-    } else if (sortMethod === 4) {
-      sorted.sort(alphabetize);
-      sorted.reverse();
-    }
-    setMethod(sorted);
-  }
-
   return (
     <Dropdown style={{ marginRight: "10px" }}>
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -63,6 +35,7 @@ const ProductSorter = ({
                 );
                 sortProductsByKey(allProducts, "dex_id", 2, setAllProducts);
                 resetPagination();
+                localStorage.removeItem("sortQuery");
               }}
             >
               Clear sort
@@ -78,6 +51,14 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "price", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "price", 1, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Price: High to Low",
+                key: "price",
+                type: 1,
+              })
+            );
           }}
         >
           High to Low
@@ -89,6 +70,14 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "price", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "price", 2, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Price: Low to High",
+                key: "price",
+                type: 2,
+              })
+            );
           }}
         >
           Low to High
@@ -102,6 +91,10 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "name", 3, setCurrentProducts);
             sortProductsByKey(allProducts, "name", 3, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({ message: "Name: A to Z", key: "name", type: 3 })
+            );
           }}
         >
           A to Z
@@ -113,6 +106,10 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "name", 4, setCurrentProducts);
             sortProductsByKey(allProducts, "name", 4, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({ message: "Name: Z to A", key: "name", type: 4 })
+            );
           }}
         >
           Z to A
@@ -126,6 +123,14 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "height", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "height", 1, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Height: High to Low",
+                key: "height",
+                type: 1,
+              })
+            );
           }}
         >
           High to Low
@@ -137,6 +142,14 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "height", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "height", 2, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Height: Low to high",
+                key: "height",
+                type: 2,
+              })
+            );
           }}
         >
           Low to High
@@ -150,6 +163,14 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "weight", 1, setCurrentProducts);
             sortProductsByKey(allProducts, "weight", 1, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Weight: High to Low",
+                key: "weight",
+                type: 1,
+              })
+            );
           }}
         >
           High to Low
@@ -161,6 +182,14 @@ const ProductSorter = ({
             sortProductsByKey(currentProducts, "weight", 2, setCurrentProducts);
             sortProductsByKey(allProducts, "weight", 2, setAllProducts);
             resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Weight: Low to High",
+                key: "weight",
+                type: 2,
+              })
+            );
           }}
         >
           Low to High

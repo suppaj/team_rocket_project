@@ -20,6 +20,8 @@ const ProductFilter = ({
             setFilterMessage(`${item[key]}`);
             typeFilter(item[key]);
             resetPagination();
+            localStorage.setItem("filterQuery", item[key]);
+            localStorage.removeItem("searchQuery");
           }}
           style={{
             textTransform: "capitalize",
@@ -55,6 +57,7 @@ const ProductFilter = ({
                 setFilterMessage("");
                 setCurrentProducts(allProducts);
                 resetPagination();
+                localStorage.removeItem("filterQuery");
               }}
             >
               Clear filter
@@ -74,6 +77,8 @@ const ProductFilter = ({
             });
             setCurrentProducts(copy);
             resetPagination();
+            localStorage.setItem("filterQuery", "Featured products");
+            localStorage.removeItem("searchQuery");
           }}
           style={{
             textTransform: "capitalize",
