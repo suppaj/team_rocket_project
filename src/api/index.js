@@ -46,12 +46,12 @@ export async function getProductById(product_id) {
   }
 }
 
-export async function addCartItem(cart_id, prod_id, cart_quantity, price) {
+export async function addCartItem(cart_id, prod_id, cart_quantity, price, token) {
   try {
     const { data } = await axios.post(`/api/cart/${cart_id}/${prod_id}`, {
       cart_quantity,
       price,
-    });
+    }, {headers: {'Authorization': `Bearer ${token}`} });
     return data;
   } catch (error) {
     throw error;
@@ -69,7 +69,8 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
       const newCart = combineCarts(cart, data.cart);
       const { data: masterCart } = await axios.patch(
         `/api/cart/${data.cartID}`,
-        newCart
+        newCart,
+        {headers: {'Authorization': `Bearer ${data.token}`} }
       );
       console.log("masterCart", masterCart);
       data.cart = masterCart;
@@ -80,20 +81,22 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
   }
 }
 
-export async function patchCartItem(cart_id, cart_quantity, prod_id) {
+export async function patchCartItem(cart_id, cart_quantity, prod_id, token) {
   try {
-    const { data } = await axios.patch(`/api/cart/${cart_id}/${prod_id}`, {
-      cart_quantity,
-    });
+    const { data } = await axios.patch(`/api/cart/${cart_id}/${prod_id}`, 
+      {cart_quantity },
+      {headers: {'Authorization': `Bearer ${token}`} }
+    );
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function deleteCartItem(cart_id, prod_id) {
+export async function deleteCartItem(cart_id, prod_id, token) {
   try {
-    const { data } = await axios.delete(`/api/cart/${cart_id}/${prod_id}`);
+    const { data } = await axios.delete(`/api/cart/${cart_id}/${prod_id}`,
+      {headers: {'Authorization': `Bearer ${token}`} });
     return data;
   } catch (error) {
     throw error;
@@ -156,30 +159,40 @@ export async function recordGuestOrder(cart, formInfo) {
   }
 }
 
-export async function getUserShipInfo(cust_id) {
+export async function getUserShipInfo(cust_id, token) {
   try {
-    const { data } = await axios.get(`/api/users/${cust_id}/ship`);
+    const { data } = await axios.get(`/api/users/${cust_id}/ship`,{
+      headers: {'Authorization' : `Bearer ${token}`}
+    });
     return data;
   } catch (error) {
     throw error;
   }
 }
 
-export async function recordShipandBill(formInfo, cust_id) {
+export async function recordShipandBill(formInfo, cust_id, token) {
   try {
-    await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo);
+    await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo,{
+      headers: {'Authorization' : `Bearer ${token}`}
+    });
     console.log("finished shipping, doing billing");
-    await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo);
+    await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo,{
+      headers: {'Authorization' : `Bearer ${token}`}
+    });
     return;
   } catch (error) {
     throw error;
   }
 }
 
-export async function recordUserOrder(cust_id, cart) {
+export async function recordUserOrder(cust_id, cart, token) {
   try {
-    const { data } = await axios.post(`/api/orders/${cust_id}/createorderId`);
-    await axios.post(`/api/orders/${cust_id}/${data.order_id}`, cart);
+    const { data } = await axios.post(`/api/orders/${cust_id}/createorderId`, null ,
+      {headers: {'Authorization': `Bearer ${token}`} });
+    await axios.post(`/api/orders/${cust_id}/${data.order_id}`, 
+      cart,
+      {headers: {'Authorization': `Bearer ${token}`} }
+      );
     return;
   } catch (error) {
     throw error;
@@ -229,9 +242,11 @@ export async function getOrderDetailsbyOrderId(orderId) {
   }
 }
 
-export async function clearUserCart(cart_id) {
+export async function clearUserCart(cart_id, token) {
   try {
-    const { data } = await axios.delete(`api/cart/${cart_id}`);
+    const { data } = await axios.delete(`api/cart/${cart_id}`,
+    {headers: {'Authorization': `Bearer ${token}`} }
+    );
     return data;
   } catch (error) {
     throw error;
@@ -299,10 +314,12 @@ export async function getSalesData() {
   }
 }
 
-export async function getUserOrderHistory(cust_id) {
+export async function getUserOrderHistory(cust_id, token) {
   try {
     const { data: order_history } = await axios.get(
-      `/api/users/${cust_id}/history`
+      `/api/users/${cust_id}/history`,{
+        headers: {'Authorization' : `Bearer ${token}`}
+      }
     );
     console.log("order history", order_history);
     return order_history;
@@ -311,9 +328,11 @@ export async function getUserOrderHistory(cust_id) {
   }
 }
 
-export async function getUserProfile(cust_id) {
+export async function getUserProfile(cust_id, token ) {
   try {
-    const { data } = await axios.get(`/api/users/${cust_id}/profile`);
+    const { data } = await axios.get(`/api/users/${cust_id}/profile`,{
+      headers: {'Authorization' : `Bearer ${token}`}
+    });
     return data;
   } catch (error) {
     throw error;
@@ -333,11 +352,11 @@ export async function updateUserContact(user, token) {
   }
 }
 
-export async function updateUserShipping(user) {
+export async function updateUserShipping(user,token) {
   try {
     const { data } = await axios.patch(
       `/api/users/${user.cust_id}/update/shipping`,
-      user
+      user, {headers: {'Authorization': `Bearer ${token}`} } 
     );
     return data;
   } catch (error) {
@@ -345,11 +364,11 @@ export async function updateUserShipping(user) {
   }
 }
 
-export async function updateUserBilling(user) {
+export async function updateUserBilling(user, token) {
   try {
     const { data } = await axios.patch(
       `/api/users/${user.cust_id}/update/billing`,
-      user
+      user, {headers: {'Authorization': `Bearer ${token}`} }
     );
     return data;
   } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import { NotLoggedIn, ContactProfile, ShippingProfile, BillingProfile, RollingBall } from '../index';
 import { getUserProfile } from '../../api';
 
@@ -8,7 +8,7 @@ const UserProfile = (props) => {
 
     const { cust_id } = useParams();
 
-    const [ notValid, setNotValid ] = useState(true);
+    const [ notValid, setNotValid ] = useState(false);
     const [key, setKey] = useState('contact');
     const [ master, setMaster] = useState({})
     const [ userProfile, setUserProfile ] = useState({})
@@ -16,13 +16,16 @@ const UserProfile = (props) => {
 
     useEffect(()=>{
         if (cust_id == JSON.parse(localStorage.getItem('user')).custID) {
-        setNotValid(false);
+        
         fetchData();
+        } else { 
+            setNotValid(true)
         }
+
     }, [])
 
     const fetchData = async () => {
-        const userData = await getUserProfile(cust_id);
+        const userData = await getUserProfile(cust_id, JSON.parse(localStorage.getItem('user')).token);
         console.log(userData);
         if (userData) {
             setMaster(userData)
@@ -34,7 +37,7 @@ const UserProfile = (props) => {
         <>
             <br/>
             { notValid ? 
-            <NotLoggedIn /> : userProfile.cust_id ? 
+            <Redirect to='/whothis' /> : userProfile.cust_id ? 
                 <>
                 <h4 className='text-center'>User Profile Info</h4>
                 <div className='nes-container is-centered'>

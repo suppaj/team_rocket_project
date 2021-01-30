@@ -31,11 +31,14 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const results = await getUserShipInfo(user.custID);
+      const results = await getUserShipInfo(user.custID, user.token);
       if (results.cust_id) {
         setshipInfo(results);
         setFirstOrder(false);
         console.log("results", results);
+      } 
+      if (results.message) {
+        history.push('/whothis')
       }
     }
     fetchData();
@@ -81,9 +84,9 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
       if (result.error) {
         setMessage(result.error.message);
       } else if (firstOrder) {
-        await recordShipandBill(formInfo, user.custID);
-        await recordUserOrder(user.custID, cart);
-        await clearUserCart(user.cartID);
+        await recordShipandBill(formInfo, user.custID, user.token);
+        await recordUserOrder(user.custID, cart, user.token);
+        await clearUserCart(user.cartID, user.token);
         localStorage.setItem("user", JSON.stringify({ ...user, cart: [] }));
         setUser({ ...user, cart: [] });
         history.push({
@@ -91,8 +94,8 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
           state: { message : 'Thank you for your order' },
         });
       } else {
-        await recordUserOrder(user.custID, cart);
-        await clearUserCart(user.cartID);
+        await recordUserOrder(user.custID, cart, user.token);
+        await clearUserCart(user.cartID, user.token);
         localStorage.setItem("user", JSON.stringify({ ...user, cart: [] }));
         setUser({ ...user, cart: [] });
         history.push({

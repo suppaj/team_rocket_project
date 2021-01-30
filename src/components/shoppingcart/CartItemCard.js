@@ -24,7 +24,7 @@ const CartItemCard = ({
       cart.forEach(async (item, index) => {
         if (item.prod_id === product.prod_id) {
           copyCart.splice(index, 1);
-          await deleteCartItem(cart_id, product.prod_id);
+          await deleteCartItem(cart_id, product.prod_id, user.token);
         }
       });
       localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
@@ -59,7 +59,7 @@ const CartItemCard = ({
       if (item.prod_id === product.prod_id) {
         item.cart_quantity = orderAmount;
         if (isLoggedIn) {
-          await patchCartItem(cart_id, orderAmount, item.prod_id);
+          await patchCartItem(cart_id, orderAmount, item.prod_id, user.token);
         }
         return item;
       } else {
