@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import pokeball from "./pokeball.png";
-import { Modal, Form, Button } from "react-bootstrap";
 import { Filter, Rejected } from "./index";
 import {
   getSalesData,
@@ -28,8 +27,8 @@ const Metrics = ({ isAdmin }) => {
     JSON.parse(window.localStorage.getItem("total_sales")) || null
   );
   const [salesArr, setSalesArr] = useState([]);
-  const [updateFilter, setUpdateFilter] = useState(false);
   const [topSalesArr, setTopSalesArr] = useState([]);
+  const [updateFilter, setUpdateFilter] = useState(false);
   const [showMetrics, setShowMetrics] = useState(false);
 
   const handleClose = () => setShowMetrics(false);
@@ -56,11 +55,7 @@ const Metrics = ({ isAdmin }) => {
         .then((response) => {
           const monthlySales = response.monthlySales;
           handleSales(monthlySales);
-
           setSalesArr(handleRetrieveSales);
-
-          handleTotalSales(filterSalesbyMonthAndYear(salesArr, month, year));
-          // console.log("TOTAL SALES ARR", totalSales);
         })
 
         .catch((error) => {
@@ -74,12 +69,6 @@ const Metrics = ({ isAdmin }) => {
   useEffect(() => {
     setForecast(getMonth());
   });
-
-  useEffect(() => {});
-
-  //   useEffect(() => {
-  //     setUpdateFilter(false);
-  //   }, [month, year]);
 
   return (
     <div id="metrics">
@@ -97,7 +86,55 @@ const Metrics = ({ isAdmin }) => {
                   X
                 </button>
                 <div id="metrics-pokedex-screen">
-                  <div id="top-sales">Top Sales by Product </div>
+                  <div id="top-sales">
+                    <div
+                      className="nes-container is-rounded is-dark"
+                      id="top-pokemon-list"
+                    >
+                      <p>Top Sales by Month</p>
+                      <div className="top-sales-container">
+                        {topSalesArr
+                          ? topSalesArr.map((product, index) => {
+                              console.log(index, product.poke_name);
+                              const { DEX, poke_name } = product;
+
+                              return (
+                                <div key={index} className="poke-top-item">
+                                  {index === 0 ? (
+                                    <div className="nes-container is-rounded pokemon-standing">
+                                      <p className="num-one-par">
+                                        <span className="number-one">
+                                          {" "}
+                                          {index + 1}
+                                        </span>
+                                        : {poke_name}
+                                      </p>
+                                      <img
+                                        src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-v/black-white/animated/${DEX}.gif?raw=true`}
+                                        alt={`${poke_name}`}
+                                      ></img>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="nes-container is-rounded pokemon-standing"
+                                      //    className="poke-top-item"
+                                    >
+                                      <p>
+                                        {index + 1}: {poke_name}
+                                      </p>
+                                      <img
+                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${DEX}.png`}
+                                        alt={`${poke_name}`}
+                                      ></img>
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })
+                          : null}
+                      </div>
+                    </div>
+                  </div>
                   <div id="trends">Monthly Trends</div>
                   <div id="forecast">
                     <p>Forecasted Sales</p>
@@ -108,7 +145,7 @@ const Metrics = ({ isAdmin }) => {
                     {totalSales ? <p>₽{totalSales}K</p> : null}
                   </div>
                   <div id="sales-list">
-                    Filter Historical Sales Data
+                    Filter Sales Data
                     <div className="admin-filter">
                       <Filter
                         setMonth={setMonth}

@@ -256,7 +256,6 @@ export async function getTopSalesDatabyMonth(month, year) {
     throw error;
   }
 }
-getTopSalesDatabyMonth(8, 2020);
 
 export async function getSalesDatabyMonth(month, year) {
   try {

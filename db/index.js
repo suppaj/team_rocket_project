@@ -731,7 +731,6 @@ async function db_joinTopSales(month, year) {
       FROM product  
     `
     );
-
     const topSalesArr = [];
     const result = rows.map((row, index) => {
       console.log("this is the prod id", row.prod_id);
@@ -742,7 +741,7 @@ async function db_joinTopSales(month, year) {
             poke_name: row.name,
             DEX: row.dex_id,
           });
-          // console.log("TOP SALES IS FILLING UP", topSalesArr);
+          
           return topSalesArr;
         }
       });

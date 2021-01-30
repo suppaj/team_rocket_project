@@ -195,7 +195,7 @@ const Customer_admin = ({ isAdmin }) => {
                 </div>
                 <div className="instructions-container">
                   <div
-                    class="nes-container is-rounded is-dark"
+                    className="nes-container is-rounded is-dark"
                     id="cust-instructions"
                   >
                     <p className="prod-instructions-title">
