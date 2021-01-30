@@ -749,7 +749,7 @@ async function db_joinTopSales(month, year) {
     });
 
     console.log("FINAL TEST OF TOP SALES ARR", topSalesArr);
-    return rows;
+    return topSalesArr;
   } catch (error) {
     throw error;
   }
@@ -1044,4 +1044,5 @@ module.exports = {
   db_updateUserBilling,
   db_getAllProductsAdmin,
   db_updateProduct,
+  db_joinTopSales,
 };

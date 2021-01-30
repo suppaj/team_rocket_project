@@ -250,12 +250,13 @@ export async function submitCustomerReview(reviewObject) {
 export async function getTopSalesDatabyMonth(month, year) {
   try {
     const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
-    console.log(data);
+    console.log("RESPONSE FROM TOP MONTHLY SALES DATA", data);
     return data;
   } catch (error) {
     throw error;
   }
 }
+getTopSalesDatabyMonth(8, 2020);
 
 export async function getSalesDatabyMonth(month, year) {
   try {
@@ -357,5 +358,3 @@ export async function updateProduct(prod_id, attributes) {
     throw error;
   }
 }
-
-// updateProduct(1, { price: 1, quantity: 12.0, is_active: false });
