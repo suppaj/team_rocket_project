@@ -60,4 +60,8 @@ apiRouter.use("/products", require("./products"));
 apiRouter.use("/checkout", require("./checkout"));
 apiRouter.use("/cart", require("./cart"));
 
+apiRouter.use((error, req, res, next) => {
+  res.send(error);
+});
+
 module.exports = apiRouter;

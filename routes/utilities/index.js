@@ -3,7 +3,7 @@ const { db_getItemPrice } = require("../../db/index");
 function requireUser(req, res, next) {
   console.log('require user ran', req.user)
   if (!req.user) {
-    res.send({
+    next({
       name: "MissingUserError",
       message: "You must be logged in to perform this action"
     });
@@ -14,7 +14,7 @@ function requireUser(req, res, next) {
 
 function requireAdmin(req, res,next) {
   if (!req.user.siteAdmin) {
-    res.send({
+    res.next({
       name: 'MissingAdminCreds',
       message: 'You must be an admin to perform this action'
     });
