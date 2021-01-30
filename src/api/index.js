@@ -257,6 +257,16 @@ export async function getTopSalesDatabyMonth(month, year) {
   }
 }
 
+export async function getTotalSalesValue(month, year) {
+  try {
+    const { data } = await axios.get(`api/admin/total_sales/${month}/${year}`);
+    console.log("RESPONSE FROM total MONTHLY SALES DATA", data);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getSalesDatabyMonth(month, year) {
   try {
     const { data } = await axios.get(

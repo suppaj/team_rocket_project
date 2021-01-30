@@ -6,6 +6,7 @@ import {
   getSalesDatabyProductID,
   getSalesDatabyMonth,
   getTopSalesDatabyMonth,
+  getTotalSalesValue,
 } from "../../api/index";
 
 import {
@@ -23,9 +24,7 @@ const Metrics = ({ isAdmin }) => {
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
   const [forecast, setForecast] = useState(null);
-  const [totalSales, setTotalSales] = useState(
-    JSON.parse(window.localStorage.getItem("total_sales")) || null
-  );
+  const [totalSales, setTotalSales] = useState(null);
   const [salesArr, setSalesArr] = useState([]);
   const [topSalesArr, setTopSalesArr] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
@@ -36,8 +35,8 @@ const Metrics = ({ isAdmin }) => {
     setShowMetrics(true);
     const sales = JSON.parse(window.localStorage.getItem("sales_array"));
     setSalesArr(sales);
-    const totalSales = filterSales(sales);
-    setTotalSales(totalSales);
+    //     const totalSales = filterSales(sales);
+    //     setTotalSales(totalSales);
   };
 
   useEffect(() => {
@@ -58,6 +57,15 @@ const Metrics = ({ isAdmin }) => {
           setSalesArr(handleRetrieveSales);
         })
 
+        .catch((error) => {
+          throw error;
+        });
+
+      getTotalSalesValue(month, year)
+        .then((response) => {
+          console.log("INSIDE USE EFFECT THIS IS TOTAL SALES DATA", response);
+          setTotalSales(response.totalSales);
+        })
         .catch((error) => {
           throw error;
         });

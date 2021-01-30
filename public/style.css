@@ -290,9 +290,9 @@ th {
   padding: 8px;
 }
 
-td {
+/* .product-rows > td {
   height: 100px;
-}
+} */
 
 #customer-portal-modal {
   overflow-y: hidden;
@@ -369,6 +369,10 @@ td {
   grid-column: 1/3;
   width: 100%;
   height: 100%;
+}
+
+.sales-rows {
+  font-size: 0.6rem;
 }
 
 .nes-select {

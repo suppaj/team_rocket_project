@@ -14,6 +14,7 @@ const {
   db_getAllProductsAdmin,
   db_updateProduct,
   db_joinTopSales,
+  db_getTotalSales,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -126,6 +127,17 @@ apiRouter.get("/top_sales/:month/:year", async (req, res) => {
   try {
     const topMonthlySales = await db_joinTopSales(month, year);
     res.send({ topMonthlySales });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/total_sales/:month/:year", async (req, res) => {
+  const { month, year } = req.params;
+
+  try {
+    const totalSales = await db_getTotalSales(month, year);
+    res.send({ totalSales });
   } catch (error) {
     throw error;
   }
