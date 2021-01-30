@@ -9,43 +9,6 @@ const stripePromise = loadStripe("pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasX
 
 const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
 
-    // uncomment and change onClick of button to handleClick to reinstate
-
-    // const handleClick = async () => {
-    //     const stripe = await stripePromise;
-    //     console.log('stripe', stripe)
-
-    //     const ckOutArray = cart.map((item)=>{
-    //         return {
-    //             price_data: {
-    //                 currency: 'usd',
-    //                 product_data : {
-    //                     name: item.name,
-    //                     images: [`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.dex_id}.png`]
-    //                 },
-    //                 unit_amount: item.price*100,
-    //             },
-    //             quantity: item.cart_quantity
-    //         }
-    //     });
-
-    //     console.log(ckOutArray);
-
-    //     const session = await getCheckoutSession(ckOutArray);
-    //     console.log('session', session);
-
-    //     const result = await stripe.redirectToCheckout({
-    //         sessionId: session.id
-    //     });
-    //     console.log('results', result)
-    //     if (result.error) {
-    //         // If `redirectToCheckout` fails due to a browser or network
-    //         // error, display the localized error message to your customer
-    //         // using `result.error.message`.
-    //         console.log(result.error.message)
-    //     }      
-    // }
-
     return (
         <>
             <Col md={cart.length ? {span: 7}:{span :'auto', offset: 1}} >

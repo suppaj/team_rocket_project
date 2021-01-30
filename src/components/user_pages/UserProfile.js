@@ -23,7 +23,6 @@ const UserProfile = (props) => {
 
     const fetchData = async () => {
         const userData = await getUserProfile(cust_id);
-        console.log(userData);
         if (userData) {
             setMaster(userData)
             setUserProfile(userData)

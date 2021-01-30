@@ -64,14 +64,12 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
       cust_email,
       cust_pwd,
     });
-    console.log("login response", data);
     if (cart.length) {
       const newCart = combineCarts(cart, data.cart);
       const { data: masterCart } = await axios.patch(
         `/api/cart/${data.cartID}`,
         newCart
       );
-      console.log("masterCart", masterCart);
       data.cart = masterCart;
     }
     return data;
@@ -115,8 +113,6 @@ export async function registerCustomer(
       cust_pwd,
       is_admin,
     });
-
-    console.log("register response", data);
     return data;
   } catch (error) {
     throw error;
@@ -168,7 +164,6 @@ export async function getUserShipInfo(cust_id) {
 export async function recordShipandBill(formInfo, cust_id) {
   try {
     await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo);
-    console.log("finished shipping, doing billing");
     await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo);
     return;
   } catch (error) {
@@ -212,7 +207,6 @@ export async function getOrderHistoryByCustomerId(customerId) {
     const { data } = await axios.get(
       `api/admin/customers_history/${customerId}`
     );
-    console.log(data);
     return data;
   } catch (error) {
     throw error;
@@ -222,7 +216,6 @@ export async function getOrderHistoryByCustomerId(customerId) {
 export async function getOrderDetailsbyOrderId(orderId) {
   try {
     const { data } = await axios.get(`api/admin/customers_orders/${orderId}`);
-    console.log(data);
     return data;
   } catch (error) {
     throw error;
@@ -304,7 +297,6 @@ export async function getUserOrderHistory(cust_id) {
     const { data: order_history } = await axios.get(
       `/api/users/${cust_id}/history`
     );
-    console.log("order history", order_history);
     return order_history;
   } catch (error) {
     throw error;
@@ -321,7 +313,6 @@ export async function getUserProfile(cust_id) {
 }
 
 export async function updateUserContact(user, token) {
-  console.log(token)
   try {
     const { data } = await axios.patch(
       `/api/users/${user.cust_id}/update/contact`, user, 
