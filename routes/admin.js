@@ -15,6 +15,8 @@ const {
   db_updateProduct,
   db_joinTopSales,
   db_getTotalSales,
+  db_countActiveProducts,
+  db_countInactiveProducts,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -34,6 +36,23 @@ apiRouter.get("/customers_email", async (req, res) => {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
     res.send({ customer });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/active_products", async (req, res) => {
+  try {
+    const active = await db_countActiveProducts();
+    res.send({ active });
+  } catch (error) {
+    throw error;
+  }
+});
+apiRouter.get("/inactive_products", async (req, res) => {
+  try {
+    const inactive = await db_countInactiveProducts();
+    res.send({ inactive });
   } catch (error) {
     throw error;
   }

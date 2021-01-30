@@ -4,9 +4,9 @@ import ultraball from "./ultraball.png";
 import { Modal, Form, Button } from "react-bootstrap";
 import { Search, Rejected } from "./index";
 import { countActive, countInactive } from "./utils";
-import { updateProduct } from "../../api/index";
+import { updateProduct, getActive, getInactive } from "../../api/index";
 
-const Product_admin = ({ isAdmin, setProductEdited }) => {
+const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
   const [showMetrics, setShowMetrics] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [productsArr, setProductsArr] = useState([]);
@@ -25,11 +25,51 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
     setShowMetrics(true);
     const products = JSON.parse(window.localStorage.getItem("prod_array"));
     setProductsArr(products);
-    const activeProducts = countActive(products);
-    const inactiveProducts = countInactive(products);
-    setActiveProducts(activeProducts);
-    setInactiveProducts(inactiveProducts);
+    //     const activeProducts = countActive(products);
+    //     const inactiveProducts = countInactive(products);
+    //     setActiveProducts(activeProducts);
+    //     setInactiveProducts(inactiveProducts);
   };
+
+  //   useEffect(() => {
+  //     const products = JSON.parse(window.localStorage.getItem("prod_array"));
+  //     setProductsArr(products);
+  //     const activeProducts = countActive(products);
+  //     const inactiveProducts = countInactive(products);
+  //     setActiveProducts(activeProducts);
+  //     setInactiveProducts(inactiveProducts);
+  //     console.log("UPDATE COMPLETE");
+  //   }, [productEdited]);
+
+  useEffect(() => {
+    getActive()
+      .then((response) => {
+        console.log(
+          "test purps this is the active response",
+          response[0].count
+        );
+        const active = response[0].count;
+        setActiveProducts(active);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }, [productEdited]);
+
+  useEffect(() => {
+    getInactive()
+      .then((response) => {
+        console.log(
+          "test purps this is the inactive response",
+          response[0].count
+        );
+        const inactive = response[0].count;
+        setInactiveProducts(inactive);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }, [productEdited]);
 
   useEffect(() => {
     const data = [["Product", "Price"]];

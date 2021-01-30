@@ -70,12 +70,6 @@ const Admin = ({ isAdmin }) => {
     }
   }, [productEdited]);
 
-  useEffect(() => {
-    if (productEdited === true) {
-      setProductEdited(false);
-    }
-  }, [productEdited]);
-
   return (
     <div id="admin">
       {isAdmin ? (
@@ -100,6 +94,7 @@ const Admin = ({ isAdmin }) => {
             <Product_admin
               isAdmin={isAdmin}
               setProductEdited={setProductEdited}
+              productEdited={productEdited}
             />
             <Metrics isAdmin={isAdmin} />
           </div>

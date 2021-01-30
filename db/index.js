@@ -115,6 +115,34 @@ async function getAllProducts() {
   }
 }
 
+async function db_countActiveProducts() {
+  try {
+    const { rows } = await client.query(
+      `SELECT COUNT (*) FROM product WHERE is_active = true`
+    );
+
+    console.log("TEST OF COUNT", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_countInactiveProducts() {
+  try {
+    const { rows } = await client.query(
+      `SELECT COUNT (*) FROM product WHERE is_active = false`
+    );
+
+    console.log("TEST OF COUNT", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+// db_countActiveProducts();
+// db_countInctiveProducts();
+
 async function db_getAllProductsAdmin() {
   try {
     const { rows: pokemon } = await client.query(`SELECT * FROM product`);
@@ -1067,4 +1095,6 @@ module.exports = {
   db_updateProduct,
   db_joinTopSales,
   db_getTotalSales,
+  db_countActiveProducts,
+  db_countInactiveProducts,
 };

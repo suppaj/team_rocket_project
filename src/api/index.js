@@ -298,6 +298,24 @@ export async function getSalesData() {
     throw error;
   }
 }
+export async function getActive() {
+  try {
+    const { data } = await axios.get(`/api/admin/active_products`);
+    console.log("ACTIVE PRODS", data);
+    return data.active;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function getInactive() {
+  try {
+    const { data } = await axios.get(`/api/admin/inactive_products`);
+    console.log("INACTIVE PRODS", data);
+    return data.inactive;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function getUserOrderHistory(cust_id) {
   try {

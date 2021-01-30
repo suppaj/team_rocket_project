@@ -59,8 +59,6 @@ export function getMonth() {
   return filteredMonth[0].totals;
 }
 
-// getMonth();
-
 export const filterSales = (salesData) => {
   const filteredSales = salesData.filter((sale, index) => {
     const current_transaction = sale.transaction_date;
@@ -125,12 +123,6 @@ export const handleTotalSales = (response) => {
 
 export const handleRetrieveSales = () => {
   const sales = JSON.parse(window.localStorage.getItem("sales_array"));
-
-  return sales;
-};
-
-export const handleRetrieveTotalSales = () => {
-  const sales = JSON.parse(window.localStorage.getItem("total_sales"));
 
   return sales;
 };
