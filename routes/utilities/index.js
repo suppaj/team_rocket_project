@@ -12,6 +12,16 @@ function requireUser(req, res, next) {
   next();
 }
 
+function requireAdmin(req, res,next) {
+  if (!req.user.isAdmin) {
+    next({
+      name: 'MissingAdminCreds',
+      message: 'You must be an admin to perform this action'
+    });
+  }
+  next();
+}
+
 async function calculateOrderAmount(cart) {
   let orderTotal = 0;
   for (let item of cart) {
