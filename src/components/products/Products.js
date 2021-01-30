@@ -61,6 +61,17 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         console.log("response:", response);
         setAllProducts(response);
         setCurrentProducts(response);
+
+        return response;
+      })
+      .then((response) => {
+        console.log("next part of useEffect");
+        let query = localStorage.getItem("searchQuery");
+        console.log("query:", query);
+        if (query !== "" && query !== null) {
+          searcher(query, response);
+          setSearchVal(query);
+        }
       })
       .catch((error) => {
         console.log("Error fetching products!");
@@ -109,6 +120,40 @@ const Products = ({ getAllProducts, getAllTypes }) => {
     setCurrentProducts(filtered);
   }
 
+  // search function built to comb the product object for string matches in any of the given fields
+  function searcher(val, array) {
+    if (filterMessage !== "") {
+      setFilterMessage("");
+    }
+    let copy = array ? [...array] : [...allProducts];
+    let filtered = [];
+    copy.forEach((poke) => {
+      let pokeDex = poke.dex_id.toString();
+      let pokeName = poke.name.toLowerCase();
+      let pokeType = poke.type.toString();
+      let pokeDesc = poke.description.toLowerCase();
+      let pokeHeight = poke.height.toString();
+      let pokeWeight = poke.weight.toString();
+      let pokePrice = poke.price.toString();
+      if (pokeDex.includes(val)) {
+        filtered.push(poke);
+      } else if (pokeName.includes(val)) {
+        filtered.push(poke);
+      } else if (pokeType.includes(val)) {
+        filtered.push(poke);
+      } else if (pokeDesc.includes(val)) {
+        filtered.push(poke);
+      } else if (pokeHeight.includes(val)) {
+        filtered.push(poke);
+      } else if (pokeWeight.includes(val)) {
+        filtered.push(poke);
+      } else if (pokePrice.includes(val)) {
+        filtered.push(poke);
+      }
+    });
+    setCurrentProducts(filtered);
+  }
+
   return (
     <>
       <Row
@@ -122,7 +167,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
       >
         {/** product search component*/}
         <ProductSearch
+          searcher={searcher}
           allProducts={allProducts}
+          currentProducts={currentProducts}
           setCurrentProducts={setCurrentProducts}
           filterMessage={filterMessage}
           setFilterMessage={setFilterMessage}
