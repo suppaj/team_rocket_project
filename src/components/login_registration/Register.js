@@ -9,6 +9,7 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
   const [lastName, setLastName] = useState("");
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [registeredPassword, setRegisteredPassword] = useState("");
+  const [ errMsg, setErrMsg ] = useState('');
   // const [welcomeShow, setWelcomeShow] = useState(false);
 
   const handleCloseRegister = () => setRegisterShow(false);
@@ -24,10 +25,13 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
       false
     )
       .then((response) => {
-        if (response) {
+        if (response.token) {
           console.log("this is my response", response);
+          setErrMsg('');
           setRegisterShow(false)
           setWelcomeShow(true);
+        } else {
+          setErrMsg(response.message);
         }
       })
       .catch((error) => console.error(error));
@@ -112,6 +116,9 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
               </div>
             </Form.Group>
           </Form>
+          <div>
+            <p className='is-error'>{errMsg}</p>
+          </div>
         </Modal.Body>
 
         <Modal.Footer>

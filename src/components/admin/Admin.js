@@ -8,6 +8,8 @@ import {
 import { Customer_admin, Metrics, Product_admin, Rejected } from "./index";
 
 const Admin = ({ isAdmin }) => {
+  const [productEdited, setProductEdited] = useState(false);
+
   const handleCustomers = (response) => {
     window.localStorage.setItem("customer_array", JSON.stringify(response));
   };
@@ -43,7 +45,12 @@ const Admin = ({ isAdmin }) => {
       getSalesData()
         .then((response) => {
           let sales = response.sales;
-          handleSales(sales);
+          const result = sales.sort(
+            (a, b) =>
+              parseFloat(b.transaction_date) - parseFloat(a.transaction_date)
+          );
+          console.log("this is the result");
+          handleSales(result);
         })
         .catch((error) => {
           throw error;
@@ -56,13 +63,25 @@ const Admin = ({ isAdmin }) => {
       adminGetAllProducts()
         .then((response) => {
           console.log("this is the response", response);
-          handleProducts(response);
+
+          const prodArr = response.products;
+          const result = prodArr.sort(
+            (a, b) => parseFloat(a.prod_id) - parseFloat(b.prod_id)
+          );
+
+          handleProducts(result);
         })
         .catch((error) => {
           throw error;
         });
     }
-  });
+  }, [productEdited]);
+
+  useEffect(() => {
+    if (productEdited === true) {
+      setProductEdited(false);
+    }
+  }, [productEdited]);
 
   return (
     <div id="admin">
@@ -85,7 +104,10 @@ const Admin = ({ isAdmin }) => {
           </Router>
           <div id="admin_container">
             <Customer_admin isAdmin={isAdmin} />
-            <Product_admin isAdmin={isAdmin} />
+            <Product_admin
+              isAdmin={isAdmin}
+              setProductEdited={setProductEdited}
+            />
             <Metrics isAdmin={isAdmin} />
           </div>
 

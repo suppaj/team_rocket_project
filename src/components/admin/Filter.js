@@ -13,7 +13,7 @@ const Filter = ({ setMonth, setYear, setUpdateFilter, month, year }) => {
               setMonth(parseInt(event.target.value));
             }}
           >
-            <option value="" disabled defaultValue hidden>
+            <option value="" defaultValue hidden>
               Select month...
             </option>
             <option value="0"></option>
@@ -43,7 +43,7 @@ const Filter = ({ setMonth, setYear, setUpdateFilter, month, year }) => {
               setYear(parseInt(event.target.value));
             }}
           >
-            <option value="" disabled defaultValue hidden>
+            <option value="" defaultValue hidden>
               Select year...
             </option>
             <option value="2021">2021</option>

@@ -81,7 +81,10 @@ const Customer_admin = ({ isAdmin }) => {
           ></img>
           <div className="admin-title">
             Customer Orders
-            <div className={showCust === true ? "show" : "hide"}>
+            <div
+              className={showCust === true ? "show" : "hide"}
+              id="customer-admin-screen"
+            >
               <button className="close-button" onClick={handleCloseCust}>
                 X
               </button>
@@ -189,6 +192,33 @@ const Customer_admin = ({ isAdmin }) => {
                         );
                       })
                     : null}
+                </div>
+                <div className="instructions-container">
+                  <div
+                    class="nes-container is-rounded is-dark"
+                    id="cust-instructions"
+                  >
+                    <p className="prod-instructions-title">
+                      {" "}
+                      {"Instructions".toUpperCase()}{" "}
+                    </p>
+                    <p></p>
+                    <p>
+                      {"Customer Detail".toUpperCase()}: The number of products
+                      that are listed on the {"products".toUpperCase()} page for
+                      customers to purchase, depending on their preference.
+                    </p>
+                    <p>
+                      {"Customer Orders".toUpperCase()}: The count of products
+                      that are {"not".toUpperCase()} available for customers to
+                      purchase.
+                    </p>
+                    <p>
+                      {"Order Detail".toUpperCase()}: The number of{" "}
+                      {"active".toUpperCase()} products compared to the number
+                      of {"inactive".toUpperCase()} products.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

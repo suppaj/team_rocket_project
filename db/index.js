@@ -434,32 +434,34 @@ async function db_getCustomerCart(cust_email) {
 
 // admin methods
 
-async function db_updateProduct(prod_id, fields = {}) {
-  const setString = Object.keys(fields)
-    .map((key, index) => `"${key}"=$${index + 1}`)
-    .join(", ");
-
-  if (setString.length === 0) {
-    return;
-  }
+async function db_updateProduct(prod_id, attributes) {
+  const { price, quantity, is_active } = attributes;
   try {
     const {
       rows: [product],
     } = await client.query(
       `
       UPDATE product
-      SET ${setString}
+      SET price=$1, 
+      quantity=$2,
+      is_active=$3
       WHERE prod_id=${prod_id}
-      RETURNING *;
+      RETURNING name;
     `,
-      Object.values(fields)
+      [price, quantity, is_active]
     );
-    console.log("inside of update product this is the product");
+
+    console.log("inside of update product this is the product", product);
     return product;
   } catch (error) {
     throw error;
   }
 }
+// db_updateProduct(1, {
+//   price: 10.99,
+//   quantity: 2,
+//   is_active: false,
+// });
 
 // checkout methods
 
@@ -517,11 +519,14 @@ async function db_addOrderItems(cart, order_id) {
     for (let item of cart) {
       const price = await db_getItemPrice(item.prod_id);
       valueArray.push(item.prod_id, item.cart_quantity, price);
-      await client.query(`
+      await client.query(
+        `
         UPDATE product
           SET quantity = product.quantity - $1
           WHERE prod_id=$2;
-      `,[item.cart_quantity, item.prod_id]);
+      `,
+        [item.cart_quantity, item.prod_id]
+      );
     }
     await client.query(
       `
@@ -698,8 +703,8 @@ async function db_getTopSalesDatabyMonth(month, year) {
   try {
     const { rows } = await client.query(
       `
-      select  sum(transaction_quantity), prod_id 
-      from sales
+      SELECT  sum(transaction_quantity), prod_id 
+      FROM sales
       WHERE EXTRACT(MONTH FROM transaction_date) = $1
       AND EXTRACT(Year FROM transaction_date) = $2
       group by prod_id
@@ -715,6 +720,42 @@ async function db_getTopSalesDatabyMonth(month, year) {
     throw error;
   }
 }
+
+async function db_joinTopSales(month, year) {
+  const topSales = await db_getTopSalesDatabyMonth(month, year);
+
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM product  
+    `
+    );
+
+    const topSalesArr = [];
+    const result = rows.map((row, index) => {
+      console.log("this is the prod id", row.prod_id);
+      const topItem = topSales.map((sale, index) => {
+        if (row.prod_id === sale.prod_id) {
+          topSalesArr.push({
+            prodID: row.prod_id,
+            poke_name: row.name,
+            DEX: row.dex_id,
+          });
+          // console.log("TOP SALES IS FILLING UP", topSalesArr);
+          return topSalesArr;
+        }
+      });
+    });
+
+    console.log("FINAL TEST OF TOP SALES ARR", topSalesArr);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// db_joinTopSales(10, 2020);
 
 async function db_getSalesData() {
   try {
@@ -1002,4 +1043,5 @@ module.exports = {
   db_updateUserShipping,
   db_updateUserBilling,
   db_getAllProductsAdmin,
+  db_updateProduct,
 };
