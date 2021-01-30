@@ -240,3 +240,8 @@ th {
   color: lightgray;
   background-color: #999;
 }
+
+#no-current-details {
+  border: solid purple;
+  z-index: 999999;
+}

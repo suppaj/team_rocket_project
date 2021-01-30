@@ -189,7 +189,7 @@ export async function recordUserOrder(cust_id, cart) {
 export async function getAllCustomers() {
   try {
     const { data } = await axios.get(`/api/admin/view_customers`);
-    console.log("these are customers", data);
+
     return data;
   } catch (error) {
     throw error;
@@ -260,7 +260,7 @@ export async function getTopSalesDatabyMonth(month, year) {
 export async function getTotalSalesValue(month, year) {
   try {
     const { data } = await axios.get(`api/admin/total_sales/${month}/${year}`);
-    console.log("RESPONSE FROM total MONTHLY SALES DATA", data);
+
     return data;
   } catch (error) {
     throw error;
@@ -272,7 +272,7 @@ export async function getSalesDatabyMonth(month, year) {
     const { data } = await axios.get(
       `api/admin/product_sales/${month}/${year}`
     );
-    console.log(data);
+
     return data;
   } catch (error) {
     throw error;
@@ -292,7 +292,7 @@ export async function getSalesDatabyProductID(prodID) {
 export async function getSalesData() {
   try {
     const { data } = await axios.get(`/api/admin/view_sales`);
-    console.log("sales data", data);
+
     return data;
   } catch (error) {
     throw error;

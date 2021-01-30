@@ -9,15 +9,7 @@ import {
   getTotalSalesValue,
 } from "../../api/index";
 
-import {
-  getMonth,
-  filterSales,
-  filterSalesbyMonthAndYear,
-  handleSales,
-  handleRetrieveSales,
-  handleTotalSales,
-  handleRetrieveTotalSales,
-} from "./utils";
+import { getMonth, handleSales, handleRetrieveSales } from "./utils";
 
 const Metrics = ({ isAdmin }) => {
   const [show, setShow] = useState(false);
@@ -35,8 +27,6 @@ const Metrics = ({ isAdmin }) => {
     setShowMetrics(true);
     const sales = JSON.parse(window.localStorage.getItem("sales_array"));
     setSalesArr(sales);
-    //     const totalSales = filterSales(sales);
-    //     setTotalSales(totalSales);
   };
 
   useEffect(() => {
@@ -63,7 +53,6 @@ const Metrics = ({ isAdmin }) => {
 
       getTotalSalesValue(month, year)
         .then((response) => {
-          console.log("INSIDE USE EFFECT THIS IS TOTAL SALES DATA", response);
           setTotalSales(response.totalSales);
         })
         .catch((error) => {
@@ -103,7 +92,6 @@ const Metrics = ({ isAdmin }) => {
                       <div className="top-sales-container">
                         {topSalesArr
                           ? topSalesArr.map((product, index) => {
-                              console.log(index, product.poke_name);
                               const { DEX, poke_name } = product;
 
                               return (
@@ -150,7 +138,11 @@ const Metrics = ({ isAdmin }) => {
                   </div>
                   <div id="total-sales">
                     <p>Sales Totals</p>
-                    {totalSales ? <p>₽{totalSales}K</p> : null}
+                    {totalSales ? (
+                      <p className="total-sales-par">₽{totalSales}K</p>
+                    ) : (
+                      <p className="total-sales-par"></p>
+                    )}
                   </div>
                   <div id="sales-list">
                     Filter Sales Data
