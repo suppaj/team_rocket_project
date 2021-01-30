@@ -30,16 +30,25 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   function renderNextPage() {
     setIndexStart(indexStart + 12);
     setIndexEnd(indexEnd + 12);
+    localStorage.setItem(
+      "pageQuery",
+      JSON.stringify({ start: indexStart + 12, end: indexEnd + 12 })
+    );
   }
   // front-end pagination previous page
   function renderPrevPage() {
     setIndexStart(indexStart - 12);
     setIndexEnd(indexEnd - 12);
+    localStorage.setItem(
+      "pageQuery",
+      JSON.stringify({ start: indexStart - 12, end: indexEnd - 12 })
+    );
   }
   // resets pagination for search/sort/filters
   function resetPagination() {
     setIndexStart(0);
     setIndexEnd(12);
+    localStorage.removeItem("pageQuery");
   }
   // scrolls to top of page when next/prev buttons are clicked
   function scrollToTop() {
@@ -90,7 +99,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         return response;
       })
       .then((response) => {
-        console.log("extra .then", response);
         // checks localStorage for a stored search query
         let searchQuery = localStorage.getItem("searchQuery");
         searchQuery
@@ -126,13 +134,16 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         }
 
         // checks localStorage for a stored page query
-        let pageQuery = localStorage.getItem("pageQuery");
+        let pageQuery = JSON.parse(localStorage.getItem("pageQuery"));
         pageQuery
           ? console.log("Page query:", pageQuery)
           : console.log("No page query to apply...");
         // applies stored page query if it exists
         if (pageQuery !== null) {
+          const { start, end } = pageQuery;
           console.log("Attempting to apply page query!");
+          setIndexStart(start);
+          setIndexEnd(end);
         }
       })
       .catch((error) => {
