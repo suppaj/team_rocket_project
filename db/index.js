@@ -944,7 +944,7 @@ async function db_updateUserContact(cust_id, user) {
     `,
       [user.first_name, user.last_name, user.cust_email, cust_id]
     );
-    console.log(userInfo);
+    console.log('line 947',userInfo);
     return userInfo;
   } catch (error) {
     throw error;

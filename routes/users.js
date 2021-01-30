@@ -12,6 +12,10 @@ db_updateUserShipping,
 db_updateUserBilling,
 } = require('../db')
 
+const {
+  requireUser
+} = require('./utilities');
+
 apiRouter.get(`/:cust_id/ship`, async (req, res, next)=>{
   const { cust_id } = req.params;
   console.log('hello');
@@ -67,9 +71,17 @@ apiRouter.get(`/:cust_id/profile`, async (req, res, next)=> {
   }
 })
 
-apiRouter.patch(`/:cust_id/update/contact`, async (req, res, next)=>{
+apiRouter.patch(`/:cust_id/update/contact`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
+  console.log('look I ran too');
   const user = req.body;
+  if (user.custID !== req.user.custID) {
+    console.log('hope i did not run');
+    next({
+      name: 'UnauthorizedUser',
+      message: 'You cannot edit an account that is not your own.'
+    });
+  }
   try {
     if (user.emailChange) {
     const _user = await db_getCustomerByEmail(user.cust_email);
@@ -79,9 +91,11 @@ apiRouter.patch(`/:cust_id/update/contact`, async (req, res, next)=>{
         name: "UserExistsError",
         message: "An account with that email address already exists!",
       });
-    } else { 
+    }} 
+    console.log('this is good... maybe')
     const results = await db_updateUserContact(cust_id, user);
-    res.send(results)}}
+    res.send(results) 
+
   } catch (error) {
     next(error)
   }

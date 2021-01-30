@@ -1,10 +1,46 @@
 const apiRouter = require("express").Router();
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = process.env;
 
 const {
-  db_addCartItem,
-  db_patchCartItem,
-  db_deleteCartItem,
+  db_getCustomerById
 } = require("../db/index");
+
+apiRouter.use(async (req, res, next) => {
+  const prefix = 'Bearer ';
+  const auth = req.header('Authorization');
+  console.log('i ran')
+  if (!auth) {
+    console.log('no auth')
+      next();
+  } else if (auth.startsWith(prefix)) {
+      const token = auth.slice(prefix.length);
+    console.log('I ran too')
+      try {
+          const { custID } = jwt.verify(token, JWT_SECRET);
+        console.log(custID);
+          if (custID) {
+              req.user = await db_getCustomerById(custID);
+              next();
+          }
+      } catch ({ name, message }) {
+          next({ name, message });
+      }
+  } else {
+      next({ 
+          name: 'AuthorizationHeaderError',
+          message: `Authorization token must start with ${ prefix }`
+      });
+  }
+});
+
+apiRouter.use((req, res, next) => {
+  if (req.user) {
+    console.log("User is set:", req.user);
+  }
+
+  next();
+});
 
 apiRouter.get("/", (req, res, next) => {
   res.send({

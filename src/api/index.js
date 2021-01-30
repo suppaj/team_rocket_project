@@ -310,11 +310,12 @@ export async function getUserProfile(cust_id) {
   }
 }
 
-export async function updateUserContact(user) {
+export async function updateUserContact(user, token) {
+  console.log(token)
   try {
     const { data } = await axios.patch(
-      `/api/users/${user.cust_id}/update/contact`,
-      user
+      `/api/users/${user.cust_id}/update/contact`, user, 
+      {headers: {'Authorization': `Bearer ${token}`} }
     );
     return data;
   } catch (error) {
