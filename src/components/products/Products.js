@@ -20,6 +20,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   const [filterMessage, setFilterMessage] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [sortMethod, setSortMethod] = useState("");
+  const [sortMessage, setSortMessage] = useState("Sort pokemon...");
 
   // front-end pagination state, incrementing by 12
   const [indexStart, setIndexStart] = useState(0);
@@ -58,19 +59,80 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           b = b.dex_id;
           return a - b;
         });
-        console.log("response:", response);
+        console.log("Products:", response);
         setAllProducts(response);
         setCurrentProducts(response);
 
         return response;
       })
       .then((response) => {
-        console.log("next part of useEffect");
-        let query = localStorage.getItem("searchQuery");
-        console.log("query:", query);
-        if (query !== "" && query !== null) {
-          searcher(query, response);
-          setSearchVal(query);
+        // checks localStorage for a stored sort query
+        let sortQuery = JSON.parse(localStorage.getItem("sortQuery"));
+        sortQuery
+          ? console.log("Sort query:", sortQuery)
+          : console.log("No sort query to apply...");
+        // applies stored sort query if it exists
+        if (sortQuery !== null) {
+          const { message, key, type } = sortQuery;
+          console.log("Attempting to apply sort query!");
+          console.log("Message:", message);
+          setSortMessage(message);
+          setSortMethod(key);
+          sortProductsByKey(response, key, type, setAllProducts);
+          const sortedProducts = sortProductsByKey(
+            response,
+            key,
+            type,
+            setCurrentProducts
+          );
+          return sortedProducts;
+        }
+        return response;
+      })
+      .then((response) => {
+        console.log("extra .then", response);
+        // checks localStorage for a stored search query
+        let searchQuery = localStorage.getItem("searchQuery");
+        searchQuery
+          ? console.log("Search query:", searchQuery)
+          : console.log("No search query to apply...");
+        // applies stored search query if it exists
+        if (searchQuery !== "" && searchQuery !== null) {
+          console.log("Attempting to apply search query!");
+          searcher(searchQuery, response);
+          setSearchVal(searchQuery);
+        }
+
+        // checks localStorage for a stored filter query
+        let filterQuery = localStorage.getItem("filterQuery");
+        filterQuery
+          ? console.log("Filter query:", filterQuery)
+          : console.log("No filter query to apply...");
+        // applies stored filter query if it exists
+        if (filterQuery !== null) {
+          console.log(`Attempting to apply filter query!`);
+          setFilterMessage(filterQuery);
+          if (filterQuery === "Featured products") {
+            let copy = [];
+            response.forEach((product) => {
+              if (product.is_featured) {
+                copy.push(product);
+              }
+            });
+            setCurrentProducts(copy);
+          } else {
+            typeFilter(filterQuery, response);
+          }
+        }
+
+        // checks localStorage for a stored page query
+        let pageQuery = localStorage.getItem("pageQuery");
+        pageQuery
+          ? console.log("Page query:", pageQuery)
+          : console.log("No page query to apply...");
+        // applies stored page query if it exists
+        if (pageQuery !== null) {
+          console.log("Attempting to apply page query!");
         }
       })
       .catch((error) => {
@@ -105,11 +167,11 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   }
 
   // function to filter product by types, passed into both ProductRender & ProductTypeFilter
-  function typeFilter(val) {
+  function typeFilter(val, array) {
     if (searchVal !== "") {
       setSearchVal("");
     }
-    let copy = [...allProducts];
+    let copy = array ? [...array] : [...allProducts];
     let filtered = [];
     copy.forEach((poke) => {
       let pokeType = poke.type.toString();
@@ -151,9 +213,38 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         filtered.push(poke);
       }
     });
+    console.log("filtered", filtered);
     setCurrentProducts(filtered);
   }
 
+  // sorts the given array based on a given object key
+  // sortMethod is a callback function to signal setting all/current products
+  function sortProductsByKey(productArray, key, sortType, setProductsMethod) {
+    let sorted = [...productArray];
+    // sorts keys high to low (sortMethod === 1)
+    if (sortType === 1) {
+      sorted.sort((a, b) => {
+        a = parseInt(a[key]);
+        b = parseInt(b[key]);
+        return b - a;
+      });
+
+      //   sorts keys low to high (sortMethod === 2)
+    } else if (sortType === 2) {
+      sorted.sort((a, b) => {
+        a = parseInt(a[key]);
+        b = parseInt(b[key]);
+        return a - b;
+      });
+    } else if (sortType === 3) {
+      sorted.sort(alphabetize);
+    } else if (sortType === 4) {
+      sorted.sort(alphabetize);
+      sorted.reverse();
+    }
+    setProductsMethod(sorted);
+    return sorted;
+  }
   return (
     <>
       <Row
@@ -168,11 +259,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         {/** product search component*/}
         <ProductSearch
           searcher={searcher}
-          allProducts={allProducts}
-          currentProducts={currentProducts}
-          setCurrentProducts={setCurrentProducts}
-          filterMessage={filterMessage}
-          setFilterMessage={setFilterMessage}
           searchVal={searchVal}
           setSearchVal={setSearchVal}
           resetPagination={resetPagination}
@@ -195,8 +281,10 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setCurrentProducts={setCurrentProducts}
           sortMethod={sortMethod}
           setSortMethod={setSortMethod}
-          alphabetize={alphabetize}
+          sortMessage={sortMessage}
+          setSortMessage={setSortMessage}
           resetPagination={resetPagination}
+          sortProductsByKey={sortProductsByKey}
         />
       </Row>
       <Row

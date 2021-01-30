@@ -4,11 +4,6 @@ import { Form } from "react-bootstrap";
 
 const ProductSearch = ({
   searcher,
-  allProducts,
-  currentProducts,
-  setCurrentProducts,
-  filterMessage,
-  setFilterMessage,
   searchVal,
   setSearchVal,
   resetPagination,
@@ -25,6 +20,7 @@ const ProductSearch = ({
           setSearchVal(event.target.value);
           searcher(event.target.value);
           localStorage.setItem("searchQuery", event.target.value);
+          localStorage.removeItem("filterQuery");
         }}
         onSubmit={(event) => {
           event.preventDefault();
