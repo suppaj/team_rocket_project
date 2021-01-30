@@ -48,7 +48,7 @@ const CartItemCard = ({
     } else if (e.target.value < 1) {
       setOrderAmount(1);
     } else {
-      setOrderAmount(e.target.value);
+      setOrderAmount(parseInt(e.target.value));
     }
   };
 
