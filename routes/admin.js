@@ -13,6 +13,8 @@ const {
   db_getTopSalesDatabyMonth,
   db_getAllProductsAdmin,
   db_updateProduct,
+  db_joinTopSales,
+  db_getTotalSales,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -39,8 +41,6 @@ apiRouter.get("/customers_email", async (req, res) => {
 
 apiRouter.post("/update_product", async (req, res) => {
   const { prod_id, attributes } = req.body;
-  console.log("THIS IS THE REQ BODY", req.body);
-  console.log("THIS IS THE PARAMS", req.params);
 
   try {
     const product = await db_updateProduct(prod_id, attributes);
@@ -121,23 +121,23 @@ apiRouter.get("/product_sales/:month/:year", async (req, res) => {
   }
 });
 
-apiRouter.get("/product_sales/:month/:year", async (req, res) => {
+apiRouter.get("/top_sales/:month/:year", async (req, res) => {
   const { month, year } = req.params;
 
   try {
-    const monthlySales = await db_getSalesDatabyMonth(month, year);
-    res.send({ monthlySales });
+    const topMonthlySales = await db_joinTopSales(month, year);
+    res.send({ topMonthlySales });
   } catch (error) {
     throw error;
   }
 });
 
-apiRouter.get("/top_sales/:month/:year", async (req, res) => {
+apiRouter.get("/total_sales/:month/:year", async (req, res) => {
   const { month, year } = req.params;
 
   try {
-    const topMonthlySales = await db_getTopSalesDatabyMonth(month, year);
-    res.send({ topMonthlySales });
+    const totalSales = await db_getTotalSales(month, year);
+    res.send({ totalSales });
   } catch (error) {
     throw error;
   }

@@ -1,35 +1,25 @@
 import React, { useState, useEffect } from "react";
 import pokeball from "./pokeball.png";
-import { Modal, Form, Button } from "react-bootstrap";
 import { Filter, Rejected } from "./index";
 import {
   getSalesData,
   getSalesDatabyProductID,
   getSalesDatabyMonth,
   getTopSalesDatabyMonth,
+  getTotalSalesValue,
 } from "../../api/index";
 
-import {
-  getMonth,
-  filterSales,
-  filterSalesbyMonthAndYear,
-  handleSales,
-  handleRetrieveSales,
-  handleTotalSales,
-  handleRetrieveTotalSales,
-} from "./utils";
+import { getMonth, handleSales, handleRetrieveSales } from "./utils";
 
 const Metrics = ({ isAdmin }) => {
   const [show, setShow] = useState(false);
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
   const [forecast, setForecast] = useState(null);
-  const [totalSales, setTotalSales] = useState(
-    JSON.parse(window.localStorage.getItem("total_sales")) || null
-  );
+  const [totalSales, setTotalSales] = useState(null);
   const [salesArr, setSalesArr] = useState([]);
-  const [updateFilter, setUpdateFilter] = useState(false);
   const [topSalesArr, setTopSalesArr] = useState([]);
+  const [updateFilter, setUpdateFilter] = useState(false);
   const [showMetrics, setShowMetrics] = useState(false);
 
   const handleClose = () => setShowMetrics(false);
@@ -37,8 +27,6 @@ const Metrics = ({ isAdmin }) => {
     setShowMetrics(true);
     const sales = JSON.parse(window.localStorage.getItem("sales_array"));
     setSalesArr(sales);
-    const totalSales = filterSales(sales);
-    setTotalSales(totalSales);
   };
 
   useEffect(() => {
@@ -56,13 +44,17 @@ const Metrics = ({ isAdmin }) => {
         .then((response) => {
           const monthlySales = response.monthlySales;
           handleSales(monthlySales);
-
           setSalesArr(handleRetrieveSales);
-
-          handleTotalSales(filterSalesbyMonthAndYear(salesArr, month, year));
-          // console.log("TOTAL SALES ARR", totalSales);
         })
 
+        .catch((error) => {
+          throw error;
+        });
+
+      getTotalSalesValue(month, year)
+        .then((response) => {
+          setTotalSales(response.totalSales);
+        })
         .catch((error) => {
           throw error;
         });
@@ -74,12 +66,6 @@ const Metrics = ({ isAdmin }) => {
   useEffect(() => {
     setForecast(getMonth());
   });
-
-  useEffect(() => {});
-
-  //   useEffect(() => {
-  //     setUpdateFilter(false);
-  //   }, [month, year]);
 
   return (
     <div id="metrics">
@@ -97,7 +83,54 @@ const Metrics = ({ isAdmin }) => {
                   X
                 </button>
                 <div id="metrics-pokedex-screen">
-                  <div id="top-sales">Top Sales by Product </div>
+                  <div id="top-sales">
+                    <div
+                      className="nes-container is-rounded is-dark"
+                      id="top-pokemon-list"
+                    >
+                      <p>Top Sales by Month</p>
+                      <div className="top-sales-container">
+                        {topSalesArr
+                          ? topSalesArr.map((product, index) => {
+                              const { DEX, poke_name } = product;
+
+                              return (
+                                <div key={index} className="poke-top-item">
+                                  {index === 0 ? (
+                                    <div className="nes-container is-rounded pokemon-standing">
+                                      <p className="num-one-par">
+                                        <span className="number-one">
+                                          {" "}
+                                          {index + 1}
+                                        </span>
+                                        : {poke_name}
+                                      </p>
+                                      <img
+                                        src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-v/black-white/animated/${DEX}.gif?raw=true`}
+                                        alt={`${poke_name}`}
+                                      ></img>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className="nes-container is-rounded pokemon-standing"
+                                      //    className="poke-top-item"
+                                    >
+                                      <p>
+                                        {index + 1}: {poke_name}
+                                      </p>
+                                      <img
+                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${DEX}.png`}
+                                        alt={`${poke_name}`}
+                                      ></img>
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })
+                          : null}
+                      </div>
+                    </div>
+                  </div>
                   <div id="trends">Monthly Trends</div>
                   <div id="forecast">
                     <p>Forecasted Sales</p>
@@ -105,10 +138,14 @@ const Metrics = ({ isAdmin }) => {
                   </div>
                   <div id="total-sales">
                     <p>Sales Totals</p>
-                    {totalSales ? <p>₽{totalSales}K</p> : null}
+                    {totalSales ? (
+                      <p className="total-sales-par">₽{totalSales}K</p>
+                    ) : (
+                      <p className="total-sales-par"></p>
+                    )}
                   </div>
                   <div id="sales-list">
-                    Filter Historical Sales Data
+                    Filter Sales Data
                     <div className="admin-filter">
                       <Filter
                         setMonth={setMonth}
