@@ -1,5 +1,27 @@
 const { db_getItemPrice } = require("../../db/index");
 
+function requireUser(req, res, next) {
+  console.log('require user ran', req.user)
+  if (!req.user) {
+    next({
+      name: "MissingUserError",
+      message: "You must be logged in to perform this action"
+    });
+  }
+
+  next();
+}
+
+function requireAdmin(req, res,next) {
+  if (!req.user.siteAdmin) {
+    res.next({
+      name: 'MissingAdminCreds',
+      message: 'You must be an admin to perform this action'
+    });
+  }
+  next();
+}
+
 async function calculateOrderAmount(cart) {
   let orderTotal = 0;
   for (let item of cart) {
@@ -16,4 +38,6 @@ async function calculateOrderAmount(cart) {
 
 module.exports = {
   calculateOrderAmount,
+  requireUser,
+  requireAdmin
 };

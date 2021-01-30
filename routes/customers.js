@@ -50,6 +50,7 @@ apiRouter.post("/login", async (req, res, next) => {
 
         res.send({
           adminToken,
+          siteAdmin: user.isadmin,
           firstName: user.first_name,
           cartID: cartObj.cartID,
           cart: cartArray,

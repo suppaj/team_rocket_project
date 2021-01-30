@@ -16,7 +16,7 @@ const ContactProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
             userUpdate = {...user, emailChange : true }
             }
             setShow(true)
-            const results = await updateUserContact(userUpdate);
+            const results = await updateUserContact(userUpdate, JSON.parse(localStorage.getItem('user')).token);
             setShow(false)
             if (results.message) {
                 console.log(results.message)
