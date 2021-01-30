@@ -16,7 +16,7 @@ apiRouter.post("/login", async (req, res, next) => {
   const cartArray = [];
 
   if (!cust_email || !cust_pwd) {
-    next({
+    res.send({
       name: "MissingCredentialsError",
       message: "Please supply both a cust_email and cust_pwd",
     });
@@ -83,7 +83,7 @@ apiRouter.post("/login", async (req, res, next) => {
         });
       }
     } else {
-      next({
+      res.send({
         name: "IncorrectCredentialsError",
         message: "Please verify your email and password",
       });
@@ -101,7 +101,7 @@ apiRouter.post("/register", async (req, res, next) => {
     const _user = await db_getCustomerByEmail(cust_email);
 
     if (_user) {
-      next({
+      res.send({
         name: "UserExistsError",
         message: "An account with that email address already exists!",
       });
