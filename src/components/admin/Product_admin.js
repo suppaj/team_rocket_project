@@ -36,10 +36,8 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
     if (productsArr) {
       productsArr.map((product, index) => {
         const { name, price } = product;
-        //    console.log([name, parseInt(price)]);
         data.push([name, price]);
       });
-      //  console.log("test of data", data);
 
       window.localStorage.setItem("price_details", JSON.stringify(data));
     }
@@ -197,7 +195,7 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                                   key={index}
                                   onMouseEnter={() => {
                                     console.log(
-                                      "mouse has entered",
+                                      "FOR TESTING, WILL BACK TO THIS",
                                       name,
                                       prod_id,
                                       Number(price),
@@ -235,7 +233,6 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                                         className="price-input"
                                         placeholder={price}
                                         onChange={(e) => {
-                                          console.log(e.target.value);
                                           setEditPrice(e.target.value);
                                         }}
                                       ></input>
@@ -249,7 +246,6 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                                         // value={quantity}
                                         placeholder={quantity}
                                         onChange={(e) => {
-                                          console.log(e.target.value);
                                           setEditQuantity(e.target.value);
                                         }}
                                       ></input>
@@ -271,10 +267,6 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                                       defaultChecked={is_active}
                                       onChange={(e) => {
                                         setEditActive(e.target.checked);
-                                        console.log(
-                                          "VALUE OF CHECKBOX",
-                                          e.target.checked
-                                        );
                                       }}
                                     ></input>
                                   </td>
@@ -290,9 +282,6 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                                   <td>
                                     <button
                                       onClick={() => {
-                                        console.log(
-                                          "edit button has been clicked"
-                                        );
                                         updateProduct(prod_id, {
                                           price: editPrice,
                                           quantity: editQuantity,
@@ -300,7 +289,7 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                                         })
                                           .then((response) => {
                                             console.log(
-                                              "THIS IS THE RESPONSE OF UPDATE PRODUCT",
+                                              "WILL COME BACK TO THIS",
                                               response
                                             );
                                           })

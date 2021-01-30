@@ -22,10 +22,6 @@ const Admin = ({ isAdmin }) => {
   };
 
   useEffect(() => {
-    console.log("testing admin persist", isAdmin);
-  }, [isAdmin]);
-
-  useEffect(() => {
     if (isAdmin) {
       getAllCustomers()
         .then((response) => {
@@ -49,7 +45,6 @@ const Admin = ({ isAdmin }) => {
             (a, b) =>
               parseFloat(b.transaction_date) - parseFloat(a.transaction_date)
           );
-          console.log("this is the result");
           handleSales(result);
         })
         .catch((error) => {
@@ -62,8 +57,6 @@ const Admin = ({ isAdmin }) => {
     if (isAdmin) {
       adminGetAllProducts()
         .then((response) => {
-          console.log("this is the response", response);
-
           const prodArr = response.products;
           const result = prodArr.sort(
             (a, b) => parseFloat(a.prod_id) - parseFloat(b.prod_id)

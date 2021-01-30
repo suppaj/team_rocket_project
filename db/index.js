@@ -731,7 +731,6 @@ async function db_joinTopSales(month, year) {
       FROM product  
     `
     );
-
     const topSalesArr = [];
     const result = rows.map((row, index) => {
       console.log("this is the prod id", row.prod_id);
@@ -742,20 +741,42 @@ async function db_joinTopSales(month, year) {
             poke_name: row.name,
             DEX: row.dex_id,
           });
-          // console.log("TOP SALES IS FILLING UP", topSalesArr);
+
           return topSalesArr;
         }
       });
     });
 
     console.log("FINAL TEST OF TOP SALES ARR", topSalesArr);
-    return rows;
+    return topSalesArr;
   } catch (error) {
     throw error;
   }
 }
 
-// db_joinTopSales(10, 2020);
+async function db_getTotalSales(month, year) {
+  const totalSales = await db_getSalesDatabyMonth(month, year);
+
+  try {
+    const salesArr = [];
+
+    totalSales.map((sale) => {
+      const values = salesArr.push(sale.transaction_quantity * sale.price);
+
+      return values;
+    });
+
+    var sum = salesArr.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
+    console.log("THIS IS THE SUM", sum.toFixed(2));
+    return sum.toFixed(2);
+  } catch (error) {
+    throw error;
+  }
+}
+// db_getTotalSales(1, 2020);
 
 async function db_getSalesData() {
   try {
@@ -1044,4 +1065,6 @@ module.exports = {
   db_updateUserBilling,
   db_getAllProductsAdmin,
   db_updateProduct,
+  db_joinTopSales,
+  db_getTotalSales,
 };
