@@ -68,14 +68,14 @@ apiRouter.post('/guestorder', async (req, res, next) => {
     const { cart , formInfo, ckoutToken } = req.body 
     try {
       const { custID } = jwt.verify(ckoutToken, JWT_SECRET)
-      if (custID !== 1) {
+      if (custID !== 1 || !custID) {
         res.send({
         name: 'InvalidGuestOrder',
         message: 'Order missing payment intent token'
       })
-      }
+      } else {
       await db_recordGuestOrder(cart, formInfo)
-      res.sendStatus(200); 
+      res.sendStatus(200); }
     } catch (error) {
         next(error);
     }
