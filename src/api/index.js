@@ -138,11 +138,11 @@ export async function getCheckoutSession(sessionArr) {
   }
 }
 
-export async function postPaymentIntent(cart) {
+export async function postPaymentIntent(cart, user) {
   try {
     const { data } = await axios.post(
       "/api/checkout/create-payment-intent",
-      cart
+      {cart, user}
     );
     return data;
   } catch (error) {
@@ -150,10 +150,10 @@ export async function postPaymentIntent(cart) {
   }
 }
 
-export async function recordGuestOrder(cart, formInfo) {
+export async function recordGuestOrder(cart, formInfo, ckoutToken) {
   try {
-    await axios.post("/api/checkout/guestorder", { cart, formInfo });
-    return;
+    await axios.post("/api/checkout/guestorder", { cart, formInfo, ckoutToken });
+    return
   } catch (error) {
     throw error;
   }

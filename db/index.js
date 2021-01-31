@@ -485,6 +485,7 @@ async function db_getItemPrice(prod_id) {
 async function db_recordGuestOrder(cart, formInfo) {
   try {
     const orderId = await db_createOrderId(1);
+    console.log(orderId);
     await db_addOrderItems(cart, orderId);
     await _createGuest_Order(orderId, formInfo);
   } catch (error) {

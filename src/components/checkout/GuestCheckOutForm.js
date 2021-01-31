@@ -22,7 +22,7 @@ const GuestCheckOutForm = ({ cart, user, setUser }) => {
     e.preventDefault();
     setShow(true)
     try {
-      const { clientSecret } = await postPaymentIntent(cart);
+      const { clientSecret, ckoutToken } = await postPaymentIntent(cart, user);
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardNumberElement),
@@ -35,7 +35,7 @@ const GuestCheckOutForm = ({ cart, user, setUser }) => {
       if (result.error) {
         setMessage(result.error.message);
       } else {
-        await recordGuestOrder(cart, formInfo);
+        await recordGuestOrder(cart, formInfo, ckoutToken);
         localStorage.setItem('user', JSON.stringify({...user, cart : []}));
         setUser({...user, cart : []});
         history.push({

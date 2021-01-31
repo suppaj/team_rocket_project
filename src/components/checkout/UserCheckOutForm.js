@@ -71,7 +71,7 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
     e.preventDefault();
     setShow(true);
     try {
-      const { clientSecret } = await postPaymentIntent(cart);
+      const { clientSecret } = await postPaymentIntent(cart, user);
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardNumberElement),
