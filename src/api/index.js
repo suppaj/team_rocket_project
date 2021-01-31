@@ -253,9 +253,12 @@ export async function clearUserCart(cart_id, token) {
   }
 }
 
-export async function submitCustomerReview(reviewObject) {
+export async function submitCustomerReview(reviewObject,token) {
   try {
-    const { data } = await axios.post("/api/products/review", reviewObject);
+    const { data } = await axios.post("/api/products/review", 
+      reviewObject,
+      {headers: {'Authorization': `Bearer ${token}`} }
+    );
     return data;
   } catch (error) {
     throw error;
