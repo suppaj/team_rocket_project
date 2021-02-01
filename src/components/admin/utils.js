@@ -86,34 +86,6 @@ export const filterSales = (salesData) => {
   }
 };
 
-export const filterSalesbyMonthAndYear = (salesData, month, year) => {
-  const filteredSales = salesData.filter((sale, index) => {
-    const current_transaction = sale.transaction_date;
-    const set_date = new Date(current_transaction);
-    const sales_year = set_date.getFullYear();
-    const sales_month = set_date.getMonth();
-
-    return sales_year === year && sales_month === month;
-  });
-
-  if (filteredSales.length > 0) {
-    const months_sales = [];
-    filteredSales.map((sale, index) => {
-      const saleValue = sale.price * sale.transaction_quantity;
-
-      months_sales.push(saleValue);
-      return months_sales;
-    });
-
-    const sumSales = months_sales.reduce(function (a, b) {
-      return a + b;
-    }, 0);
-
-    console.log("SALES RETURN", sumSales.toFixed(2));
-    return sumSales.toFixed(2);
-  }
-};
-
 export const handleSales = (response) => {
   window.localStorage.setItem("sales_array", JSON.stringify(response));
 };
@@ -125,21 +97,4 @@ export const handleRetrieveSales = () => {
   const sales = JSON.parse(window.localStorage.getItem("sales_array"));
 
   return sales;
-};
-
-export const countActive = (array) => {
-  const sumActive = array.filter((item, index) => {
-    const { is_active } = item;
-    return is_active;
-  });
-  console.log("THIS IS THE RESULT OF SUM ACTIVE", sumActive);
-  return sumActive.length;
-};
-export const countInactive = (array) => {
-  const sumInactive = array.filter((item, index) => {
-    const { is_active } = item;
-    return !is_active;
-  });
-  console.log("THIS IS THE RESULT OF SUM ACTIVE", sumInactive);
-  return sumInactive.length;
 };

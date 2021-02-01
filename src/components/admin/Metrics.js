@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { Chart } from "react-google-charts";
+import { RollingBall } from "../index";
 import pokeball from "./pokeball.png";
 import { Filter, Rejected } from "./index";
 import {
-  getSalesData,
-  getSalesDatabyProductID,
   getSalesDatabyMonth,
   getTopSalesDatabyMonth,
   getTotalSalesValue,
+  getSalesForecast,
 } from "../../api/index";
 
 import { getMonth, handleSales, handleRetrieveSales } from "./utils";
 
 const Metrics = ({ isAdmin }) => {
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
   const [forecast, setForecast] = useState(null);
@@ -20,7 +21,7 @@ const Metrics = ({ isAdmin }) => {
   const [salesArr, setSalesArr] = useState([]);
   const [topSalesArr, setTopSalesArr] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
-  const [showMetrics, setShowMetrics] = useState(false);
+  const [showMetrics, setShowMetrics] = useState(true);
 
   const handleClose = () => setShowMetrics(false);
   const handleShow = () => {
@@ -59,13 +60,32 @@ const Metrics = ({ isAdmin }) => {
           throw error;
         });
 
+      getSalesForecast(month, year)
+        .then((response) => {
+          setForecast(response.forecast);
+        })
+        .catch((error) => {
+          throw error;
+        });
+
       setUpdateFilter(false);
     }
   }, [updateFilter]);
 
   useEffect(() => {
-    setForecast(getMonth());
+    if (totalSales && forecast) {
+      if (totalSales > forecast) {
+        console.log("goal exceeded");
+      } else if (totalSales < forecast) {
+        console.log("goal missed");
+      } else {
+        console.log("goal met");
+      }
+    }
   });
+  // useEffect(() => {
+  //   setForecast(getMonth());
+  // });
 
   return (
     <div id="metrics">
@@ -77,7 +97,9 @@ const Metrics = ({ isAdmin }) => {
             onClick={handleShow}
           ></img>
           <div className="admin-title">
-            <div className={showMetrics === true ? "show" : "hide"}>
+            <div
+              className={showMetrics === true ? "show metrics-show" : "hide"}
+            >
               <div id="metrics-body">
                 <button className="close-button" onClick={handleClose}>
                   X
@@ -119,7 +141,7 @@ const Metrics = ({ isAdmin }) => {
                                         {index + 1}: {poke_name}
                                       </p>
                                       <img
-                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${DEX}.png`}
+                                        src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-v/black-white/animated/${DEX}.gif?raw=true`}
                                         alt={`${poke_name}`}
                                       ></img>
                                     </div>
@@ -131,10 +153,40 @@ const Metrics = ({ isAdmin }) => {
                       </div>
                     </div>
                   </div>
-                  <div id="trends">Monthly Trends</div>
+                  <div id="trends">
+                    <Chart
+                      width={"100%"}
+                      height={"90%"}
+                      chartType="BarChart"
+                      loader={
+                        <div>
+                          <RollingBall />
+                        </div>
+                      }
+                      data={[
+                        ["Month", "Sales", "Forecast"],
+                        ["March", 8175000, 8008000],
+                        ["April", 3792000, 3694000],
+                        ["May", 2695000, 2896000],
+                        ["June", 2099000, 1953000],
+                        ["July", 1526000, 1517000],
+                      ]}
+                      options={{
+                        backgroundColor: "transparent",
+                        title: "Monthly Sales Trends",
+                        chartArea: { width: "40%" },
+                        hAxis: {
+                          title: "Sales Revenue",
+                          minValue: 10000,
+                        },
+                      }}
+                      // For tests
+                      rootProps={{ "data-testid": "1" }}
+                    />
+                  </div>
                   <div id="forecast">
                     <p>Forecasted Sales</p>
-                    {forecast ? <p>{forecast}</p> : null}
+                    {forecast ? <p>₽{forecast}K</p> : null}
                   </div>
                   <div id="total-sales">
                     <p>Sales Totals</p>

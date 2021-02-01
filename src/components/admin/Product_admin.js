@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { RollingBall } from "../index";
 import ultraball from "./ultraball.png";
-import { Modal, Form, Button } from "react-bootstrap";
 import { Search, Rejected } from "./index";
-import { countActive, countInactive } from "./utils";
 import { updateProduct, getActive, getInactive } from "../../api/index";
 
 const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {

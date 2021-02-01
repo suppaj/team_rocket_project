@@ -804,7 +804,30 @@ async function db_getTotalSales(month, year) {
     throw error;
   }
 }
-// db_getTotalSales(1, 2020);
+// db_getSalesForecast(1, 2020);
+
+async function db_getSalesForecast(month, year) {
+  const totalSales = await db_getSalesDatabyMonth(month, year);
+
+  try {
+    const salesArr = [];
+
+    totalSales.map((sale) => {
+      const values = salesArr.push(sale.forecast_quantity * sale.price);
+
+      return values;
+    });
+
+    var sum = salesArr.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
+    console.log("THIS IS THE SUM", sum.toFixed(2));
+    return sum.toFixed(2);
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function db_getSalesData() {
   try {
@@ -1095,6 +1118,7 @@ module.exports = {
   db_updateProduct,
   db_joinTopSales,
   db_getTotalSales,
+  db_getSalesForecast,
   db_countActiveProducts,
   db_countInactiveProducts,
 };
