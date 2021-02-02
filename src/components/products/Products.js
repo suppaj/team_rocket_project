@@ -258,15 +258,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   }
   return (
     <>
-      <Row
-        style={{
-          marginBottom: "20px",
-          marginTop: "20px",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <Row className="search-sort-filter-container">
         {/** product search component*/}
         <ProductSearch
           searcher={searcher}
@@ -298,13 +290,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           sortProductsByKey={sortProductsByKey}
         />
       </Row>
-      <Row
-        style={{
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <Row className="pokemon-cards-container">
         {/** render products component */}
         <ProductRender
           currentProducts={currentProducts}
@@ -315,20 +301,13 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           indexEnd={indexEnd}
         />
       </Row>
-      <Row
-        style={{
-          width: "100vw",
-          maxHeight: "38px",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <Row className="pagination-container">
         {/** previous page pagination component, conditionally rendered */}
         {indexStart === 0 ? (
           ""
         ) : (
           <Button
-            style={{ marginRight: "10px" }}
+            className="previous-page-button"
             variant="secondary"
             onClick={() => {
               scrollToTop();

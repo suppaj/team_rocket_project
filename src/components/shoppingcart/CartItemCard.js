@@ -71,7 +71,7 @@ const CartItemCard = ({
   };
 
   return (
-    <div className="nes-container is-rounded">
+    <div className="nes-container cart-order-card">
       <Row>
         <Col md='auto'>
           <img

@@ -14,7 +14,7 @@ const ProductSorter = ({
   sortProductsByKey,
 }) => {
   return (
-    <Dropdown style={{ marginRight: "10px" }}>
+    <Dropdown className="sort-button">
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
         {sortMessage}
       </Dropdown.Toggle>
