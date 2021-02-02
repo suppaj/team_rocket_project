@@ -64,7 +64,6 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
       cust_email,
       cust_pwd,
     });
-    console.log("login response", data);
     if (cart.length) {
       const newCart = combineCarts(cart, data.cart);
       const { data: masterCart } = await axios.patch(
@@ -72,7 +71,6 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
         newCart,
         {headers: {'Authorization': `Bearer ${data.token}`} }
       );
-      console.log("masterCart", masterCart);
       data.cart = masterCart;
     }
     return data;
@@ -118,8 +116,6 @@ export async function registerCustomer(
       cust_pwd,
       is_admin,
     });
-
-    console.log("register response", data);
     return data;
   } catch (error) {
     throw error;
@@ -225,7 +221,6 @@ export async function getOrderHistoryByCustomerId(customerId) {
     const { data } = await axios.get(
       `api/admin/customers_history/${customerId}`
     );
-    console.log(data);
     return data;
   } catch (error) {
     throw error;
@@ -235,7 +230,6 @@ export async function getOrderHistoryByCustomerId(customerId) {
 export async function getOrderDetailsbyOrderId(orderId) {
   try {
     const { data } = await axios.get(`api/admin/customers_orders/${orderId}`);
-    console.log(data);
     return data;
   } catch (error) {
     throw error;
@@ -324,7 +318,6 @@ export async function getUserOrderHistory(cust_id, token) {
         headers: {'Authorization' : `Bearer ${token}`}
       }
     );
-    console.log("order history", order_history);
     return order_history;
   } catch (error) {
     throw error;
@@ -343,7 +336,6 @@ export async function getUserProfile(cust_id, token ) {
 }
 
 export async function updateUserContact(user, token) {
-  console.log(token)
   try {
     const { data } = await axios.patch(
       `/api/users/${user.cust_id}/update/contact`, user, 

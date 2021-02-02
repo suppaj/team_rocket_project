@@ -35,10 +35,13 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
       if (results.cust_id) {
         setshipInfo(results);
         setFirstOrder(false);
+<<<<<<< HEAD
         console.log("results", results);
       } 
       if (results.message) {
         history.push('/whothis')
+=======
+>>>>>>> master
       }
     }
     fetchData();

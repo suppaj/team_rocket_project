@@ -2,16 +2,6 @@ import React from "react";
 
 const ProductRating = ({ rating, size }) => {
   size = size.toLowerCase();
-  if (
-    size != "is-small" &&
-    size != "is-medium" &&
-    size != "is-large" &&
-    size != ""
-  ) {
-    console.error(
-      "Invalid argument! The 'size' argument must be one of the following: is-small, is-medium, is-large"
-    );
-  }
   return (
     <>
       <i

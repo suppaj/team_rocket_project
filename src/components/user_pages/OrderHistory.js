@@ -15,7 +15,6 @@ const OrderHistory = (props) => {
     async function fetchHistory() {
                 const results = await getUserOrderHistory(cust_id, JSON.parse(localStorage.getItem('user')).token);
                 setOrderHistory(results);
-                console.log(results);
     }    
 
     useEffect(()=>{

@@ -18,7 +18,6 @@ const {
 
 apiRouter.get(`/:cust_id/ship`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
-  console.log('hello');
   try {
     const results = await db_getUserShipInfo(cust_id);
     res.send(results);
@@ -30,7 +29,6 @@ apiRouter.get(`/:cust_id/ship`, requireUser, async (req, res, next)=>{
 apiRouter.post(`/:cust_id/ship`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const shipInfo = req.body
-  console.log('hitting the ship add route');
   try {
     await db_recordShipping(cust_id, shipInfo);
     res.sendStatus(200);
@@ -64,7 +62,6 @@ apiRouter.get(`/:cust_id/profile`, requireUser, async (req, res, next)=> {
   const { cust_id } = req.params;
   try {
     const userProfile = await db_getUserProfile(cust_id)
-    console.log(userProfile)
     res.send(userProfile);
   } catch (error) {
     next(error);
@@ -73,10 +70,8 @@ apiRouter.get(`/:cust_id/profile`, requireUser, async (req, res, next)=> {
 
 apiRouter.patch(`/:cust_id/update/contact`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
-  console.log('look I ran too');
   const user = req.body;
   if (user.custID !== req.user.custID) {
-    console.log('hope i did not run');
     next({
       name: 'UnauthorizedUser',
       message: 'You cannot edit an account that is not your own.'
@@ -92,7 +87,6 @@ apiRouter.patch(`/:cust_id/update/contact`, requireUser, async (req, res, next)=
         message: "An account with that email address already exists!",
       });
     }} 
-    console.log('this is good... maybe')
     const results = await db_updateUserContact(cust_id, user);
     res.send(results) 
 

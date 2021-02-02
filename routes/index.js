@@ -9,16 +9,13 @@ const {
 apiRouter.use(async (req, res, next) => {
   const prefix = 'Bearer ';
   const auth = req.header('Authorization');
-  console.log('i ran')
+  
   if (!auth) {
-    console.log('no auth')
       next();
   } else if (auth.startsWith(prefix)) {
       const token = auth.slice(prefix.length);
-    console.log('I ran too')
       try {
           const { custID } = jwt.verify(token, JWT_SECRET);
-        console.log(custID);
           if (custID) {
               req.user = await db_getCustomerById(custID);
               next();

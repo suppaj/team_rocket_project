@@ -28,9 +28,7 @@ const CartItemCard = ({
         }
       });
       localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
-      setUser({...user , cart : copyCart});
-      console.log(copyCart)
-      
+      setUser({...user , cart : copyCart});      
     } else {
       cart.forEach(async (item, index) => {
         if (item.prod_id === product.prod_id) {

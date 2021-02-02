@@ -6,7 +6,6 @@ import { registerCustomer } from '../../api';
 
 const SuccessPage = ({ isLoggedIn }) => {
 
-  console.log('logged in', isLoggedIn);
   const location = useLocation();
   const history = useHistory();
 
@@ -49,7 +48,6 @@ const SuccessPage = ({ isLoggedIn }) => {
       pwd,
       false
     );
-    console.log(results);
     if (results) {
       setWelcomeShow(true);
     } else {
