@@ -71,7 +71,6 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
         `/api/cart/${data.cartID}`,
         newCart
       );
-      console.log("masterCart", masterCart);
       data.cart = masterCart;
     }
     return data;
@@ -167,7 +166,6 @@ export async function getUserShipInfo(cust_id) {
 export async function recordShipandBill(formInfo, cust_id) {
   try {
     await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo);
-    console.log("finished shipping, doing billing");
     await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo);
     return;
   } catch (error) {
@@ -345,7 +343,6 @@ export async function getUserOrderHistory(cust_id) {
     const { data: order_history } = await axios.get(
       `/api/users/${cust_id}/history`
     );
-    console.log("order history", order_history);
     return order_history;
   } catch (error) {
     throw error;
@@ -361,11 +358,11 @@ export async function getUserProfile(cust_id) {
   }
 }
 
-export async function updateUserContact(user) {
+export async function updateUserContact(user, token) {
   try {
     const { data } = await axios.patch(
-      `/api/users/${user.cust_id}/update/contact`,
-      user
+      `/api/users/${user.cust_id}/update/contact`, user, 
+      {headers: {'Authorization': `Bearer ${token}`} }
     );
     return data;
   } catch (error) {

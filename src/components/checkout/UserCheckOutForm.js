@@ -35,7 +35,6 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
       if (results.cust_id) {
         setshipInfo(results);
         setFirstOrder(false);
-        console.log("results", results);
       }
     }
     fetchData();

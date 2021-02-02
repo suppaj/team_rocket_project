@@ -14,7 +14,6 @@ const OrderHistory = (props) => {
     async function fetchHistory() {
                 const results = await getUserOrderHistory(cust_id);
                 setOrderHistory(results);
-                console.log(results);
     }    
 
     useEffect(()=>{
