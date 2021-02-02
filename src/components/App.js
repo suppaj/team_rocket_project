@@ -16,7 +16,6 @@ import {
 import { getSomething, getAllProducts, getAllTypes } from "../api";
 
 import {
-  
   Products,
   ProductPage,
   ProductsReturn,
@@ -28,6 +27,8 @@ import {
   UserProfile,
   AccountPage,
   Header,
+  InvalidUser,
+  NotLoggedIn,
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -81,44 +82,25 @@ const App = () => {
   return (
     <Router>
       <Container fluid>
-        <Row
-          className="bg-primary"
-          id="header"
-          style={{
-            minHeight: "12vh",
-            width: "100vw",
-          }}
-        >
-          <Header setIsLoggedIn={setIsLoggedIn}
-              setIsAdmin={setIsAdmin}
-              setFirstName={setFirstName}
-              firstName={firstName}
-              setUser={setUser}
-              cart={cart}
-              setCart={setCart}
-              isAdmin={isAdmin}
-              isLoggedIn={isLoggedIn}
-              cartCount={cartCount}
-              user={user}/>
+        <Row className="site-header" id="header">
+          <Header
+            setIsLoggedIn={setIsLoggedIn}
+            setIsAdmin={setIsAdmin}
+            setFirstName={setFirstName}
+            firstName={firstName}
+            setUser={setUser}
+            cart={cart}
+            setCart={setCart}
+            isAdmin={isAdmin}
+            isLoggedIn={isLoggedIn}
+            cartCount={cartCount}
+            user={user}
+          />
         </Row>
-        <Row
-          className="bg-success "
-          style={{
-            minHeight: "78vh",
-            width: "100vw",
-          }}
-        >
+        <Row className="site-body">
           <Switch>
             <Route exact path="/">
-              <Row
-                style={{
-                  marginBottom: "20px",
-                  marginTop: "20px",
-                  width: "100vw",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+              <Row className="products-container">
                 <Products
                   getAllProducts={getAllProducts}
                   getAllTypes={getAllTypes}
@@ -126,15 +108,7 @@ const App = () => {
               </Row>
             </Route>
             <Route path="/products/:product_id">
-              <Row
-                style={{
-                  marginBottom: "20px",
-                  marginTop: "20px",
-                  width: "100vw",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+              <Row className="products-container">
                 <ProductPage
                   cartID={user.cartID}
                   isLoggedIn={isLoggedIn}
@@ -168,23 +142,15 @@ const App = () => {
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />
             </Route>
-            <Route path="/users/:cust_id/profile">
-              <UserProfile />
-            </Route>
-            <Route path="/users/:cust_id/history">
-              <OrderHistory />
-            </Route>
             <Route path="/users/:cust_id/account">
               <AccountPage />
             </Route>
+            <Route path="/whothis">
+              <NotLoggedIn />
+            </Route>
           </Switch>
         </Row>
-        <Row
-          className="bg-secondary"
-          style={{ minHeight: "10vh", width: "100vw" }}
-        >
-          FOOTER AREA
-        </Row>
+        <Row className="site-footer">FOOTER AREA</Row>
       </Container>
     </Router>
   );

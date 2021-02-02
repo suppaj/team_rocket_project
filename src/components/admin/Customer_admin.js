@@ -81,7 +81,10 @@ const Customer_admin = ({ isAdmin }) => {
           ></img>
           <div className="admin-title">
             Customer Orders
-            <div className={showCust === true ? "show" : "hide"}>
+            <div
+              className={showCust === true ? "show" : "hide"}
+              id="customer-admin-screen"
+            >
               <button className="close-button" onClick={handleCloseCust}>
                 X
               </button>
@@ -168,27 +171,95 @@ const Customer_admin = ({ isAdmin }) => {
                   </table>
                 </div>
                 <div id="current-customer-order-details">
-                  <p></p>
-                  {orderDetailsArr
-                    ? orderDetailsArr.map((detail, index) => {
-                        const {
-                          name,
-                          order_price,
-                          order_quantity,
-                          description,
-                        } = detail;
-                        return (
-                          <div className="nes-container is-rounded" key={index}>
-                            <p>{name}</p>
-                            {description ? <p>{description}</p> : null}
-                            {order_price ? <p>₽{order_price}</p> : null}
-                            {order_quantity ? (
-                              <p>qty: {order_quantity}</p>
-                            ) : null}
-                          </div>
-                        );
-                      })
-                    : null}
+                  <p>Order Details</p>
+                  {orderDetailsArr.length ? (
+                    orderDetailsArr.map((detail, index) => {
+                      const {
+                        name,
+                        order_price,
+                        order_quantity,
+                        description,
+                        dex_id,
+                      } = detail;
+                      return (
+                        <div
+                          className="nes-container is-rounded"
+                          key={index}
+                          id="order-details-card"
+                        >
+                          {name ? (
+                            <p className="order-details-name">
+                              {name.toUpperCase()}
+                            </p>
+                          ) : null}
+                          {description ? (
+                            <p className="order-details-description">
+                              {description}
+                            </p>
+                          ) : null}
+                          {order_price ? (
+                            <p className="order-details-price">
+                              ₽{order_price}
+                            </p>
+                          ) : null}
+                          {order_quantity ? (
+                            <p className="order-details-quantity">
+                              qty: {order_quantity}
+                            </p>
+                          ) : null}
+                          {dex_id ? (
+                            <img
+                              className="order-details-img"
+                              src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-v/black-white/animated/${dex_id}.gif?raw=true`}
+                              alt={`${name}`}
+                            ></img>
+                          ) : null}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div
+                      className="nes-container is-rounded is-dark"
+                      id="no-current-details"
+                    >
+                      <p>
+                        No {"data".toUpperCase()} to display! Select an order
+                        from the {"order details".toUpperCase()} table!
+                      </p>
+                      <img
+                        className="order-details-img"
+                        src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-v/black-white/animated/24.gif?raw=true`}
+                        alt={`arbok`}
+                      ></img>
+                    </div>
+                  )}
+                </div>
+                <div className="instructions-container">
+                  <div
+                    className="nes-container is-rounded is-dark"
+                    id="cust-instructions"
+                  >
+                    <p className="prod-instructions-title">
+                      {" "}
+                      {"Instructions".toUpperCase()}{" "}
+                    </p>
+                    <p></p>
+                    <p>
+                      {"Customer Detail".toUpperCase()}: Provides a high level
+                      overview of all customers registered on our{" "}
+                      {"site".toUpperCase()}!
+                    </p>
+                    <p>
+                      {"Customer Orders".toUpperCase()}: Click on a customer in
+                      the {"customer detail".toUpperCase()} table to view that
+                      customer's {"order history".toUpperCase()}!
+                    </p>
+                    <p>
+                      {"Order Detail".toUpperCase()}: Displays the details of
+                      each customer's individual order. Click on an order in the{" "}
+                      {"order history".toUpperCase()} to view.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

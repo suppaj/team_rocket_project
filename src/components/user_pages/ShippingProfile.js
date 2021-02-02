@@ -14,7 +14,7 @@ const ShippingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit
         
         if (user.ship_add1 && user.ship_city && user.ship_state &&  user.ship_zipcode) {
         setShow(true);
-        const results = await updateUserShipping(user);
+        const results = await updateUserShipping(user, JSON.parse(localStorage.getItem('user')).token);
         setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})

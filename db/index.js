@@ -115,6 +115,32 @@ async function getAllProducts() {
   }
 }
 
+async function db_countActiveProducts() {
+  try {
+    const { rows } = await client.query(
+      `SELECT COUNT (*) FROM product WHERE is_active = true`
+    );
+
+    console.log("TEST OF COUNT", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_countInactiveProducts() {
+  try {
+    const { rows } = await client.query(
+      `SELECT COUNT (*) FROM product WHERE is_active = false`
+    );
+
+    console.log("TEST OF COUNT", rows);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function db_getAllProductsAdmin() {
   try {
     const { rows: pokemon } = await client.query(`SELECT * FROM product`);
@@ -434,32 +460,34 @@ async function db_getCustomerCart(cust_email) {
 
 // admin methods
 
-async function db_updateProduct(prod_id, fields = {}) {
-  const setString = Object.keys(fields)
-    .map((key, index) => `"${key}"=$${index + 1}`)
-    .join(", ");
-
-  if (setString.length === 0) {
-    return;
-  }
+async function db_updateProduct(prod_id, attributes) {
+  const { price, quantity, is_active } = attributes;
   try {
     const {
       rows: [product],
     } = await client.query(
       `
       UPDATE product
-      SET ${setString}
+      SET price=$1, 
+      quantity=$2,
+      is_active=$3
       WHERE prod_id=${prod_id}
-      RETURNING *;
+      RETURNING name;
     `,
-      Object.values(fields)
+      [price, quantity, is_active]
     );
-    console.log("inside of update product this is the product");
+
+    console.log("inside of update product this is the product", product);
     return product;
   } catch (error) {
     throw error;
   }
 }
+// db_updateProduct(1, {
+//   price: 10.99,
+//   quantity: 2,
+//   is_active: false,
+// });
 
 // checkout methods
 
@@ -517,11 +545,14 @@ async function db_addOrderItems(cart, order_id) {
     for (let item of cart) {
       const price = await db_getItemPrice(item.prod_id);
       valueArray.push(item.prod_id, item.cart_quantity, price);
-      await client.query(`
+      await client.query(
+        `
         UPDATE product
           SET quantity = product.quantity - $1
           WHERE prod_id=$2;
-      `,[item.cart_quantity, item.prod_id]);
+      `,
+        [item.cart_quantity, item.prod_id]
+      );
     }
     await client.query(
       `
@@ -698,8 +729,8 @@ async function db_getTopSalesDatabyMonth(month, year) {
   try {
     const { rows } = await client.query(
       `
-      select  sum(transaction_quantity), prod_id 
-      from sales
+      SELECT  sum(transaction_quantity), prod_id 
+      FROM sales
       WHERE EXTRACT(MONTH FROM transaction_date) = $1
       AND EXTRACT(Year FROM transaction_date) = $2
       group by prod_id
@@ -711,6 +742,143 @@ async function db_getTopSalesDatabyMonth(month, year) {
 
     console.log(rows);
     return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_joinTopSales(month, year) {
+  const topSales = await db_getTopSalesDatabyMonth(month, year);
+
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT *
+      FROM product  
+    `
+    );
+    const topSalesArr = [];
+    const result = rows.map((row, index) => {
+      console.log("this is the prod id", row.prod_id);
+      const topItem = topSales.map((sale, index) => {
+        if (row.prod_id === sale.prod_id) {
+          topSalesArr.push({
+            prodID: row.prod_id,
+            poke_name: row.name,
+            DEX: row.dex_id,
+          });
+
+          return topSalesArr;
+        }
+      });
+    });
+
+    console.log("FINAL TEST OF TOP SALES ARR", topSalesArr);
+    return topSalesArr;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getTotalSales(month, year) {
+  const totalSales = await db_getSalesDatabyMonth(month, year);
+
+  try {
+    const salesArr = [];
+
+    totalSales.map((sale) => {
+      const values = salesArr.push(sale.transaction_quantity * sale.price);
+
+      return values;
+    });
+
+    var sum = salesArr.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
+    console.log("THIS IS THE SUM", sum.toFixed(2));
+    return sum.toFixed(2);
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getLastSixMonths(month, year) {
+  const month2 = parseInt(month) === 1 ? 12 : month - 1;
+  const year2 = month === 1 ? year - 1 : year;
+
+  const month3 = month2 === 1 ? 12 : month2 - 1;
+  const year3 = month2 === 1 ? year - 1 : year2;
+
+  const month4 = month3 === 1 ? 12 : month3 - 1;
+  const year4 = month3 === 1 ? year - 1 : year3;
+
+  const month5 = month4 === 1 ? 12 : month4 - 1;
+  const year5 = month4 === 1 ? year - 1 : year4;
+
+  const month6 = month5 === 1 ? 12 : month5 - 1;
+  const year6 = month5 === 1 ? year - 1 : year5;
+
+  try {
+    const value_one = await db_getTotalSales(month, year);
+    const forecast_one = await db_getSalesForecast(month, year);
+    const value_two = await db_getTotalSales(month2, year2);
+    const forecast_two = await db_getSalesForecast(month2, year2);
+    const value_three = await db_getTotalSales(month3, year3);
+    const forecast_three = await db_getSalesForecast(month3, year3);
+    const value_four = await db_getTotalSales(month4, year4);
+    const forecast_four = await db_getSalesForecast(month4, year4);
+    const value_five = await db_getTotalSales(month5, year5);
+    const forecast_five = await db_getSalesForecast(month5, year5);
+    const value_six = await db_getTotalSales(month6, year6);
+    const forecast_six = await db_getSalesForecast(month6, year6);
+
+    return [
+      { value: value_one, forecast: forecast_one, month: month, year: year },
+      { value: value_two, forecast: forecast_two, month: month2, year: year2 },
+      {
+        value: value_three,
+        forecast: forecast_three,
+        month: month3,
+        year: year3,
+      },
+      {
+        value: value_four,
+        forecast: forecast_four,
+        month: month4,
+        year: year4,
+      },
+      {
+        value: value_five,
+        forecast: forecast_five,
+        month: month5,
+        year: year5,
+      },
+      { value: value_six, forecast: forecast_six, month: month6, year: year6 },
+    ];
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_getSalesForecast(month, year) {
+  const totalSales = await db_getSalesDatabyMonth(month, year);
+
+  try {
+    const salesArr = [];
+
+    totalSales.map((sale) => {
+      const values = salesArr.push(sale.forecast_quantity * sale.price);
+
+      return values;
+    });
+
+    var sum = salesArr.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
+    console.log("THIS IS THE SUM", sum.toFixed(2));
+    return sum.toFixed(2);
   } catch (error) {
     throw error;
   }
@@ -903,7 +1071,7 @@ async function db_updateUserContact(cust_id, user) {
     `,
       [user.first_name, user.last_name, user.cust_email, cust_id]
     );
-    console.log(userInfo);
+    console.log('line 947',userInfo);
     return userInfo;
   } catch (error) {
     throw error;
@@ -1002,4 +1170,11 @@ module.exports = {
   db_updateUserShipping,
   db_updateUserBilling,
   db_getAllProductsAdmin,
+  db_updateProduct,
+  db_joinTopSales,
+  db_getTotalSales,
+  db_getSalesForecast,
+  db_countActiveProducts,
+  db_countInactiveProducts,
+  db_getLastSixMonths,
 };

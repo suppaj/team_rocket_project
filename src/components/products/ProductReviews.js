@@ -32,20 +32,12 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
           return (
             <section className="message" key={review_id}>
               <div
-                className={`nes-balloon from${
+                className={`review-balloon nes-balloon from${
                   index % 2 === 0 ? "-left" : "-right"
                 }`}
-                style={{ minWidth: "100%" }}
               >
                 <div className="review-title">
-                  <div
-                    className="customer-rating"
-                    style={{
-                      float: "right",
-                      marginLeft: "5px",
-                      marginTop: "-5px",
-                    }}
-                  >
+                  <div className="individual-customer-rating">
                     <ProductRating rating={parseFloat(rating)} size={""} />
                   </div>
                   <p>{review_title}</p>
@@ -61,10 +53,7 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
       );
     } else {
       return (
-        <div
-          className="no-reviews nes-container is-dark with-title"
-          style={{ marginTop: "25px" }}
-        >
+        <div className="no-reviews nes-container is-dark with-title">
           <p className="title">Whoops!</p>
           <p>
             There don't seem to be any reviews for this product...
@@ -78,11 +67,8 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
   }
 
   return (
-    <section
-      style={{ gridRow: "3/4", gridColumn: "2/4", marginTop: "30px" }}
-      className="nes-container"
-    >
-      <div style={{ textAlign: "center", marginBottom: "10px" }}>
+    <section className="nes-container customer-reviews-container">
+      <div className="customer-reviews-header">
         <h4>Customer Reviews</h4>
         {reviews.length > 0 ? (
           <ProductRating
@@ -110,7 +96,7 @@ const ProductReviews = ({ reviews, product_id, isLoggedIn, user }) => {
         ""
       )}
       {isLoggedIn !== true && currentReviews.length > 0 ? (
-        <p style={{ textAlign: "center" }}>Log in to leave a review!</p>
+        <p className="reviews-logged-out">Log in to leave a review!</p>
       ) : (
         ""
       )}

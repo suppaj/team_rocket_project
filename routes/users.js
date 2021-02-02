@@ -12,9 +12,12 @@ db_updateUserShipping,
 db_updateUserBilling,
 } = require('../db')
 
-apiRouter.get(`/:cust_id/ship`, async (req, res, next)=>{
+const {
+  requireUser
+} = require('./utilities');
+
+apiRouter.get(`/:cust_id/ship`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
-  console.log('hello');
   try {
     const results = await db_getUserShipInfo(cust_id);
     res.send(results);
@@ -23,10 +26,9 @@ apiRouter.get(`/:cust_id/ship`, async (req, res, next)=>{
   }
 })
 
-apiRouter.post(`/:cust_id/ship`, async (req, res, next)=>{
+apiRouter.post(`/:cust_id/ship`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const shipInfo = req.body
-  console.log('hitting the ship add route');
   try {
     await db_recordShipping(cust_id, shipInfo);
     res.sendStatus(200);
@@ -35,7 +37,7 @@ apiRouter.post(`/:cust_id/ship`, async (req, res, next)=>{
   }
 });
 
-apiRouter.post(`/:cust_id/bill`, async (req, res, next)=>{
+apiRouter.post(`/:cust_id/bill`,  requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const billInfo = req.body
   try {
@@ -46,7 +48,7 @@ apiRouter.post(`/:cust_id/bill`, async (req, res, next)=>{
   }
 });
 
-apiRouter.get(`/:cust_id/history`, async (req, res, next)=>{
+apiRouter.get(`/:cust_id/history`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   try {
     const order_history = await db_getUserOrderHistory(cust_id)
@@ -56,20 +58,25 @@ apiRouter.get(`/:cust_id/history`, async (req, res, next)=>{
   }
 })
 
-apiRouter.get(`/:cust_id/profile`, async (req, res, next)=> {
+apiRouter.get(`/:cust_id/profile`, requireUser, async (req, res, next)=> {
   const { cust_id } = req.params;
   try {
     const userProfile = await db_getUserProfile(cust_id)
-    console.log(userProfile)
     res.send(userProfile);
   } catch (error) {
     next(error);
   }
 })
 
-apiRouter.patch(`/:cust_id/update/contact`, async (req, res, next)=>{
+apiRouter.patch(`/:cust_id/update/contact`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const user = req.body;
+  if (user.custID !== req.user.custID) {
+    next({
+      name: 'UnauthorizedUser',
+      message: 'You cannot edit an account that is not your own.'
+    });
+  }
   try {
     if (user.emailChange) {
     const _user = await db_getCustomerByEmail(user.cust_email);
@@ -79,15 +86,16 @@ apiRouter.patch(`/:cust_id/update/contact`, async (req, res, next)=>{
         name: "UserExistsError",
         message: "An account with that email address already exists!",
       });
-    } else { 
+    }} 
     const results = await db_updateUserContact(cust_id, user);
-    res.send(results)}}
+    res.send(results) 
+
   } catch (error) {
     next(error)
   }
 })
 
-apiRouter.patch(`/:cust_id/update/shipping`, async (req, res, next)=>{
+apiRouter.patch(`/:cust_id/update/shipping`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const user = req.body;
   try {
@@ -98,7 +106,7 @@ apiRouter.patch(`/:cust_id/update/shipping`, async (req, res, next)=>{
   }
 })
 
-apiRouter.patch(`/:cust_id/update/billing`, async (req, res, next)=>{
+apiRouter.patch(`/:cust_id/update/billing`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const user = req.body;
   try {

@@ -24,13 +24,11 @@ const CartItemCard = ({
       cart.forEach(async (item, index) => {
         if (item.prod_id === product.prod_id) {
           copyCart.splice(index, 1);
-          await deleteCartItem(cart_id, product.prod_id);
+          await deleteCartItem(cart_id, product.prod_id, user.token);
         }
       });
       localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
-      setUser({...user , cart : copyCart});
-      console.log(copyCart)
-      
+      setUser({...user , cart : copyCart});      
     } else {
       cart.forEach(async (item, index) => {
         if (item.prod_id === product.prod_id) {
@@ -48,7 +46,7 @@ const CartItemCard = ({
     } else if (e.target.value < 1) {
       setOrderAmount(1);
     } else {
-      setOrderAmount(e.target.value);
+      setOrderAmount(parseInt(e.target.value));
     }
   };
 
@@ -59,7 +57,7 @@ const CartItemCard = ({
       if (item.prod_id === product.prod_id) {
         item.cart_quantity = orderAmount;
         if (isLoggedIn) {
-          await patchCartItem(cart_id, orderAmount, item.prod_id);
+          await patchCartItem(cart_id, orderAmount, item.prod_id, user.token);
         }
         return item;
       } else {
@@ -71,7 +69,7 @@ const CartItemCard = ({
   };
 
   return (
-    <div className="nes-container is-rounded">
+    <div className="nes-container cart-order-card">
       <Row>
         <Col md='auto'>
           <img

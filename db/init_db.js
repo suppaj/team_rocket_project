@@ -186,6 +186,7 @@ async function buildTables() {
         transaction_date DATE NOT NULL,
         prod_id INTEGER REFERENCES product(prod_id),
         transaction_quantity INTEGER not null
+        forecast_quantity INTEGER 
       
         );
     `);

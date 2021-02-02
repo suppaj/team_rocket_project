@@ -161,24 +161,24 @@ iframe {
   }
 }
 
-.custom-modals {
+/* .custom-modals {
   background-image: url("./customPokedexScreen.png");
   background-size: cover;
   background-repeat: no-repeat;
   width: 70%;
   margin: 0;
-  /* position: absolute;
+  position: absolute;
   top: 50%;
-  left: 50%; */
+  left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
-}
+} */
 
 #customer-pokedex-screen {
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 2fr 1fr;
-  /* border: solid green; */
+
   height: 450px;
   /* width: 600px; */
 }
@@ -239,4 +239,9 @@ th {
 .customer-rows:hover {
   color: lightgray;
   background-color: #999;
+}
+
+#no-current-details {
+  border: solid purple;
+  z-index: 999999;
 }

@@ -27,12 +27,15 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
         }
       });
       if (noDuplicate) {
-        currCart.push(product);
+        const copy = {...product};
+        delete copy.reviews
+        currCart.push(copy);
         await addCartItem(
           cartID,
           prod_id,
           cart_quantity,
-          price
+          price,
+          user.token
         ); 
       }
       localStorage.setItem("user", JSON.stringify({...user, cart: currCart}));
@@ -49,7 +52,9 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
       });
 
       if (noDuplicate) {
-        currCart.push(product);
+        const copy = {...product};
+        delete copy.reviews
+        currCart.push(copy);
       }
       localStorage.setItem("user", JSON.stringify({...user, cart: currCart}));
       setUser({...user, cart: currCart}); 
@@ -66,7 +71,7 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
       if (n >6 ) {
         n = 6
       }
-      if (n === 1) {
+      if (n <=  1) {
         return <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}/>
       }
     
@@ -76,10 +81,10 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
 
   return (
     <>
-      <Button
-        variant="dark"
-        style={{ borderRadius: "5px" }}
+      <button
         onClick={handleAddToCart}
+        className='nes-btn is-success'
+        style={{marginLeft: '10px'}}
       >
         <img
           style={{
@@ -93,14 +98,14 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
           }
         />
         <span>Add to Cart</span>
-      </Button>
+      </button>
 
       <Modal className="nes-dialog" centered size='lg' show={show} onHide={()=>setShow(false)} >
         <Modal.Body >
           <form method="dialog">
             <p className="text-center">Added To Cart</p>
             <div className='d-flex justify-content-center'>
-              {imageLoop(orderAmount)}              
+              {orderAmount || orderAmount > 0 ? imageLoop(orderAmount) : ''}              
             </div>
             <p className='text-center'>
               {orderAmount} {product.name.toUpperCase()}(s) has been added to your

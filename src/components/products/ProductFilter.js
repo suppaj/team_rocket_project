@@ -20,9 +20,8 @@ const ProductFilter = ({
             setFilterMessage(`${item[key]}`);
             typeFilter(item[key]);
             resetPagination();
-          }}
-          style={{
-            textTransform: "capitalize",
+            localStorage.setItem("filterQuery", item[key]);
+            localStorage.removeItem("searchQuery");
           }}
         >
           {item[key]}
@@ -32,7 +31,7 @@ const ProductFilter = ({
   }
 
   return (
-    <Dropdown style={{ marginRight: "10px" }}>
+    <Dropdown className="type-dropdown">
       <Dropdown.Toggle variant="secondary" id="dropdown-basic">
         <span>
           {filterMessage
@@ -41,7 +40,7 @@ const ProductFilter = ({
               : "Type: "
             : "Filter pokemon..."}
         </span>
-        <span style={{ textTransform: "capitalize" }}>
+        <span className="type-dropdown-item">
           {filterMessage ? `${filterMessage}` : ""}
         </span>
       </Dropdown.Toggle>
@@ -55,6 +54,7 @@ const ProductFilter = ({
                 setFilterMessage("");
                 setCurrentProducts(allProducts);
                 resetPagination();
+                localStorage.removeItem("filterQuery");
               }}
             >
               Clear filter
@@ -74,9 +74,8 @@ const ProductFilter = ({
             });
             setCurrentProducts(copy);
             resetPagination();
-          }}
-          style={{
-            textTransform: "capitalize",
+            localStorage.setItem("filterQuery", "Featured products");
+            localStorage.removeItem("searchQuery");
           }}
         >
           Featured Products
