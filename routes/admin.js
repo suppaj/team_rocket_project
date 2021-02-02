@@ -18,6 +18,7 @@ const {
   db_countActiveProducts,
   db_countInactiveProducts,
   db_getSalesForecast,
+  db_getLastSixMonths,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -169,6 +170,17 @@ apiRouter.get("/forecast_sales/:month/:year", async (req, res) => {
   try {
     const forecast = await db_getSalesForecast(month, year);
     res.send({ forecast });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/historical_view/:month/:year", async (req, res) => {
+  const { month, year } = req.params;
+
+  try {
+    const historic = await db_getLastSixMonths(month, year);
+    res.send({ historic });
   } catch (error) {
     throw error;
   }

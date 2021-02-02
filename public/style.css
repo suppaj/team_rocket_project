@@ -314,7 +314,8 @@ th {
   font-weight: bold;
 }
 
-.customer-rows:hover {
+.customer-rows:hover,
+.sales-rows:hover {
   color: lightgray;
   background-color: #999;
 }
@@ -671,6 +672,15 @@ th {
 
 #sales-table {
   width: 100%;
+  font-size: 0.6rem;
+}
+
+#metrics-id,
+#metrics-name,
+#metrics-quantity,
+#metrics-value {
+  /* border: solid green; */
+  text-align: center;
 }
 
 .top-sales-container {
@@ -750,4 +760,24 @@ th {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.yellow {
+  background-color: #fdef98;
+  color: #bd8231;
+}
+
+.green {
+  background-color: #b8f4cf;
+  color: #42976d;
+}
+
+.red {
+  background-color: #fcc2cb;
+  color: #c0424c;
+}
+
+.total-sales-par,
+.forecasted-sales {
+  padding: 12px;
 }

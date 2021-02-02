@@ -1,63 +1,40 @@
-const TOTALS = [
-  {
-    month: "January",
-    totals: "₽7066.42K",
-  },
-  {
-    month: "February",
-    totals: "₽5230.85K",
-  },
-  {
-    month: "March",
-    totals: "₽7765.65K",
-  },
-  {
-    month: "April",
-    totals: "₽7519.0K",
-  },
-  {
-    month: "May",
-    totals: "₽8695.55K",
-  },
-  {
-    month: "June",
-    totals: "₽6990.1K",
-  },
-  {
-    month: "July",
-    totals: "₽7517.53K",
-  },
-  {
-    month: "August",
-    totals: "₽5927.85K",
-  },
-  {
-    month: "September",
-    totals: "₽5955.65K",
-  },
-  {
-    month: "October",
-    totals: "₽7211.89K",
-  },
-  {
-    month: "November",
-    totals: "₽6102.78K",
-  },
-  {
-    month: "December",
-    totals: "₽9047.36K",
-  },
-];
+// export function getMonth() {
+//   const today = new Date();
+//   const thisMonth = today.getMonth();
+//   const filteredMonth = TOTALS.filter((item, index) => {
+//     return index === thisMonth;
+//   });
 
-export function getMonth() {
-  const today = new Date();
-  const thisMonth = today.getMonth();
-  const filteredMonth = TOTALS.filter((item, index) => {
-    return index === thisMonth;
-  });
+//   return filteredMonth[0].totals;
+// }
 
-  return filteredMonth[0].totals;
-}
+export const getMonth = (monthInput) => {
+  if (monthInput === 0) {
+    return "January";
+  } else if (monthInput === 1) {
+    return "February";
+  } else if (monthInput === 2) {
+    return "March";
+  } else if (monthInput === 3) {
+    return "April";
+  } else if (monthInput === 4) {
+    return "May";
+  } else if (monthInput === 5) {
+    return "June";
+  } else if (monthInput === 6) {
+    return "July";
+  } else if (monthInput === 7) {
+    return "August";
+  } else if (monthInput === 8) {
+    return "September";
+  } else if (monthInput === 9) {
+    return "October";
+  } else if (monthInput === 10) {
+    return "November";
+  } else if (monthInput === 11) {
+    return "December";
+  }
+};
 
 export const filterSales = (salesData) => {
   const filteredSales = salesData.filter((sale, index) => {
@@ -97,4 +74,61 @@ export const handleRetrieveSales = () => {
   const sales = JSON.parse(window.localStorage.getItem("sales_array"));
 
   return sales;
+};
+
+export const checkMonth = (monthInput) => {
+  if (monthInput === 1) {
+    return "January";
+  } else if (monthInput === 2) {
+    return "February";
+  } else if (monthInput === 3) {
+    return "March";
+  } else if (monthInput === 4) {
+    return "April";
+  } else if (monthInput === 5) {
+    return "May";
+  } else if (monthInput === 6) {
+    return "June";
+  } else if (monthInput === 7) {
+    return "July";
+  } else if (monthInput === 8) {
+    return "August";
+  } else if (monthInput === 9) {
+    return "September";
+  } else if (monthInput === 10) {
+    return "October";
+  } else if (monthInput === 11) {
+    return "November";
+  } else if (monthInput === 12) {
+    return "December";
+  }
+};
+
+// function prevMonth(){
+//   var thisMonth = this.getMonth();
+//   this.setMonth(thisMonth-1);
+//   if(this.getMonth() != thisMonth-1 && (this.getMonth() != 11 || (thisMonth == 11 && this.getDate() == 1)))
+//   this.setDate(0);
+//   }
+
+//   prevMonth()
+
+export const getSalesMonth = () => {
+  const today = new Date();
+  const thisMonth = today.getMonth();
+  const previousMonth = thisMonth - 1 === -1 ? 11 : thisMonth - 1;
+  console.log("this month", thisMonth);
+  console.log(previousMonth);
+
+  const initialData = [
+    ["Month", "Volume", "Forecast"],
+    [getMonth(thisMonth), 8175.0, 8008.0],
+    [getMonth(thisMonth - 1), 3792.0, 3694000],
+    [getMonth(thisMonth - 2 + 12), 2695.0, 2896.7],
+    [getMonth(thisMonth - 3 + 12), 2090.0, 1953.8],
+    [getMonth(thisMonth - 4 + 12), 1526.9, 1517.7],
+  ];
+
+  console.log("THIS IS INITIAL DATA", initialData);
+  return initialData;
 };

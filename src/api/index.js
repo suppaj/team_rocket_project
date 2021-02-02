@@ -64,7 +64,7 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
       cust_email,
       cust_pwd,
     });
-    console.log("login response", data);
+
     if (cart.length) {
       const newCart = combineCarts(cart, data.cart);
       const { data: masterCart } = await axios.patch(
@@ -116,7 +116,6 @@ export async function registerCustomer(
       is_admin,
     });
 
-    console.log("register response", data);
     return data;
   } catch (error) {
     throw error;
@@ -212,7 +211,7 @@ export async function getOrderHistoryByCustomerId(customerId) {
     const { data } = await axios.get(
       `api/admin/customers_history/${customerId}`
     );
-    console.log(data);
+
     return data;
   } catch (error) {
     throw error;
@@ -222,7 +221,7 @@ export async function getOrderHistoryByCustomerId(customerId) {
 export async function getOrderDetailsbyOrderId(orderId) {
   try {
     const { data } = await axios.get(`api/admin/customers_orders/${orderId}`);
-    console.log(data);
+
     return data;
   } catch (error) {
     throw error;
@@ -250,7 +249,7 @@ export async function submitCustomerReview(reviewObject) {
 export async function getTopSalesDatabyMonth(month, year) {
   try {
     const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
-    console.log("RESPONSE FROM TOP MONTHLY SALES DATA", data);
+
     return data;
   } catch (error) {
     throw error;
@@ -291,10 +290,22 @@ export async function getSalesDatabyMonth(month, year) {
   }
 }
 
+export async function getSalesDataLastSixMonths(month, year) {
+  try {
+    const { data } = await axios.get(
+      `api/admin/historical_view/${month}/${year}`
+    );
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getSalesDatabyProductID(prodID) {
   try {
     const { data } = await axios.get(`api/admin/product_sales/${prodID}`);
-    console.log(data);
+
     return data;
   } catch (error) {
     throw error;
@@ -313,7 +324,7 @@ export async function getSalesData() {
 export async function getActive() {
   try {
     const { data } = await axios.get(`/api/admin/active_products`);
-    console.log("ACTIVE PRODS", data);
+
     return data.active;
   } catch (error) {
     throw error;
@@ -322,7 +333,7 @@ export async function getActive() {
 export async function getInactive() {
   try {
     const { data } = await axios.get(`/api/admin/inactive_products`);
-    console.log("INACTIVE PRODS", data);
+
     return data.inactive;
   } catch (error) {
     throw error;

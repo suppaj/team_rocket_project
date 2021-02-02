@@ -8,12 +8,17 @@ import {
   getTopSalesDatabyMonth,
   getTotalSalesValue,
   getSalesForecast,
+  getSalesDataLastSixMonths,
 } from "../../api/index";
 
-import { getMonth, handleSales, handleRetrieveSales } from "./utils";
+import {
+  handleSales,
+  handleRetrieveSales,
+  checkMonth,
+  getSalesMonth,
+} from "./utils";
 
 const Metrics = ({ isAdmin }) => {
-  // const [show, setShow] = useState(false);
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
   const [forecast, setForecast] = useState(null);
@@ -22,6 +27,15 @@ const Metrics = ({ isAdmin }) => {
   const [topSalesArr, setTopSalesArr] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
   const [showMetrics, setShowMetrics] = useState(true);
+  const [goalExceeded, setGoalExceeded] = useState(null);
+  const [chartData, setChartData] = useState([
+    ["Month", "Volume", "Forecast"],
+    ["February", 175, 4000],
+    ["January", 3792, 3694],
+    ["December", 2695, 2896],
+    ["November", 2099, 1953],
+    ["October", 1526, 1517],
+  ]);
 
   const handleClose = () => setShowMetrics(false);
   const handleShow = () => {
@@ -68,6 +82,25 @@ const Metrics = ({ isAdmin }) => {
           throw error;
         });
 
+      getSalesDataLastSixMonths(month, year)
+        .then((response) => {
+          const historicVolume = response.historic;
+          const data = [["Month", "Volume", "Forecast"]];
+          historicVolume.map((sale) => {
+            const { month, year, value, forecast } = sale;
+            data.push([
+              checkMonth(parseInt(month)),
+              parseInt(value),
+              parseInt(forecast),
+            ]);
+          });
+
+          setChartData(data);
+        })
+        .catch((error) => {
+          throw error;
+        });
+
       setUpdateFilter(false);
     }
   }, [updateFilter]);
@@ -75,17 +108,14 @@ const Metrics = ({ isAdmin }) => {
   useEffect(() => {
     if (totalSales && forecast) {
       if (totalSales > forecast) {
-        console.log("goal exceeded");
+        setGoalExceeded(true);
       } else if (totalSales < forecast) {
-        console.log("goal missed");
+        setGoalExceeded(false);
       } else {
-        console.log("goal met");
+        setGoalExceeded(null);
       }
     }
   });
-  // useEffect(() => {
-  //   setForecast(getMonth());
-  // });
 
   return (
     <div id="metrics">
@@ -133,10 +163,7 @@ const Metrics = ({ isAdmin }) => {
                                       ></img>
                                     </div>
                                   ) : (
-                                    <div
-                                      className="nes-container is-rounded pokemon-standing"
-                                      //    className="poke-top-item"
-                                    >
+                                    <div className="nes-container is-rounded pokemon-standing">
                                       <p>
                                         {index + 1}: {poke_name}
                                       </p>
@@ -163,14 +190,7 @@ const Metrics = ({ isAdmin }) => {
                           <RollingBall />
                         </div>
                       }
-                      data={[
-                        ["Month", "Sales", "Forecast"],
-                        ["March", 8175000, 8008000],
-                        ["April", 3792000, 3694000],
-                        ["May", 2695000, 2896000],
-                        ["June", 2099000, 1953000],
-                        ["July", 1526000, 1517000],
-                      ]}
+                      data={chartData}
                       options={{
                         backgroundColor: "transparent",
                         title: "Monthly Sales Trends",
@@ -186,12 +206,26 @@ const Metrics = ({ isAdmin }) => {
                   </div>
                   <div id="forecast">
                     <p>Forecasted Sales</p>
-                    {forecast ? <p>₽{forecast}K</p> : null}
+                    {forecast ? (
+                      <p className="forecasted-sales">₽{forecast}K</p>
+                    ) : (
+                      <p className="forecasted-sales"></p>
+                    )}
                   </div>
                   <div id="total-sales">
                     <p>Sales Totals</p>
                     {totalSales ? (
-                      <p className="total-sales-par">₽{totalSales}K</p>
+                      <p
+                        className={
+                          goalExceeded === true
+                            ? "green total-sales-par"
+                            : goalExceeded === null
+                            ? "yellow total-sales-par"
+                            : "red total-sales-par"
+                        }
+                      >
+                        ₽{totalSales}K
+                      </p>
                     ) : (
                       <p className="total-sales-par"></p>
                     )}
@@ -232,11 +266,13 @@ const Metrics = ({ isAdmin }) => {
                               } = sale;
                               return (
                                 <tr className="sales-rows" key={index}>
-                                  <td>{transaction_id}</td>
-                                  <td>{transaction_date}</td>
-                                  <td>{name}</td>
-                                  <td>{transaction_quantity}</td>
-                                  <td>
+                                  <td id="metrics-id">{transaction_id}</td>
+                                  <td id="metrics-date">{transaction_date}</td>
+                                  <td id="metrics-name">{name}</td>
+                                  <td id="metrics-quantity">
+                                    {transaction_quantity}
+                                  </td>
+                                  <td id="metrics-value">
                                     {(price * transaction_quantity).toFixed(2)}
                                   </td>
                                 </tr>

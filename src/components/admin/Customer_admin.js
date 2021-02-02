@@ -174,7 +174,6 @@ const Customer_admin = ({ isAdmin }) => {
                   <p>Order Details</p>
                   {orderDetailsArr.length ? (
                     orderDetailsArr.map((detail, index) => {
-                      console.log("these are the details", detail);
                       const {
                         name,
                         order_price,

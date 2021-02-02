@@ -140,8 +140,6 @@ async function db_countInactiveProducts() {
     throw error;
   }
 }
-// db_countActiveProducts();
-// db_countInctiveProducts();
 
 async function db_getAllProductsAdmin() {
   try {
@@ -804,7 +802,64 @@ async function db_getTotalSales(month, year) {
     throw error;
   }
 }
-// db_getSalesForecast(1, 2020);
+
+async function db_getLastSixMonths(month, year) {
+  const month2 = parseInt(month) === 1 ? 12 : month - 1;
+  const year2 = month === 1 ? year - 1 : year;
+
+  const month3 = month2 === 1 ? 12 : month2 - 1;
+  const year3 = month2 === 1 ? year - 1 : year2;
+
+  const month4 = month3 === 1 ? 12 : month3 - 1;
+  const year4 = month3 === 1 ? year - 1 : year3;
+
+  const month5 = month4 === 1 ? 12 : month4 - 1;
+  const year5 = month4 === 1 ? year - 1 : year4;
+
+  const month6 = month5 === 1 ? 12 : month5 - 1;
+  const year6 = month5 === 1 ? year - 1 : year5;
+
+  try {
+    const value_one = await db_getTotalSales(month, year);
+    const forecast_one = await db_getSalesForecast(month, year);
+    const value_two = await db_getTotalSales(month2, year2);
+    const forecast_two = await db_getSalesForecast(month2, year2);
+    const value_three = await db_getTotalSales(month3, year3);
+    const forecast_three = await db_getSalesForecast(month3, year3);
+    const value_four = await db_getTotalSales(month4, year4);
+    const forecast_four = await db_getSalesForecast(month4, year4);
+    const value_five = await db_getTotalSales(month5, year5);
+    const forecast_five = await db_getSalesForecast(month5, year5);
+    const value_six = await db_getTotalSales(month6, year6);
+    const forecast_six = await db_getSalesForecast(month6, year6);
+
+    return [
+      { value: value_one, forecast: forecast_one, month: month, year: year },
+      { value: value_two, forecast: forecast_two, month: month2, year: year2 },
+      {
+        value: value_three,
+        forecast: forecast_three,
+        month: month3,
+        year: year3,
+      },
+      {
+        value: value_four,
+        forecast: forecast_four,
+        month: month4,
+        year: year4,
+      },
+      {
+        value: value_five,
+        forecast: forecast_five,
+        month: month5,
+        year: year5,
+      },
+      { value: value_six, forecast: forecast_six, month: month6, year: year6 },
+    ];
+  } catch (error) {
+    throw error;
+  }
+}
 
 async function db_getSalesForecast(month, year) {
   const totalSales = await db_getSalesDatabyMonth(month, year);
@@ -1121,4 +1176,5 @@ module.exports = {
   db_getSalesForecast,
   db_countActiveProducts,
   db_countInactiveProducts,
+  db_getLastSixMonths,
 };

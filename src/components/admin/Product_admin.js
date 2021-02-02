@@ -58,17 +58,12 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
       });
   }, [productEdited]);
 
-  // useEffect(() => {
-  //   const data = [["Product", "Price"]];
-  //   if (productsArr) {
-  //     productsArr.map((product, index) => {
-  //       const { name, price } = product;
-  //       data.push([name, price]);
-  //     });
-
-  //     window.localStorage.setItem("price_details", JSON.stringify(data));
-  //   }
-  // });
+  useEffect(() => {
+    // productEdited === true ? setProductEdited(false) : null;
+    if (productEdited === true) {
+      setProductEdited(false);
+    }
+  });
 
   return (
     <div id="product_admin">

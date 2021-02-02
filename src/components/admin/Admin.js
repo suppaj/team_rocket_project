@@ -80,8 +80,6 @@ const Admin = ({ isAdmin }) => {
       });
 
       window.localStorage.setItem("price_details", JSON.stringify(data));
-
-      console.log("DONE");
     }
   });
 
