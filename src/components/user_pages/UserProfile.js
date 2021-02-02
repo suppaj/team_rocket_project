@@ -25,12 +25,7 @@ const UserProfile = (props) => {
     }, [])
 
     const fetchData = async () => {
-<<<<<<< HEAD
         const userData = await getUserProfile(cust_id, JSON.parse(localStorage.getItem('user')).token);
-        console.log(userData);
-=======
-        const userData = await getUserProfile(cust_id);
->>>>>>> master
         if (userData) {
             setMaster(userData)
             setUserProfile(userData)
