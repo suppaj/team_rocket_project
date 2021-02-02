@@ -26,7 +26,7 @@ const Metrics = ({ isAdmin }) => {
   const [salesArr, setSalesArr] = useState([]);
   const [topSalesArr, setTopSalesArr] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
-  const [showMetrics, setShowMetrics] = useState(true);
+  const [showMetrics, setShowMetrics] = useState(false);
   const [goalExceeded, setGoalExceeded] = useState(null);
   const [chartData, setChartData] = useState([
     ["Month", "Volume", "Forecast"],
