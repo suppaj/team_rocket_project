@@ -4,8 +4,8 @@ const NotLoggedIn = (props) => {
 
     return (
         <>
-        <div className='nes-container is-centered' >
-            <div className='nes-balloon from-right'>
+        <div className='col nes-container is-centered align-self-center' >
+            <div className='nes-balloon from-right '>
                 <p>The account you are trying to access is not logged in.</p>
                 <p>Please log in to access this information</p>
             </div>

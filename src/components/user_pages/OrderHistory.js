@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 import { getUserOrderHistory } from '../../api';
 import { RollingBall, OrderTable, NotLoggedIn } from '../index';
@@ -8,18 +8,20 @@ const OrderHistory = (props) => {
 
     const { cust_id } = useParams();
 
-    const [ notValid, setNotValid ] = useState(true)
+    const [ notValid, setNotValid ] = useState(false)
     const [ orderHistory , setOrderHistory] = useState('');
 
+
     async function fetchHistory() {
-                const results = await getUserOrderHistory(cust_id);
+                const results = await getUserOrderHistory(cust_id, JSON.parse(localStorage.getItem('user')).token);
                 setOrderHistory(results);
     }    
 
     useEffect(()=>{
         if (cust_id == JSON.parse(localStorage.getItem('user')).custID) {
-        setNotValid(false)
         fetchHistory();
+        } else { 
+            setNotValid(true)
         }
     }, [])
 
@@ -27,7 +29,7 @@ const OrderHistory = (props) => {
         <>
             <br/>
             <h4 className='text-center'>Order History</h4>
-            { notValid ? <NotLoggedIn /> : orderHistory ? 
+            { notValid ? <Redirect to='/whothis' /> : orderHistory ? 
                 orderHistory.length ? 
                     orderHistory.map((order)=> {
                     return (

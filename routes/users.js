@@ -16,7 +16,7 @@ const {
   requireUser
 } = require('./utilities');
 
-apiRouter.get(`/:cust_id/ship`, async (req, res, next)=>{
+apiRouter.get(`/:cust_id/ship`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   try {
     const results = await db_getUserShipInfo(cust_id);
@@ -26,7 +26,7 @@ apiRouter.get(`/:cust_id/ship`, async (req, res, next)=>{
   }
 })
 
-apiRouter.post(`/:cust_id/ship`, async (req, res, next)=>{
+apiRouter.post(`/:cust_id/ship`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const shipInfo = req.body
   try {
@@ -37,7 +37,7 @@ apiRouter.post(`/:cust_id/ship`, async (req, res, next)=>{
   }
 });
 
-apiRouter.post(`/:cust_id/bill`, async (req, res, next)=>{
+apiRouter.post(`/:cust_id/bill`,  requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const billInfo = req.body
   try {
@@ -48,7 +48,7 @@ apiRouter.post(`/:cust_id/bill`, async (req, res, next)=>{
   }
 });
 
-apiRouter.get(`/:cust_id/history`, async (req, res, next)=>{
+apiRouter.get(`/:cust_id/history`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   try {
     const order_history = await db_getUserOrderHistory(cust_id)
@@ -58,7 +58,7 @@ apiRouter.get(`/:cust_id/history`, async (req, res, next)=>{
   }
 })
 
-apiRouter.get(`/:cust_id/profile`, async (req, res, next)=> {
+apiRouter.get(`/:cust_id/profile`, requireUser, async (req, res, next)=> {
   const { cust_id } = req.params;
   try {
     const userProfile = await db_getUserProfile(cust_id)
@@ -95,7 +95,7 @@ apiRouter.patch(`/:cust_id/update/contact`, requireUser, async (req, res, next)=
   }
 })
 
-apiRouter.patch(`/:cust_id/update/shipping`, async (req, res, next)=>{
+apiRouter.patch(`/:cust_id/update/shipping`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const user = req.body;
   try {
@@ -106,7 +106,7 @@ apiRouter.patch(`/:cust_id/update/shipping`, async (req, res, next)=>{
   }
 })
 
-apiRouter.patch(`/:cust_id/update/billing`, async (req, res, next)=>{
+apiRouter.patch(`/:cust_id/update/billing`, requireUser, async (req, res, next)=>{
   const { cust_id } = req.params;
   const user = req.body;
   try {

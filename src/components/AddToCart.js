@@ -34,7 +34,8 @@ const AddToCart = ({ product, isLoggedIn, cartID, orderAmount, cart, user, setUs
           cartID,
           prod_id,
           cart_quantity,
-          price
+          price,
+          user.token
         ); 
       }
       localStorage.setItem("user", JSON.stringify({...user, cart: currCart}));

@@ -24,7 +24,7 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
         e.preventDefault();
         if (user.bill_add1 && user.bill_city && user.bill_state && user.bill_zipcode ) {
         setShow(true);
-        const results = await updateUserBilling(user);
+        const results = await updateUserBilling(user, JSON.parse(localStorage.getItem('user')).token);
         setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})
@@ -149,7 +149,7 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
                 <p>{user.first_name} {user.last_name}</p>
                 <p>{user.bill_add1}</p>
                 <p>{user.bill_add2}</p>
-                <p>{user.bill_city}, {user.bill_city} {user.bill_zipcode}</p>
+                <p>{user.bill_city}, {user.bill_state} {user.bill_zipcode}</p>
             { message ?
             <div className='nes-container is-dark'>
                 <p>{message}</p>

@@ -1,11 +1,11 @@
 const apiRouter = require('express').Router();
-
+const { requireUser} = require('./utilities');
 const { 
     db_createOrderId, 
     db_addOrderItems, 
 } = require('../db');
 
-apiRouter.post(`/:cust_id/createorderId`, async (req, res, next)=>{
+apiRouter.post(`/:cust_id/createorderId`, requireUser, async (req, res, next)=>{
     const { cust_id } = req.params;
     try {
         const order_id = await db_createOrderId(cust_id)
@@ -15,7 +15,7 @@ apiRouter.post(`/:cust_id/createorderId`, async (req, res, next)=>{
     };
   })
   
-  apiRouter.post(`/:cust_id/:order_id`, async (req, res, next)=>{
+  apiRouter.post(`/:cust_id/:order_id`, requireUser, async (req, res, next)=>{
     const { order_id } = req.params;
     const cart = req.body;
     try {

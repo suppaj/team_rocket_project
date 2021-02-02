@@ -57,7 +57,7 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="first_name_field"
                   className="nes-input"
                   placeholder="First Name"
                   onChange={(e) => {
@@ -73,7 +73,7 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="last_name_field"
                   className="nes-input"
                   type="text"
                   placeholder="Last Name"
@@ -89,7 +89,7 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="email_field"
                   className="nes-input"
                   type="text"
                   placeholder="Email"
@@ -105,7 +105,7 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
 
                 <input
                   type="text"
-                  id="name_field"
+                  id="password_field"
                   className="nes-input"
                   type="password"
                   placeholder="Password"

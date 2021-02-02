@@ -1,6 +1,6 @@
 const express = require("express");
 const apiRouter = express.Router();
-
+const { requireUser } = require('./utilities');
 const {
   db_clearUserCart,
   db_patchCartItem,
@@ -9,7 +9,7 @@ const {
   db_updateCart,
 } = require('../db');
 
-apiRouter.post(`/:cart_id/:prod_id`, async (req, res, next) => {
+apiRouter.post(`/:cart_id/:prod_id`, requireUser, async (req, res, next) => {
     const { cart_id, prod_id } = req.params;
     const { price, cart_quantity } = req.body;
     try {
@@ -20,7 +20,7 @@ apiRouter.post(`/:cart_id/:prod_id`, async (req, res, next) => {
     }
   });
   
-  apiRouter.patch(`/:cart_id/:prod_id`, async (req, res, next) => {
+  apiRouter.patch(`/:cart_id/:prod_id`, requireUser, async (req, res, next) => {
     const { cart_id, prod_id } = req.params;
     const { cart_quantity } = req.body;
     try {
@@ -32,7 +32,7 @@ apiRouter.post(`/:cart_id/:prod_id`, async (req, res, next) => {
     }
   });
   
-  apiRouter.delete(`/:cart_id/:prod_id`, async (req, res, next) => {
+  apiRouter.delete(`/:cart_id/:prod_id`, requireUser, async (req, res, next) => {
     const { cart_id, prod_id } = req.params;
     try {
       const messageObj = await db_deleteCartItem(cart_id, prod_id);
@@ -42,7 +42,7 @@ apiRouter.post(`/:cart_id/:prod_id`, async (req, res, next) => {
     }
   });
 
-  apiRouter.patch(`/:cart_id`, async (req,res,next)=>{
+  apiRouter.patch(`/:cart_id`, requireUser, async (req,res,next)=>{
     const { cart_id } = req.params;
     const cart = req.body;
     try {
@@ -53,7 +53,7 @@ apiRouter.post(`/:cart_id/:prod_id`, async (req, res, next) => {
     }
   });
 
-  apiRouter.delete(`/:cart_id`, async (req, res, next) => {
+  apiRouter.delete(`/:cart_id`, requireUser, async (req, res, next) => {
     const { cart_id } =req.params;
     try {
       const results = await db_clearUserCart(cart_id);
