@@ -16,7 +16,6 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
         if (edit) {
         if (ship_add1 === bill_add1 && ship_add2 === bill_add2 && ship_city === bill_city && ship_state === bill_state && ship_zipcode === bill_zipcode) {
             document.getElementById('same-as-shipping').checked = true
-            console.log('all equal');
             setisChecked(true)
         }}
     },[edit])

@@ -23,7 +23,6 @@ apiRouter.post('/create-checkout-session', async (req, res, next) => {
       success_url: `${ROCKET_DOMAIN}/shoppingcart/success`,
       cancel_url: `${ROCKET_DOMAIN}/shoppingcart`,
     });
-    console.log('session', session);
     res.send({ id: session.id });
   } catch (error) {
     next(error);
@@ -32,7 +31,6 @@ apiRouter.post('/create-checkout-session', async (req, res, next) => {
 
 apiRouter.post(`/create-payment-intent`, async (req, res, next) => {
   const cart = req.body;
-  console.log('hitting payment route');
   try {
     const orderTotal = await calculateOrderAmount(cart)
     const paymentIntent = await stripe.paymentIntents.create({
