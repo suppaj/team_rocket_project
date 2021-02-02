@@ -131,7 +131,7 @@ const ReviewForm = ({
         }`}
         onClick={async (event) => {
           event.preventDefault();
-          const newReview = await submitCustomerReview(reviewInfo);
+          const newReview = await submitCustomerReview(reviewInfo, user.token);
           newReview.first_name = user.firstName;
           let copy = [...currentReviews];
           copy.push(newReview);

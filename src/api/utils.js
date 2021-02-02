@@ -24,7 +24,6 @@ export function combineCarts(localCart, dbCart) {
             cart.push(dbitem);
         }
     }
-    console.log('combined cart', cart)
     return cart;
 }
 
@@ -34,6 +33,5 @@ export function calcOrderTotal(orderArray) {
         total = Number(total) + (item.order_quantity * Number(item.order_price));
         return item
     })
-    console.log('total', Number(total));
     return total.toFixed(2);
 }

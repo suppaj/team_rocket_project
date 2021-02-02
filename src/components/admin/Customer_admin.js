@@ -13,7 +13,7 @@ const Customer_admin = ({ isAdmin }) => {
   const [orderDetailsArr, setOrderDetailsArr] = useState([]);
   const [selectedCustomerID, setSelectedCustomerID] = useState();
   const [selectedOrderID, setSelectedOrderID] = useState();
-  const [showCust, setShowCust] = useState(true);
+  const [showCust, setShowCust] = useState(false);
 
   const handleCloseCust = () => {
     setShowCust(false);
@@ -174,7 +174,6 @@ const Customer_admin = ({ isAdmin }) => {
                   <p>Order Details</p>
                   {orderDetailsArr.length ? (
                     orderDetailsArr.map((detail, index) => {
-                      console.log("these are the details", detail);
                       const {
                         name,
                         order_price,

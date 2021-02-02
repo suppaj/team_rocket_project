@@ -71,10 +71,17 @@ const Admin = ({ isAdmin }) => {
   }, [productEdited]);
 
   useEffect(() => {
-    if (productEdited === true) {
-      setProductEdited(false);
+    const data = [["Product", "Price"]];
+    const prices = JSON.parse(window.localStorage.getItem("prod_array"));
+    if (prices) {
+      prices.map((product, index) => {
+        const { name, price } = product;
+        data.push([name, price]);
+      });
+
+      window.localStorage.setItem("price_details", JSON.stringify(data));
     }
-  }, [productEdited]);
+  });
 
   return (
     <div id="admin">
@@ -100,6 +107,7 @@ const Admin = ({ isAdmin }) => {
             <Product_admin
               isAdmin={isAdmin}
               setProductEdited={setProductEdited}
+              productEdited={productEdited}
             />
             <Metrics isAdmin={isAdmin} />
           </div>

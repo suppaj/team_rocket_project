@@ -68,7 +68,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           b = b.dex_id;
           return a - b;
         });
-        console.log("Products:", response);
         setAllProducts(response);
         setCurrentProducts(response);
 
@@ -77,14 +76,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
       .then((response) => {
         // checks localStorage for a stored sort query
         let sortQuery = JSON.parse(localStorage.getItem("sortQuery"));
-        sortQuery
-          ? console.log("Sort query:", sortQuery)
-          : console.log("No sort query to apply...");
         // applies stored sort query if it exists
         if (sortQuery !== null) {
           const { message, key, type } = sortQuery;
-          console.log("Attempting to apply sort query!");
-          console.log("Message:", message);
           setSortMessage(message);
           setSortMethod(key);
           sortProductsByKey(response, key, type, setAllProducts);
@@ -101,24 +95,16 @@ const Products = ({ getAllProducts, getAllTypes }) => {
       .then((response) => {
         // checks localStorage for a stored search query
         let searchQuery = localStorage.getItem("searchQuery");
-        searchQuery
-          ? console.log("Search query:", searchQuery)
-          : console.log("No search query to apply...");
         // applies stored search query if it exists
         if (searchQuery !== "" && searchQuery !== null) {
-          console.log("Attempting to apply search query!");
           searcher(searchQuery, response);
           setSearchVal(searchQuery);
         }
 
         // checks localStorage for a stored filter query
         let filterQuery = localStorage.getItem("filterQuery");
-        filterQuery
-          ? console.log("Filter query:", filterQuery)
-          : console.log("No filter query to apply...");
         // applies stored filter query if it exists
         if (filterQuery !== null) {
-          console.log(`Attempting to apply filter query!`);
           setFilterMessage(filterQuery);
           if (filterQuery === "Featured products") {
             let copy = [];
@@ -135,20 +121,15 @@ const Products = ({ getAllProducts, getAllTypes }) => {
 
         // checks localStorage for a stored page query
         let pageQuery = JSON.parse(localStorage.getItem("pageQuery"));
-        pageQuery
-          ? console.log("Page query:", pageQuery)
-          : console.log("No page query to apply...");
         // applies stored page query if it exists
         if (pageQuery !== null) {
           const { start, end } = pageQuery;
-          console.log("Attempting to apply page query!");
           setIndexStart(start);
           setIndexEnd(end);
         }
       })
       .catch((error) => {
-        console.log("Error fetching products!");
-        console.log(error);
+        console.log(error)
       });
 
     // grabs all type entries from the database
@@ -224,7 +205,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         filtered.push(poke);
       }
     });
-    console.log("filtered", filtered);
     setCurrentProducts(filtered);
   }
 

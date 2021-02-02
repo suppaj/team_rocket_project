@@ -15,6 +15,10 @@ const {
   db_updateProduct,
   db_joinTopSales,
   db_getTotalSales,
+  db_countActiveProducts,
+  db_countInactiveProducts,
+  db_getSalesForecast,
+  db_getLastSixMonths,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", async (req, res) => {
@@ -34,6 +38,23 @@ apiRouter.get("/customers_email", async (req, res) => {
   try {
     const customer = await db_getCustomerByEmail(cust_email);
     res.send({ customer });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/active_products", async (req, res) => {
+  try {
+    const active = await db_countActiveProducts();
+    res.send({ active });
+  } catch (error) {
+    throw error;
+  }
+});
+apiRouter.get("/inactive_products", async (req, res) => {
+  try {
+    const inactive = await db_countInactiveProducts();
+    res.send({ inactive });
   } catch (error) {
     throw error;
   }
@@ -138,6 +159,28 @@ apiRouter.get("/total_sales/:month/:year", async (req, res) => {
   try {
     const totalSales = await db_getTotalSales(month, year);
     res.send({ totalSales });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/forecast_sales/:month/:year", async (req, res) => {
+  const { month, year } = req.params;
+
+  try {
+    const forecast = await db_getSalesForecast(month, year);
+    res.send({ forecast });
+  } catch (error) {
+    throw error;
+  }
+});
+
+apiRouter.get("/historical_view/:month/:year", async (req, res) => {
+  const { month, year } = req.params;
+
+  try {
+    const historic = await db_getLastSixMonths(month, year);
+    res.send({ historic });
   } catch (error) {
     throw error;
   }

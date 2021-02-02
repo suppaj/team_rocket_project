@@ -1,4 +1,7 @@
 const apiRouter = require("express").Router();
+const {
+  requireUser
+} = require('./utilities');
 
 const {
   getAllProducts,
@@ -36,7 +39,7 @@ apiRouter.get("/:product_id", async (req, res, next) => {
   }
 });
 
-apiRouter.post("/review", async (req, res, next) => {
+apiRouter.post("/review", requireUser, async (req, res, next) => {
   const reviewObject = req.body;
   try {
     const review = await db_createProductReview(reviewObject);
@@ -46,15 +49,15 @@ apiRouter.post("/review", async (req, res, next) => {
   }
 });
 
-apiRouter.post(`/:cart_id/:prod_id`, async (req, res, next) => {
-  const { cart_id, prod_id } = req.params;
-  const { price, cart_quantity } = req.body;
-  try {
-    const cart = await db_addCartItem(cart_id, prod_id, cart_quantity, price);
-    res.send(cart);
-  } catch (error) {
-    next(error);
-  }
-});
+// apiRouter.post(`/:cart_id/:prod_id`, async (req, res, next) => {
+//   const { cart_id, prod_id } = req.params;
+//   const { price, cart_quantity } = req.body;
+//   try {
+//     const cart = await db_addCartItem(cart_id, prod_id, cart_quantity, price);
+//     res.send(cart);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 module.exports = apiRouter;

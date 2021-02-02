@@ -16,7 +16,6 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
         if (edit) {
         if (ship_add1 === bill_add1 && ship_add2 === bill_add2 && ship_city === bill_city && ship_state === bill_state && ship_zipcode === bill_zipcode) {
             document.getElementById('same-as-shipping').checked = true
-            console.log('all equal');
             setisChecked(true)
         }}
     },[edit])
@@ -25,7 +24,7 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
         e.preventDefault();
         if (user.bill_add1 && user.bill_city && user.bill_state && user.bill_zipcode ) {
         setShow(true);
-        const results = await updateUserBilling(user);
+        const results = await updateUserBilling(user, JSON.parse(localStorage.getItem('user')).token);
         setShow(false);
         setMaster({...master, ...results});
         setUserProfile({...master, ...results})
@@ -150,7 +149,7 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
                 <p>{user.first_name} {user.last_name}</p>
                 <p>{user.bill_add1}</p>
                 <p>{user.bill_add2}</p>
-                <p>{user.bill_city}, {user.bill_city} {user.bill_zipcode}</p>
+                <p>{user.bill_city}, {user.bill_state} {user.bill_zipcode}</p>
             { message ?
             <div className='nes-container is-dark'>
                 <p>{message}</p>

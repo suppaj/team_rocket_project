@@ -27,6 +27,8 @@ import {
   UserProfile,
   AccountPage,
   Header,
+  InvalidUser,
+  NotLoggedIn,
 } from "./index";
 
 import { Access } from "./admin/index";
@@ -140,14 +142,11 @@ const App = () => {
             <Route path="/admin">
               <Admin isAdmin={isAdmin} />
             </Route>
-            <Route path="/users/:cust_id/profile">
-              <UserProfile />
-            </Route>
-            <Route path="/users/:cust_id/history">
-              <OrderHistory />
-            </Route>
             <Route path="/users/:cust_id/account">
               <AccountPage />
+            </Route>
+            <Route path="/whothis">
+              <NotLoggedIn />
             </Route>
           </Switch>
         </Row>
