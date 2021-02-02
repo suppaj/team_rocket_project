@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { Chart } from "react-google-charts";
+import { RollingBall } from "../index";
 import pokeball from "./pokeball.png";
 import { Filter, Rejected } from "./index";
 import {
-  getSalesData,
-  getSalesDatabyProductID,
   getSalesDatabyMonth,
   getTopSalesDatabyMonth,
   getTotalSalesValue,
+  getSalesForecast,
+  getSalesDataLastSixMonths,
 } from "../../api/index";
 
-import { getMonth, handleSales, handleRetrieveSales } from "./utils";
+import {
+  handleSales,
+  handleRetrieveSales,
+  checkMonth,
+  getSalesMonth,
+} from "./utils";
 
 const Metrics = ({ isAdmin }) => {
-  const [show, setShow] = useState(false);
   const [month, setMonth] = useState(null);
   const [year, setYear] = useState(null);
   const [forecast, setForecast] = useState(null);
@@ -21,6 +27,15 @@ const Metrics = ({ isAdmin }) => {
   const [topSalesArr, setTopSalesArr] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
   const [showMetrics, setShowMetrics] = useState(false);
+  const [goalExceeded, setGoalExceeded] = useState(null);
+  const [chartData, setChartData] = useState([
+    ["Month", "Volume", "Forecast"],
+    ["February", 175, 4000],
+    ["January", 3792, 3694],
+    ["December", 2695, 2896],
+    ["November", 2099, 1953],
+    ["October", 1526, 1517],
+  ]);
 
   const handleClose = () => setShowMetrics(false);
   const handleShow = () => {
@@ -59,12 +74,47 @@ const Metrics = ({ isAdmin }) => {
           throw error;
         });
 
+      getSalesForecast(month, year)
+        .then((response) => {
+          setForecast(response.forecast);
+        })
+        .catch((error) => {
+          throw error;
+        });
+
+      getSalesDataLastSixMonths(month, year)
+        .then((response) => {
+          const historicVolume = response.historic;
+          const data = [["Month", "Volume", "Forecast"]];
+          historicVolume.map((sale) => {
+            const { month, year, value, forecast } = sale;
+            data.push([
+              checkMonth(parseInt(month)),
+              parseInt(value),
+              parseInt(forecast),
+            ]);
+          });
+
+          setChartData(data);
+        })
+        .catch((error) => {
+          throw error;
+        });
+
       setUpdateFilter(false);
     }
   }, [updateFilter]);
 
   useEffect(() => {
-    setForecast(getMonth());
+    if (totalSales && forecast) {
+      if (totalSales > forecast) {
+        setGoalExceeded(true);
+      } else if (totalSales < forecast) {
+        setGoalExceeded(false);
+      } else {
+        setGoalExceeded(null);
+      }
+    }
   });
 
   return (
@@ -77,7 +127,9 @@ const Metrics = ({ isAdmin }) => {
             onClick={handleShow}
           ></img>
           <div className="admin-title">
-            <div className={showMetrics === true ? "show" : "hide"}>
+            <div
+              className={showMetrics === true ? "show metrics-show" : "hide"}
+            >
               <div id="metrics-body">
                 <button className="close-button" onClick={handleClose}>
                   X
@@ -111,15 +163,12 @@ const Metrics = ({ isAdmin }) => {
                                       ></img>
                                     </div>
                                   ) : (
-                                    <div
-                                      className="nes-container is-rounded pokemon-standing"
-                                      //    className="poke-top-item"
-                                    >
+                                    <div className="nes-container is-rounded pokemon-standing">
                                       <p>
                                         {index + 1}: {poke_name}
                                       </p>
                                       <img
-                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${DEX}.png`}
+                                        src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/versions/generation-v/black-white/animated/${DEX}.gif?raw=true`}
                                         alt={`${poke_name}`}
                                       ></img>
                                     </div>
@@ -131,15 +180,52 @@ const Metrics = ({ isAdmin }) => {
                       </div>
                     </div>
                   </div>
-                  <div id="trends">Monthly Trends</div>
+                  <div id="trends">
+                    <Chart
+                      width={"100%"}
+                      height={"90%"}
+                      chartType="BarChart"
+                      loader={
+                        <div>
+                          <RollingBall />
+                        </div>
+                      }
+                      data={chartData}
+                      options={{
+                        backgroundColor: "transparent",
+                        title: "Monthly Sales Trends",
+                        chartArea: { width: "40%" },
+                        hAxis: {
+                          title: "Sales Revenue",
+                          minValue: 10000,
+                        },
+                      }}
+                      // For tests
+                      rootProps={{ "data-testid": "1" }}
+                    />
+                  </div>
                   <div id="forecast">
                     <p>Forecasted Sales</p>
-                    {forecast ? <p>{forecast}</p> : null}
+                    {forecast ? (
+                      <p className="forecasted-sales">₽{forecast}K</p>
+                    ) : (
+                      <p className="forecasted-sales"></p>
+                    )}
                   </div>
                   <div id="total-sales">
                     <p>Sales Totals</p>
                     {totalSales ? (
-                      <p className="total-sales-par">₽{totalSales}K</p>
+                      <p
+                        className={
+                          goalExceeded === true
+                            ? "green total-sales-par"
+                            : goalExceeded === null
+                            ? "yellow total-sales-par"
+                            : "red total-sales-par"
+                        }
+                      >
+                        ₽{totalSales}K
+                      </p>
                     ) : (
                       <p className="total-sales-par"></p>
                     )}
@@ -180,11 +266,13 @@ const Metrics = ({ isAdmin }) => {
                               } = sale;
                               return (
                                 <tr className="sales-rows" key={index}>
-                                  <td>{transaction_id}</td>
-                                  <td>{transaction_date}</td>
-                                  <td>{name}</td>
-                                  <td>{transaction_quantity}</td>
-                                  <td>
+                                  <td id="metrics-id">{transaction_id}</td>
+                                  <td id="metrics-date">{transaction_date}</td>
+                                  <td id="metrics-name">{name}</td>
+                                  <td id="metrics-quantity">
+                                    {transaction_quantity}
+                                  </td>
+                                  <td id="metrics-value">
                                     {(price * transaction_quantity).toFixed(2)}
                                   </td>
                                 </tr>

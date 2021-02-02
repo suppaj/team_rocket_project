@@ -16,7 +16,6 @@ import {
 import { getSomething, getAllProducts, getAllTypes } from "../api";
 
 import {
-  
   Products,
   ProductPage,
   ProductsReturn,
@@ -89,17 +88,19 @@ const App = () => {
             width: "100vw",
           }}
         >
-          <Header setIsLoggedIn={setIsLoggedIn}
-              setIsAdmin={setIsAdmin}
-              setFirstName={setFirstName}
-              firstName={firstName}
-              setUser={setUser}
-              cart={cart}
-              setCart={setCart}
-              isAdmin={isAdmin}
-              isLoggedIn={isLoggedIn}
-              cartCount={cartCount}
-              user={user}/>
+          <Header
+            setIsLoggedIn={setIsLoggedIn}
+            setIsAdmin={setIsAdmin}
+            setFirstName={setFirstName}
+            firstName={firstName}
+            setUser={setUser}
+            cart={cart}
+            setCart={setCart}
+            isAdmin={isAdmin}
+            isLoggedIn={isLoggedIn}
+            cartCount={cartCount}
+            user={user}
+          />
         </Row>
         <Row
           className="bg-success "

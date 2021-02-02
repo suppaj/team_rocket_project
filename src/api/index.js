@@ -64,6 +64,7 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
       cust_email,
       cust_pwd,
     });
+
     if (cart.length) {
       const newCart = combineCarts(cart, data.cart);
       const { data: masterCart } = await axios.patch(
@@ -113,6 +114,7 @@ export async function registerCustomer(
       cust_pwd,
       is_admin,
     });
+
     return data;
   } catch (error) {
     throw error;
@@ -207,6 +209,7 @@ export async function getOrderHistoryByCustomerId(customerId) {
     const { data } = await axios.get(
       `api/admin/customers_history/${customerId}`
     );
+
     return data;
   } catch (error) {
     throw error;
@@ -216,6 +219,7 @@ export async function getOrderHistoryByCustomerId(customerId) {
 export async function getOrderDetailsbyOrderId(orderId) {
   try {
     const { data } = await axios.get(`api/admin/customers_orders/${orderId}`);
+
     return data;
   } catch (error) {
     throw error;
@@ -243,7 +247,7 @@ export async function submitCustomerReview(reviewObject) {
 export async function getTopSalesDatabyMonth(month, year) {
   try {
     const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
-    console.log("RESPONSE FROM TOP MONTHLY SALES DATA", data);
+
     return data;
   } catch (error) {
     throw error;
@@ -253,6 +257,18 @@ export async function getTopSalesDatabyMonth(month, year) {
 export async function getTotalSalesValue(month, year) {
   try {
     const { data } = await axios.get(`api/admin/total_sales/${month}/${year}`);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSalesForecast(month, year) {
+  try {
+    const { data } = await axios.get(
+      `api/admin/forecast_sales/${month}/${year}`
+    );
 
     return data;
   } catch (error) {
@@ -272,10 +288,22 @@ export async function getSalesDatabyMonth(month, year) {
   }
 }
 
+export async function getSalesDataLastSixMonths(month, year) {
+  try {
+    const { data } = await axios.get(
+      `api/admin/historical_view/${month}/${year}`
+    );
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getSalesDatabyProductID(prodID) {
   try {
     const { data } = await axios.get(`api/admin/product_sales/${prodID}`);
-    console.log(data);
+
     return data;
   } catch (error) {
     throw error;
@@ -287,6 +315,24 @@ export async function getSalesData() {
     const { data } = await axios.get(`/api/admin/view_sales`);
 
     return data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function getActive() {
+  try {
+    const { data } = await axios.get(`/api/admin/active_products`);
+
+    return data.active;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function getInactive() {
+  try {
+    const { data } = await axios.get(`/api/admin/inactive_products`);
+
+    return data.inactive;
   } catch (error) {
     throw error;
   }

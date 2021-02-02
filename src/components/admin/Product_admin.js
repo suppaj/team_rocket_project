@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
+import { RollingBall } from "../index";
 import ultraball from "./ultraball.png";
-import { Modal, Form, Button } from "react-bootstrap";
 import { Search, Rejected } from "./index";
-import { countActive, countInactive } from "./utils";
-import { updateProduct } from "../../api/index";
+import { updateProduct, getActive, getInactive } from "../../api/index";
 
-const Product_admin = ({ isAdmin, setProductEdited }) => {
+const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
   const [showMetrics, setShowMetrics] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const [productsArr, setProductsArr] = useState([]);
   const [activeProducts, setActiveProducts] = useState(null);
   const [inactiveProducts, setInactiveProducts] = useState(null);
-  const [priceData, setPriceData] = useState(
-    JSON.parse(window.localStorage.getItem("price_details")) || []
-  );
+  const [priceData, setPriceData] = useState([]);
 
   const [editPrice, setEditPrice] = useState(null);
   const [editQuantity, setEditQuantity] = useState(null);
@@ -25,21 +22,46 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
     setShowMetrics(true);
     const products = JSON.parse(window.localStorage.getItem("prod_array"));
     setProductsArr(products);
-    const activeProducts = countActive(products);
-    const inactiveProducts = countInactive(products);
-    setActiveProducts(activeProducts);
-    setInactiveProducts(inactiveProducts);
+
+    const prices = JSON.parse(window.localStorage.getItem("price_details"));
+    setPriceData(prices);
+    //
   };
 
   useEffect(() => {
-    const data = [["Product", "Price"]];
-    if (productsArr) {
-      productsArr.map((product, index) => {
-        const { name, price } = product;
-        data.push([name, price]);
+    getActive()
+      .then((response) => {
+        console.log(
+          "test purps this is the active response",
+          response[0].count
+        );
+        const active = response[0].count;
+        setActiveProducts(active);
+      })
+      .catch((error) => {
+        throw error;
       });
+  }, [productEdited]);
 
-      window.localStorage.setItem("price_details", JSON.stringify(data));
+  useEffect(() => {
+    getInactive()
+      .then((response) => {
+        console.log(
+          "test purps this is the inactive response",
+          response[0].count
+        );
+        const inactive = response[0].count;
+        setInactiveProducts(inactive);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }, [productEdited]);
+
+  useEffect(() => {
+    // productEdited === true ? setProductEdited(false) : null;
+    if (productEdited === true) {
+      setProductEdited(false);
     }
   });
 
@@ -84,15 +106,32 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                       width={"300px"}
                       height={"120px"}
                       chartType="PieChart"
-                      loader={<div>Loading</div>}
+                      loader={
+                        <div>
+                          <RollingBall />
+                        </div>
+                      }
                       data={[
                         ["Product-Status", "Number"],
-                        ["Active", activeProducts],
-                        ["Inactive", inactiveProducts],
+                        ["Active", 50],
+                        ["Inactive", 2],
                       ]}
                       options={{
                         backgroundColor: "transparent",
+                        animation: {
+                          startup: true,
+                          easing: "linear",
+                          duration: 1500,
+                        },
                       }}
+                      chartEvents={[
+                        {
+                          eventName: "animationfinish",
+                          callback: () => {
+                            console.log("Animation Finished");
+                          },
+                        },
+                      ]}
                       rootProps={{ "data-testid": "1" }}
                     />
                   </div>
@@ -109,7 +148,20 @@ const Product_admin = ({ isAdmin, setProductEdited }) => {
                     options={{
                       legend: { position: "none" },
                       backgroundColor: "transparent",
+                      animation: {
+                        startup: true,
+                        easing: "linear",
+                        duration: 1500,
+                      },
                     }}
+                    chartEvents={[
+                      {
+                        eventName: "animationfinish",
+                        callback: () => {
+                          console.log("Animation Finished");
+                        },
+                      },
+                    ]}
                     rootProps={{ "data-testid": "1" }}
                   />
                 </div>
