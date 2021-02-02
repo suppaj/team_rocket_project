@@ -49,6 +49,7 @@ body {
   background-color: #241127;
   border-bottom: 3px solid black;
   width: 100vw;
+  min-height: 10vh;
 }
 
 .site-body {
@@ -169,7 +170,7 @@ body {
 
 /* Individual Products styling */
 .product-page {
-  width: 40%;
+  width: 750px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
 }

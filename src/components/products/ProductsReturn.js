@@ -5,7 +5,7 @@ const ProductsReturn = () => {
     return (
       <a href="/">
         <button type="button" className="nes-btn">
-          Return to Search
+          Search
         </button>
       </a>
     );
