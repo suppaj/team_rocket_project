@@ -48,34 +48,15 @@ const Products = ({
     return (
       <div
         key={dex_id}
-        style={{
-          marginBottom: "30px",
-          marginLeft: "30px",
-          marginRight: "30px",
-          width: "310px",
-          height: "310px",
-          display: "inline-block",
-          textAlign: "center",
-          backgroundColor: "#abbbd1",
-        }}
-        className={`pokemon-card nes-container with-title is-rounded is-centered`}
+        className="pokemon-card nes-container with-title is-rounded is-centered"
       >
         <div className="nes-container is-rounded title">
           <span>#{dex_id} </span>
-          <span
-            style={{
-              textTransform: "capitalize",
-            }}
-          >
-            {name}
-          </span>
+          <span className="pokemon-name">{name}</span>
         </div>
         <span>
           {is_featured ? (
-            <i
-              style={{ position: "absolute", top: "-8%", left: "-8%" }}
-              className="nes-icon star is-medium"
-            ></i>
+            <i className="is-featured nes-icon star is-medium"></i>
           ) : (
             ""
           )}
@@ -87,11 +68,7 @@ const Products = ({
         </p>
         <Button variant="link" href={`/products/${prod_id}/${name}`}>
           <img
-            style={{
-              height: "200px",
-              marginTop: "-25px",
-            }}
-            className="nes-pointer"
+            className="nes-pointer pokemon-icon"
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
             alt={`a very happy ${name}`}
           />
@@ -112,22 +89,13 @@ const Products = ({
     // if there are no propducts to display, shows a card with an apporpriate message
     return (
       <div
-        style={{
-          marginBottom: "30px",
-          marginLeft: "30px",
-          marginRight: "30px",
-          height: "300px",
-          display: "inline-block",
-          textAlign: "center",
-          backgroundColor: "#abbbd1",
-        }}
-        className={`nes-container with-title is-rounded is-centered`}
+        className={`no-pokemon-card nes-container with-title is-rounded is-centered`}
       >
         <p className="nes-container is-rounded title">
           There doesn't seem to be anything here...
         </p>
         <img
-          style={{ height: "200px", marginTop: "-25px" }}
+          className="unknown-icon"
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-${unknownId}.png`}
           alt={`an unknown-${unknownId} appears...`}
         />

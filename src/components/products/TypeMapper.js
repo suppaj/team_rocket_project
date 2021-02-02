@@ -6,12 +6,8 @@ const TypeMapper = ({ typeArray, setFilterMessage, typeFilter }) => {
     return typeArray.map((type, index) => {
       return (
         <span
-          className={`${type} nes-container is-rounded nes-pointer`}
-          style={{
-            marginRight: "10px",
-            marginLeft: "10px",
-            padding: "2px",
-          }}
+          className={`type-bage ${type} nes-container is-rounded nes-pointer`}
+          style={{ marginRight: "10px", marginLeft: "10px", padding: "2px" }}
           key={index}
           onClick={() => {
             setFilterMessage(`${type}`);
@@ -28,11 +24,7 @@ const TypeMapper = ({ typeArray, setFilterMessage, typeFilter }) => {
       return (
         <span
           className={`${type} nes-container is-rounded`}
-          style={{
-            marginRight: "10px",
-            marginLeft: "10px",
-            padding: "2px",
-          }}
+          style={{ marginRight: "10px", marginLeft: "10px", padding: "2px" }}
           key={index}
         >
           {type}

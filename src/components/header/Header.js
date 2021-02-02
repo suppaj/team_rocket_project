@@ -27,17 +27,8 @@ const Header = ({
   const [welcomeShow, setWelcomeShow] = useState(false);
 
   return (
-    <>
-      <div
-        className="nes-container is-rounded"
-        style={{
-          backgroundColor: "#E7E7E7",
-          padding: "5px 5px 5px 5px",
-          position: "absolute",
-          left: "5px",
-          top: "5px",
-        }}
-      >
+    <div className="header-container">
+      <div className="header-banner">
         <a
           href="/"
           onClick={() => {
@@ -47,64 +38,61 @@ const Header = ({
             localStorage.removeItem("pageQuery");
           }}
         >
-          <img
-            style={{ alignSelf: "left", height: "70px", width: "70px" }}
-            src="https://www.clipartmax.com/png/full/153-1530219_team-rocket-clipart-pokemon-team-rocket-logo.png"
-            alt="Team Rocket Logo"
-          />
+          <h1>Team Rocket Pet Shop</h1>
         </a>
       </div>
-      <ProductsReturn />
+      <div className="header-button-group">
+        <ProductsReturn />
+        {isLoggedIn ? (
+          <>
+            <Logout
+              setUser={setUser}
+              setIsAdmin={setIsAdmin}
+              setIsLoggedIn={setIsLoggedIn}
+            />{" "}
+            <ProfileButton user={user} />
+          </>
+        ) : (
+          <>
+            <Login
+              setIsLoggedIn={setIsLoggedIn}
+              setIsAdmin={setIsAdmin}
+              setFirstName={setFirstName}
+              firstName={firstName}
+              setUser={setUser}
+              cart={cart}
+              setCart={setCart}
+              setWelcomeShow={setWelcomeShow}
+            />
+            <Register
+              setWelcomeShow={setWelcomeShow}
+              welcomeShow={welcomeShow}
+              setOuterShow={() => null}
+              firstName={firstName}
+              setFirstName={setFirstName}
+            />{" "}
+          </>
+        )}
 
-      {isLoggedIn ? (
-        <>
-          <Logout
-            setUser={setUser}
-            setIsAdmin={setIsAdmin}
-            setIsLoggedIn={setIsLoggedIn}
-          />{" "}
-          <ProfileButton user={user} />
-        </>
-      ) : (
-        <>
-          <Login
-            setIsLoggedIn={setIsLoggedIn}
-            setIsAdmin={setIsAdmin}
-            setFirstName={setFirstName}
-            firstName={firstName}
-            setUser={setUser}
-            cart={cart}
-            setCart={setCart}
-            setWelcomeShow={setWelcomeShow}
-          />
-          <Register
-            setWelcomeShow={setWelcomeShow}
-            welcomeShow={welcomeShow}
-            setOuterShow={() => null}
-            firstName={firstName}
-            setFirstName={setFirstName}
-          />{" "}
-        </>
-      )}
+        {isAdmin ? (
+          <Link to="/admin">
+            <Access isAdmin={isAdmin} />
+          </Link>
+        ) : (
+          ""
+        )}
 
-      {isAdmin ? (
-        <Link to="/admin">
-          <Access isAdmin={isAdmin} />
-        </Link>
-      ) : (
-        ""
-      )}
+        <CartButton cart={cart} cartCount={cartCount} />
 
-      <CartButton cart={cart} cartCount={cartCount} />
-
-      {/* modal moved to live in header */}
-      <Welcome
-        setWelcomeShow={setWelcomeShow}
-        welcomeShow={welcomeShow}
-        firstName={firstName}
-        setOuterShow={() => null}
-      />
-    </>
+        {/* modal moved to live in header */}
+        <Welcome
+          setWelcomeShow={setWelcomeShow}
+          welcomeShow={welcomeShow}
+          firstName={firstName}
+          setOuterShow={() => null}
+        />
+      </div>
+    </div>
   );
 };
 

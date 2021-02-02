@@ -6,7 +6,7 @@ const ReviewStars = ({ reviewInfo, setReviewInfo }) => {
   return (
     <div className="customer-rating">
       <label>Rating</label>
-      <div className="review-stars" style={{ marginTop: "-5px" }}>
+      <div className="review-stars">
         <i
           onClick={() => {
             setReviewInfo({ ...reviewInfo, rating: 1 });
@@ -82,7 +82,7 @@ const ReviewForm = ({
 
   return (
     <>
-      <h4 style={{ textAlign: "center" }}>Leave a review!</h4>
+      <h4>Leave a review!</h4>
       <ReviewStars reviewInfo={reviewInfo} setReviewInfo={setReviewInfo} />
       <div className="title-input nes-field">
         <label htmlFor="title_field">Headline</label>
@@ -100,10 +100,9 @@ const ReviewForm = ({
           }}
         />
       </div>
-      <div className="description-input" style={{ marginTop: "15px" }}>
+      <div className="description-input">
         <label htmlFor="textarea_field">Add a written review</label>
         <textarea
-          style={{ height: "6rem" }}
           id="textarea_field"
           className="nes-textarea"
           placeholder="What did you like or dislike?"

@@ -9,7 +9,7 @@ const ProductSearch = ({
   resetPagination,
 }) => {
   return (
-    <Form style={{ marginRight: "10px" }}>
+    <Form className="search-bar">
       <Form.Control
         type="text"
         value={searchVal}

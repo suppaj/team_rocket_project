@@ -82,14 +82,7 @@ const App = () => {
   return (
     <Router>
       <Container fluid>
-        <Row
-          className="bg-primary"
-          id="header"
-          style={{
-            minHeight: "12vh",
-            width: "100vw",
-          }}
-        >
+        <Row className="site-header" id="header">
           <Header
             setIsLoggedIn={setIsLoggedIn}
             setIsAdmin={setIsAdmin}
@@ -104,24 +97,10 @@ const App = () => {
             user={user}
           />
         </Row>
-        <Row
-          className="bg-success "
-          style={{
-            minHeight: "78vh",
-            width: "100vw",
-          }}
-        >
+        <Row className="site-body">
           <Switch>
             <Route exact path="/">
-              <Row
-                style={{
-                  marginBottom: "20px",
-                  marginTop: "20px",
-                  width: "100vw",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+              <Row className="products-container">
                 <Products
                   getAllProducts={getAllProducts}
                   getAllTypes={getAllTypes}
@@ -129,15 +108,7 @@ const App = () => {
               </Row>
             </Route>
             <Route path="/products/:product_id">
-              <Row
-                style={{
-                  marginBottom: "20px",
-                  marginTop: "20px",
-                  width: "100vw",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
+              <Row className="products-container">
                 <ProductPage
                   cartID={user.cartID}
                   isLoggedIn={isLoggedIn}
@@ -174,17 +145,12 @@ const App = () => {
             <Route path="/users/:cust_id/account">
               <AccountPage />
             </Route>
-            <Route path='/whothis'>
+            <Route path="/whothis">
               <NotLoggedIn />
             </Route>
           </Switch>
         </Row>
-        <Row
-          className="bg-secondary"
-          style={{ minHeight: "10vh", width: "100vw" }}
-        >
-          FOOTER AREA
-        </Row>
+        <Row className="site-footer">FOOTER AREA</Row>
       </Container>
     </Router>
   );
