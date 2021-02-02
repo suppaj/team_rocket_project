@@ -32,16 +32,12 @@ apiRouter.post('/create-checkout-session', async (req, res, next) => {
 });
 
 apiRouter.post(`/create-payment-intent`, async (req, res, next) => {
-<<<<<<< HEAD
   const {cart, user} = req.body;
-  console.log('hitting payment route');
-  if (!user.custID) {
-    user.custID = 1;
-  }
-=======
-  const cart = req.body;
->>>>>>> master
+  
   try {
+    if (!user.custID) {
+    user.custID = 1;
+    }
     const orderTotal = await calculateOrderAmount(cart)
     const paymentIntent = await stripe.paymentIntents.create({
       amount: (orderTotal*100).toFixed(0),
