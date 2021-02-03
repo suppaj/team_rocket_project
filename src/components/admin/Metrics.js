@@ -128,7 +128,9 @@ const Metrics = ({ isAdmin }) => {
           ></img>
           <div className="admin-title">
             <div
-              className={showMetrics === true ? "show metrics-show" : "hide"}
+              className={
+                showMetrics === true ? "show-admin metrics-show" : "hide"
+              }
             >
               <div id="metrics-body">
                 <button className="close-button" onClick={handleClose}>

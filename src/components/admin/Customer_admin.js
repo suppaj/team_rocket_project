@@ -11,8 +11,8 @@ const Customer_admin = ({ isAdmin }) => {
   const [customerArr, setCustomerArr] = useState([]);
   const [orderHistArr, setOrderHistArr] = useState([]);
   const [orderDetailsArr, setOrderDetailsArr] = useState([]);
-  const [selectedCustomerID, setSelectedCustomerID] = useState('');
-  const [selectedOrderID, setSelectedOrderID] = useState('');
+  const [selectedCustomerID, setSelectedCustomerID] = useState("");
+  const [selectedOrderID, setSelectedOrderID] = useState("");
   const [showCust, setShowCust] = useState(false);
 
   const handleCloseCust = () => {
@@ -82,7 +82,7 @@ const Customer_admin = ({ isAdmin }) => {
           <div className="admin-title">
             Customer Orders
             <div
-              className={showCust === true ? "show" : "hide"}
+              className={showCust === true ? "show-admin" : "hide"}
               id="customer-admin-screen"
             >
               <button className="close-button" onClick={handleCloseCust}>
