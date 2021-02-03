@@ -1,6 +1,6 @@
 import React from "react";
 import { Col } from "react-bootstrap";
-import { BouncingBall, CartItemCard, CartTable } from "../index";
+import { CartItemCard, CartTable } from "../index";
 
 import { loadStripe } from "@stripe/stripe-js";
 // import { getCheckoutSession } from '../api'; // uncomment to use stripe hosted checkout
@@ -34,30 +34,22 @@ const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
             <div className="nes-balloon from-right align-top">
               <p>Your cart is empty. Gotta buy them all!</p>
             </div>
-            <i
-              className="nes-ash align-bottom"
-              style={{ transform: "scaleX(-1)" }}
-            ></i>
+            <i className="nes-ash align-bottom ash-icon"></i>
           </div>
         )}
       </Col>
       <Col
-        md={cart.length ? { span: 3 } : { span: 4 }}
         className={
           cart.length
-            ? "align-self-start mx-auto sticky-top"
+            ? "align-self-start mx-auto sticky-top "
             : "mx-auto align-self-center"
         }
       >
         {cart.length ? (
-          <>
+          <div className="cart-order-table-container nes-container">
             <CartTable cart={cart} />
             <div>
-              <a
-                className="nes-btn is-primary"
-                href="/"
-                style={{ textDecoration: "none", color: "white" }}
-              >
+              <a className="nes-btn is-primary cart-return-btn" href="/">
                 Return to Shopping
               </a>
             </div>
@@ -65,27 +57,24 @@ const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
             <div>
               <a
                 className={
-                  cart.length ? "nes-btn is-success" : "nes-btn is-disabled"
+                  cart.length
+                    ? "nes-btn is-success cart-btn"
+                    : "nes-btn is-disabled cart-checkout-btn"
                 }
                 disabled={!cart.length}
                 href="/checkout"
-                style={{ textDecoration: "none", color: "white" }}
               >
                 Checkout
               </a>
             </div>
-          </>
+          </div>
         ) : (
           <div>
-            <a
-              className="nes-btn is-primary checkout-return-to-shopping"
-              href="/"
-            >
+            <a className="nes-btn is-primary cart-return-btn" href="/">
               Return to Shopping
             </a>
           </div>
         )}
-        {cart.length ? <BouncingBall /> : ""}
       </Col>
     </>
   );

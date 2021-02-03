@@ -11,7 +11,7 @@ const ProductsReturn = () => {
           className="nes-btn"
           onClick={() => history.push("/")}
         >
-          Return to Search
+          Search
         </button>
       </div>
     );
@@ -20,5 +20,4 @@ const ProductsReturn = () => {
   }
 };
 
-// todo look into <Link> component, this will mess with conditional rendering of the page but will allow us to potentially keep the existing search/sort/filter parameters of the page
 export default ProductsReturn;
