@@ -1,13 +1,21 @@
 import React from "react";
+import { useHistory } from 'react-router-dom';
 
 const ProductsReturn = () => {
+  const history = useHistory();
   if (window.location.pathname != "/") {
     return (
+<<<<<<< HEAD
       <a href="/">
         <button type="button" className="nes-btn">
           Search
+=======
+      <div>
+        <button type="button" className="nes-btn" onClick={()=>history.push('/')}>
+          Return to Search
+>>>>>>> master
         </button>
-      </a>
+      </div>
     );
   } else {
     return "";

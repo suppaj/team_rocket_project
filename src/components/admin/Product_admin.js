@@ -76,7 +76,9 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
           ></img>
           <div className="admin-title">
             <div
-              className={showMetrics === true ? "show products-show" : "hide"}
+              className={
+                showMetrics === true ? "show-admin products-show" : "hide"
+              }
             >
               <button className="close-button" onClick={handleClose}>
                 X

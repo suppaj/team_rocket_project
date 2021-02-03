@@ -35,9 +35,7 @@ import { Access } from "./admin/index";
 
 const App = () => {
   const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    JSON.parse(localStorage.getItem("logged-in")) || false
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
@@ -61,8 +59,17 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
-
     setCart(user.cart);
+    if (user.firstName) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+    if (user.adminToken) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
   }, [user]);
 
   useEffect(() => {

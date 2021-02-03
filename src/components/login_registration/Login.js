@@ -36,15 +36,15 @@ const Login = ({
     window.localStorage.setItem("token", JSON.stringify(e));
   };
 
-  const setLoginData = () => {
-    // window.localStorage.setItem("logged-in", JSON.stringify(true));
-    setIsLoggedIn(true);
-  };
+  // const setLoginData = () => {
+  //   // window.localStorage.setItem("logged-in", JSON.stringify(true));
+  //   setIsLoggedIn(true);
+  // };
 
-  const handleLoginRequest = () => {
-    const login = JSON.parse(window.localStorage.getItem("logged-in"));
-    setIsLoggedIn(login);
-  };
+  // const handleLoginRequest = () => {
+  //   const login = JSON.parse(window.localStorage.getItem("logged-in"));
+  //   setIsLoggedIn(login);
+  // };
 
   const handleCustomerLogin = (e) => {
     e.preventDefault();
@@ -58,11 +58,12 @@ const Login = ({
           setFirstName(firstName);
           setUser(response);
           setWelcomeShow(true);
+          setIsLoggedIn(true);
           if (adminToken) {
             setAdminData(adminToken);
           }
           // setCart(cart);
-          setLoginData();
+          // setLoginData();
         } else {
           console.log("login credentials incorrect");
           setErrMsg(response.message);
@@ -71,7 +72,7 @@ const Login = ({
       .catch((error) => {
         throw error;
       });
-    handleLoginRequest();
+    // handleLoginRequest();
   };
 
   return (

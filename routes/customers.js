@@ -50,15 +50,16 @@ apiRouter.post("/login", async (req, res, next) => {
 
         res.send({
           adminToken,
-          siteAdmin: user.isadmin,
+          siteAdmin: user.is_admin,
           firstName: user.first_name,
+          custID: user.cust_id,
           cartID: cartObj.cartID,
           cart: cartArray,
         });
       } else {
         const token = jwt.sign(
           {
-            siteAdmin: user.isadmin,
+            siteAdmin: user.is_admin,
             firstName: user.first_name,
             lastName: user.last_name,
             custID: user.cust_id,
@@ -76,7 +77,7 @@ apiRouter.post("/login", async (req, res, next) => {
           firstName: user.first_name,
           lastName: user.last_name,
           custID: user.cust_id,
-          siteAdmin: user.isadmin,
+          siteAdmin: user.is_admin,
           custEmail: user.cust_email,
           cartID: cartObj.cartID,
           cart: cartArray,
