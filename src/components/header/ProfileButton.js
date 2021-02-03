@@ -1,11 +1,15 @@
 import React from 'react';
-import { Dropdown} from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 
 const ProfileButton = ({user}) => {
 
+    const history = useHistory();
+
     return (
-        <a type='button' className='nes-btn' href={`/users/${user.custID}/account`}>Account</a>
+        <div>
+            <button type='button' className='nes-btn' onClick={()=>history.push(`/users/${user.custID}/account`)}>Account</button>
+        </div>
     )
 };
 
