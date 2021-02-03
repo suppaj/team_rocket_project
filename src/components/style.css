@@ -53,7 +53,7 @@ body {
 }
 
 .site-body {
-  min-height: 78vh;
+  min-height: 80vh;
   width: 100vw;
 }
 
@@ -102,14 +102,27 @@ body {
 .search-sort-filter-container {
   margin-bottom: 20px;
   margin-top: 20px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.search-filter-container {
+  display: flex;
+}
+.sort-container {
+  display: flex;
 }
 
 .search-bar,
 .sort-button {
   margin-right: 10px;
+}
+
+.search-filter-reset {
+  margin-right: 10px;
+  text-align: center;
+  max-height: 38px;
 }
 
 .pokemon-cards-container {
