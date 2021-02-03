@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NotLoggedIn = (props) => {
+const NotLoggedIn = () => {
 
     return (
         <>

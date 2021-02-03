@@ -919,7 +919,6 @@ async function db_getUserShipInfo(cust_id) {
 
 async function db_recordShipping(cust_id, shipInfo) {
   const { add1, add2, city, state, zipcode } = shipInfo;
-  console.log("hitting db record shipping");
   try {
     await client.query(
       `
@@ -936,7 +935,6 @@ async function db_recordShipping(cust_id, shipInfo) {
 
 async function db_recordBilling(cust_id, billInfo) {
   const { add1, add2, city, state, zipcode } = billInfo;
-  console.log("hitting db record billing");
   try {
     const { rows } = await client.query(
       `
@@ -946,7 +944,6 @@ async function db_recordBilling(cust_id, billInfo) {
     `,
       [cust_id, add1, add2, city, state, zipcode]
     );
-    console.log("billing add?", rows);
     return;
   } catch (error) {
     throw error;
@@ -985,7 +982,6 @@ async function db_getUserOrderHistory(cust_id) {
     if (history.length) {
       order_history.push(..._sortHistory(history));
     }
-    console.log("order history", order_history);
     return order_history;
   } catch (error) {
     throw error;
@@ -1048,7 +1044,6 @@ async function db_getUserProfile(cust_id) {
         bill_zipcode: "",
       };
     }
-    console.log("user:", user);
     delete user.cust_pwd;
     return user;
   } catch (error) {
@@ -1071,7 +1066,6 @@ async function db_updateUserContact(cust_id, user) {
     `,
       [user.first_name, user.last_name, user.cust_email, cust_id]
     );
-    console.log('line 947',userInfo);
     return userInfo;
   } catch (error) {
     throw error;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory, useLocation} from 'react-router-dom'
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 const Welcome = ({ welcomeShow, setWelcomeShow, firstName, setOuterShow }) => {
   const welcomeHandleClose = () => setWelcomeShow(false);

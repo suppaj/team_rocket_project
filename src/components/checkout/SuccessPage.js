@@ -23,7 +23,7 @@ const SuccessPage = ({ isLoggedIn }) => {
     } else if (isLoggedIn === false) {
       setFormInfo({ ...location.state.formInfo })
     };
-  }, []);
+  }, [history, isLoggedIn, location.state]);
 
   useEffect(() => {
     if (pwd === confirmPwd) {

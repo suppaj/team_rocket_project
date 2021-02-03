@@ -2,7 +2,7 @@ import React from 'react';
 import {Col, Row} from 'react-bootstrap';
 import { OrderHistory, UserProfile} from '../index';
 
-const AccountPage = (props) => {
+const AccountPage = () => {
 
     return (
         <Row className='justify-content-center'>

@@ -18,7 +18,7 @@ const BillingProfile = ({user, setUserProfile, master, setMaster, edit, setEdit}
             document.getElementById('same-as-shipping').checked = true
             setisChecked(true)
         }}
-    },[edit])
+    },[edit, ship_add1, ship_add2, ship_city, ship_zipcode, ship_state, bill_add1, bill_add2, bill_city, bill_zipcode, bill_state])
 
     const handleSave = async (e) => {
         e.preventDefault();

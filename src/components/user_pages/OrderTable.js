@@ -33,7 +33,7 @@ const OrderTable = ({order}) => {
             {order.order.map((item)=>{
                 return (
                     <tr key={item.name} className='text-center'>
-                        <td><img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.dex_id}.png`} alt={`${item.name} image`} /></td>
+                        <td><img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.dex_id}.png`} alt={`${item.name}`} /></td>
                         <td>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
                         <td>{item.order_quantity}</td>
                         <td>${item.order_price}</td>

@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { registerCustomer } from "../../api";
 import { Modal, Form, Button } from "react-bootstrap";
-import { Try_again, Welcome } from "../index";
 
 const Register = ({setWelcomeShow, firstName, setFirstName}) => {
   const [registerShow, setRegisterShow] = useState(false);
-  // const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [registeredPassword, setRegisteredPassword] = useState("");
   const [ errMsg, setErrMsg ] = useState('');
-  // const [welcomeShow, setWelcomeShow] = useState(false);
 
   const handleCloseRegister = () => setRegisterShow(false);
   const handleShowRegister = () => setRegisterShow(true);
@@ -130,12 +127,6 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* <Welcome
-        setWelcomeShow={setWelcomeShow}
-        welcomeShow={welcomeShow}
-        firstName={firstName}
-        setOuterShow={setRegisterShow}
-      /> */}
     </div>
   );
 };

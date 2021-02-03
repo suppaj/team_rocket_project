@@ -17,7 +17,7 @@ export { default as Login } from "./login_registration/Login";
 export { default as Product_admin } from "./admin/Product_admin";
 export { default as Customer_admin } from "./admin/Customer_admin";
 export { default as Welcome } from "./login_registration/Welcome";
-export { default as Try_again } from "./login_registration/Try_again";
+export { default as TryAgain } from "./login_registration/Try_Again";
 export { default as Admin } from "./admin/Admin";
 export { default as CartTable } from "./shoppingcart/CartTable";
 export { default as BouncingBall } from "./BouncingBall";

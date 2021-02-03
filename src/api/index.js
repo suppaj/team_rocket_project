@@ -173,7 +173,6 @@ export async function recordShipandBill(formInfo, cust_id, token) {
     await axios.post(`/api/users/${cust_id}/ship`, formInfo.shipInfo,{
       headers: {'Authorization' : `Bearer ${token}`}
     });
-    console.log("finished shipping, doing billing");
     await axios.post(`/api/users/${cust_id}/bill`, formInfo.billInfo,{
       headers: {'Authorization' : `Bearer ${token}`}
     });

@@ -6,11 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
   Switch,
-  Link,
-  useLocation,
-  useHistory,
 } from "react-router-dom";
 
 import { getSomething, getAllProducts, getAllTypes } from "../api";
@@ -18,23 +14,16 @@ import { getSomething, getAllProducts, getAllTypes } from "../api";
 import {
   Products,
   ProductPage,
-  ProductsReturn,
   ShoppingCart,
   CheckoutPage,
   SuccessPage,
   Admin,
-  OrderHistory,
-  UserProfile,
   AccountPage,
   Header,
-  InvalidUser,
   NotLoggedIn,
 } from "./index";
 
-import { Access } from "./admin/index";
-
 const App = () => {
-  const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(
@@ -45,13 +34,7 @@ const App = () => {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    getSomething()
-      .then((response) => {
-        setMessage(response.message);
-      })
-      .catch((error) => {
-        setMessage(error.message);
-      });
+    
     if (user.firstName) {
       setIsLoggedIn(true);
     }
