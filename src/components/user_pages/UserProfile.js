@@ -1,7 +1,7 @@
 import React, { useState , useEffect } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import { useParams, Redirect } from 'react-router-dom'
-import { NotLoggedIn, ContactProfile, ShippingProfile, BillingProfile, RollingBall } from '../index';
+import { ContactProfile, ShippingProfile, BillingProfile, RollingBall } from '../index';
 import { getUserProfile } from '../../api';
 
 const UserProfile = (props) => {
@@ -25,7 +25,7 @@ const UserProfile = (props) => {
     }, [])
 
     const fetchData = async () => {
-        const userData = await getUserProfile(cust_id, JSON.parse(localStorage.getItem('user')).token);
+        const userData = await getUserProfile(cust_id, JSON.parse(localStorage.getItem('user')).token || JSON.parse(localStorage.getItem('user')).adminToken);
         if (userData) {
             setMaster(userData)
             setUserProfile(userData)
