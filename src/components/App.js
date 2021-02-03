@@ -61,11 +61,15 @@ const App = () => {
     localStorage.setItem("user", JSON.stringify(user));
     setCart(user.cart);
     if (user.firstName) {
-      setIsLoggedIn(true)
-    } else { setIsLoggedIn(false)}
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
     if (user.adminToken) {
-      setIsAdmin(true)
-    } else { setIsAdmin(false)}
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
   }, [user]);
 
   useEffect(() => {

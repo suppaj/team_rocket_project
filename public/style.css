@@ -171,8 +171,8 @@ iframe {
   box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
 }
 
-.show {
-  /* height: 400px;
+.show-admin {
+  height: 400px;
   width: 600px;
   z-index: 400;
   background-color: red;
@@ -183,8 +183,8 @@ iframe {
   top: 20%;
   left: 10%;
   padding: 7px;
-  box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px; */
-  /* margin: auto; */
+  box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
+  margin: auto;
 }
 
 .products-show {
