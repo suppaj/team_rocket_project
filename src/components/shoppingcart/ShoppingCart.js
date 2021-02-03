@@ -42,6 +42,7 @@ const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
         )}
       </Col>
       <Col
+        md={cart.length ? { span: 3 } : { span: 4 }}
         className={
           cart.length
             ? "align-self-start mx-auto sticky-top"
@@ -49,7 +50,7 @@ const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
         }
       >
         {cart.length ? (
-          <div className="nes-container cart-order-table">
+          <>
             <CartTable cart={cart} />
             <div>
               <a
@@ -73,7 +74,7 @@ const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
                 Checkout
               </a>
             </div>
-          </div>
+          </>
         ) : (
           <div>
             <a
