@@ -239,7 +239,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   return (
     <>
       <Row className="search-sort-filter-container">
-        <div className="searc-filter-container">
+        <div className="search-filter-container">
           {/** product search component*/}
           <ProductSearch
             searcher={searcher}

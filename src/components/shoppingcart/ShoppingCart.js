@@ -42,7 +42,6 @@ const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
         )}
       </Col>
       <Col
-        md={cart.length ? { span: 3 } : { span: 4 }}
         className={
           cart.length
             ? "align-self-start mx-auto sticky-top"
