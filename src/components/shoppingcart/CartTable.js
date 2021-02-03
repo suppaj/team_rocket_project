@@ -10,7 +10,7 @@ const CartTable = ({ cart }) => {
   };
 
   return (
-    <div>
+    <div className="user-cart-table">
       <br />
       <Table striped={false} hover style={{ fontSize: ".7rem" }}>
         <thead>

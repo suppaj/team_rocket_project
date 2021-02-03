@@ -58,8 +58,6 @@ body {
 }
 
 .site-footer {
-  background-color: #241127;
-  border-top: 3px solid black;
   min-height: 10vh;
   width: 100vw;
 }
@@ -140,6 +138,11 @@ body {
 
 .previous-page-button {
   margin-right: 10px;
+  max-height: 38px;
+}
+
+.next-page-button {
+  max-height: 38px;
 }
 
 .pokemon-card {
@@ -320,9 +323,29 @@ body {
   background-color: #abbbd1;
 }
 
+.cart-order-table {
+  height: auto;
+}
+
 .checkout-return-to-shopping {
   text-decoration: "none";
   color: "white";
+}
+
+/* Checkout Page Styling */
+
+.checkout-container {
+  margin-top: 10px;
+  background-color: #abbbd1;
+}
+
+.checkout-pay-button {
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.card-number-element {
+  height: 50px;
 }
 
 /* stuff added by kyle */
