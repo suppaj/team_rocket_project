@@ -14,15 +14,15 @@ const {
 apiRouter.post("/login", async (req, res, next) => {
   const { cust_email, cust_pwd } = req.body;
   const cartArray = [];
-
-  if (!cust_email || !cust_pwd) {
-    res.send({
-      name: "MissingCredentialsError",
-      message: "Please supply both a cust_email and cust_pwd",
-    });
-  }
-  let cartObj = {};
+  
   try {
+    if (!cust_email || !cust_pwd) {
+      res.send({
+        name: "MissingCredentialsError",
+        message: "Verify your email or password",
+      });
+    } else { 
+    let cartObj = {};
     const user = await db_getCustomerByEmail(cust_email);
     if (user) {
       cartObj = await db_getCustomerCart(cust_email);
@@ -34,7 +34,7 @@ apiRouter.post("/login", async (req, res, next) => {
     if (user && user.cust_pwd == cust_pwd) {
       console.log("THIS IS USER", user);
       if (user.is_admin) {
-        const adminToken = jwt.sign(
+        let token = jwt.sign(
           {
             firstName: user.first_name,
             custID: user.cust_id,
@@ -49,7 +49,7 @@ apiRouter.post("/login", async (req, res, next) => {
         );
 
         res.send({
-          adminToken,
+          token,
           siteAdmin: user.is_admin,
           firstName: user.first_name,
           custID: user.cust_id,
@@ -57,7 +57,7 @@ apiRouter.post("/login", async (req, res, next) => {
           cart: cartArray,
         });
       } else {
-        const token = jwt.sign(
+        let token = jwt.sign(
           {
             siteAdmin: user.is_admin,
             firstName: user.first_name,
@@ -87,9 +87,10 @@ apiRouter.post("/login", async (req, res, next) => {
     } else {
       res.send({
         name: "IncorrectCredentialsError",
-        message: "Please verify your email and password",
+        message: "Verify your email or password",
       });
     }
+  }
   } catch (error) {
     console.log(error);
     next(error);

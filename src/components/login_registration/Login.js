@@ -32,9 +32,9 @@ const Login = ({
     setWelcomeShow(false);
   };
 
-  const setAdminData = (e) => {
-    window.localStorage.setItem("token", JSON.stringify(e));
-  };
+  // const setAdminData = (e) => {
+  //   window.localStorage.setItem("token", JSON.stringify(e));
+  // };
 
   // const setLoginData = () => {
   //   // window.localStorage.setItem("logged-in", JSON.stringify(true));
@@ -59,9 +59,9 @@ const Login = ({
           setUser(response);
           setWelcomeShow(true);
           setIsLoggedIn(true);
-          if (adminToken) {
-            setAdminData(adminToken);
-          }
+          // if (siteAdmin) {
+          //   setAdminData(adminToken);
+          // }
           // setCart(cart);
           // setLoginData();
         } else {
