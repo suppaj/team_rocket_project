@@ -362,6 +362,13 @@ body {
   overflow: scroll;
 } */
 
+.empty-cart-container {
+  display: inline-block;
+  text-align: center;
+  background-color: #abbbd1;
+  margin: auto auto auto auto;
+}
+
 /* Checkout styling */
 
 .checkout-container {
