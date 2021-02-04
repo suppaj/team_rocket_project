@@ -9,12 +9,12 @@ const CartItemCard = ({
   cart,
   cart_id,
   user,
-  setUser
+  setUser,
 }) => {
   const [adjustOrder, setAdjustOrder] = useState(false);
   const [orderAmount, setOrderAmount] = useState(product.cart_quantity);
 
-  useEffect(()=>{
+  useEffect(() => {
     setOrderAmount(product.cart_quantity);
   },[cart, product.cart_quantity])
 
@@ -27,16 +27,16 @@ const CartItemCard = ({
           await deleteCartItem(cart_id, product.prod_id, user.token);
         }
       });
-      localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
-      setUser({...user , cart : copyCart});      
+      localStorage.setItem("user", JSON.stringify({ ...user, cart: copyCart }));
+      setUser({ ...user, cart: copyCart });
     } else {
       cart.forEach(async (item, index) => {
         if (item.prod_id === product.prod_id) {
           copyCart.splice(index, 1);
         }
       });
-      localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
-      setUser({...user , cart : copyCart})
+      localStorage.setItem("user", JSON.stringify({ ...user, cart: copyCart }));
+      setUser({ ...user, cart: copyCart });
     }
   };
 
@@ -64,23 +64,23 @@ const CartItemCard = ({
         return item;
       }
     });
-    localStorage.setItem("user", JSON.stringify({...user , cart : copyCart}));
-    setUser({...user , cart : copyCart})
+    localStorage.setItem("user", JSON.stringify({ ...user, cart: copyCart }));
+    setUser({ ...user, cart: copyCart });
   };
 
   return (
-    <div className="nes-container cart-order-card">
+    <div className="nes-container cart-item-card">
       <Row>
-        <Col md='auto'>
+        <Col md="auto">
           <img
             className="cart-order-image"
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
             alt={product.name}
-            width='300'
-            height='300'
+            width="300"
+            height="300"
           />
         </Col>
-        <Col md='auto'>
+        <Col md="auto">
           <p>Unit Price:</p>
           <p>${product.price}</p>
           {adjustOrder ? (
@@ -99,19 +99,17 @@ const CartItemCard = ({
                 onBlur={handleLoseFocus}
                 autoFocus
               />
-              <br/>
+              <br />
               <Button variant="link" onClick={() => setAdjustOrder(false)}>
                 confirm change
               </Button>
             </div>
           ) : (
             <>
-            <p>
-              Quantity: {orderAmount}
-            </p>
-            <Button variant="link" onClick={() => setAdjustOrder(true)}>
-              change
-            </Button>
+              <p>Quantity: {orderAmount}</p>
+              <Button variant="link" onClick={() => setAdjustOrder(true)}>
+                change
+              </Button>
             </>
           )}
           <p>Item Total:</p>
@@ -125,11 +123,11 @@ const CartItemCard = ({
             Remove Item
           </button>
         </Col>
-        <Col >
+        <Col>
           <p>{product.name.toUpperCase()}</p>
           <p>Description: {product.description}</p>
-          <p>Height: {product.height/10} m</p>
-          <p>Weight: {product.weight/10} kg</p>
+          <p>Height: {product.height / 10} m</p>
+          <p>Weight: {product.weight / 10} kg</p>
         </Col>
       </Row>
     </div>
