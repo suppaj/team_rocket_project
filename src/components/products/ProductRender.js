@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 
 import "./Product.css";
 import TypeMapper from "./TypeMapper";
