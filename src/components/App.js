@@ -17,6 +17,7 @@ import {
   AccountPage,
   Header,
   NotLoggedIn,
+  Footer,
 } from "./index";
 
 const App = () => {
@@ -135,7 +136,8 @@ const App = () => {
             </Route>
           </Switch>
         </Row>
-        <Row className="site-footer">FOOTER AREA</Row>
+        {/* <Row className="site-footer">FOOTER AREA</Row> */}
+        <Footer />
       </Container>
     </Router>
   );
