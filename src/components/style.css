@@ -336,6 +336,26 @@ body {
   padding: 2px;
 }
 
+/* User page styling */
+
+.account-container {
+  height: 78vh;
+  width: 80vw;
+  align-content: space-between;
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+
+.order-history-container {
+  width: 35vw;
+  background-color: #abbbd1;
+}
+
+.profile-container {
+  width: 35vw;
+  background-color: #abbbd1;
+}
+
 /* Cart styling */
 
 .cart-item-card {
@@ -370,6 +390,17 @@ body {
 }
 
 /* Checkout styling */
+
+.success-container {
+  background-color: #abbbd1;
+  max-height: 78vh;
+  width: auto;
+  margin: auto auto auto auto;
+}
+
+.user-success-container {
+  text-align: center;
+}
 
 .checkout-container {
   background-color: #abbbd1;

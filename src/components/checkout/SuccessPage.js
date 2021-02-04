@@ -19,8 +19,8 @@ const SuccessPage = ({ isLoggedIn }) => {
     if (!location.state && !isLoggedIn) {
       history.push("/");
     } else if (isLoggedIn === false) {
-      setFormInfo({ ...location.state.formInfo })
-    };
+      setFormInfo({ ...location.state.formInfo });
+    }
   }, [history, isLoggedIn, location.state]);
 
   useEffect(() => {
@@ -59,14 +59,17 @@ const SuccessPage = ({ isLoggedIn }) => {
   };
 
   return (
-    <Col md={{ span: 6, offset: 3 }}>
-      <div className="nes-container ">
+    <div className="success-container">
+      <div className="nes-container user-success-container">
         {isLoggedIn || JSON.parse(localStorage.getItem("user")).firstName ? (
           <>
             <p>Thank you for your purchase!</p>
-            <Button href="/" className="nes-btn is-success">
+            <button
+              className="nes-btn is-success"
+              onClick={() => history.push("/")}
+            >
               Continue Shopping
-            </Button>
+            </button>
           </>
         ) : (
           <>
@@ -120,7 +123,7 @@ const SuccessPage = ({ isLoggedIn }) => {
         firstName={formInfo.contactInfo.firstName}
         setOuterShow={() => "nothing"}
       />
-    </Col>
+    </div>
   );
 };
 
