@@ -3,11 +3,7 @@ import { Container, Row } from "react-bootstrap";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { getSomething, getAllProducts, getAllTypes } from "../api";
 
@@ -33,10 +29,7 @@ const App = () => {
   const [cart, setCart] = useState(user.cart || []);
   const [cartCount, setCartCount] = useState(0);
 
-  const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    
     if (user.firstName) {
       setIsLoggedIn(true);
     }

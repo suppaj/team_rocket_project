@@ -111,6 +111,10 @@ body {
 
 /* All products styling */
 
+.loading-modal {
+  text-align: center;
+}
+
 .search-sort-filter-container {
   margin-bottom: 20px;
   width: 80vw;
@@ -160,8 +164,17 @@ body {
   margin-bottom: 30px !important;
 }
 
+.no-cards-container {
+  width: 100%;
+  display: flex;
+  place-content: center;
+}
+
 .no-pokemon-card {
+  height: 260px;
   background-color: #abbbd1;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pokemon-name {
