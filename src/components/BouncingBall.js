@@ -2,7 +2,7 @@ import React from "react";
 
 const BouncingBall = () => {
   return (
-    <div style={{ height: "300px", width: "100%" }}>
+    <div className="masterball-bounce-container">
       <img
         id="masterball-cart"
         src={

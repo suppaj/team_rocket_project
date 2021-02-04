@@ -9,7 +9,7 @@ const NotLoggedIn = (props) => {
                 <p>The account you are trying to access is not logged in.</p>
                 <p>Please log in to access this information</p>
             </div>
-            <i className='nes-ash align-bottom' style={{transform : 'scaleX(-1)'}}></i>
+            <i className='nes-ash align-bottom ash-icon'></i>
         </div>
         </>
     )

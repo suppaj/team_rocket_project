@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
-} from '@stripe/react-stripe-js';
-import { Tabs, Tab } from 'react-bootstrap';
-import ContactForm from './ContactForm';
-import ShipForm from './ShipForm';
-import BillForm from './BillForm';
+} from "@stripe/react-stripe-js";
+import { Tabs, Tab } from "react-bootstrap";
+import ContactForm from "./ContactForm";
+import ShipForm from "./ShipForm";
+import BillForm from "./BillForm";
 
 const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
-  const [key, setKey] = useState('contact');
+  const [key, setKey] = useState("contact");
   const [isChecked, setisChecked] = useState(false);
   const [contactInfo, setContactInfo] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+    firstName: "",
+    lastName: "",
+    email: "",
   });
   const [shipInfo, setShipInfo] = useState({
-    add1: '',
-    add2: '',
-    city: '',
-    state: '',
-    zipcode: '',
+    add1: "",
+    add2: "",
+    city: "",
+    state: "",
+    zipcode: "",
   });
   const [billInfo, setBillInfo] = useState({
-    add1: '',
-    add2: '',
-    city: '',
-    state: '',
-    zipcode: '',
+    add1: "",
+    add2: "",
+    city: "",
+    state: "",
+    zipcode: "",
   });
   const [formStatus, setFormStatus] = useState({
     contact: true,
     shipping: true,
     billing: true,
   });
-  
+
   const getSubTotal = () => {
     let subTotal = 0;
     for (let item of cart) {
@@ -53,7 +53,7 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
         email: user.custEmail,
       });
       setFormStatus({ ...formStatus, contact: false });
-      setKey('shipping');
+      setKey("shipping");
     }
   }, []);
 
@@ -100,20 +100,20 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
   const CARD_OPTIONS = {
     style: {
       base: {
-        backgroundColor: 'white',
-        color: 'black',
-        iconColor: 'black',
-        fontSize: '24px',
+        backgroundColor: "white",
+        color: "black",
+        iconColor: "black",
+        fontSize: "24px",
       },
       invalid: {
-        color: 'red',
-        iconColor: 'red',
+        color: "red",
+        iconColor: "red",
       },
     },
   };
 
   const handleCheckbox = () => {
-    const checked = document.getElementById('same-as-shipping').checked;
+    const checked = document.getElementById("same-as-shipping").checked;
     setisChecked(checked);
     if (checked) {
       setBillInfo(shipInfo);
@@ -121,13 +121,13 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
   };
 
   return (
-    <div className='nes-container' id='checkout-form-guest'>
-      <p id='ckout-form-info'>
+    <div className="nes-container" id="checkout-form-guest">
+      <p id="ckout-form-info">
         Fill out contact, shipping, billing, and CC information to complete your
         purchase.
       </p>
-      <Tabs id='ckout-tabs' activeKey={key} onSelect={(k) => setKey(k)}>
-        <Tab eventKey='contact' title='Contact'>
+      <Tabs id="ckout-tabs" activeKey={key} onSelect={(k) => setKey(k)}>
+        <Tab eventKey="contact" title="Contact">
           <ContactForm
             contactInfo={contactInfo}
             setContactInfo={setContactInfo}
@@ -136,7 +136,7 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
             firstOrder={firstOrder}
           />
         </Tab>
-        <Tab eventKey='shipping' title='Shipping' disabled={formStatus.contact}>
+        <Tab eventKey="shipping" title="Shipping" disabled={formStatus.contact}>
           <ShipForm
             shipInfo={shipInfo}
             setShipInfo={setShipInfo}
@@ -144,7 +144,7 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
             setKey={setKey}
           />
         </Tab>
-        <Tab eventKey='billing' title='Billing' disabled={formStatus.shipping}>
+        <Tab eventKey="billing" title="Billing" disabled={formStatus.shipping}>
           <BillForm
             billInfo={billInfo}
             setBillInfo={setBillInfo}
@@ -156,24 +156,23 @@ const CheckOutForm = ({ handlePayment, cart, firstOrder, user, message }) => {
           />
         </Tab>
         <Tab
-          eventKey='CC'
-          title='Credit Card'
+          eventKey="CC"
+          title="Credit Card"
           disabled={
             formStatus.billing || formStatus.contact || formStatus.shipping
           }
         >
           <p>Payment Information</p>
-          <div id='cc-info-box'>
+          <div id="cc-info-box">
             Card Number
-            <CardNumberElement options={CARD_OPTIONS} style={{height : '50px'}}/>
+            <CardNumberElement options={CARD_OPTIONS} />
             Expiration Date
             <CardExpiryElement options={CARD_OPTIONS} />
             Security Code
             <CardCvcElement options={CARD_OPTIONS} />
           </div>
           <button
-            className='nes-btn is-primary'
-            style={{ fontSize: '1.5rem', width: '100%' }}
+            className="nes-btn is-primary checkout-pay-btn"
             onClick={(e) =>
               handlePayment(e, { contactInfo, shipInfo, billInfo })
             }
