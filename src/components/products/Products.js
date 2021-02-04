@@ -64,7 +64,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
 
   useEffect(() => {
     // sets loading state to true
-    console.log("loading start");
     setShowLoading(true);
     // grabs all pokemon entries from the database
     getAllProducts()
@@ -136,7 +135,6 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         }
       })
       .then(() => {
-        console.log("loading ended");
         setShowLoading(false);
       })
       .catch((error) => {
