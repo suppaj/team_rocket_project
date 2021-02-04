@@ -62,7 +62,7 @@ body {
   margin-top: 1vh;
   /* background-color: #241127; */
   /* border-top: 3px solid black; */
-  min-height: 10vh;
+  max-height: 10vh;
   width: 100vw;
 }
 
