@@ -36,8 +36,7 @@
 
 /* Main site styling*/
 body {
-  background-image: url("https://images6.alphacoders.com/641/thumb-1920-641430.jpg");
-  /* background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/56863725-d945-44b3-ad3d-1767870324e0/d1mzj59-efc1cb23-7126-4e90-ab54-90220f9cde6d.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvNTY4NjM3MjUtZDk0NS00NGIzLWFkM2QtMTc2Nzg3MDMyNGUwXC9kMW16ajU5LWVmYzFjYjIzLTcxMjYtNGU5MC1hYjU0LTkwMjIwZjljZGU2ZC5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.PnKbJLkEKc0LRqeE4MEow6JYpQeKQV69j6WSw9yzWtk"); */
+  background-image: url("/site-background.jpg");
   background-size: auto, 100vh;
   background-attachment: fixed;
   background-position: center;
@@ -49,7 +48,7 @@ body {
   background-color: #241127;
   border-bottom: 3px solid black;
   width: 100vw;
-  min-height: 10vh;
+  max-height: 10vh;
   margin-bottom: 1vh;
 }
 
@@ -60,8 +59,6 @@ body {
 
 .site-footer {
   margin-top: 1vh;
-  /* background-color: #241127; */
-  /* border-top: 3px solid black; */
   max-height: 10vh;
   width: 100vw;
 }
@@ -109,6 +106,31 @@ body {
   font-size: 2rem;
 }
 
+/* Rejected styling */
+.who-this-container {
+  height: 78vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rej-img {
+  height: 180px;
+}
+
+#reject-message {
+  text-align: center;
+  display: flex;
+}
+
+#reject-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /* All products styling */
 
 .loading-modal {
@@ -151,6 +173,7 @@ body {
   max-height: 38px;
   display: flex;
   justify-content: center;
+  margin-bottom: 5vh;
 }
 
 .previous-page-button {
