@@ -1,6 +1,6 @@
 import React from "react";
 import { Col } from "react-bootstrap";
-import { BouncingBall, CartItemCard, CartTable } from "../index";
+import { CartItemCard, CartTable } from "../index";
 
 import { loadStripe } from "@stripe/stripe-js";
 // import { getCheckoutSession } from '../api'; // uncomment to use stripe hosted checkout
@@ -12,52 +12,37 @@ const stripePromise = loadStripe(
 const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
   // uncomment and change onClick of button to handleClick to reinstate
 
-  return (
+  return cart.length ? (
     <>
       <Col md={cart.length ? { span: 7 } : { span: "auto", offset: 1 }}>
-        {cart.length ? (
-          cart.map((order, index) => {
-            return (
-              <CartItemCard
-                key={index}
-                order={order}
-                cart={cart}
-                user={user}
-                setUser={setUser}
-                cart_id={cartID}
-                isLoggedIn={isLoggedIn}
-              />
-            );
-          })
-        ) : (
-          <div className="message-list -left">
-            <div className="nes-balloon from-right align-top">
-              <p>Your cart is empty. Gotta buy them all!</p>
-            </div>
-            <i
-              className="nes-ash align-bottom"
-              style={{ transform: "scaleX(-1)" }}
-            ></i>
-          </div>
-        )}
+        {cart.length
+          ? cart.map((order, index) => {
+              return (
+                <CartItemCard
+                  key={index}
+                  order={order}
+                  cart={cart}
+                  user={user}
+                  setUser={setUser}
+                  cart_id={cartID}
+                  isLoggedIn={isLoggedIn}
+                />
+              );
+            })
+          : ""}
       </Col>
       <Col
-        md={cart.length ? { span: 3 } : { span: 4 }}
         className={
           cart.length
-            ? "align-self-start mx-auto sticky-top"
+            ? "align-self-start mx-auto sticky-top "
             : "mx-auto align-self-center"
         }
       >
         {cart.length ? (
-          <>
+          <div className="cart-order-table-container nes-container">
             <CartTable cart={cart} />
             <div>
-              <a
-                className="nes-btn is-primary"
-                href="/"
-                style={{ textDecoration: "none", color: "white" }}
-              >
+              <a className="nes-btn is-primary cart-return-btn" href="/">
                 Return to Shopping
               </a>
             </div>
@@ -65,30 +50,43 @@ const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
             <div>
               <a
                 className={
-                  cart.length ? "nes-btn is-success" : "nes-btn is-disabled"
+                  cart.length
+                    ? "nes-btn is-success cart-btn"
+                    : "nes-btn is-disabled cart-checkout-btn"
                 }
                 disabled={!cart.length}
                 href="/checkout"
-                style={{ textDecoration: "none", color: "white" }}
               >
                 Checkout
               </a>
             </div>
-          </>
-        ) : (
-          <div>
-            <a
-              className="nes-btn is-primary checkout-return-to-shopping"
-              href="/"
-            >
-              Return to Shopping
-            </a>
           </div>
+        ) : (
+          ""
         )}
-        {cart.length ? <BouncingBall /> : ""}
       </Col>
     </>
+  ) : (
+    <div className="empty-cart-container nes-container">
+      <div className="message-list -left">
+        <div className="nes-balloon from-right align-top">
+          <p>Your cart is empty. Gotta buy them all!</p>
+        </div>
+        <i className="nes-ash align-bottom ash-icon"></i>
+      </div>
+      <a className="nes-btn is-primary cart-return-btn" href="/">
+        Return to Shopping
+      </a>
+    </div>
   );
 };
 
 export default ShoppingCart;
+
+{
+  /*  */
+}
+
+{
+  /*  */
+}

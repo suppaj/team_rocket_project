@@ -10,9 +10,9 @@ const CartTable = ({ cart }) => {
   };
 
   return (
-    <div>
+    <div className="cart-order-table">
       <br />
-      <Table striped={false} hover style={{ fontSize: ".7rem" }}>
+      <Table striped={false} hover>
         <thead>
           <tr className="text-center">
             <th className="text-center">Item</th>

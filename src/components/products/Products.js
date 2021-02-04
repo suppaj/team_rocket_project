@@ -129,7 +129,7 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         }
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
 
     // grabs all type entries from the database
@@ -239,36 +239,40 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   return (
     <>
       <Row className="search-sort-filter-container">
-        {/** product search component*/}
-        <ProductSearch
-          searcher={searcher}
-          searchVal={searchVal}
-          setSearchVal={setSearchVal}
-          resetPagination={resetPagination}
-        />
-        {/** product filter component*/}
-        <ProductFilter
-          allProducts={allProducts}
-          setCurrentProducts={setCurrentProducts}
-          allTypes={allTypes}
-          typeFilter={typeFilter}
-          filterMessage={filterMessage}
-          setFilterMessage={setFilterMessage}
-          resetPagination={resetPagination}
-        />
+        <div className="search-filter-container">
+          {/** product search component*/}
+          <ProductSearch
+            searcher={searcher}
+            searchVal={searchVal}
+            setSearchVal={setSearchVal}
+            resetPagination={resetPagination}
+          />
+          {/** product filter component*/}
+          <ProductFilter
+            allProducts={allProducts}
+            setCurrentProducts={setCurrentProducts}
+            allTypes={allTypes}
+            typeFilter={typeFilter}
+            filterMessage={filterMessage}
+            setFilterMessage={setFilterMessage}
+            resetPagination={resetPagination}
+          />
+        </div>
         {/** product sort component */}
-        <ProductSorter
-          allProducts={allProducts}
-          setAllProducts={setAllProducts}
-          currentProducts={currentProducts}
-          setCurrentProducts={setCurrentProducts}
-          sortMethod={sortMethod}
-          setSortMethod={setSortMethod}
-          sortMessage={sortMessage}
-          setSortMessage={setSortMessage}
-          resetPagination={resetPagination}
-          sortProductsByKey={sortProductsByKey}
-        />
+        <div className="sort-container">
+          <ProductSorter
+            allProducts={allProducts}
+            setAllProducts={setAllProducts}
+            currentProducts={currentProducts}
+            setCurrentProducts={setCurrentProducts}
+            sortMethod={sortMethod}
+            setSortMethod={setSortMethod}
+            sortMessage={sortMessage}
+            setSortMessage={setSortMessage}
+            resetPagination={resetPagination}
+            sortProductsByKey={sortProductsByKey}
+          />
+        </div>
       </Row>
       <Row className="pokemon-cards-container">
         {/** render products component */}

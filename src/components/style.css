@@ -49,6 +49,8 @@ body {
   background-color: #241127;
   border-bottom: 3px solid black;
   width: 100vw;
+  min-height: 10vh;
+  margin-bottom: 1vh;
 }
 
 .site-body {
@@ -57,6 +59,7 @@ body {
 }
 
 .site-footer {
+  margin-top: 1vh;
   background-color: #241127;
   border-top: 3px solid black;
   min-height: 10vh;
@@ -96,29 +99,50 @@ body {
   display: flex;
 }
 
+#shop-cart-icon {
+  color: white;
+  font-size: 1rem;
+}
+
+.fa-shopping-cart {
+  color: white;
+  font-size: 2rem;
+}
+
 /* All products styling */
 
 .search-sort-filter-container {
   margin-bottom: 20px;
-  margin-top: 20px;
-  width: 100vw;
+  width: 80vw;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-.search-bar,
-.sort-button {
+.search-filter-container {
+  display: flex;
+}
+.sort-container {
+  display: flex;
+}
+
+.search-bar {
   margin-right: 10px;
 }
 
-.pokemon-cards-container {
-  width: 100vw;
-  display: flex;
-  justify-content: center;
+.search-filter-reset {
+  margin-right: 10px;
+  text-align: center;
+  max-height: 38px;
 }
 
-.pagination-caontainer {
-  width: 100vw;
+.pokemon-cards-container {
+  width: 80vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination-container {
+  width: 80vw;
   max-height: 38px;
   display: flex;
   justify-content: center;
@@ -132,8 +156,6 @@ body {
   width: 310px;
   height: 310px;
   background-color: #abbbd1;
-  margin-right: 30px !important;
-  margin-left: 30px !important;
   margin-bottom: 30px !important;
 }
 
@@ -142,6 +164,7 @@ body {
   display: inline-block;
   text-align: center;
   background-color: #abbbd1;
+  justify-self: center;
 }
 
 .pokemon-name {
@@ -169,7 +192,7 @@ body {
 
 /* Individual Products styling */
 .product-page {
-  width: 40%;
+  width: 750px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
 }
@@ -235,8 +258,21 @@ body {
 }
 
 .product-button-group {
-  place-self: center;
   margin-top: 25px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.add-to-cart-btn {
+  margin-left: 10px;
+}
+
+.add-to-cart-btn > img {
+  height: 40px;
+  margin-left: -8px;
+  margin-top: -12px;
+  margin-bottom: -8px;
+  margin-right: 5px;
 }
 
 /* Product Filter styling */
@@ -301,17 +337,52 @@ body {
 }
 
 /* Cart styling */
-.cart-order-card,
-.cart-order-table {
+
+.cart-item-card {
   background-color: #abbbd1;
 }
 
-.checkout-return-to-shopping {
+.cart-return-btn,
+.cart-checkout-btn {
   text-decoration: "none";
   color: "white";
 }
 
-/* stuff added by kyle */
+.ash-icon {
+  transform: scaleX(-1);
+}
+
+.cart-order-table-container {
+  font-size: 0.7rem;
+  background-color: #abbbd1;
+}
+
+/* .cart-order-table {
+  max-height: 65vh;
+  overflow: scroll;
+} */
+
+.empty-cart-container {
+  display: inline-block;
+  text-align: center;
+  background-color: #abbbd1;
+  margin: auto auto auto auto;
+}
+
+/* Checkout styling */
+
+.checkout-container {
+  background-color: #abbbd1;
+}
+
+.checkout-pay-btn {
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.checkout-return-shopping-btn {
+  color: white;
+}
 
 #add-cart-dialog {
   padding: 20px;
@@ -350,6 +421,11 @@ iframe {
   margin: auto;
   width: 400px;
   height: 200px;
+}
+
+.masterball-bounce-container {
+  height: 300px;
+  width: 100%;
 }
 
 #masterball-roll {
