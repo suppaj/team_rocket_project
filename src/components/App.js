@@ -36,7 +36,7 @@ import { Access } from "./admin/index";
 const App = () => {
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("token") || null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || { cart: [] }
   );
@@ -52,7 +52,7 @@ const App = () => {
       .catch((error) => {
         setMessage(error.message);
       });
-    if (user.custID) {
+    if (user.firstName) {
       setIsLoggedIn(true);
     }
   }, []);
@@ -65,7 +65,7 @@ const App = () => {
     } else {
       setIsLoggedIn(false);
     }
-    if (user.adminToken) {
+    if (user.siteAdmin) {
       setIsAdmin(true);
     } else {
       setIsAdmin(false);

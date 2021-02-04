@@ -7,10 +7,8 @@ const Logout = ({ setUser, setIsLoggedIn, setIsAdmin }) => {
   const history = useHistory();
 
   const handleLogout = () => {
-    console.log("clicked checkout");
+    localStorage.clear();
     localStorage.setItem("user", JSON.stringify({ cart: [] }));
-    localStorage.removeItem("token");
-    localStorage.removeItem("logged-in");
     setUser({ cart: [] });
     setIsLoggedIn(false);
     setIsAdmin(false);
