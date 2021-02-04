@@ -120,6 +120,7 @@ body {
 
 .search-filter-container {
   display: flex;
+  margin-bottom: 10px;
 }
 .sort-container {
   display: flex;
@@ -160,11 +161,7 @@ body {
 }
 
 .no-pokemon-card {
-  height: 300px;
-  display: inline-block;
-  text-align: center;
   background-color: #abbbd1;
-  justify-self: center;
 }
 
 .pokemon-name {
@@ -327,7 +324,7 @@ body {
 }
 
 .description-input > textarea {
-  height: 0.6rem;
+  height: 6rem;
 }
 
 .type-badge {

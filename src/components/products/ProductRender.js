@@ -88,18 +88,20 @@ const Products = ({
   } else {
     // if there are no propducts to display, shows a card with an apporpriate message
     return (
-      <div
-        className={`no-pokemon-card nes-container with-title is-rounded is-centered`}
-      >
-        <p className="nes-container is-rounded title">
-          There doesn't seem to be anything here...
-        </p>
-        <img
-          className="unknown-icon"
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-${unknownId}.png`}
-          alt={`an unknown-${unknownId} appears...`}
-        />
-        <p>We're sorry, but there are no POKéMON to display</p>
+      <div className="no-cards-container">
+        <div
+          className={`no-pokemon-card nes-container with-title is-rounded is-centered`}
+        >
+          <p className="nes-container is-rounded title">
+            There doesn't seem to be anything here...
+          </p>
+          <img
+            className="unknown-icon"
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-${unknownId}.png`}
+            alt={`an unknown-${unknownId} appears...`}
+          />
+          <p>We're sorry, but there are no POKéMON to display</p>
+        </div>
       </div>
     );
   }

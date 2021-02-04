@@ -33,6 +33,8 @@ const App = () => {
   const [cart, setCart] = useState(user.cart || []);
   const [cartCount, setCartCount] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     
     if (user.firstName) {
