@@ -19,9 +19,9 @@ const SuccessPage = ({ isLoggedIn }) => {
     if (!location.state && !isLoggedIn) {
       history.push("/");
     } else if (isLoggedIn === false) {
-      setFormInfo({ ...location.state.formInfo });
-    }
-  }, []);
+      setFormInfo({ ...location.state.formInfo })
+    };
+  }, [history, isLoggedIn, location.state]);
 
   useEffect(() => {
     if (pwd === confirmPwd) {

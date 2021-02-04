@@ -4,7 +4,7 @@ import { useParams, Redirect } from 'react-router-dom'
 import { ContactProfile, ShippingProfile, BillingProfile, RollingBall } from '../index';
 import { getUserProfile } from '../../api';
 
-const UserProfile = (props) => {
+const UserProfile = () => {
 
     const { cust_id } = useParams();
 
@@ -13,24 +13,27 @@ const UserProfile = (props) => {
     const [ master, setMaster] = useState({})
     const [ userProfile, setUserProfile ] = useState({})
     const [ edit, setEdit ] = useState(false);
+    
+    
 
     useEffect(()=>{
-        if (cust_id == JSON.parse(localStorage.getItem('user')).custID) {
+        const fetchData = async () => {
+        const userData = await getUserProfile(cust_id, JSON.parse(localStorage.getItem('user')).token);
+            if (userData) {
+                setMaster(userData)
+                setUserProfile(userData)
+            }
+        }
+        if (parseInt(cust_id) === JSON.parse(localStorage.getItem('user')).custID) {
         
         fetchData();
         } else { 
             setNotValid(true)
         }
 
-    }, [])
+    }, [cust_id])
 
-    const fetchData = async () => {
-        const userData = await getUserProfile(cust_id, JSON.parse(localStorage.getItem('user')).token || JSON.parse(localStorage.getItem('user')).adminToken);
-        if (userData) {
-            setMaster(userData)
-            setUserProfile(userData)
-        }
-    }
+    
 
     return (
         <>

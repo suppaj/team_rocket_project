@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+
+import React, { useState }from "react";
+import { Modal } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
 
 import { addCartItem, patchCartItem } from "../api";
 
@@ -69,26 +70,16 @@ const AddToCart = ({
   };
 
   const imageLoop = (n) => {
-    if (n > 6) {
-      n = 6;
-    }
-    if (n <= 1) {
-      return (
-        <img
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
-        />
-      );
-    }
-
-    return (
-      <>
-        <img
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`}
-        />{" "}
-        {imageLoop(n - 1)}{" "}
-      </>
-    );
-  };
+      if (n >6 ) {
+        n = 6
+      }
+      if (n <=  1) {
+        return <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`} alt=''/>
+      }
+    
+      return (<><img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${product.dex_id}.png`} alt='' />  {imageLoop(n-1)} </>)
+    
+  }
 
   return (
     <>
@@ -100,6 +91,7 @@ const AddToCart = ({
           src={
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png"
           }
+          alt='masterball'
         />
         <span>Add to Cart</span>
       </button>

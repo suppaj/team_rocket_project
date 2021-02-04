@@ -56,18 +56,13 @@ const Header = ({
           <>
             <Login
               setIsLoggedIn={setIsLoggedIn}
-              setIsAdmin={setIsAdmin}
               setFirstName={setFirstName}
-              firstName={firstName}
               setUser={setUser}
               cart={cart}
-              setCart={setCart}
               setWelcomeShow={setWelcomeShow}
             />
             <Register
               setWelcomeShow={setWelcomeShow}
-              welcomeShow={welcomeShow}
-              setOuterShow={() => null}
               firstName={firstName}
               setFirstName={setFirstName}
             />{" "}

@@ -1,7 +1,6 @@
 const { db_getItemPrice } = require("../../db/index");
 
 function requireUser(req, res, next) {
-  console.log('require user ran', req.user)
   if (!req.user) {
     next({
       name: "MissingUserError",

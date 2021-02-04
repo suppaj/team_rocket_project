@@ -16,7 +16,7 @@ const CartItemCard = ({
 
   useEffect(() => {
     setOrderAmount(product.cart_quantity);
-  }, [cart]);
+  },[cart, product.cart_quantity])
 
   const handleRemoveItem = () => {
     const copyCart = [...cart];

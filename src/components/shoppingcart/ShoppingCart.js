@@ -2,13 +2,6 @@ import React from "react";
 import { Col } from "react-bootstrap";
 import { CartItemCard, CartTable } from "../index";
 
-import { loadStripe } from "@stripe/stripe-js";
-// import { getCheckoutSession } from '../api'; // uncomment to use stripe hosted checkout
-
-const stripePromise = loadStripe(
-  "pk_test_51I8sNpFaKOewVNY4tUSyYJjV3mITvfvBrnasXHxBvbLGJywYsN5ahAiISY7KcJR0ntmCkArjeCJJGPcrsscyw4Ax00SLrCE09i"
-);
-
 const ShoppingCart = ({ cartID, cart, setUser, user, isLoggedIn }) => {
   // uncomment and change onClick of button to handleClick to reinstate
 

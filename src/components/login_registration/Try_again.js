@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import React from "react";
+import { Modal } from "react-bootstrap";
 
-const Try_again = ({ setTryAgainShow, tryAgainShow }) => {
-  //   const [tryAgainShow, setTryAgainShow] = useState(false);
+const TryAgain = ({ setTryAgainShow, tryAgainShow }) => {
+  
 
   const tryAgainHandleClose = () => setTryAgainShow(false);
-  const tryAgainHandleShow = () => setTryAgainShow(true);
+  // const tryAgainHandleShow = () => setTryAgainShow(true);
 
   return (
     <>
@@ -23,4 +23,4 @@ const Try_again = ({ setTryAgainShow, tryAgainShow }) => {
   );
 };
 
-export default Try_again;
+export default TryAgain;

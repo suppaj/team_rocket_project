@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
-import { Col } from 'react-bootstrap';
 import { getUserOrderHistory } from '../../api';
-import { RollingBall, OrderTable, NotLoggedIn } from '../index';
+import { RollingBall, OrderTable } from '../index';
 
-const OrderHistory = (props) => {
+const OrderHistory = () => {
 
     const { cust_id } = useParams();
 
@@ -12,18 +11,19 @@ const OrderHistory = (props) => {
     const [ orderHistory , setOrderHistory] = useState('');
 
 
-    async function fetchHistory() {
-                const results = await getUserOrderHistory(cust_id, JSON.parse(localStorage.getItem('user')).token);
-                setOrderHistory(results);
-    }    
+       
 
     useEffect(()=>{
-        if (cust_id == JSON.parse(localStorage.getItem('user')).custID) {
+        async function fetchHistory() {
+                const results = await getUserOrderHistory(cust_id, JSON.parse(localStorage.getItem('user')).token);
+                setOrderHistory(results);
+        } 
+        if (parseInt(cust_id) === JSON.parse(localStorage.getItem('user')).custID) {
         fetchHistory();
         } else { 
             setNotValid(true)
         }
-    }, [])
+    }, [cust_id])
 
     return (
         <>

@@ -15,7 +15,6 @@ const {
  } = require('../db');
 
 apiRouter.post('/create-checkout-session', async (req, res, next) => {
-  console.log(process.env.STRIPE_SECRET_KEY);
   const checkOutObjArray = req.body;
   try {
     const session = await stripe.checkout.sessions.create({

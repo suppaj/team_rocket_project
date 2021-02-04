@@ -47,7 +47,7 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
       }
     }
     fetchData();
-  }, []);
+  }, [history, user.custID, user.token]);
 
   const getSubTotal = () => {
     let subTotal = 0;

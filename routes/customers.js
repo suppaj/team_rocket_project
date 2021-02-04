@@ -32,7 +32,7 @@ apiRouter.post("/login", async (req, res, next) => {
     }
 
     if (user && user.cust_pwd == cust_pwd) {
-      console.log("THIS IS USER", user);
+      // console.log("THIS IS USER", user);
       if (user.is_admin) {
         let token = jwt.sign(
           {
@@ -92,7 +92,7 @@ apiRouter.post("/login", async (req, res, next) => {
     }
   }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     next(error);
   }
 });
