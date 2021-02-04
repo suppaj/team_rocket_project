@@ -340,20 +340,23 @@ body {
 
 .account-container {
   height: 78vh;
-  width: 80vw;
-  align-content: space-between;
-  margin-left: 5vw;
-  margin-right: 5vw;
-}
-
-.order-history-container {
-  width: 35vw;
-  background-color: #abbbd1;
+  width: 100vw;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
 }
 
 .profile-container {
-  width: 35vw;
+  width: 45vw;
   background-color: #abbbd1;
+  height: auto;
+}
+
+.order-history-container {
+  width: 45vw;
+  background-color: #abbbd1;
+  max-height: 78vh;
+  overflow: scroll;
 }
 
 /* Cart styling */

@@ -104,15 +104,18 @@ const SuccessPage = ({ isLoggedIn }) => {
             {message ? <p>{message}</p> : <br />}
             <button
               type="button"
-              className={noMatch ? "nes-btn is-disabled" : "nes-btn"}
+              className={noMatch ? "nes-btn is-disabled" : "nes-btn is-success"}
               disabled={noMatch}
               onClick={handleRegister}
             >
               Register
             </button>{" "}
-            <Button variant="link" href="/">
+            <button
+              className="nes-btn is-error"
+              onClick={() => history.push("/")}
+            >
               No thanks, return to shopping
-            </Button>
+            </button>
           </>
         )}
       </div>
