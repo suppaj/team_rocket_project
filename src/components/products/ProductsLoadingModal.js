@@ -12,7 +12,7 @@ const ProductsLoadingModal = ({ showLoading }) => {
     <>
       <Modal show={showLoading} backdrop="static" keyboard={false} centered>
         <div className="nes-container is-rounded is-dark with-title loading-modal">
-          <p class="title">Please wait...</p>
+          <p className="title">Please wait...</p>
           <p>'Capturing' Pokemon...</p>
           <div style={{ display: "flex", marginLeft: "10%" }}>
             <RollingBall />
