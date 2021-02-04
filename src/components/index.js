@@ -34,4 +34,6 @@ export { default as ProfileButton } from './header/ProfileButton';
 export { default as AccountPage } from './user_pages/AccountPage';
 export { default as Header } from './header/Header';
 export { default as Access } from './admin/Access_admin';
+export { default as Footer } from './footer/Footer';
+
  
