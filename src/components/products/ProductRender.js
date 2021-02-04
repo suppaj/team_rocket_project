@@ -66,13 +66,13 @@ const Products = ({
           {sortMethod === "height" ? ` | ${height / 10}m` : ""}
           {sortMethod === "weight" ? ` | ${weight / 10}kg` : ""}
         </p>
-        <Button variant="link" href={`/products/${prod_id}/${name}`}>
+        <a href={`/products/${prod_id}/${name}`}>
           <img
             className="nes-pointer pokemon-icon"
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dex_id}.png`}
             alt={`a very happy ${name}`}
           />
-        </Button>
+        </a>
         <TypeMapper
           typeArray={type}
           setFilterMessage={setFilterMessage}
