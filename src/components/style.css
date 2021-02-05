@@ -454,15 +454,23 @@ body {
 
 .checkout-container {
   background-color: #abbbd1;
+  font-size: 0.7rem;
 }
 
 .checkout-pay-btn {
   font-size: 1.5rem;
   width: 100%;
+  margin-bottom: 10px;
 }
 
 .checkout-return-shopping-btn {
   color: white;
+}
+
+.checkout-error-message {
+  color: red;
+  font-size: 1rem !important;
+  text-align: center;
 }
 
 #add-cart-dialog {
