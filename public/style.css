@@ -68,6 +68,12 @@ iframe {
   justify-content: center;
 }
 
+.rejected-display {
+  padding: 15px;
+  width: 100vw;
+  height: 100vh;
+}
+
 #customer_admin_display,
 #product_admin_display,
 #metrics_display {
@@ -179,6 +185,75 @@ iframe {
   padding: 7px;
   box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 3.6px;
   margin: auto;
+}
+
+#customer-pokedex-screen {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 2fr 1fr;
+
+  height: 450px;
+  /* width: 600px; */
+}
+
+#customer-screen {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 2px;
+  font-size: 0.5rem;
+  overflow: auto;
+  /* height: 60%; */
+  /* border: solid red 1px; */
+}
+
+#customer-orders {
+  grid-column: 1;
+  grid-row: 2;
+  /* border: solid purple; */
+  padding: 5px;
+  font-size: 0.5rem !important;
+  font-weight: normal !important;
+}
+
+#current-customer-order-details {
+  grid-column: 2;
+  grid-row: 1/3;
+  /* border: solid red; */
+  padding: 5px;
+}
+
+/* .poke-body {
+  position: absolute;
+  top: 140px;
+  left: -180px;
+  width: 850px;
+  border: 1px solid #a8a8a8;
+  text-align: left;
+  padding: 8px;
+}*/
+
+#customer-portal-modal {
+  overflow-y: hidden;
+}
+
+#customer-orders {
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+
+#current-customer-order-details {
+  font-size: 0.6rem;
+  font-weight: bold;
+}
+
+.customer-rows:hover {
+  color: lightgray;
+  background-color: #999;
+}
+
+#no-current-details {
+  border: solid purple;
+  z-index: 999999;
 }
 
 .products-show {
