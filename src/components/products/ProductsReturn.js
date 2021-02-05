@@ -9,7 +9,10 @@ const ProductsReturn = () => {
         <button
           type="button"
           className="nes-btn"
-          onClick={() => history.push("/")}
+          onClick={() => {
+            history.push("/");
+            window.location.pathname = "/";
+          }}
         >
           Search
         </button>

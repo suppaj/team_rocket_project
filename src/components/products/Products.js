@@ -2,18 +2,22 @@
 import React, { useState, useEffect } from "react";
 
 // react bootstrap imports
-import { Button, Row } from "react-bootstrap";
+import { Button, Modal, Row } from "react-bootstrap";
 
 // component imports
 import ProductRender from "./ProductRender";
 import ProductSearch from "./ProductSearch";
 import ProductSorter from "./ProductSorter";
 import ProductFilter from "./ProductFilter";
+import ProductsLoadingModal from "./ProductsLoadingModal";
 
 const Products = ({ getAllProducts, getAllTypes }) => {
   // product states
   const [allProducts, setAllProducts] = useState([]);
   const [currentProducts, setCurrentProducts] = useState([]);
+
+  // oading modal state
+  const [showLoading, setShowLoading] = useState(true);
 
   // search/sort/filter states
   const [allTypes, setAllTypes] = useState([]);
@@ -59,6 +63,8 @@ const Products = ({ getAllProducts, getAllTypes }) => {
   }
 
   useEffect(() => {
+    // sets loading state to true
+    setShowLoading(true);
     // grabs all pokemon entries from the database
     getAllProducts()
       .then((response) => {
@@ -127,6 +133,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           setIndexStart(start);
           setIndexEnd(end);
         }
+      })
+      .then(() => {
+        setShowLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -236,7 +245,9 @@ const Products = ({ getAllProducts, getAllTypes }) => {
     setProductsMethod(sorted);
     return sorted;
   }
-  return (
+  return showLoading ? (
+    <ProductsLoadingModal showLoading={showLoading} />
+  ) : (
     <>
       <Row className="search-sort-filter-container">
         <div className="search-filter-container">

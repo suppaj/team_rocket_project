@@ -2,7 +2,7 @@ import React from "react";
 
 const Rejected = () => {
   return (
-    <div id="rejected">
+    <div id="rejected" className="who-this-container">
       <img
         className="rej-img"
         src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/12.png?raw=true"
