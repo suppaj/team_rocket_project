@@ -66,6 +66,8 @@ iframe {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #28a745;
+  background-image: url("https://i.imgur.com/lhu26US.png");
 }
 
 .rejected-display {
