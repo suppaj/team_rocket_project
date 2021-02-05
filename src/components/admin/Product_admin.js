@@ -28,8 +28,10 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
     //
   };
 
+  const token = JSON.parse(localStorage.getItem('user')).token
+
   useEffect(() => {
-    getActive()
+    getActive(token)
       .then((response) => {
         console.log(
           "test purps this is the active response",
@@ -44,7 +46,7 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
   }, [productEdited]);
 
   useEffect(() => {
-    getInactive()
+    getInactive(token)
       .then((response) => {
         console.log(
           "test purps this is the inactive response",
@@ -340,7 +342,7 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                                           price: editPrice,
                                           quantity: editQuantity,
                                           is_active: editActive,
-                                        })
+                                        }, token)
                                           .then((response) => {
                                             console.log(
                                               "WILL COME BACK TO THIS",

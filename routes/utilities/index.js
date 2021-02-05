@@ -12,8 +12,8 @@ function requireUser(req, res, next) {
 }
 
 function requireAdmin(req, res,next) {
-  if (!req.user.siteAdmin) {
-    res.next({
+  if (!req.user.is_admin) {
+    next({
       name: 'MissingAdminCreds',
       message: 'You must be an admin to perform this action'
     });

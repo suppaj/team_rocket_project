@@ -19,9 +19,11 @@ export async function getAllProducts() {
   }
 }
 
-export async function adminGetAllProducts() {
+export async function adminGetAllProducts(token) {
   try {
-    const { data } = await axios.get("/api/admin/view_products");
+    const { data } = await axios.get("/api/admin/view_products",
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
     return data;
   } catch (error) {
     throw error;
@@ -215,9 +217,13 @@ export async function recordUserOrder(cust_id, cart, token) {
   }
 }
 
-export async function getAllCustomers() {
+export async function getAllCustomers(token) {
   try {
-    const { data } = await axios.get(`/api/admin/view_customers`);
+    const { data } = await axios.get(`/api/admin/view_customers`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     return data;
   } catch (error) {
@@ -236,10 +242,13 @@ export async function getCustomerByEmail(cust_email) {
   }
 }
 
-export async function getOrderHistoryByCustomerId(customerId) {
+export async function getOrderHistoryByCustomerId(customerId, token) {
   try {
     const { data } = await axios.get(
-      `api/admin/customers_history/${customerId}`
+      `api/admin/customers_history/${customerId}`,
+      {
+      headers: { Authorization: `Bearer ${token}` }
+      }
     );
 
     return data;
@@ -248,9 +257,13 @@ export async function getOrderHistoryByCustomerId(customerId) {
   }
 }
 
-export async function getOrderDetailsbyOrderId(orderId) {
+export async function getOrderDetailsbyOrderId(orderId, token) {
   try {
-    const { data } = await axios.get(`api/admin/customers_orders/${orderId}`);
+    const { data } = await axios.get(`api/admin/customers_orders/${orderId}`,
+      {
+      headers: { Authorization: `Bearer ${token}` }
+      }
+    );
 
     return data;
   } catch (error) {
@@ -280,30 +293,10 @@ export async function submitCustomerReview(reviewObject, token) {
   }
 }
 
-export async function getTopSalesDatabyMonth(month, year) {
+export async function getTopSalesDatabyMonth(month, year, token) {
   try {
-    const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`);
-
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function getTotalSalesValue(month, year) {
-  try {
-    const { data } = await axios.get(`api/admin/total_sales/${month}/${year}`);
-
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function getSalesForecast(month, year) {
-  try {
-    const { data } = await axios.get(
-      `api/admin/forecast_sales/${month}/${year}`
+    const { data } = await axios.get(`api/admin/top_sales/${month}/${year}`,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     return data;
@@ -312,10 +305,10 @@ export async function getSalesForecast(month, year) {
   }
 }
 
-export async function getSalesDatabyMonth(month, year) {
+export async function getTotalSalesValue(month, year, token) {
   try {
-    const { data } = await axios.get(
-      `api/admin/product_sales/${month}/${year}`
+    const { data } = await axios.get(`api/admin/total_sales/${month}/${year}`,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     return data;
@@ -324,10 +317,11 @@ export async function getSalesDatabyMonth(month, year) {
   }
 }
 
-export async function getSalesDataLastSixMonths(month, year) {
+export async function getSalesForecast(month, year, token) {
   try {
     const { data } = await axios.get(
-      `api/admin/historical_view/${month}/${year}`
+      `api/admin/forecast_sales/${month}/${year}`,
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     return data;
@@ -336,9 +330,12 @@ export async function getSalesDataLastSixMonths(month, year) {
   }
 }
 
-export async function getSalesDatabyProductID(prodID) {
+export async function getSalesDatabyMonth(month, year, token) {
   try {
-    const { data } = await axios.get(`api/admin/product_sales/${prodID}`);
+    const { data } = await axios.get(
+      `api/admin/product_sales/${month}/${year}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
     return data;
   } catch (error) {
@@ -346,27 +343,56 @@ export async function getSalesDatabyProductID(prodID) {
   }
 }
 
-export async function getSalesData() {
+export async function getSalesDataLastSixMonths(month, year, token) {
   try {
-    const { data } = await axios.get(`/api/admin/view_sales`);
+    const { data } = await axios.get(
+      `api/admin/historical_view/${month}/${year}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
     return data;
   } catch (error) {
     throw error;
   }
 }
-export async function getActive() {
+
+export async function getSalesDatabyProductID(prodID, token) {
   try {
-    const { data } = await axios.get(`/api/admin/active_products`);
+    const { data } = await axios.get(`api/admin/product_sales/${prodID}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getSalesData(token) {
+  try {
+    const { data } = await axios.get(`/api/admin/view_sales`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function getActive(token) {
+  try {
+    const { data } = await axios.get(`/api/admin/active_products`, {
+      headers: { Authorization: `Bearer ${token}` }});
 
     return data.active;
   } catch (error) {
     throw error;
   }
 }
-export async function getInactive() {
+export async function getInactive(token) {
   try {
-    const { data } = await axios.get(`/api/admin/inactive_products`);
+    const { data } = await axios.get(`/api/admin/inactive_products`,{
+      headers: { Authorization: `Bearer ${token}` }});
 
     return data.inactive;
   } catch (error) {
@@ -438,12 +464,14 @@ export async function updateUserBilling(user, token) {
   }
 }
 
-export async function updateProduct(prod_id, attributes) {
+export async function updateProduct(prod_id, attributes, token) {
   try {
-    const { data } = await axios.post("/api/admin/update_product", {
+    const { data } = await axios.post("/api/admin/update_product", 
+      {
       prod_id,
       attributes,
-    });
+      },
+      { headers: { Authorization: `Bearer ${token}` }},);
     return data;
   } catch (error) {
     throw error;

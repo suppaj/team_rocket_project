@@ -1,6 +1,11 @@
 const express = require("express");
 const apiRouter = express.Router();
 
+const { 
+  requireUser,
+  requireAdmin,
+} = require("./utilities");
+
 const {
   db_getAllCustomers,
   db_getCustomerById,
@@ -21,7 +26,7 @@ const {
   db_getLastSixMonths,
 } = require("../db/index");
 
-apiRouter.get("/customers/:id", async (req, res) => {
+apiRouter.get("/customers/:id", requireUser, requireAdmin, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -32,7 +37,7 @@ apiRouter.get("/customers/:id", async (req, res) => {
   }
 });
 
-apiRouter.get("/customers_email", async (req, res) => {
+apiRouter.get("/customers_email", requireUser, requireAdmin, async (req, res) => {
   const { cust_email } = req.body;
 
   try {
@@ -43,7 +48,7 @@ apiRouter.get("/customers_email", async (req, res) => {
   }
 });
 
-apiRouter.get("/active_products", async (req, res) => {
+apiRouter.get("/active_products", requireUser, requireAdmin, async (req, res) => {
   try {
     const active = await db_countActiveProducts();
     res.send({ active });
@@ -51,7 +56,7 @@ apiRouter.get("/active_products", async (req, res) => {
     throw error;
   }
 });
-apiRouter.get("/inactive_products", async (req, res) => {
+apiRouter.get("/inactive_products", requireUser, requireAdmin, async (req, res) => {
   try {
     const inactive = await db_countInactiveProducts();
     res.send({ inactive });
@@ -60,7 +65,7 @@ apiRouter.get("/inactive_products", async (req, res) => {
   }
 });
 
-apiRouter.post("/update_product", async (req, res) => {
+apiRouter.post("/update_product", requireUser, requireAdmin, async (req, res) => {
   const { prod_id, attributes } = req.body;
 
   try {
@@ -71,7 +76,7 @@ apiRouter.post("/update_product", async (req, res) => {
   }
 });
 
-apiRouter.get("/customers_history/:customerId", async (req, res) => {
+apiRouter.get("/customers_history/:customerId", requireUser, requireAdmin, async (req, res) => {
   const { customerId } = req.params;
   try {
     const orders = await db_getOrderHistoryByCustomerId(customerId);
@@ -82,7 +87,7 @@ apiRouter.get("/customers_history/:customerId", async (req, res) => {
   }
 });
 
-apiRouter.get("/customers_orders/:orderId", async (req, res) => {
+apiRouter.get("/customers_orders/:orderId", requireUser, requireAdmin, async (req, res) => {
   const { orderId } = req.params;
   try {
     const details = await db_getOrderDetailsbyOrderId(orderId);
@@ -93,7 +98,7 @@ apiRouter.get("/customers_orders/:orderId", async (req, res) => {
   }
 });
 
-apiRouter.get("/view_customers", async (req, res) => {
+apiRouter.get("/view_customers", requireUser, requireAdmin, async (req, res) => {
   try {
     const customers = await db_getAllCustomers();
     res.send({ customers });
@@ -102,7 +107,7 @@ apiRouter.get("/view_customers", async (req, res) => {
   }
 });
 
-apiRouter.get("/view_products", async (req, res) => {
+apiRouter.get("/view_products", requireUser, requireAdmin, async (req, res) => {
   try {
     const products = await db_getAllProductsAdmin();
     res.send({ products });
@@ -111,7 +116,7 @@ apiRouter.get("/view_products", async (req, res) => {
   }
 });
 
-apiRouter.get("/view_sales", async (req, res) => {
+apiRouter.get("/view_sales", requireUser, requireAdmin, async (req, res) => {
   try {
     const sales = await db_getSalesData();
     res.send({ sales });
@@ -120,7 +125,7 @@ apiRouter.get("/view_sales", async (req, res) => {
   }
 });
 
-apiRouter.get("/product_sales/:prodID", async (req, res) => {
+apiRouter.get("/product_sales/:prodID", requireUser, requireAdmin, async (req, res) => {
   const { prodID } = req.params;
 
   try {
@@ -131,7 +136,7 @@ apiRouter.get("/product_sales/:prodID", async (req, res) => {
   }
 });
 
-apiRouter.get("/product_sales/:month/:year", async (req, res) => {
+apiRouter.get("/product_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
   const { month, year } = req.params;
 
   try {
@@ -142,7 +147,7 @@ apiRouter.get("/product_sales/:month/:year", async (req, res) => {
   }
 });
 
-apiRouter.get("/top_sales/:month/:year", async (req, res) => {
+apiRouter.get("/top_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
   const { month, year } = req.params;
 
   try {
@@ -153,7 +158,7 @@ apiRouter.get("/top_sales/:month/:year", async (req, res) => {
   }
 });
 
-apiRouter.get("/total_sales/:month/:year", async (req, res) => {
+apiRouter.get("/total_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
   const { month, year } = req.params;
 
   try {
@@ -164,7 +169,7 @@ apiRouter.get("/total_sales/:month/:year", async (req, res) => {
   }
 });
 
-apiRouter.get("/forecast_sales/:month/:year", async (req, res) => {
+apiRouter.get("/forecast_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
   const { month, year } = req.params;
 
   try {
@@ -175,7 +180,7 @@ apiRouter.get("/forecast_sales/:month/:year", async (req, res) => {
   }
 });
 
-apiRouter.get("/historical_view/:month/:year", async (req, res) => {
+apiRouter.get("/historical_view/:month/:year", requireUser, requireAdmin, async (req, res) => {
   const { month, year } = req.params;
 
   try {
