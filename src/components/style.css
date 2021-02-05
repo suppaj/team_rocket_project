@@ -160,7 +160,7 @@ body {
 .pokemon-cards-container {
   width: 80vw;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .pagination-container {
@@ -180,6 +180,8 @@ body {
   height: 310px;
   background-color: #abbbd1;
   margin-bottom: 30px !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
 }
 
 .no-cards-container {
