@@ -294,6 +294,8 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           sortMethod={sortMethod}
           indexStart={indexStart}
           indexEnd={indexEnd}
+          searchVal={searchVal}
+          filterMessage={filterMessage}
         />
       </Row>
       <Row className="pagination-container">
