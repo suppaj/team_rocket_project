@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import masterball from "./masterball.png";
-import { Modal, Form, Button } from "react-bootstrap";
 import { Rejected } from "./index";
 import {
   getOrderHistoryByCustomerId,

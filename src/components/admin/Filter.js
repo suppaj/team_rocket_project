@@ -1,5 +1,5 @@
 import React from "react";
-// import { getSalesDatabyMonth, getTopSalesDatabyMonth } from "../../api/index";
+
 const Filter = ({ setMonth, setYear, setUpdateFilter, month, year }) => {
   return (
     <div id="filters">

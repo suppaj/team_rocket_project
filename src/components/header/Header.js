@@ -65,6 +65,8 @@ const Header = ({
               setWelcomeShow={setWelcomeShow}
               firstName={firstName}
               setFirstName={setFirstName}
+              setIsLoggedIn={setIsLoggedIn}
+              setUser={setUser}
             />{" "}
           </>
         )}

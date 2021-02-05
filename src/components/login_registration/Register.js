@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { registerCustomer } from "../../api";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const Register = ({setWelcomeShow, firstName, setFirstName}) => {
+const Register = ({
+  setWelcomeShow,
+  firstName,
+  setFirstName,
+  setIsLoggedIn,
+  setUser,
+}) => {
   const [registerShow, setRegisterShow] = useState(false);
   const [lastName, setLastName] = useState("");
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [registeredPassword, setRegisteredPassword] = useState("");
-  const [ errMsg, setErrMsg ] = useState('');
+  const [errMsg, setErrMsg] = useState("");
 
   const handleCloseRegister = () => setRegisterShow(false);
   const handleShowRegister = () => setRegisterShow(true);
@@ -22,11 +28,15 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
       false
     )
       .then((response) => {
-        if (response.token) {
+        if (response.token && response.custID) {
+          const { firstName } = response;
           console.log("this is my response", response);
-          setErrMsg('');
-          setRegisterShow(false)
+          setErrMsg("");
+          setRegisterShow(false);
           setWelcomeShow(true);
+          setFirstName(firstName);
+          setUser(response);
+          setIsLoggedIn(true);
         } else {
           setErrMsg(response.message);
         }
@@ -114,7 +124,7 @@ const Register = ({setWelcomeShow, firstName, setFirstName}) => {
             </Form.Group>
           </Form>
           <div>
-            <p className='is-error'>{errMsg}</p>
+            <p className="is-error">{errMsg}</p>
           </div>
         </Modal.Body>
 
