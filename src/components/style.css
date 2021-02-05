@@ -101,6 +101,26 @@ body {
   font-size: 2rem;
 }
 
+.header-main-text {
+  font-size: 1.9rem;
+}
+
+.user-toast-container {
+  color: white;
+  text-align: center;
+  margin-right: 10px;
+  margin-top: 0.5vh;
+}
+
+.user-toast-welcome {
+  font-size: 0.5rem;
+  margin-bottom: -0.25vh;
+}
+
+.user-toast-name {
+  font-size: 1.5rem;
+}
+
 /* Rejected styling */
 .who-this-container {
   height: 78vh;
