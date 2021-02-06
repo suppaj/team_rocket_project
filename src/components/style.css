@@ -252,7 +252,6 @@ body {
 }
 
 .pokemon-icon:hover {
-  /* cursor: pointer; */
   animation-name: bounce;
   -moz-animation-name: bounce;
 }
@@ -705,6 +704,14 @@ iframe {
   height: 100vh;
 }
 
+#rejected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150% !important;
+  width: 100vw;
+}
+
 #customer_admin_display,
 #product_admin_display,
 #metrics_display {
@@ -879,8 +886,6 @@ iframe {
   padding: 2px;
   font-size: 0.5rem;
   overflow: auto;
-  /* height: 60%; */
-  /* border: solid red 1px; */
 }
 
 #product-admin-table {
@@ -899,37 +904,38 @@ iframe {
 
 #customer-list {
   min-width: 100%;
+  color: black;
 }
+
 #customer-orders-table {
   width: 100%;
+  color: black;
 }
+
 #cust-instructions {
   grid-row: 3;
   margin-top: 15px;
 }
+
 #customer-orders {
   grid-column: 1;
   grid-row: 3;
-  /* border: solid purple; */
   padding: 5px;
   font-size: 0.5rem !important;
   font-weight: normal !important;
   width: 100%;
   overflow-y: scroll;
   margin-top: 15px;
-  /* height: 90%; */
 }
 
 #current-customer-order-details {
   grid-column: 2;
   grid-row: 1/3;
-  /* border: solid red; */
   padding: 5px;
   overflow-y: scroll;
 }
 
 .poke-body {
-  /* border: solid blue; */
   position: absolute;
   top: 140px;
   left: -180px;
@@ -966,11 +972,6 @@ th {
 }
 
 #metrics-body {
-  /* position: absolute; */
-  /* top: -176px;
-  left: -180px; */
-  /* width: 860px !important; */
-  /* border: solid pink; */
   height: 100%;
   padding: 0;
 }
@@ -997,7 +998,6 @@ th {
 }
 
 #trends {
-  /* border: solid red; */
   padding: 5px;
   grid-column: 3;
   grid-row: 1;
@@ -1005,7 +1005,6 @@ th {
 }
 
 #top-sales {
-  /* border: solid green; */
   grid-column: 3;
   grid-row: 2/4;
   height: 100%;
@@ -1016,11 +1015,24 @@ th {
   min-height: 100%;
 }
 
+#product-list-title {
+  color: black;
+}
+.admin-title {
+  color: white;
+}
+
 #sales-list {
   grid-row: 2;
   grid-column: 1/3;
   width: 100%;
   height: 100%;
+  margin-top: 8px;
+  padding-top: 5px;
+  border-top: solid black;
+  overflow: auto;
+  height: 60%;
+  color: black;
 }
 
 .sales-rows {
@@ -1042,7 +1054,6 @@ th {
 
 #filters {
   font-size: 0.6rem;
-  /* border: solid blue; */
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -1055,7 +1066,6 @@ th {
 }
 
 .admin-filter {
-  /* background-color: yellow; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1101,10 +1111,8 @@ th {
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   -webkit-animation-iteration-count: infinite;
-  /* color: white; */
 }
 .admin-pokeballs:hover {
-  /* cursor: pointer; */
   animation-name: bounce;
   -moz-animation-name: bounce;
 }
@@ -1131,14 +1139,12 @@ th {
   grid-row: 1;
   border-left: solid black;
   border-right: solid black;
-
   text-align: center;
 }
 
 #all-products {
   grid-column: 1/4;
   grid-row: 2;
-  /* border: solid red; */
   margin-top: 5px;
   overflow-x: scroll;
   overflow-y: scroll;
@@ -1184,7 +1190,6 @@ th {
   grid-column: 2;
   grid-row: 1;
   text-align: center;
-  /* border-left: solid black; */
 }
 
 .product-metrics {
@@ -1195,6 +1200,7 @@ th {
   align-items: center;
   justify-content: center;
 }
+
 .active-count,
 .inactive-count {
   font-size: 1.5rem;
@@ -1236,7 +1242,6 @@ th {
 .prod-admin-instructions {
   grid-column: 4;
   grid-row: 2;
-  /* border: solid green; */
   padding: 4px;
   height: 100%;
   overflow-y: scroll;
@@ -1244,18 +1249,15 @@ th {
 
 #prod-instructions,
 #cust-instructions {
-  /* height: 100%; */
   font-size: 0.65rem;
 }
 
 .instructions-container {
   overflow-y: scroll;
-  /* border: solid orange; */
 }
 
 #customer-admin-screen {
   height: 90%;
-  /* width: 90%; */
 }
 
 .prod-instructions-title {
@@ -1300,7 +1302,6 @@ th {
 #metrics-name,
 #metrics-quantity,
 #metrics-value {
-  /* border: solid green; */
   text-align: center;
 }
 
