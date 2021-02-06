@@ -67,6 +67,8 @@ const Header = ({
               setFirstName={setFirstName}
               setIsLoggedIn={setIsLoggedIn}
               setUser={setUser}
+              cart={cart}
+              setCart={setCart}
             />{" "}
           </>
         )}
