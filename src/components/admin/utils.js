@@ -1,13 +1,3 @@
-// export function getMonth() {
-//   const today = new Date();
-//   const thisMonth = today.getMonth();
-//   const filteredMonth = TOTALS.filter((item, index) => {
-//     return index === thisMonth;
-//   });
-
-//   return filteredMonth[0].totals;
-// }
-
 export const getMonth = (monthInput) => {
   if (monthInput === 0) {
     return "January";
