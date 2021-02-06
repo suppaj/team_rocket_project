@@ -87,7 +87,6 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
       data.cart = masterCart;
     }
 
-    console.log("login data", data);
     return data;
   } catch (error) {
     throw error;
@@ -134,7 +133,6 @@ export async function registerCustomer(
       is_admin,
     });
 
-    console.log("REGISTER DATA", data);
     return data;
   } catch (error) {
     throw error;
