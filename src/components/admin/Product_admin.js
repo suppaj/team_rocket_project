@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { RollingBall } from "../index";
 import ultraball from "./ultraball.png";
-import { Search, Rejected } from "./index";
+import { Rejected } from "./index";
 import { updateProduct, getActive, getInactive } from "../../api/index";
 
 const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
@@ -33,10 +33,6 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
   useEffect(() => {
     getActive(token)
       .then((response) => {
-        console.log(
-          "test purps this is the active response",
-          response[0].count
-        );
         const active = response[0].count;
         setActiveProducts(active);
       })
@@ -48,10 +44,6 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
   useEffect(() => {
     getInactive(token)
       .then((response) => {
-        console.log(
-          "test purps this is the inactive response",
-          response[0].count
-        );
         const inactive = response[0].count;
         setInactiveProducts(inactive);
       })
@@ -117,8 +109,8 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                       }
                       data={[
                         ["Product-Status", "Number"],
-                        ["Active", 50],
-                        ["Inactive", 2],
+                        ["Active", activeProducts],
+                        ["Inactive", inactiveProducts],
                       ]}
                       options={{
                         backgroundColor: "transparent",
@@ -208,13 +200,14 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                       {"active status".toUpperCase()}.
                     </p>
                     <p>
-                      To save your updates click the {"edit".toUpperCase()}.
+                      To save your updates click the {"submit".toUpperCase()}{" "}
+                      button.
                     </p>
                   </div>
                 </div>
 
                 <div id="all-products">
-                  <p>Product List</p>
+                  <p id="product-list-title">Product List</p>
                   <div id="product-details" className="nes-table-responsive">
                     <table
                       id="product-admin-table"
@@ -231,7 +224,7 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                           <th>Type</th>
                           <th>Active?</th>
                           <th>Featured?</th>
-                          <th>Edit</th>
+                          <th>Submit</th>
                         </tr>
                         {productsArr.length > 0
                           ? productsArr.map((product, index) => {
@@ -356,7 +349,7 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                                         setProductEdited(true);
                                       }}
                                     >
-                                      edit
+                                      submit
                                     </button>
                                   </td>
                                 </tr>

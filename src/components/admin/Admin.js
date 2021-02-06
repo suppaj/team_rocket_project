@@ -53,7 +53,7 @@ const Admin = ({ isAdmin }) => {
           throw error;
         });
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (isAdmin) {

@@ -259,11 +259,12 @@ const Metrics = ({ isAdmin }) => {
                         </tr>
                         {salesArr
                           ? salesArr.map((sale, index) => {
+                              console.log("SALE", sale);
                               const {
                                 prod_id,
                                 transaction_id,
                                 transaction_date,
-                                transaction_quantity,
+                                order_quantity,
                                 name,
                                 description,
                                 price,
@@ -274,10 +275,10 @@ const Metrics = ({ isAdmin }) => {
                                   <td id="metrics-date">{transaction_date}</td>
                                   <td id="metrics-name">{name}</td>
                                   <td id="metrics-quantity">
-                                    {transaction_quantity}
+                                    {order_quantity}
                                   </td>
                                   <td id="metrics-value">
-                                    {(price * transaction_quantity).toFixed(2)}
+                                    {(price * order_quantity).toFixed(2)}
                                   </td>
                                 </tr>
                               );
