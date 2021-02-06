@@ -8,16 +8,29 @@ const Register = ({
   setFirstName,
   setIsLoggedIn,
   setUser,
+  setCart,
+  cart,
 }) => {
   const [registerShow, setRegisterShow] = useState(false);
   const [lastName, setLastName] = useState("");
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [registeredPassword, setRegisteredPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [tempCart, setTempCart] = useState();
 
   const handleCloseRegister = () => setRegisterShow(false);
   const handleShowRegister = () => setRegisterShow(true);
+  const handleTempCart = (tempCart) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      if (tempCart) {
+        user.cart = tempCart;
 
+        localStorage.setItem("user", JSON.stringify(user));
+        setCart(user.cart);
+      }
+    }
+  };
   const handleCustomerRegistration = (e) => {
     e.preventDefault();
     registerCustomer(
@@ -30,13 +43,13 @@ const Register = ({
       .then((response) => {
         if (response.token && response.custID) {
           const { firstName } = response;
-          console.log("this is my response", response);
           setErrMsg("");
           setRegisterShow(false);
           setWelcomeShow(true);
           setFirstName(firstName);
           setUser(response);
           setIsLoggedIn(true);
+          handleTempCart(cart);
         } else {
           setErrMsg(response.message);
         }

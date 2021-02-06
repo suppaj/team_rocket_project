@@ -477,17 +477,36 @@ async function db_updateProduct(prod_id, attributes) {
       [price, quantity, is_active]
     );
 
-    console.log("inside of update product this is the product", product);
     return product;
   } catch (error) {
     throw error;
   }
 }
-// db_updateProduct(1, {
-//   price: 10.99,
-//   quantity: 2,
-//   is_active: false,
-// });
+
+async function db_updateCustomer(cust_id, attributes) {
+  const { first_name, last_name, cust_email, cust_pwd, is_admin } = attributes;
+  try {
+    const {
+      rows: [customer],
+    } = await client.query(
+      `
+      UPDATE customers
+      SET first_name=$1, 
+      last_name=$2,
+      cust_email=$3,
+      cust_pwd=$4,
+      is_admin=$5
+      WHERE cust_id=${cust_id}
+      RETURNING *;
+    `,
+      [first_name, last_name, cust_email, cust_pwd, is_admin]
+    );
+
+    return customer;
+  } catch (error) {
+    throw error;
+  }
+}
 
 // checkout methods
 
@@ -804,7 +823,7 @@ async function db_getTotalSales(month, year) {
 }
 
 async function db_getLastSixMonths(month, year) {
-  console.log('I just ran XXXXXXXXXX')
+  console.log("I just ran XXXXXXXXXX");
   const month2 = parseInt(month) === 1 ? 12 : month - 1;
   const year2 = month === 1 ? year - 1 : year;
 
@@ -1180,6 +1199,7 @@ module.exports = {
   db_updateUserShipping,
   db_updateUserBilling,
   db_getAllProductsAdmin,
+  db_updateCustomer,
   db_updateProduct,
   db_joinTopSales,
   db_getTotalSales,

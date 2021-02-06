@@ -31,7 +31,6 @@ apiRouter.post("/login", async (req, res, next) => {
       }
 
       if (user && user.cust_pwd == cust_pwd) {
-        // console.log("THIS IS USER", user);
         if (user.is_admin) {
           let token = jwt.sign(
             {
@@ -91,7 +90,6 @@ apiRouter.post("/login", async (req, res, next) => {
       }
     }
   } catch (error) {
-    // console.log(error);
     next(error);
   }
 });
@@ -117,21 +115,6 @@ apiRouter.post("/register", async (req, res, next) => {
       is_admin,
     });
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        cust_email,
-        firstName: user.first_name,
-        cust_pwd,
-      },
-      process.env.JWT_SECRET,
-
-      {
-        expiresIn: "1w",
-      }
-    );
-
-    console.log("INITIATING CUSTOMER LOGIN");
     let cartObj = {};
     const cartArray = [];
     user = await db_getCustomerByEmail(cust_email);
@@ -197,5 +180,48 @@ apiRouter.post("/register", async (req, res, next) => {
     next({ name, message });
   }
 });
+
+// apiRouter.post("/register", async (req, res, next) => {
+//   const { first_name, last_name, cust_email, cust_pwd, is_admin } = req.body;
+
+//   try {
+//     const _user = await db_getCustomerByEmail(cust_email);
+
+//     if (_user) {
+//       res.send({
+//         name: "UserExistsError",
+//         message: "An account with that email address already exists!",
+//       });
+//     }
+
+//     const user = await db_createCustomer({
+//       first_name,
+//       last_name,
+//       cust_email,
+//       cust_pwd,
+//       is_admin,
+//     });
+
+//     const token = jwt.sign(
+//       {
+//         id: user.id,
+//         cust_email,
+//         firstName: user.first_name,
+//       },
+//       process.env.JWT_SECRET,
+
+//       {
+//         expiresIn: "1w",
+//       }
+//     );
+
+//     res.send({
+//       firstName: first_name,
+//       token,
+//     });
+//   } catch ({ name, message }) {
+//     next({ name, message });
+//   }
+// });
 
 module.exports = apiRouter;

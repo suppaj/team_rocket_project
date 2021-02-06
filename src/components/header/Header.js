@@ -78,6 +78,8 @@ const location = useLocation();
               setFirstName={setFirstName}
               setIsLoggedIn={setIsLoggedIn}
               setUser={setUser}
+              cart={cart}
+              setCart={setCart}
             />{" "}
           </>
         )}

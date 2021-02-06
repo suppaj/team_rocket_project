@@ -81,6 +81,7 @@ const App = () => {
             isLoggedIn={isLoggedIn}
             cartCount={cartCount}
             user={user}
+            setCart={setCart}
           />
         </Row>
         <Row className="site-body">

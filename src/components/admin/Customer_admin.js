@@ -4,17 +4,18 @@ import { Rejected } from "./index";
 import {
   getOrderHistoryByCustomerId,
   getOrderDetailsbyOrderId,
+  updateCustomer,
 } from "../../api/index";
 
-const Customer_admin = ({ isAdmin }) => {
+const Customer_admin = ({ isAdmin, setUpdateCompleteShow }) => {
   const [customerArr, setCustomerArr] = useState([]);
   const [orderHistArr, setOrderHistArr] = useState([]);
   const [orderDetailsArr, setOrderDetailsArr] = useState([]);
   const [selectedCustomerID, setSelectedCustomerID] = useState("");
   const [selectedOrderID, setSelectedOrderID] = useState("");
   const [showCust, setShowCust] = useState(false);
-
-  const token = JSON.parse(localStorage.getItem('user')).token;
+  const [editAdmin, setEditAdmin] = useState(false);
+  const token = JSON.parse(localStorage.getItem("user")).token;
 
   const handleCloseCust = () => {
     setShowCust(false);
@@ -26,13 +27,17 @@ const Customer_admin = ({ isAdmin }) => {
   };
 
   const handleHistoryRequest = () => {
-    const history = JSON.parse(window.localStorage.getItem("order_history"));
+    const history =
+      JSON.parse(window.localStorage.getItem("order_history")) || [];
     setOrderHistArr(history);
   };
 
   const handleDetailsRequest = () => {
-    const details = JSON.parse(window.localStorage.getItem("order_detail"));
-    setOrderDetailsArr(details);
+    const details =
+      JSON.parse(window.localStorage.getItem("order_detail")) || [];
+    if (details) {
+      setOrderDetailsArr(details);
+    }
   };
 
   useEffect(() => {
@@ -43,7 +48,6 @@ const Customer_admin = ({ isAdmin }) => {
             "order_history",
             JSON.stringify(response.orders)
           );
-
           handleHistoryRequest();
         })
 
@@ -103,10 +107,10 @@ const Customer_admin = ({ isAdmin }) => {
                         <th>Email</th>
                         <th>Password</th>
                         <th>Admin?</th>
+                        <th>Submit</th>
                       </tr>
                       {customerArr
                         ? customerArr.map((customer, index) => {
-                            console.log("THIS IS THE CUSTOMER", customer);
                             const {
                               cust_id,
                               first_name,
@@ -129,11 +133,58 @@ const Customer_admin = ({ isAdmin }) => {
                                 {cust_email ? <td>{cust_email}</td> : null}
                                 {cust_pwd ? <td>{cust_pwd}</td> : null}
 
-                                {is_admin ? (
-                                  <td>{is_admin.toString()}</td>
-                                ) : (
-                                  <td>false</td>
-                                )}
+                                {
+                                  <td>
+                                    <input
+                                      className="product-active-input"
+                                      type="checkbox"
+                                      defaultChecked={is_admin}
+                                      onChange={(e) => {
+                                        setEditAdmin(e.target.checked);
+                                        console.log(e.target.checked);
+                                        console.log(editAdmin);
+                                      }}
+                                    ></input>
+                                  </td>
+                                }
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      console.log(
+                                        cust_id,
+                                        first_name,
+                                        last_name,
+                                        cust_email,
+                                        cust_pwd,
+                                        editAdmin
+                                      );
+                                      updateCustomer(
+                                        cust_id,
+                                        {
+                                          first_name,
+                                          last_name,
+                                          cust_email,
+                                          cust_pwd,
+                                          is_admin: editAdmin,
+                                        },
+                                        token
+                                      )
+                                        .then((response) => {
+                                          console.log(
+                                            "UPDATE CUSTOMER RESPONSE",
+                                            response
+                                          );
+
+                                          setUpdateCompleteShow(true);
+                                        })
+                                        .catch((error) => {
+                                          throw error;
+                                        });
+                                    }}
+                                  >
+                                    submit
+                                  </button>
+                                </td>
                               </tr>
                             );
                           })

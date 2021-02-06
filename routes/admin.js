@@ -1,10 +1,7 @@
 const express = require("express");
 const apiRouter = express.Router();
 
-const { 
-  requireUser,
-  requireAdmin,
-} = require("./utilities");
+const { requireUser, requireAdmin } = require("./utilities");
 
 const {
   db_getAllCustomers,
@@ -24,6 +21,7 @@ const {
   db_countInactiveProducts,
   db_getSalesForecast,
   db_getLastSixMonths,
+  db_updateCustomer,
 } = require("../db/index");
 
 apiRouter.get("/customers/:id", requireUser, requireAdmin, async (req, res) => {
@@ -37,75 +35,127 @@ apiRouter.get("/customers/:id", requireUser, requireAdmin, async (req, res) => {
   }
 });
 
-apiRouter.get("/customers_email", requireUser, requireAdmin, async (req, res) => {
-  const { cust_email } = req.body;
+apiRouter.get(
+  "/customers_email",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { cust_email } = req.body;
 
-  try {
-    const customer = await db_getCustomerByEmail(cust_email);
-    res.send({ customer });
-  } catch (error) {
-    throw error;
+    try {
+      const customer = await db_getCustomerByEmail(cust_email);
+      res.send({ customer });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.get("/active_products", requireUser, requireAdmin, async (req, res) => {
-  try {
-    const active = await db_countActiveProducts();
-    res.send({ active });
-  } catch (error) {
-    throw error;
+apiRouter.get(
+  "/active_products",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const active = await db_countActiveProducts();
+      res.send({ active });
+    } catch (error) {
+      throw error;
+    }
   }
-});
-apiRouter.get("/inactive_products", requireUser, requireAdmin, async (req, res) => {
-  try {
-    const inactive = await db_countInactiveProducts();
-    res.send({ inactive });
-  } catch (error) {
-    throw error;
+);
+apiRouter.get(
+  "/inactive_products",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const inactive = await db_countInactiveProducts();
+      res.send({ inactive });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.post("/update_product", requireUser, requireAdmin, async (req, res) => {
-  const { prod_id, attributes } = req.body;
+apiRouter.post(
+  "/update_product",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { prod_id, attributes } = req.body;
 
-  try {
-    const product = await db_updateProduct(prod_id, attributes);
-    res.send({ message: "Update complete!", product });
-  } catch (error) {
-    throw error;
+    try {
+      const product = await db_updateProduct(prod_id, attributes);
+      res.send({ message: "Update complete!", product });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.get("/customers_history/:customerId", requireUser, requireAdmin, async (req, res) => {
-  const { customerId } = req.params;
-  try {
-    const orders = await db_getOrderHistoryByCustomerId(customerId);
-    console.log(orders);
-    res.send({ orders });
-  } catch (error) {
-    throw error;
-  }
-});
+apiRouter.patch(
+  "/update_customer",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { cust_id, attributes } = req.body;
 
-apiRouter.get("/customers_orders/:orderId", requireUser, requireAdmin, async (req, res) => {
-  const { orderId } = req.params;
-  try {
-    const details = await db_getOrderDetailsbyOrderId(orderId);
-    console.log(details);
-    res.send({ details });
-  } catch (error) {
-    throw error;
+    try {
+      const customer = await db_updateCustomer(cust_id, attributes);
+      res.send({ message: "Update complete!", customer });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
+// db_updateCustomer
 
-apiRouter.get("/view_customers", requireUser, requireAdmin, async (req, res) => {
-  try {
-    const customers = await db_getAllCustomers();
-    res.send({ customers });
-  } catch (error) {
-    throw error;
+apiRouter.get(
+  "/customers_history/:customerId",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { customerId } = req.params;
+    try {
+      const orders = await db_getOrderHistoryByCustomerId(customerId);
+      console.log(orders);
+      res.send({ orders });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
+
+apiRouter.get(
+  "/customers_orders/:orderId",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { orderId } = req.params;
+    try {
+      const details = await db_getOrderDetailsbyOrderId(orderId);
+      console.log(details);
+      res.send({ details });
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+apiRouter.get(
+  "/view_customers",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const customers = await db_getAllCustomers();
+      res.send({ customers });
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 apiRouter.get("/view_products", requireUser, requireAdmin, async (req, res) => {
   try {
@@ -125,70 +175,100 @@ apiRouter.get("/view_sales", requireUser, requireAdmin, async (req, res) => {
   }
 });
 
-apiRouter.get("/product_sales/:prodID", requireUser, requireAdmin, async (req, res) => {
-  const { prodID } = req.params;
+apiRouter.get(
+  "/product_sales/:prodID",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { prodID } = req.params;
 
-  try {
-    const productSales = await db_getSalesDatabyProductID(prodID);
-    res.send({ productSales });
-  } catch (error) {
-    throw error;
+    try {
+      const productSales = await db_getSalesDatabyProductID(prodID);
+      res.send({ productSales });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.get("/product_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
-  const { month, year } = req.params;
+apiRouter.get(
+  "/product_sales/:month/:year",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { month, year } = req.params;
 
-  try {
-    const monthlySales = await db_getSalesDatabyMonth(month, year);
-    res.send({ monthlySales });
-  } catch (error) {
-    throw error;
+    try {
+      const monthlySales = await db_getSalesDatabyMonth(month, year);
+      res.send({ monthlySales });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.get("/top_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
-  const { month, year } = req.params;
+apiRouter.get(
+  "/top_sales/:month/:year",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { month, year } = req.params;
 
-  try {
-    const topMonthlySales = await db_joinTopSales(month, year);
-    res.send({ topMonthlySales });
-  } catch (error) {
-    throw error;
+    try {
+      const topMonthlySales = await db_joinTopSales(month, year);
+      res.send({ topMonthlySales });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.get("/total_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
-  const { month, year } = req.params;
+apiRouter.get(
+  "/total_sales/:month/:year",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { month, year } = req.params;
 
-  try {
-    const totalSales = await db_getTotalSales(month, year);
-    res.send({ totalSales });
-  } catch (error) {
-    throw error;
+    try {
+      const totalSales = await db_getTotalSales(month, year);
+      res.send({ totalSales });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.get("/forecast_sales/:month/:year", requireUser, requireAdmin, async (req, res) => {
-  const { month, year } = req.params;
+apiRouter.get(
+  "/forecast_sales/:month/:year",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { month, year } = req.params;
 
-  try {
-    const forecast = await db_getSalesForecast(month, year);
-    res.send({ forecast });
-  } catch (error) {
-    throw error;
+    try {
+      const forecast = await db_getSalesForecast(month, year);
+      res.send({ forecast });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
-apiRouter.get("/historical_view/:month/:year", requireUser, requireAdmin, async (req, res) => {
-  const { month, year } = req.params;
+apiRouter.get(
+  "/historical_view/:month/:year",
+  requireUser,
+  requireAdmin,
+  async (req, res) => {
+    const { month, year } = req.params;
 
-  try {
-    const historic = await db_getLastSixMonths(month, year);
-    res.send({ historic });
-  } catch (error) {
-    throw error;
+    try {
+      const historic = await db_getLastSixMonths(month, year);
+      res.send({ historic });
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
 module.exports = apiRouter;

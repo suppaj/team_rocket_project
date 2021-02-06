@@ -5,9 +5,13 @@ import ultraball from "./ultraball.png";
 import { Rejected } from "./index";
 import { updateProduct, getActive, getInactive } from "../../api/index";
 
-const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
+const Product_admin = ({
+  isAdmin,
+  setProductEdited,
+  productEdited,
+  setUpdateCompleteShow,
+}) => {
   const [showMetrics, setShowMetrics] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
   const [productsArr, setProductsArr] = useState([]);
   const [activeProducts, setActiveProducts] = useState(null);
   const [inactiveProducts, setInactiveProducts] = useState(null);
@@ -28,13 +32,14 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
     //
   };
 
-  const token = JSON.parse(localStorage.getItem('user')).token
+  const token = JSON.parse(localStorage.getItem("user")).token;
 
   useEffect(() => {
     getActive(token)
       .then((response) => {
         const active = response[0].count;
         setActiveProducts(active);
+        console.log("ACTIVE PRODUCTS", response);
       })
       .catch((error) => {
         throw error;
@@ -46,6 +51,7 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
       .then((response) => {
         const inactive = response[0].count;
         setInactiveProducts(inactive);
+        console.log("INACTIVE PRODUCTS", response);
       })
       .catch((error) => {
         throw error;
@@ -331,16 +337,18 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                                   <td>
                                     <button
                                       onClick={() => {
-                                        updateProduct(prod_id, {
-                                          price: editPrice,
-                                          quantity: editQuantity,
-                                          is_active: editActive,
-                                        }, token)
+                                        updateProduct(
+                                          prod_id,
+                                          {
+                                            price: editPrice,
+                                            quantity: editQuantity,
+                                            is_active: editActive,
+                                          },
+                                          token
+                                        )
                                           .then((response) => {
-                                            console.log(
-                                              "WILL COME BACK TO THIS",
-                                              response
-                                            );
+                                            console.log(response);
+                                            setUpdateCompleteShow(true);
                                           })
                                           .catch((error) => {
                                             throw error;
@@ -360,24 +368,6 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                     </table>
                   </div>
                 </div>
-                <div></div>
-              </div>
-              <div
-                className={
-                  showUpdate === true
-                    ? "update-show nes-container is-rounded is-dark"
-                    : "hide"
-                }
-              >
-                <img
-                  className="edit-prod-success"
-                  src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/31.png?raw=true"
-                ></img>
-                <p className="update-message">Update Complete!</p>
-                <img
-                  className="edit-prod-success"
-                  src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/26.png?raw=true"
-                ></img>
               </div>
             </div>
             Products
