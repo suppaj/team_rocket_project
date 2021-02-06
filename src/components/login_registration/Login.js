@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { loginCustomer } from "../../api";
 import { TryAgain } from "../index";
-import {
-  Link,
-} from "react-router-dom";
 
 const Login = ({
   setIsLoggedIn,
@@ -17,7 +14,7 @@ const Login = ({
   const [password, setPassword] = useState("");
   const [loginShow, setLoginShow] = useState(false);
   const [tryAgainShow, setTryAgainShow] = useState(false);
-  const [ errMsg, setErrMsg ] = useState('')
+  const [errMsg, setErrMsg] = useState("");
   const handleShowLogin = () => setLoginShow(true);
   const handleCloseLogin = () => {
     setLoginShow(false);
@@ -93,17 +90,10 @@ const Login = ({
             </Form.Group>
           </Form>
           <div>
-            <p className='nes-text is-error'>{errMsg}</p>
+            <p className="nes-text is-error">{errMsg}</p>
           </div>
         </Modal.Body>
-        <Modal.Body className="login-auth-section">
-          <Link to="localhost:5000/auth/google/">
-            <div className="nes-container is-rounded login-container">
-              <i id="google-icon" className="nes-icon google is-small "></i>
-              <p className="login-dialogue">Sign in with Google</p>
-            </div>
-          </Link>
-        </Modal.Body>
+
         <Modal.Footer>
           <Button variant="dark" onClick={handleCloseLogin}>
             Close
@@ -113,11 +103,8 @@ const Login = ({
           </Button>
         </Modal.Footer>
       </Modal>
-      
-      <TryAgain
-        setTryAgainShow={setTryAgainShow}
-        tryAgainShow={tryAgainShow}
-      />
+
+      <TryAgain setTryAgainShow={setTryAgainShow} tryAgainShow={tryAgainShow} />
     </div>
   );
 };

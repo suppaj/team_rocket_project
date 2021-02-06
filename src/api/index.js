@@ -84,6 +84,8 @@ export async function loginCustomer(cust_email, cust_pwd, cart) {
       );
       data.cart = masterCart;
     }
+
+    console.log("login data", data);
     return data;
   } catch (error) {
     throw error;
@@ -349,7 +351,7 @@ export async function getSalesDatabyProductID(prodID) {
 export async function getSalesData() {
   try {
     const { data } = await axios.get(`/api/admin/view_sales`);
-
+    console.log("THIS IS THE SALES DATA NOW", data);
     return data;
   } catch (error) {
     throw error;
@@ -401,11 +403,13 @@ export async function getUserProfile(cust_id, token) {
 
 export async function updateUserContact(user, token) {
   try {
-    const {
-      data,
-    } = await axios.patch(`/api/users/${user.cust_id}/update/contact`, user, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const { data } = await axios.patch(
+      `/api/users/${user.cust_id}/update/contact`,
+      user,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return data;
   } catch (error) {
     throw error;
@@ -414,11 +418,13 @@ export async function updateUserContact(user, token) {
 
 export async function updateUserShipping(user, token) {
   try {
-    const {
-      data,
-    } = await axios.patch(`/api/users/${user.cust_id}/update/shipping`, user, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const { data } = await axios.patch(
+      `/api/users/${user.cust_id}/update/shipping`,
+      user,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return data;
   } catch (error) {
     throw error;
@@ -427,11 +433,13 @@ export async function updateUserShipping(user, token) {
 
 export async function updateUserBilling(user, token) {
   try {
-    const {
-      data,
-    } = await axios.patch(`/api/users/${user.cust_id}/update/billing`, user, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const { data } = await axios.patch(
+      `/api/users/${user.cust_id}/update/billing`,
+      user,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return data;
   } catch (error) {
     throw error;
