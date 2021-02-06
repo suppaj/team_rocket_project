@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 // react bootstrap imports
-import { Button, Modal, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 
 // component imports
 import ProductRender from "./ProductRender";
@@ -294,6 +294,8 @@ const Products = ({ getAllProducts, getAllTypes }) => {
           sortMethod={sortMethod}
           indexStart={indexStart}
           indexEnd={indexEnd}
+          searchVal={searchVal}
+          filterMessage={filterMessage}
         />
       </Row>
       <Row className="pagination-container">
@@ -301,30 +303,29 @@ const Products = ({ getAllProducts, getAllTypes }) => {
         {indexStart === 0 ? (
           ""
         ) : (
-          <Button
-            className="previous-page-button"
-            variant="secondary"
+          <button
+            className="previous-page-button nes-btn"
             onClick={() => {
               scrollToTop();
               renderPrevPage();
             }}
           >
             Previous Page
-          </Button>
+          </button>
         )}
         {/** next page pagination component, conditionally rendered */}
         {indexEnd >= currentProducts.length ? (
           ""
         ) : (
-          <Button
-            variant="secondary"
+          <button
+            className="nes-btn"
             onClick={() => {
               scrollToTop();
               renderNextPage();
             }}
           >
             Next Page
-          </Button>
+          </button>
         )}
       </Row>
     </>

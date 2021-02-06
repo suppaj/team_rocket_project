@@ -38,10 +38,18 @@ const Header = ({
             localStorage.removeItem("pageQuery");
           }}
         >
-          <h1>Team Rocket Pet Shop</h1>
+          <h1 className="header-main-text">Team Rocket Pet Shop</h1>
         </a>
       </div>
       <div className="header-button-group">
+        {isLoggedIn ? (
+          <div className="user-toast-container">
+            <p className="user-toast-welcome">Welcome,</p>
+            <p className="user-toast-name">{user.firstName}</p>
+          </div>
+        ) : (
+          ""
+        )}
         <ProductsReturn />
         {isLoggedIn ? (
           <>

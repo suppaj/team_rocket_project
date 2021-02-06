@@ -156,9 +156,13 @@ const UserCheckOutForm = ({ cart, user, setUser }) => {
           >
             PAY ${getSubTotal().toFixed(2)}
           </button>
-          <p>{message}</p>
-          <div className='nes-container is-dark'>
-            <p>To demonstrate checkout please use either of these two TEST credit cards.  Use any expiration date in the future and 3 digits for the CVC code.</p>
+          <p className="checkout-error-message">{message}</p>
+          <div className="nes-container is-dark">
+            <p>
+              To demonstrate checkout please use either of these two TEST credit
+              cards. Use any expiration date in the future and 3 digits for the
+              CVC code.
+            </p>
             <p>Test Card #1: 4242 4242 4242 4242</p>
             <p>Test Card #2: 4000 0000 0000 0002</p>
           </div>

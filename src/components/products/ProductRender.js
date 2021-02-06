@@ -10,6 +10,8 @@ const Products = ({
   sortMethod,
   indexStart,
   indexEnd,
+  searchVal,
+  filterMessage,
 }) => {
   // randomizes the unknown image shown if there is nothing to display
   const unknownArray = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -99,7 +101,17 @@ const Products = ({
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/201-${unknownId}.png`}
             alt={`an unknown-${unknownId} appears...`}
           />
-          <p>We're sorry, but there are no POKéMON to display</p>
+          <p>
+            {searchVal
+              ? `
+              We're sorry, but there is nothing matching "${searchVal}" to display`
+              : ""}
+            {filterMessage
+              ? `
+              We're sorry, but there are no ${filterMessage.toUpperCase()} type POKéMON to
+              display`
+              : ""}
+          </p>
         </div>
       </div>
     );
