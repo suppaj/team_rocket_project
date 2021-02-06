@@ -46,12 +46,6 @@ const Admin = ({ isAdmin }) => {
   }, []);
 
   useEffect(() => {
-    if (updateCompleteShow) {
-      setTimeout(setUpdateCompleteShow(false), 1200);
-    }
-  });
-
-  useEffect(() => {
     if (isAdmin) {
       getSalesData(token)
         .then((response) => {

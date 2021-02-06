@@ -37,7 +37,7 @@ const Metrics = ({ isAdmin }) => {
     ["October", 1526, 1517],
   ]);
 
-  const token = JSON.parse(localStorage.getItem('user')).token;
+  const token = JSON.parse(localStorage.getItem("user")).token;
 
   const handleClose = () => setShowMetrics(false);
   const handleShow = () => {
