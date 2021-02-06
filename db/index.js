@@ -729,12 +729,12 @@ async function db_getTopSalesDatabyMonth(month, year) {
   try {
     const { rows } = await client.query(
       `
-      SELECT  sum(transaction_quantity), prod_id 
+      SELECT  sum(order_quantity), prod_id 
       FROM sales
       WHERE EXTRACT(MONTH FROM transaction_date) = $1
       AND EXTRACT(Year FROM transaction_date) = $2
       group by prod_id
-      Order by sum(transaction_quantity) desc
+      Order by sum(order_quantity) desc
       limit 5;
     `,
       [month, year]
@@ -787,7 +787,7 @@ async function db_getTotalSales(month, year) {
     const salesArr = [];
 
     totalSales.map((sale) => {
-      const values = salesArr.push(sale.transaction_quantity * sale.price);
+      const values = salesArr.push(sale.order_quantity * sale.price);
 
       return values;
     });
@@ -895,6 +895,21 @@ async function db_getSalesData() {
     );
     console.log(rows);
     return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function db_generateSale(order_id, prod_id, order_quantity, order_price) {
+  try {
+    await client.query(
+      `
+      INSERT INTO sales(order_id, prod_id, order_quantity, order_price)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+    `,
+      [order_id, prod_id, order_quantity, order_price]
+    );
   } catch (error) {
     throw error;
   }
@@ -1171,4 +1186,5 @@ module.exports = {
   db_countActiveProducts,
   db_countInactiveProducts,
   db_getLastSixMonths,
+  db_generateSale,
 };

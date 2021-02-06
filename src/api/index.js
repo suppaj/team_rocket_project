@@ -351,7 +351,7 @@ export async function getSalesDatabyProductID(prodID) {
 export async function getSalesData() {
   try {
     const { data } = await axios.get(`/api/admin/view_sales`);
-
+    console.log("THIS IS THE SALES DATA NOW", data);
     return data;
   } catch (error) {
     throw error;
