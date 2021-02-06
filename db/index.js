@@ -718,7 +718,7 @@ async function db_getSalesDatabyMonth(month, year) {
       [month, year]
     );
 
-    console.log(rows);
+    // console.log(rows);
     return rows;
   } catch (error) {
     throw error;
@@ -804,6 +804,7 @@ async function db_getTotalSales(month, year) {
 }
 
 async function db_getLastSixMonths(month, year) {
+  console.log('I just ran XXXXXXXXXX')
   const month2 = parseInt(month) === 1 ? 12 : month - 1;
   const year2 = month === 1 ? year - 1 : year;
 

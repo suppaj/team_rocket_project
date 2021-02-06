@@ -14,6 +14,8 @@ const Customer_admin = ({ isAdmin }) => {
   const [selectedOrderID, setSelectedOrderID] = useState("");
   const [showCust, setShowCust] = useState(false);
 
+  const token = JSON.parse(localStorage.getItem('user')).token;
+
   const handleCloseCust = () => {
     setShowCust(false);
   };
@@ -35,7 +37,7 @@ const Customer_admin = ({ isAdmin }) => {
 
   useEffect(() => {
     if (selectedCustomerID !== null) {
-      getOrderHistoryByCustomerId(selectedCustomerID)
+      getOrderHistoryByCustomerId(selectedCustomerID, token)
         .then((response) => {
           window.localStorage.setItem(
             "order_history",
@@ -53,7 +55,7 @@ const Customer_admin = ({ isAdmin }) => {
 
   useEffect(() => {
     if (selectedOrderID !== null) {
-      getOrderDetailsbyOrderId(selectedOrderID)
+      getOrderDetailsbyOrderId(selectedOrderID, token)
         .then((response) => {
           window.localStorage.setItem(
             "order_detail",
