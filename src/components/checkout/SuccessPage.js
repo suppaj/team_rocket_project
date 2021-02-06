@@ -46,7 +46,7 @@ const SuccessPage = ({ isLoggedIn }) => {
       pwd,
       false
     );
-    if (results) {
+    if (!results.message) {
       setWelcomeShow(true);
     } else {
       setMessage(
@@ -54,7 +54,7 @@ const SuccessPage = ({ isLoggedIn }) => {
       );
       setTimeout(() => {
         history.push("/");
-      }, 2000);
+      }, 5000);
     }
   };
 
