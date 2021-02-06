@@ -1,6 +1,6 @@
 import React from "react";
 
-const Update_admin = ({ updateCompleteShow }) => {
+const Update_admin = ({ updateCompleteShow, setUpdateCompleteShow }) => {
   return (
     <div
       className={
@@ -13,7 +13,16 @@ const Update_admin = ({ updateCompleteShow }) => {
         className="edit-prod-success"
         src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/31.png?raw=true"
       ></img>
-      <p className="update-message">Update Complete!</p>
+      <div>
+        <p className="update-message">Update Complete!</p>
+        <button
+          onClick={() => {
+            setUpdateCompleteShow(false);
+          }}
+        >
+          Close
+        </button>
+      </div>
       <img
         className="edit-prod-success"
         src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/26.png?raw=true"
