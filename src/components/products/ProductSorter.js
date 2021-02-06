@@ -46,25 +46,6 @@ const ProductSorter = ({
         <Dropdown.Header>Sort by price...</Dropdown.Header>
         <Dropdown.Item
           onClick={() => {
-            setSortMessage("Price: High to Low");
-            setSortMethod("price");
-            sortProductsByKey(currentProducts, "price", 1, setCurrentProducts);
-            sortProductsByKey(allProducts, "price", 1, setAllProducts);
-            resetPagination();
-            localStorage.setItem(
-              "sortQuery",
-              JSON.stringify({
-                message: "Price: High to Low",
-                key: "price",
-                type: 1,
-              })
-            );
-          }}
-        >
-          High to Low
-        </Dropdown.Item>
-        <Dropdown.Item
-          onClick={() => {
             setSortMessage("Price: Low to High");
             setSortMethod("price");
             sortProductsByKey(currentProducts, "price", 2, setCurrentProducts);
@@ -81,6 +62,25 @@ const ProductSorter = ({
           }}
         >
           Low to High
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            setSortMessage("Price: High to Low");
+            setSortMethod("price");
+            sortProductsByKey(currentProducts, "price", 1, setCurrentProducts);
+            sortProductsByKey(allProducts, "price", 1, setAllProducts);
+            resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Price: High to Low",
+                key: "price",
+                type: 1,
+              })
+            );
+          }}
+        >
+          High to Low
         </Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Header>Sort by name...</Dropdown.Header>
@@ -118,25 +118,6 @@ const ProductSorter = ({
         <Dropdown.Header>Sort by height...</Dropdown.Header>
         <Dropdown.Item
           onClick={() => {
-            setSortMessage("Height: High to Low");
-            setSortMethod("height");
-            sortProductsByKey(currentProducts, "height", 1, setCurrentProducts);
-            sortProductsByKey(allProducts, "height", 1, setAllProducts);
-            resetPagination();
-            localStorage.setItem(
-              "sortQuery",
-              JSON.stringify({
-                message: "Height: High to Low",
-                key: "height",
-                type: 1,
-              })
-            );
-          }}
-        >
-          High to Low
-        </Dropdown.Item>
-        <Dropdown.Item
-          onClick={() => {
             setSortMessage("Height: Low to High");
             setSortMethod("height");
             sortProductsByKey(currentProducts, "height", 2, setCurrentProducts);
@@ -154,8 +135,46 @@ const ProductSorter = ({
         >
           Low to High
         </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            setSortMessage("Height: High to Low");
+            setSortMethod("height");
+            sortProductsByKey(currentProducts, "height", 1, setCurrentProducts);
+            sortProductsByKey(allProducts, "height", 1, setAllProducts);
+            resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Height: High to Low",
+                key: "height",
+                type: 1,
+              })
+            );
+          }}
+        >
+          High to Low
+        </Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Header>Sort by weight...</Dropdown.Header>
+        <Dropdown.Item
+          onClick={() => {
+            setSortMessage("Weight: Low to High");
+            setSortMethod("weight");
+            sortProductsByKey(currentProducts, "weight", 2, setCurrentProducts);
+            sortProductsByKey(allProducts, "weight", 2, setAllProducts);
+            resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Weight: Low to High",
+                key: "weight",
+                type: 2,
+              })
+            );
+          }}
+        >
+          Low to High
+        </Dropdown.Item>
         <Dropdown.Item
           onClick={() => {
             setSortMessage("Weight: High to Low");
@@ -175,24 +194,45 @@ const ProductSorter = ({
         >
           High to Low
         </Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Header>Sort by dex #...</Dropdown.Header>
         <Dropdown.Item
           onClick={() => {
-            setSortMessage("Weight: Low to High");
-            setSortMethod("weight");
-            sortProductsByKey(currentProducts, "weight", 2, setCurrentProducts);
-            sortProductsByKey(allProducts, "weight", 2, setAllProducts);
+            setSortMessage("Dex #: Low to High");
+            setSortMethod("dex_id");
+            sortProductsByKey(currentProducts, "dex_id", 2, setCurrentProducts);
+            sortProductsByKey(allProducts, "dex_id", 2, setAllProducts);
             resetPagination();
             localStorage.setItem(
               "sortQuery",
               JSON.stringify({
-                message: "Weight: Low to High",
-                key: "weight",
+                message: "Dex #: Low to High",
+                key: "dex_id",
                 type: 2,
               })
             );
           }}
         >
           Low to High
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => {
+            setSortMessage("Dex #: High to Low");
+            setSortMethod("dex_id");
+            sortProductsByKey(currentProducts, "dex_id", 1, setCurrentProducts);
+            sortProductsByKey(allProducts, "dex_id", 1, setAllProducts);
+            resetPagination();
+            localStorage.setItem(
+              "sortQuery",
+              JSON.stringify({
+                message: "Dex #: High to Low",
+                key: "dex_id",
+                type: 1,
+              })
+            );
+          }}
+        >
+          High to Low
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
