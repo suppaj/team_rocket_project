@@ -19,13 +19,15 @@ const Register = ({
   const handleShowRegister = () => setRegisterShow(true);
 
   const handleCustomerRegistration = (e) => {
+    const cart = JSON.parse(localStorage.getItem("user")) || { cart: [] };
     e.preventDefault();
     registerCustomer(
       firstName,
       lastName,
       registeredEmail,
       registeredPassword,
-      false
+      false,
+      cart
     )
       .then((response) => {
         if (response.token && response.custID) {

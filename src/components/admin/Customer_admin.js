@@ -48,7 +48,6 @@ const Customer_admin = ({ isAdmin, setUpdateCompleteShow }) => {
             "order_history",
             JSON.stringify(response.orders)
           );
-
           handleHistoryRequest();
         })
 
@@ -142,6 +141,8 @@ const Customer_admin = ({ isAdmin, setUpdateCompleteShow }) => {
                                       defaultChecked={is_admin}
                                       onChange={(e) => {
                                         setEditAdmin(e.target.checked);
+                                        console.log(e.target.checked);
+                                        console.log(editAdmin);
                                       }}
                                     ></input>
                                   </td>
@@ -164,25 +165,21 @@ const Customer_admin = ({ isAdmin, setUpdateCompleteShow }) => {
                                           last_name,
                                           cust_email,
                                           cust_pwd,
-                                          editAdmin,
+                                          is_admin: editAdmin,
                                         },
                                         token
                                       )
                                         .then((response) => {
                                           console.log(
-                                            "response from update customer",
+                                            "UPDATE CUSTOMER RESPONSE",
                                             response
                                           );
+
                                           setUpdateCompleteShow(true);
                                         })
                                         .catch((error) => {
                                           throw error;
                                         });
-
-                                      setTimeout(
-                                        setUpdateCompleteShow(false),
-                                        1200
-                                      );
                                     }}
                                   >
                                     submit

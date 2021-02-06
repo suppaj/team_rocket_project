@@ -96,7 +96,14 @@ apiRouter.post("/login", async (req, res, next) => {
 });
 
 apiRouter.post("/register", async (req, res, next) => {
-  const { first_name, last_name, cust_email, cust_pwd, is_admin } = req.body;
+  const {
+    first_name,
+    last_name,
+    cust_email,
+    cust_pwd,
+    is_admin,
+    cart,
+  } = req.body;
 
   try {
     const _user = await db_getCustomerByEmail(cust_email);
@@ -134,7 +141,7 @@ apiRouter.post("/register", async (req, res, next) => {
           custID: user.cust_id,
           custEmail: user.cust_email,
           cartID: cartObj.cartID,
-          cart: cartArray,
+          cart: cart ? cart : cartArray,
         },
         process.env.JWT_SECRET,
         {
@@ -148,7 +155,7 @@ apiRouter.post("/register", async (req, res, next) => {
         firstName: user.first_name,
         custID: user.cust_id,
         cartID: cartObj.cartID,
-        cart: cartArray,
+        cart: cart ? cart : cartArray,
       });
     } else {
       let token = jwt.sign(
@@ -159,7 +166,7 @@ apiRouter.post("/register", async (req, res, next) => {
           custID: user.cust_id,
           custEmail: user.cust_email,
           cartID: cartObj.cartID,
-          cart: cartArray,
+          cart: cart ? cart : cartArray,
         },
         process.env.JWT_SECRET,
         {
@@ -174,7 +181,7 @@ apiRouter.post("/register", async (req, res, next) => {
         siteAdmin: user.is_admin,
         custEmail: user.cust_email,
         cartID: cartObj.cartID,
-        cart: cartArray,
+        cart: cart ? cart : cartArray,
         token,
       });
     }

@@ -49,7 +49,7 @@ const Admin = ({ isAdmin }) => {
     if (updateCompleteShow) {
       setTimeout(setUpdateCompleteShow(false), 1200);
     }
-  }, []);
+  });
 
   useEffect(() => {
     if (isAdmin) {

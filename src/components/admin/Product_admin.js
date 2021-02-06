@@ -39,6 +39,7 @@ const Product_admin = ({
       .then((response) => {
         const active = response[0].count;
         setActiveProducts(active);
+        console.log("ACTIVE PRODUCTS", response);
       })
       .catch((error) => {
         throw error;
@@ -50,6 +51,7 @@ const Product_admin = ({
       .then((response) => {
         const inactive = response[0].count;
         setInactiveProducts(inactive);
+        console.log("INACTIVE PRODUCTS", response);
       })
       .catch((error) => {
         throw error;
@@ -353,10 +355,6 @@ const Product_admin = ({
                                           });
 
                                         setProductEdited(true);
-                                        setTimeout(
-                                          setUpdateCompleteShow(false),
-                                          1200
-                                        );
                                       }}
                                     >
                                       submit

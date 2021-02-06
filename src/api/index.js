@@ -134,6 +134,7 @@ export async function registerCustomer(
       is_admin,
     });
 
+    console.log("REGISTER DATA", data);
     return data;
   } catch (error) {
     throw error;
