@@ -68,12 +68,6 @@ iframe {
   justify-content: center;
 }
 
-.rejected-display {
-  padding: 15px;
-  width: 100vw;
-  height: 100vh;
-}
-
 #customer_admin_display,
 #product_admin_display,
 #metrics_display {
@@ -492,6 +486,7 @@ th {
   overflow-y: scroll;
 }
 
+
 #reject-message {
   text-align: center;
   display: flex;
@@ -514,6 +509,7 @@ th {
 .rej-img {
   height: 180px;
 }
+
 
 .show-login,
 .show-logout {
@@ -767,4 +763,21 @@ th {
 .total-sales-par,
 .forecasted-sales {
   padding: 12px;
+}
+
+.pokemon-icon {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.pokemon-icon:hover {
+  /* cursor: pointer; */
+  animation-name: bounce;
+  -moz-animation-name: bounce;
 }

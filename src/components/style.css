@@ -36,8 +36,7 @@
 
 /* Main site styling*/
 body {
-  background-image: url("https://images6.alphacoders.com/641/thumb-1920-641430.jpg");
-  /* background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/56863725-d945-44b3-ad3d-1767870324e0/d1mzj59-efc1cb23-7126-4e90-ab54-90220f9cde6d.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvNTY4NjM3MjUtZDk0NS00NGIzLWFkM2QtMTc2Nzg3MDMyNGUwXC9kMW16ajU5LWVmYzFjYjIzLTcxMjYtNGU5MC1hYjU0LTkwMjIwZjljZGU2ZC5qcGcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.PnKbJLkEKc0LRqeE4MEow6JYpQeKQV69j6WSw9yzWtk"); */
+  background-image: url("/site-background.jpg");
   background-size: auto, 100vh;
   background-attachment: fixed;
   background-position: center;
@@ -49,7 +48,7 @@ body {
   background-color: #241127;
   border-bottom: 3px solid black;
   width: 100vw;
-  min-height: 10vh;
+  max-height: 10vh;
   margin-bottom: 1vh;
 }
 
@@ -60,9 +59,7 @@ body {
 
 .site-footer {
   margin-top: 1vh;
-  /* background-color: #241127; */
-  /* border-top: 3px solid black; */
-  min-height: 10vh;
+  max-height: 10vh;
   width: 100vw;
 }
 
@@ -109,7 +106,36 @@ body {
   font-size: 2rem;
 }
 
+/* Rejected styling */
+.who-this-container {
+  height: 78vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rej-img {
+  height: 180px;
+}
+
+#reject-message {
+  text-align: center;
+  display: flex;
+}
+
+#reject-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /* All products styling */
+
+.loading-modal {
+  text-align: center;
+}
 
 .search-sort-filter-container {
   margin-bottom: 20px;
@@ -120,6 +146,7 @@ body {
 
 .search-filter-container {
   display: flex;
+  margin-bottom: 10px;
 }
 .sort-container {
   display: flex;
@@ -146,6 +173,7 @@ body {
   max-height: 38px;
   display: flex;
   justify-content: center;
+  margin-bottom: 5vh;
 }
 
 .previous-page-button {
@@ -159,12 +187,17 @@ body {
   margin-bottom: 30px !important;
 }
 
+.no-cards-container {
+  width: 100%;
+  display: flex;
+  place-content: center;
+}
+
 .no-pokemon-card {
-  height: 300px;
-  display: inline-block;
-  text-align: center;
+  height: 260px;
   background-color: #abbbd1;
-  justify-self: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .pokemon-name {
@@ -327,13 +360,36 @@ body {
 }
 
 .description-input > textarea {
-  height: 0.6rem;
+  height: 6rem;
 }
 
 .type-badge {
   margin-right: 10px;
   margin-left: 10px;
   padding: 2px;
+}
+
+/* User page styling */
+
+.account-container {
+  height: 78vh;
+  width: 100vw;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.profile-container {
+  width: 45vw;
+  background-color: #abbbd1;
+  height: auto;
+}
+
+.order-history-container {
+  width: 45vw;
+  background-color: #abbbd1;
+  max-height: 78vh;
+  overflow: scroll;
 }
 
 /* Cart styling */
@@ -370,6 +426,17 @@ body {
 }
 
 /* Checkout styling */
+
+.success-container {
+  background-color: #abbbd1;
+  max-height: 78vh;
+  width: auto;
+  margin: auto auto auto auto;
+}
+
+.user-success-container {
+  text-align: center;
+}
 
 .checkout-container {
   background-color: #abbbd1;
