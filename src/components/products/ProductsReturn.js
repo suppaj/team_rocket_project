@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 const ProductsReturn = () => {
   const history = useHistory();
-  if (window.location.pathname != "/") {
+  // if (window.location.pathname != "/") {
     return (
       <div>
         <button
@@ -18,9 +18,9 @@ const ProductsReturn = () => {
         </button>
       </div>
     );
-  } else {
-    return "";
-  }
+  // } else {
+  //   return "";
+  // }
 };
 
 export default ProductsReturn;

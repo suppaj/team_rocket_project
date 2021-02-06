@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 import {
   Register,
   Login,
@@ -26,6 +27,8 @@ const Header = ({
 }) => {
   const [welcomeShow, setWelcomeShow] = useState(false);
 
+const location = useLocation();
+
   return (
     <div className="header-container">
       <div className="header-banner">
@@ -50,7 +53,7 @@ const Header = ({
         ) : (
           ""
         )}
-        <ProductsReturn />
+        {location.pathname !== '/' ? <ProductsReturn /> : ''}
         {isLoggedIn ? (
           <>
             <Logout
