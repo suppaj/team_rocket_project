@@ -4,6 +4,7 @@ import { Rejected } from "./index";
 import {
   getOrderHistoryByCustomerId,
   getOrderDetailsbyOrderId,
+  updateCustomer,
 } from "../../api/index";
 
 const Customer_admin = ({ isAdmin }) => {
@@ -13,8 +14,8 @@ const Customer_admin = ({ isAdmin }) => {
   const [selectedCustomerID, setSelectedCustomerID] = useState("");
   const [selectedOrderID, setSelectedOrderID] = useState("");
   const [showCust, setShowCust] = useState(false);
-
-  const token = JSON.parse(localStorage.getItem('user')).token;
+  const [editAdmin, setEditAdmin] = useState(false);
+  const token = JSON.parse(localStorage.getItem("user")).token;
 
   const handleCloseCust = () => {
     setShowCust(false);
@@ -103,10 +104,10 @@ const Customer_admin = ({ isAdmin }) => {
                         <th>Email</th>
                         <th>Password</th>
                         <th>Admin?</th>
+                        <th>Submit</th>
                       </tr>
                       {customerArr
                         ? customerArr.map((customer, index) => {
-                            console.log("THIS IS THE CUSTOMER", customer);
                             const {
                               cust_id,
                               first_name,
@@ -129,11 +130,54 @@ const Customer_admin = ({ isAdmin }) => {
                                 {cust_email ? <td>{cust_email}</td> : null}
                                 {cust_pwd ? <td>{cust_pwd}</td> : null}
 
-                                {is_admin ? (
-                                  <td>{is_admin.toString()}</td>
-                                ) : (
-                                  <td>false</td>
-                                )}
+                                {
+                                  <td>
+                                    <input
+                                      className="product-active-input"
+                                      type="checkbox"
+                                      defaultChecked={is_admin}
+                                      onChange={(e) => {
+                                        setEditAdmin(e.target.checked);
+                                      }}
+                                    ></input>
+                                  </td>
+                                }
+                                <td>
+                                  <button
+                                    onClick={() => {
+                                      console.log(
+                                        cust_id,
+                                        first_name,
+                                        last_name,
+                                        cust_email,
+                                        cust_pwd,
+                                        editAdmin
+                                      );
+                                      updateCustomer(
+                                        cust_id,
+                                        {
+                                          first_name,
+                                          last_name,
+                                          cust_email,
+                                          cust_pwd,
+                                          editAdmin,
+                                        },
+                                        token
+                                      )
+                                        .then((response) => {
+                                          console.log(
+                                            "response from update customer",
+                                            response
+                                          );
+                                        })
+                                        .catch((error) => {
+                                          throw error;
+                                        });
+                                    }}
+                                  >
+                                    submit
+                                  </button>
+                                </td>
                               </tr>
                             );
                           })

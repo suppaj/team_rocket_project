@@ -486,7 +486,6 @@ th {
   overflow-y: scroll;
 }
 
-
 #reject-message {
   text-align: center;
   display: flex;
@@ -509,7 +508,6 @@ th {
 .rej-img {
   height: 180px;
 }
-
 
 .show-login,
 .show-logout {

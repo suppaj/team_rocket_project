@@ -31,7 +31,6 @@ apiRouter.post("/login", async (req, res, next) => {
       }
 
       if (user && user.cust_pwd == cust_pwd) {
-        // console.log("THIS IS USER", user);
         if (user.is_admin) {
           let token = jwt.sign(
             {
@@ -116,20 +115,6 @@ apiRouter.post("/register", async (req, res, next) => {
       cust_pwd,
       is_admin,
     });
-
-    const token = jwt.sign(
-      {
-        id: user.id,
-        cust_email,
-        firstName: user.first_name,
-        cust_pwd,
-      },
-      process.env.JWT_SECRET,
-
-      {
-        expiresIn: "1w",
-      }
-    );
 
     console.log("INITIATING CUSTOMER LOGIN");
     let cartObj = {};

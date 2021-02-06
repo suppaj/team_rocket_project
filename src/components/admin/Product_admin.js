@@ -28,7 +28,7 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
     //
   };
 
-  const token = JSON.parse(localStorage.getItem('user')).token
+  const token = JSON.parse(localStorage.getItem("user")).token;
 
   useEffect(() => {
     getActive(token)
@@ -331,11 +331,15 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                                   <td>
                                     <button
                                       onClick={() => {
-                                        updateProduct(prod_id, {
-                                          price: editPrice,
-                                          quantity: editQuantity,
-                                          is_active: editActive,
-                                        }, token)
+                                        updateProduct(
+                                          prod_id,
+                                          {
+                                            price: editPrice,
+                                            quantity: editQuantity,
+                                            is_active: editActive,
+                                          },
+                                          token
+                                        )
                                           .then((response) => {
                                             console.log(
                                               "WILL COME BACK TO THIS",
