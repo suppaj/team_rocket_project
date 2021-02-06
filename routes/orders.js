@@ -25,24 +25,15 @@ apiRouter.post(`/:cust_id/:order_id`, requireUser, async (req, res, next) => {
   const cart = req.body;
   try {
     await db_addOrderItems(cart, order_id);
-    console.log("THIS IS THE CART", cart);
-    console.log("CART LENGTH", cart.length);
     if (cart.length > 1) {
-      console.log("TRUE");
-
       Object.entries(cart).map((key, index) => {
-        const { prod_id, price, quantity } = key[1];
-        console.log("KEY TEST", key[0], "this is key 1", key[1]);
-        console.log("Key Prod ID", key[1].prod_id);
-        console.log("THIS IS MY KEY", key);
-        db_generateSale(order_id, prod_id, quantity, price);
+        const { prod_id, price, cart_quantity } = key[1];
+        db_generateSale(order_id, prod_id, cart_quantity, price);
         console.log("DONE CREATING SALES");
       });
     } else {
-      console.log("ONLY ONE ITEM IN CART");
-      const { prod_id, price, quantity } = cart;
-      db_generateSale(order_id, prod_id, quantity, price);
-      console.log("DONE CREATING SALE");
+      const { prod_id, price, cart_quantity } = cart[0];
+      db_generateSale(order_id, prod_id, cart_quantity, price);
     }
     res.sendStatus(200);
   } catch (error) {

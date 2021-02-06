@@ -900,32 +900,6 @@ async function db_getSalesData() {
   }
 }
 
-// async function db_generateSale(cart, order_id) {
-//   const valueString = cart
-//     .map(
-//       (_, index) =>
-//         `$1, $${index * 3 + 2}, $${index * 3 + 3}, $${index * 3 + 4}`
-//     )
-//     .join(`), (`);
-//   const valueArray = [];
-//   try {
-//     for (let item of cart) {
-//       const price = await db_getItemPrice(item.prod_id);
-//       valueArray.push(item.prod_id, item.cart_quantity, price);
-//       await client.query(
-//         `
-//       INSERT INTO sales(order_id, prod_id, order_quantity, order_price)
-//         VALUES (${valueString})
-//         RETURNING *;
-//     `,
-//         [order_id, ...valueArray]
-//       );
-//     }
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
 async function db_generateSale(order_id, prod_id, order_quantity, order_price) {
   try {
     await client.query(

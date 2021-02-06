@@ -31,10 +31,6 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
   useEffect(() => {
     getActive()
       .then((response) => {
-        console.log(
-          "test purps this is the active response",
-          response[0].count
-        );
         const active = response[0].count;
         setActiveProducts(active);
       })
@@ -46,10 +42,6 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
   useEffect(() => {
     getInactive()
       .then((response) => {
-        console.log(
-          "test purps this is the inactive response",
-          response[0].count
-        );
         const inactive = response[0].count;
         setInactiveProducts(inactive);
       })
@@ -115,8 +107,8 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                       }
                       data={[
                         ["Product-Status", "Number"],
-                        ["Active", 50],
-                        ["Inactive", 2],
+                        ["Active", activeProducts],
+                        ["Inactive", inactiveProducts],
                       ]}
                       options={{
                         backgroundColor: "transparent",
@@ -213,7 +205,7 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                 </div>
 
                 <div id="all-products">
-                  <p>Product List</p>
+                  <p id="product-list-title">Product List</p>
                   <div id="product-details" className="nes-table-responsive">
                     <table
                       id="product-admin-table"
