@@ -37,6 +37,8 @@ const Metrics = ({ isAdmin }) => {
     ["October", 1526, 1517],
   ]);
 
+  const token = JSON.parse(localStorage.getItem('user')).token;
+
   const handleClose = () => setShowMetrics(false);
   const handleShow = () => {
     setShowMetrics(true);
@@ -46,7 +48,7 @@ const Metrics = ({ isAdmin }) => {
 
   useEffect(() => {
     if (month !== null && year !== null) {
-      getTopSalesDatabyMonth(month, year)
+      getTopSalesDatabyMonth(month, year, token)
         .then((response) => {
           const topSales = response.topMonthlySales;
           setTopSalesArr(topSales);
@@ -55,7 +57,7 @@ const Metrics = ({ isAdmin }) => {
           throw error;
         });
 
-      getSalesDatabyMonth(month, year)
+      getSalesDatabyMonth(month, year, token)
         .then((response) => {
           const monthlySales = response.monthlySales;
           handleSales(monthlySales);
@@ -66,7 +68,7 @@ const Metrics = ({ isAdmin }) => {
           throw error;
         });
 
-      getTotalSalesValue(month, year)
+      getTotalSalesValue(month, year, token)
         .then((response) => {
           setTotalSales(response.totalSales);
         })
@@ -74,7 +76,7 @@ const Metrics = ({ isAdmin }) => {
           throw error;
         });
 
-      getSalesForecast(month, year)
+      getSalesForecast(month, year, token)
         .then((response) => {
           setForecast(response.forecast);
         })
@@ -82,7 +84,7 @@ const Metrics = ({ isAdmin }) => {
           throw error;
         });
 
-      getSalesDataLastSixMonths(month, year)
+      getSalesDataLastSixMonths(month, year, token)
         .then((response) => {
           const historicVolume = response.historic;
           const data = [["Month", "Volume", "Forecast"]];
@@ -257,11 +259,12 @@ const Metrics = ({ isAdmin }) => {
                         </tr>
                         {salesArr
                           ? salesArr.map((sale, index) => {
+                              console.log("SALE", sale);
                               const {
                                 prod_id,
                                 transaction_id,
                                 transaction_date,
-                                transaction_quantity,
+                                order_quantity,
                                 name,
                                 description,
                                 price,
@@ -272,10 +275,10 @@ const Metrics = ({ isAdmin }) => {
                                   <td id="metrics-date">{transaction_date}</td>
                                   <td id="metrics-name">{name}</td>
                                   <td id="metrics-quantity">
-                                    {transaction_quantity}
+                                    {order_quantity}
                                   </td>
                                   <td id="metrics-value">
-                                    {(price * transaction_quantity).toFixed(2)}
+                                    {(price * order_quantity).toFixed(2)}
                                   </td>
                                 </tr>
                               );

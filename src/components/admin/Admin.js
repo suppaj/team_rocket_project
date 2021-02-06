@@ -10,6 +10,8 @@ import { Customer_admin, Metrics, Product_admin, Rejected } from "./index";
 const Admin = ({ isAdmin }) => {
   const [productEdited, setProductEdited] = useState(false);
 
+  const token = JSON.parse(localStorage.getItem('user')).token;
+
   const handleCustomers = (response) => {
     window.localStorage.setItem("customer_array", JSON.stringify(response));
   };
@@ -23,7 +25,7 @@ const Admin = ({ isAdmin }) => {
 
   useEffect(() => {
     if (isAdmin) {
-      getAllCustomers()
+      getAllCustomers(token)
         .then((response) => {
           const customers = response.customers;
           if (customers) {
@@ -38,7 +40,7 @@ const Admin = ({ isAdmin }) => {
 
   useEffect(() => {
     if (isAdmin) {
-      getSalesData()
+      getSalesData(token)
         .then((response) => {
           let sales = response.sales;
           const result = sales.sort(
@@ -51,11 +53,11 @@ const Admin = ({ isAdmin }) => {
           throw error;
         });
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (isAdmin) {
-      adminGetAllProducts()
+      adminGetAllProducts(token)
         .then((response) => {
           const prodArr = response.products;
           const result = prodArr.sort(

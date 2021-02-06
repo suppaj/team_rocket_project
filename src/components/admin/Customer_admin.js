@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import masterball from "./masterball.png";
-import { Modal, Form, Button } from "react-bootstrap";
 import { Rejected } from "./index";
 import {
   getOrderHistoryByCustomerId,
@@ -14,6 +13,8 @@ const Customer_admin = ({ isAdmin }) => {
   const [selectedCustomerID, setSelectedCustomerID] = useState("");
   const [selectedOrderID, setSelectedOrderID] = useState("");
   const [showCust, setShowCust] = useState(false);
+
+  const token = JSON.parse(localStorage.getItem('user')).token;
 
   const handleCloseCust = () => {
     setShowCust(false);
@@ -36,7 +37,7 @@ const Customer_admin = ({ isAdmin }) => {
 
   useEffect(() => {
     if (selectedCustomerID !== null) {
-      getOrderHistoryByCustomerId(selectedCustomerID)
+      getOrderHistoryByCustomerId(selectedCustomerID, token)
         .then((response) => {
           window.localStorage.setItem(
             "order_history",
@@ -54,7 +55,7 @@ const Customer_admin = ({ isAdmin }) => {
 
   useEffect(() => {
     if (selectedOrderID !== null) {
-      getOrderDetailsbyOrderId(selectedOrderID)
+      getOrderDetailsbyOrderId(selectedOrderID, token)
         .then((response) => {
           window.localStorage.setItem(
             "order_detail",
@@ -105,13 +106,14 @@ const Customer_admin = ({ isAdmin }) => {
                       </tr>
                       {customerArr
                         ? customerArr.map((customer, index) => {
+                            console.log("THIS IS THE CUSTOMER", customer);
                             const {
                               cust_id,
                               first_name,
                               last_name,
                               cust_email,
                               cust_pwd,
-                              isadmin,
+                              is_admin,
                             } = customer;
                             return (
                               <tr
@@ -126,8 +128,9 @@ const Customer_admin = ({ isAdmin }) => {
                                 {last_name ? <td>{last_name}</td> : null}
                                 {cust_email ? <td>{cust_email}</td> : null}
                                 {cust_pwd ? <td>{cust_pwd}</td> : null}
-                                {isadmin ? (
-                                  <td>{isadmin.toString()}</td>
+
+                                {is_admin ? (
+                                  <td>{is_admin.toString()}</td>
                                 ) : (
                                   <td>false</td>
                                 )}

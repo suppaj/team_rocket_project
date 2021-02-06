@@ -183,12 +183,20 @@ async function buildTables() {
 
         CREATE TABLE sales(
         transaction_id SERIAL PRIMARY KEY,
-        transaction_date DATE NOT NULL,
+        transaction_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+        forecast_quantity INTEGER DEFAULT ceil(random() * 10), 
+        order_id  INTEGER REFERENCES order_cust_relate(order_id),
         prod_id INTEGER REFERENCES product(prod_id),
-        transaction_quantity INTEGER not null,
-        forecast_quantity INTEGER 
+        order_quantity SMALLINT,
+        order_price NUMERIC(6,2),
+        CONSTRAINT fk_order_id
+           FOREIGN KEY(order_id)
+             REFERENCES order_cust_relate(order_id),
+         CONSTRAINT fk_prod_id
+           FOREIGN KEY(prod_id)
+             REFERENCES product(prod_id)
       
-        );
+ );
     `);
 
     console.log("Finished building tables!");
