@@ -5,12 +5,19 @@ import {
   getSalesData,
   adminGetAllProducts,
 } from "../../api/index";
-import { Customer_admin, Metrics, Product_admin, Rejected } from "./index";
+import {
+  Customer_admin,
+  Metrics,
+  Product_admin,
+  Rejected,
+  Update_complete,
+} from "./index";
 
 const Admin = ({ isAdmin }) => {
   const [productEdited, setProductEdited] = useState(false);
+  const [updateCompleteShow, setUpdateCompleteShow] = useState(false);
 
-  const token = JSON.parse(localStorage.getItem('user')).token;
+  const token = JSON.parse(localStorage.getItem("user")).token;
 
   const handleCustomers = (response) => {
     window.localStorage.setItem("customer_array", JSON.stringify(response));
@@ -35,6 +42,12 @@ const Admin = ({ isAdmin }) => {
         .catch((error) => {
           console.error(error);
         });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (updateCompleteShow) {
+      setTimeout(setUpdateCompleteShow(false), 1200);
     }
   }, []);
 
@@ -105,11 +118,17 @@ const Admin = ({ isAdmin }) => {
             </div>
           </Router>
           <div id="admin_container">
-            <Customer_admin isAdmin={isAdmin} />
+            <Customer_admin
+              isAdmin={isAdmin}
+              updateCompleteShow={updateCompleteShow}
+              setUpdateCompleteShow={setUpdateCompleteShow}
+            />
             <Product_admin
               isAdmin={isAdmin}
               setProductEdited={setProductEdited}
               productEdited={productEdited}
+              setUpdateCompleteShow={setUpdateCompleteShow}
+              updateCompleteShow={updateCompleteShow}
             />
             <Metrics isAdmin={isAdmin} />
           </div>
@@ -117,6 +136,10 @@ const Admin = ({ isAdmin }) => {
           <div id="admin-label" className="nes-container is-rounded is-dark">
             <p>Choose your starting {"dashboard".toUpperCase()}! </p>
           </div>
+          <Update_complete
+            updateCompleteShow={updateCompleteShow}
+            setUpdateCompleteShow={setUpdateCompleteShow}
+          />
         </div>
       ) : (
         <Rejected />

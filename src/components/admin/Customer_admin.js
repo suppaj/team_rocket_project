@@ -7,7 +7,7 @@ import {
   updateCustomer,
 } from "../../api/index";
 
-const Customer_admin = ({ isAdmin }) => {
+const Customer_admin = ({ isAdmin, setUpdateCompleteShow }) => {
   const [customerArr, setCustomerArr] = useState([]);
   const [orderHistArr, setOrderHistArr] = useState([]);
   const [orderDetailsArr, setOrderDetailsArr] = useState([]);
@@ -27,13 +27,17 @@ const Customer_admin = ({ isAdmin }) => {
   };
 
   const handleHistoryRequest = () => {
-    const history = JSON.parse(window.localStorage.getItem("order_history"));
+    const history =
+      JSON.parse(window.localStorage.getItem("order_history")) || [];
     setOrderHistArr(history);
   };
 
   const handleDetailsRequest = () => {
-    const details = JSON.parse(window.localStorage.getItem("order_detail"));
-    setOrderDetailsArr(details);
+    const details =
+      JSON.parse(window.localStorage.getItem("order_detail")) || [];
+    if (details) {
+      setOrderDetailsArr(details);
+    }
   };
 
   useEffect(() => {
@@ -169,10 +173,16 @@ const Customer_admin = ({ isAdmin }) => {
                                             "response from update customer",
                                             response
                                           );
+                                          setUpdateCompleteShow(true);
                                         })
                                         .catch((error) => {
                                           throw error;
                                         });
+
+                                      setTimeout(
+                                        setUpdateCompleteShow(false),
+                                        1200
+                                      );
                                     }}
                                   >
                                     submit

@@ -5,9 +5,13 @@ import ultraball from "./ultraball.png";
 import { Rejected } from "./index";
 import { updateProduct, getActive, getInactive } from "../../api/index";
 
-const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
+const Product_admin = ({
+  isAdmin,
+  setProductEdited,
+  productEdited,
+  setUpdateCompleteShow,
+}) => {
   const [showMetrics, setShowMetrics] = useState(false);
-  const [showUpdate, setShowUpdate] = useState(false);
   const [productsArr, setProductsArr] = useState([]);
   const [activeProducts, setActiveProducts] = useState(null);
   const [inactiveProducts, setInactiveProducts] = useState(null);
@@ -341,16 +345,18 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                                           token
                                         )
                                           .then((response) => {
-                                            console.log(
-                                              "WILL COME BACK TO THIS",
-                                              response
-                                            );
+                                            console.log(response);
+                                            setUpdateCompleteShow(true);
                                           })
                                           .catch((error) => {
                                             throw error;
                                           });
 
                                         setProductEdited(true);
+                                        setTimeout(
+                                          setUpdateCompleteShow(false),
+                                          1200
+                                        );
                                       }}
                                     >
                                       submit
@@ -364,24 +370,6 @@ const Product_admin = ({ isAdmin, setProductEdited, productEdited }) => {
                     </table>
                   </div>
                 </div>
-                <div></div>
-              </div>
-              <div
-                className={
-                  showUpdate === true
-                    ? "update-show nes-container is-rounded is-dark"
-                    : "hide"
-                }
-              >
-                <img
-                  className="edit-prod-success"
-                  src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/31.png?raw=true"
-                ></img>
-                <p className="update-message">Update Complete!</p>
-                <img
-                  className="edit-prod-success"
-                  src="https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/26.png?raw=true"
-                ></img>
               </div>
             </div>
             Products
